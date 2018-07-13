@@ -440,6 +440,9 @@ CREATE TABLE `ItemBooking` (
   `CheckOutDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `CustomerId` bigint(20) NOT NULL,
   `BookedBy` bigint(20) NOT NULL,
+  `SecurityNumber` varchar(45) DEFAULT NULL,
+  `PassportNumber` varchar(45) DEFAULT NULL,
+  `DrivingLicenceNumber` varchar(45) DEFAULT NULL,
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
   `CreatedOn` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1466,6 +1469,8 @@ CREATE TABLE `UserProfile` (
   `BirthDay` timestamp NULL DEFAULT NULL,
   `Gender` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 = Male, 2 = Female',
   `SecurityNumber` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
+  `PassportNumber` varchar(45) DEFAULT NULL,
+  `DrivingLicenceNumber` varchar(45) DEFAULT NULL,
   `Caption` varchar(300) CHARACTER SET latin1 DEFAULT NULL,
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
@@ -1559,4 +1564,4 @@ CREATE TABLE `UserSocialAccount` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-13  0:28:58
+-- Dump completed on 2018-07-14  3:27:41
