@@ -24,8 +24,6 @@ public abstract class BaseDao implements IBaseDao {
 		return dataSource;
 	}
 
-	@Autowired
-	@Qualifier("template")
 	@Override
 	public JdbcTemplate getTemplete() {
 		return template;

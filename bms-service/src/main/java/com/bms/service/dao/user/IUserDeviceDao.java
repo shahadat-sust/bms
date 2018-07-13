@@ -10,12 +10,12 @@ public interface IUserDeviceDao {
 	
 	boolean update(UserDeviceData userDeviceData) throws BmsSqlException;
 	
-	boolean delete(long deviceID) throws BmsSqlException;
+	boolean delete(long userDeviceId) throws BmsSqlException;
 	
-	UserDeviceData getDeviceByID(long deviceId) throws BmsSqlException;
+	UserDeviceData getUserDeviceById(long userDeviceId) throws BmsSqlException;
 	
-	UserDeviceData getDevice(long userId, String token, int platform) throws BmsSqlException;
+	UserDeviceData getUserDevice(long userId, String token, int platform) throws BmsSqlException;
 	
-	List<UserDeviceData> getAllDevices() throws BmsSqlException;
+	List<UserDeviceData> getAllUserDevices() throws BmsSqlException;
 	
 }

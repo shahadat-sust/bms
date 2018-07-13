@@ -22,9 +22,9 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 	@Override
 	public long create(UserDeviceData userDeviceData) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
-		.append("INSERT INTO device ")
+		.append("INSERT INTO UserDevice ")
 		.append("( ")
-			.append("UserID, ")
+			.append("UserId, ")
 			.append("Name, ")
 			.append("Token, ")
 			.append("Platform, ")
@@ -54,7 +54,7 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 		this.getTemplete().update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "ID" });
+				PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
 				ps.setLong(1, userDeviceData.getUserId());
 				ps.setString(2, userDeviceData.getName());
 				ps.setString(3, userDeviceData.getToken());
@@ -75,8 +75,7 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 	@Override
 	public boolean update(UserDeviceData userDeviceData) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
-		.append("UPDATE device SET ")
-			.append("UserID = ?, ")
+		.append("UPDATE UserDevice SET ")
 			.append("Name = ?, ")
 			.append("Token = ?, ")
 			.append("Platform = ?, ")
@@ -86,9 +85,9 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 			.append("UpdatedBy = ?, ")
 			.append("UpdatedOn = ? ")
 		.append("WHERE ")
-		.append("ID = ?");
+		.append("Id = ?")
+		.append("UserId = ?");
 		return this.getTemplete().update(sql.toString(), 
-				userDeviceData.getUserId(), 
 				userDeviceData.getName(),
 				userDeviceData.getToken(),
 				userDeviceData.getPlatform(),
@@ -97,34 +96,35 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 				userDeviceData.getLastUsedTime(),
 				userDeviceData.getUpdatedBy(),
 				userDeviceData.getUpdatedOn(),
-				userDeviceData.getId()) == 1;
+				userDeviceData.getId(),
+				userDeviceData.getUserId()) == 1;
 	}
 
 	@Override
-	public boolean delete(long deviceID) throws BmsSqlException {
+	public boolean delete(long userDeviceId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
-		.append("DELETE FROM device WHERE ID = ?");
+		.append("DELETE FROM UserDevice WHERE Id = ?");
 
-		return this.getTemplete().update(sql.toString(), deviceID) == 1;
+		return this.getTemplete().update(sql.toString(), userDeviceId) == 1;
 	}
 
 	@Override
-	public UserDeviceData getDeviceByID(long deviceId) throws BmsSqlException {
+	public UserDeviceData getUserDeviceById(long userDeviceId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("ID, ")
-			.append("UserID, ")
+			.append("Id, ")
+			.append("UserId, ")
 			.append("Name, ")
 			.append("Token, ")
 			.append("Platform, ")
 			.append("ImeiNumber, ")
 			.append("FirstUsedTime, ")
 			.append("LastUsedTime ")
-		.append("FROM device ")
+		.append("FROM UserDevice ")
 		.append("WHERE ")
-		.append("ID = ?");
+		.append("Id = ?");
 		
-		Object[] params = new Object[] {deviceId};
+		Object[] params = new Object[] {userDeviceId};
 		List<UserDeviceData> deviceList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserDeviceData>() {
 			@Override
 			public UserDeviceData mapRow(ResultSet rs, int index) throws SQLException {
@@ -151,20 +151,20 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 	}
 	
 	@Override
-	public UserDeviceData getDevice(long userId, String token, int platform) throws BmsSqlException {
+	public UserDeviceData getUserDevice(long userId, String token, int platform) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("ID, ")
-			.append("UserID, ")
+			.append("Id, ")
+			.append("UserId, ")
 			.append("Name, ")
 			.append("Token, ")
 			.append("Platform, ")
 			.append("ImeiNumber, ")
 			.append("FirstUsedTime, ")
 			.append("LastUsedTime ")
-		.append("FROM device ")
+		.append("FROM UserDevice ")
 		.append("WHERE ")
-		.append("UserID = ? AND ")
+		.append("UserId = ? AND ")
 		.append("Token = ? AND ")
 		.append("Platform = ? ");
 		
@@ -195,18 +195,18 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 	}
 
 	@Override
-	public List<UserDeviceData> getAllDevices() throws BmsSqlException {
+	public List<UserDeviceData> getAllUserDevices() throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("ID, ")
-			.append("UserID, ")
+			.append("Id, ")
+			.append("UserId, ")
 			.append("Name, ")
 			.append("Token, ")
 			.append("Platform, ")
 			.append("ImeiNumber, ")
 			.append("FirstUsedTime, ")
 			.append("LastUsedTime ")
-		.append("FROM device");
+		.append("FROM UserDevice");
 		
 		List<UserDeviceData> deviceList = this.getTemplete().query(sql.toString(), new RowMapper<UserDeviceData>() {
 			@Override

@@ -13,7 +13,7 @@ public class UserCardData extends BaseData {
 	private String holderName;
 	private String cvvNumber;
 	private Date expireDate;
-	private boolean isActive;
+	private boolean isDefault;
 	private int status;
 	
 	public long getUserId() {
@@ -46,11 +46,11 @@ public class UserCardData extends BaseData {
 	public void setExpireDate(Date expireDate) {
 		this.expireDate = expireDate;
 	}
-	public boolean isActive() {
-		return isActive;
+	public boolean isDefault() {
+		return isDefault;
 	}
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 	public int getStatus() {
 		return status;

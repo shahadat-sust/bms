@@ -14,6 +14,8 @@ public class UserProfileData extends BaseData {
 	private int gender;
 	private Date birthDay;
 	private String securityNumber;
+	private String passportNumber;
+	private String drivingLicenceNumber;
 	private String caption;
 	
 	public long getUserId() {
@@ -51,6 +53,18 @@ public class UserProfileData extends BaseData {
 	}
 	public void setSecurityNumber(String securityNumber) {
 		this.securityNumber = securityNumber;
+	}
+	public String getPassportNumber() {
+		return passportNumber;
+	}
+	public void setPassportNumber(String passportNumber) {
+		this.passportNumber = passportNumber;
+	}
+	public String getDrivingLicenceNumber() {
+		return drivingLicenceNumber;
+	}
+	public void setDrivingLicenceNumber(String drivingLicenceNumber) {
+		this.drivingLicenceNumber = drivingLicenceNumber;
 	}
 	public String getCaption() {
 		return caption;

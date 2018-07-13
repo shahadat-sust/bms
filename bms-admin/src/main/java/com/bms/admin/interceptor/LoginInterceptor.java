@@ -21,11 +21,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		Object userSession = request.getSession().getAttribute(AppConstants.KEY_USER);
 		if(userSession == null) {
-			logger.debug("Pre-Handle LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName() + " , Session = 'NOT FOUND'");
+			logger.info("Pre-Handle LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName() + " , Session = 'NOT FOUND'");
 			response.sendRedirect(request.getContextPath() + "/login");
 			return false;
 		} else {
-			logger.debug("Pre-Handle LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName());
+			logger.info("Pre-Handle LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName());
 			return super.preHandle(request, response, handler);
 		}
 	}

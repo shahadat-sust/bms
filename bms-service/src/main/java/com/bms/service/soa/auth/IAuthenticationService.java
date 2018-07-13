@@ -11,11 +11,6 @@ public interface IAuthenticationService {
 	
 	public void setAuthenticationDao(IAuthenticationDao authenticationDao);
 	
-	public IUserDeviceDao getDeviceDao();
-	
-	public void setDeviceDao(IUserDeviceDao userDeviceDao);
-	
 	public long getAuthorizedAdmin(String username, String password) throws BmsException, BmsSqlException;
 
-	public void updateDeviceLastUsedTime(long userID, String deviceToken, int platform, String deviceName, String imeiNumber, long loginUserId) throws BmsException, BmsSqlException;
 }
