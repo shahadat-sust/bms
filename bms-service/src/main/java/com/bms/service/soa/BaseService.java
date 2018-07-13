@@ -1,5 +1,5 @@
 package com.bms.service.soa;
 
-public class BaseService implements IBaseService {
+public abstract class BaseService implements IBaseService {
 
 }

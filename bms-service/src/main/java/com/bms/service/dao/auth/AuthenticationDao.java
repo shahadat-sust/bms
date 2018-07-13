@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.bms.service.BmsSqlException;
 import com.bms.service.dao.BaseDao;
 
+@Repository("authenticationDao")
 public class AuthenticationDao extends BaseDao implements IAuthenticationDao {
 
 	@Override

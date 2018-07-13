@@ -35,4 +35,52 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
+	<!-- 
+	<Resource name="jdbc/betdb" 
+		auth="Container" 
+		type="javax.sql.DataSource"
+	    driverClassName="com.mysql.jdbc.Driver"
+	    url="jdbc:mysql://localhost:3306/betdb"
+	    username="root" 
+	    password="root"
+	    initialSize="10"
+	    maxTotal="50" 
+	    maxIdle="20" 
+	  	minIdle="5"
+	    maxWaitMillis="10000"
+	    validationQuery="select 1"
+		closeMethod="close"/> 
+	-->
+
+	<!-- 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/bet_db"/>
+		<property name="username" value="root"/>
+		<property name="password" value="root"/>
+		<property name="initialSize" value="5"/>
+    	<property name="maxActive" value="10"/>
+	</bean> 
+	-->
+
+	<!-- 	
+	<jee:jndi-lookup id="dataSource"
+       jndi-name="java:comp/env/jdbc/betdb"
+       resource-ref="true"
+       lookup-on-startup="false"
+       cache="true"
+       expected-type="javax.sql.DataSource"/> 
+    -->
+	
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/bmsdb" />
+        <property name="lookupOnStartup" value="false" />
+        <property name="cache" value="true" />
+        <property name="expectedType" value="javax.sql.DataSource" />
+    </bean> 
+    
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
 </beans>

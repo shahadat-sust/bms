@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.bms.admin.AppConstants;
 
 @Controller
-public class LoginController implements MessageSourceAware {
+public class LoginController extends BaseController {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
-	
-	private MessageSource messageSource;
-	
+
 	@RequestMapping(value = "/login")
 	public String login(HttpSession session) {
 		Object userSession = session.getAttribute(AppConstants.KEY_USER);
@@ -31,10 +29,5 @@ public class LoginController implements MessageSourceAware {
 	public String doLogin() {
 		return "redirect:home";
 	}
-	
-	@Override
-	public void setMessageSource(MessageSource messageSource) {
-		this.messageSource = messageSource;
-	}
-	
+
 }
