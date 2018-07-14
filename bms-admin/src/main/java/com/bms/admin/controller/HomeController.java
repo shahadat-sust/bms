@@ -14,8 +14,7 @@ public class HomeController extends BaseController {
 	
 	@RequestMapping( value = "/", method = RequestMethod.GET)
 	public String home() {
-		logger.debug("home");
-		return "home";
+		return "dashboard";
 	}
 	
 }
