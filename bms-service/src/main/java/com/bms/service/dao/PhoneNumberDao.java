@@ -218,17 +218,17 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 	public List<PhoneNumberData> getAllPhoneNumbersByUserId(long userId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("Id, ")
+			.append("PhoneNumber.Id, ")
 			.append("Type, ")
 			.append("Number, ")
 			.append("Code, ")
 			.append("IsVerified, ")
 			.append("IsPrimary, ")
 			.append("Status ")
-		.append("FROM PhoneNumber")
+		.append("FROM PhoneNumber ")
 			.append("LEFT OUTER JOIN UserPhoneNumber ON ")
-			.append("UserPhoneNumber.PhoneNumberId = PhoneNumber.Id")
-		.append("WHERE")
+			.append("UserPhoneNumber.PhoneNumberId = PhoneNumber.Id ")
+		.append("WHERE ")
 			.append("UserPhoneNumber.UserId = ?");
 		
 		Object[] params = new Object[] {userId};
@@ -253,17 +253,17 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 	public List<PhoneNumberData> getAllPhoneNumbersByProviderId(long providerId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("Id, ")
+			.append("PhoneNumber.Id, ")
 			.append("Type, ")
 			.append("Number, ")
 			.append("Code, ")
 			.append("IsVerified, ")
 			.append("IsPrimary, ")
 			.append("Status ")
-		.append("FROM PhoneNumber")
+		.append("FROM PhoneNumber ")
 		.append("LEFT OUTER JOIN ProviderPhoneNumber ON ")
-			.append("ProviderPhoneNumber.PhoneNumberId = PhoneNumber.Id")
-		.append("WHERE")
+			.append("ProviderPhoneNumber.PhoneNumberId = PhoneNumber.Id ")
+		.append("WHERE ")
 			.append("ProviderPhoneNumber.ProviderId = ?");
 		
 		Object[] params = new Object[] {providerId};

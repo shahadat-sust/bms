@@ -245,10 +245,10 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 			.append("IsVerified, ")
 			.append("IsPrimary, ")
 			.append("Status ")
-		.append("FROM EmailAddress")
+		.append("FROM EmailAddress ")
 		.append("LEFT OUTER JOIN UserEmailAddress ON ")
-			.append("UserEmailAddress.EmailAddressId = EmailAddress.Id")
-		.append("WHERE")
+			.append("UserEmailAddress.EmailAddressId = EmailAddress.Id ")
+		.append("WHERE ")
 			.append("UserEmailAddress.UserId = ?");
 		
 		Object[] params = new Object[] {userId};
@@ -271,15 +271,15 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 	public List<EmailAddressData> getAllEmailAddressesByProviderId(long providerId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("Id, ")
+			.append("EmailAddress.Id, ")
 			.append("Email, ")
 			.append("IsVerified, ")
 			.append("IsPrimary, ")
 			.append("Status ")
-			.append("FROM EmailAddress")
+			.append("FROM EmailAddress ")
 			.append("LEFT OUTER JOIN ProviderEmailAddress ON ")
-				.append("ProviderEmailAddress.EmailAddressId = EmailAddress.Id")
-			.append("WHERE")
+				.append("ProviderEmailAddress.EmailAddressId = EmailAddress.Id ")
+			.append("WHERE ")
 				.append("ProviderEmailAddress.ProviderId = ?");
 		
 		Object[] params = new Object[] {providerId};

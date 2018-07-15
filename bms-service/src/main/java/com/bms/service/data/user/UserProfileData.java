@@ -2,6 +2,7 @@ package com.bms.service.data.user;
 
 import java.util.Date;
 
+import com.bms.common.util.StringUtils;
 import com.bms.service.data.BaseData;
 
 public class UserProfileData extends BaseData {
@@ -72,5 +73,12 @@ public class UserProfileData extends BaseData {
 	public void setCaption(String caption) {
 		this.caption = caption;
 	}
-
+	public String getFullName() {
+		return (!StringUtils.isNullEmptyOrWhiteSpace(firstName) ? firstName.trim() : "") 
+				+ (!StringUtils.isNullEmptyOrWhiteSpace(lastName) ? " " + lastName.trim() : "");
+	}
+	public String getShortName() {
+		String fullName = getFullName();
+		return fullName.length() > 20 ? fullName.substring(0, 20) : fullName;
+	}
 }

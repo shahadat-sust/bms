@@ -184,7 +184,7 @@ public class UserSocialAccountDao extends BaseDao implements IUserSocialAccountD
 			.append("AccountId, ")
 			.append("IsVerified, ")
 			.append("Status ")
-		.append("FROM UserSocialAccount")
+		.append("FROM UserSocialAccount ")
 		.append("WHERE ")
 		.append("UserId = ?");
 		

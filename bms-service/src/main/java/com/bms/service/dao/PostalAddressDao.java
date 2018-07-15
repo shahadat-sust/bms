@@ -219,17 +219,17 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 	public List<PostalAddressData> getAllPostalAddressesByUserId(long userId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("Id, ")
+			.append("PostalAddress.Id, ")
 			.append("Line1, ")
 			.append("Line2, ")
 			.append("CityId, ")
 			.append("StateId, ")
 			.append("CountryId, ")
 			.append("PostCode ")
-		.append("FROM PostalAddress")
+		.append("FROM PostalAddress ")
 		.append("LEFT OUTER JOIN UserPostalAddress ON ")
-			.append("UserPostalAddress.PostalAddressId = PostalAddress.Id")
-		.append("WHERE")
+			.append("UserPostalAddress.PostalAddressId = PostalAddress.Id ")
+		.append("WHERE ")
 			.append("UserPostalAddress.UserId = ?");
 		
 		Object[] params = new Object[] {userId};
@@ -254,17 +254,17 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 	public List<PostalAddressData> getAllPostalAddressesByProviderId(long providerId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("Id, ")
+			.append("PostalAddress.Id, ")
 			.append("Line1, ")
 			.append("Line2, ")
 			.append("CityId, ")
 			.append("StateId, ")
 			.append("CountryId, ")
 			.append("PostCode ")
-		.append("FROM PostalAddress")
+		.append("FROM PostalAddress ")
 		.append("LEFT OUTER JOIN ProviderPostalAddress ON ")
-			.append("ProviderPostalAddress.PostalAddressId = PostalAddress.Id")
-		.append("WHERE")
+			.append("ProviderPostalAddress.PostalAddressId = PostalAddress.Id ")
+		.append("WHERE ")
 			.append("ProviderPostalAddress.ProviderId = ?");
 		
 		Object[] params = new Object[] {providerId};

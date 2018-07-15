@@ -50,7 +50,7 @@ public class UserData extends BaseData {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
 	public UserProfileData getUserProfileData() {
 		return userProfileData;
 	}

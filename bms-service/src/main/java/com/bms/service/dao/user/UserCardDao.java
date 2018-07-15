@@ -162,7 +162,7 @@ public class UserCardDao extends BaseDao implements IUserCardDao {
 			.append("ExpireDate, ")
 			.append("Status, ")
 			.append("IsDefault ")
-		.append("FROM UserCard")
+		.append("FROM UserCard ")
 		.append("WHERE ")
 		.append("UserId = ?");
 		

@@ -118,8 +118,7 @@
                                         <form:form class="js-validation-signin" action='${doLogin}' method="post" modelAttribute="userForm">
                                         	<spring:hasBindErrors name="userForm">
 												<c:forEach var="error" items="${errors.allErrors}">
-													<b class="text-danger"><spring:message message="${error}"/></b>
-													<br />
+													<div class="invalid-feedback invalid-feedback-common animated fadeIn"><spring:message message="${error}"/></div>
 												</c:forEach>
 										    </spring:hasBindErrors>
                                             <div class="form-group">
