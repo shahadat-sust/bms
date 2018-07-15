@@ -151,7 +151,7 @@ public class UserCardDao extends BaseDao implements IUserCardDao {
 	}
 	
 	@Override
-	public List<UserCardData> getAllUserCards() throws BmsSqlException {
+	public List<UserCardData> getAllUserCardsByUserId(long userId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
 			.append("Id, ")
@@ -162,9 +162,12 @@ public class UserCardDao extends BaseDao implements IUserCardDao {
 			.append("ExpireDate, ")
 			.append("Status, ")
 			.append("IsDefault ")
-		.append("FROM UserCard");
+		.append("FROM UserCard")
+		.append("WHERE ")
+		.append("UserId = ?");
 		
-		List<UserCardData> userCardList = this.getTemplete().query(sql.toString(), new RowMapper<UserCardData>() {
+		Object[] params = new Object[] {userId};
+		List<UserCardData> userCardList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserCardData>() {
 			@Override
 			public UserCardData mapRow(ResultSet rs, int index) throws SQLException {
 				UserCardData userDeviceData = new UserCardData();

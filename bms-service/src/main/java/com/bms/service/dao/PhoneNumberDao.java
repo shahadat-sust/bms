@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.PhoneNumberData;
 
-@Repository("phoneNumberDao")
+@Repository//("phoneNumberDao")
 public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 
 	@Override
@@ -215,7 +215,7 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 	}
 
 	@Override
-	public List<PhoneNumberData> getAllPhoneNumbers() throws BmsSqlException {
+	public List<PhoneNumberData> getAllPhoneNumbersByUserId(long userId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
 			.append("Id, ")
@@ -225,9 +225,49 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 			.append("IsVerified, ")
 			.append("IsPrimary, ")
 			.append("Status ")
-		.append("FROM PhoneNumber");
+		.append("FROM PhoneNumber")
+			.append("LEFT OUTER JOIN UserPhoneNumber ON ")
+			.append("UserPhoneNumber.PhoneNumberId = PhoneNumber.Id")
+		.append("WHERE")
+			.append("UserPhoneNumber.UserId = ?");
 		
-		List<PhoneNumberData> phoneNumberList = this.getTemplete().query(sql.toString(), new RowMapper<PhoneNumberData>() {
+		Object[] params = new Object[] {userId};
+		List<PhoneNumberData> phoneNumberList = this.getTemplete().query(sql.toString(), params, new RowMapper<PhoneNumberData>() {
+			@Override
+			public PhoneNumberData mapRow(ResultSet rs, int index) throws SQLException {
+				PhoneNumberData phoneNumberData = new PhoneNumberData();
+				phoneNumberData.setId(rs.getLong(1));
+				phoneNumberData.setType(rs.getInt(2));
+				phoneNumberData.setNumber(rs.getString(3));
+				phoneNumberData.setCode(rs.getString(4));
+				phoneNumberData.setVerified(rs.getBoolean(5));
+				phoneNumberData.setPrimary(rs.getBoolean(6));
+				phoneNumberData.setStatus(rs.getInt(7));
+				return phoneNumberData;
+			}
+		});
+		return phoneNumberList;
+	}
+	
+	@Override
+	public List<PhoneNumberData> getAllPhoneNumbersByProviderId(long providerId) throws BmsSqlException {
+		StringBuilder sql = new StringBuilder()
+		.append("SELECT ")
+			.append("Id, ")
+			.append("Type, ")
+			.append("Number, ")
+			.append("Code, ")
+			.append("IsVerified, ")
+			.append("IsPrimary, ")
+			.append("Status ")
+		.append("FROM PhoneNumber")
+		.append("LEFT OUTER JOIN ProviderPhoneNumber ON ")
+			.append("ProviderPhoneNumber.PhoneNumberId = PhoneNumber.Id")
+		.append("WHERE")
+			.append("ProviderPhoneNumber.ProviderId = ?");
+		
+		Object[] params = new Object[] {providerId};
+		List<PhoneNumberData> phoneNumberList = this.getTemplete().query(sql.toString(), params, new RowMapper<PhoneNumberData>() {
 			@Override
 			public PhoneNumberData mapRow(ResultSet rs, int index) throws SQLException {
 				PhoneNumberData phoneNumberData = new PhoneNumberData();

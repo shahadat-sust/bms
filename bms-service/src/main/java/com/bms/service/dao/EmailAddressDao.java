@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.EmailAddressData;
 
-@Repository("emailAddressDao")
+@Repository//("emailAddressDao")
 public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 
 	@Override
@@ -237,7 +237,38 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 	}
 	
 	@Override
-	public List<EmailAddressData> getAllEmailAddresses() throws BmsSqlException {
+	public List<EmailAddressData> getAllEmailAddressesByUserId(long userId) throws BmsSqlException {
+		StringBuilder sql = new StringBuilder()
+		.append("SELECT ")
+			.append("EmailAddress.Id, ")
+			.append("Email, ")
+			.append("IsVerified, ")
+			.append("IsPrimary, ")
+			.append("Status ")
+		.append("FROM EmailAddress")
+		.append("LEFT OUTER JOIN UserEmailAddress ON ")
+			.append("UserEmailAddress.EmailAddressId = EmailAddress.Id")
+		.append("WHERE")
+			.append("UserEmailAddress.UserId = ?");
+		
+		Object[] params = new Object[] {userId};
+		List<EmailAddressData> emailAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<EmailAddressData>() {
+			@Override
+			public EmailAddressData mapRow(ResultSet rs, int index) throws SQLException {
+				EmailAddressData emailAddressData = new EmailAddressData();
+				emailAddressData.setId(rs.getLong(1));
+				emailAddressData.setEmail(rs.getString(2));
+				emailAddressData.setVerified(rs.getBoolean(3));
+				emailAddressData.setPrimary(rs.getBoolean(4));
+				emailAddressData.setStatus(rs.getInt(5));
+				return emailAddressData;
+			}
+		});
+		return emailAddressList;
+	}
+	
+	@Override
+	public List<EmailAddressData> getAllEmailAddressesByProviderId(long providerId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
 			.append("Id, ")
@@ -245,9 +276,14 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 			.append("IsVerified, ")
 			.append("IsPrimary, ")
 			.append("Status ")
-		.append("FROM EmailAddress");
+			.append("FROM EmailAddress")
+			.append("LEFT OUTER JOIN ProviderEmailAddress ON ")
+				.append("ProviderEmailAddress.EmailAddressId = EmailAddress.Id")
+			.append("WHERE")
+				.append("ProviderEmailAddress.ProviderId = ?");
 		
-		List<EmailAddressData> emailAddressList = this.getTemplete().query(sql.toString(), new RowMapper<EmailAddressData>() {
+		Object[] params = new Object[] {providerId};
+		List<EmailAddressData> emailAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<EmailAddressData>() {
 			@Override
 			public EmailAddressData mapRow(ResultSet rs, int index) throws SQLException {
 				EmailAddressData emailAddressData = new EmailAddressData();

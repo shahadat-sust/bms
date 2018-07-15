@@ -12,4 +12,8 @@ public abstract class BaseController implements MessageSourceAware {
 		this.messageSource = messageSource;
 	}
 
+	public MessageSource getMessageSource() {
+		return messageSource;
+	}
+
 }

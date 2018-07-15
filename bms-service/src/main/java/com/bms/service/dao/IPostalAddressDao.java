@@ -15,6 +15,8 @@ public interface IPostalAddressDao {
 	
 	PostalAddressData getPostalAddressById(long postalAddressId) throws BmsSqlException;
 	
-	List<PostalAddressData> getAllPostalAddresses() throws BmsSqlException;
+	List<PostalAddressData> getAllPostalAddressesByUserId(long userId) throws BmsSqlException;
+	
+	List<PostalAddressData> getAllPostalAddressesByProviderId(long providerId) throws BmsSqlException;
 	
 }

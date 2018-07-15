@@ -480,13 +480,15 @@ CREATE TABLE `ItemBookingDetail` (
   `Rent` double(18,2) NOT NULL,
   `ServiceChange` double(18,2) NOT NULL DEFAULT '0.00',
   `Discount` double(18,2) NOT NULL DEFAULT '0.00',
+  `AssignedDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `IsCancelled` tinyint(1) NOT NULL DEFAULT '0',
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
   `CreatedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `UpdatedBy` bigint(20) NOT NULL,
   `UpdatedOn` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `UK_ItemBookingDetail_ItemBookingId_ItemId` (`ItemBookingId`,`ItemId`),
+  UNIQUE KEY `UK_ItemBookingDetail_ItemBookingId_ItemId_AssignedDate` (`ItemBookingId`,`ItemId`,`AssignedDate`),
   KEY `FK_ItemBookingDetail_ItemBookingId_idx` (`ItemBookingId`),
   KEY `FK_ItemBookingDetail_ItemId_idx` (`ItemId`),
   KEY `FK_ItemBookingDetail_CreatedBy_idx` (`CreatedBy`),
@@ -1564,4 +1566,4 @@ CREATE TABLE `UserSocialAccount` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-14  3:27:41
+-- Dump completed on 2018-07-15  9:27:53

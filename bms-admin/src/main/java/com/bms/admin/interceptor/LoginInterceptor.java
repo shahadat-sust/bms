@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.bms.admin.AppConstants;
+import com.bms.service.data.user.UserData;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
@@ -19,8 +20,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, 
 			Object handler)
 			throws Exception {
-		Object userSession = request.getSession().getAttribute(AppConstants.KEY_USER);
-		if(userSession == null) {
+		UserData userData = (UserData)request.getSession().getAttribute(AppConstants.KEY_USER);
+		if(userData == null) {
 			logger.info("Pre-Handle LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName() + " , Session = 'NOT FOUND'");
 			response.sendRedirect(request.getContextPath() + "/login");
 			return false;
@@ -36,7 +37,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, 
 			Object handler,
 			ModelAndView modelAndView) throws Exception {
-		logger.debug("Post-Handle LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName());
+		logger.info("Post-Handle LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName());
 		super.postHandle(request, response, handler, modelAndView);
 	}
 	
@@ -47,7 +48,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			Object handler, 
 			Exception ex)
 			throws Exception {
-		logger.debug("After-Completion LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName());
+		logger.info("After-Completion LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName());
 		super.afterCompletion(request, response, handler, ex);
 	}
 
@@ -57,7 +58,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, 
 			Object handler)
 			throws Exception {
-		logger.debug("After-ConcurrentHandlingStarted LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName());
+		logger.info("After-ConcurrentHandlingStarted LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName());
 		super.afterConcurrentHandlingStarted(request, response, handler);
 	}
 

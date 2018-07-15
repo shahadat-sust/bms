@@ -13,9 +13,10 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.bms.service.BmsSqlException;
+import com.bms.service.data.PhoneNumberData;
 import com.bms.service.data.PostalAddressData;
 
-@Repository("postalAddressDao")
+@Repository//("postalAddressDao")
 public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 
 	@Override
@@ -215,7 +216,7 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 	}
 
 	@Override
-	public List<PostalAddressData> getAllPostalAddresses() throws BmsSqlException {
+	public List<PostalAddressData> getAllPostalAddressesByUserId(long userId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
 			.append("Id, ")
@@ -225,9 +226,49 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 			.append("StateId, ")
 			.append("CountryId, ")
 			.append("PostCode ")
-		.append("FROM PostalAddress");
+		.append("FROM PostalAddress")
+		.append("LEFT OUTER JOIN UserPostalAddress ON ")
+			.append("UserPostalAddress.PostalAddressId = PostalAddress.Id")
+		.append("WHERE")
+			.append("UserPostalAddress.UserId = ?");
 		
-		List<PostalAddressData> postalAddressList = this.getTemplete().query(sql.toString(), new RowMapper<PostalAddressData>() {
+		Object[] params = new Object[] {userId};
+		List<PostalAddressData> postalAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<PostalAddressData>() {
+			@Override
+			public PostalAddressData mapRow(ResultSet rs, int index) throws SQLException {
+				PostalAddressData postalAddressData = new PostalAddressData();
+				postalAddressData.setId(rs.getLong(1));
+				postalAddressData.setLine1(rs.getString(2));
+				postalAddressData.setLine2(rs.getString(3));
+				postalAddressData.setCityId(rs.getLong(4));
+				postalAddressData.setStateId(rs.getLong(5));
+				postalAddressData.setCountryId(rs.getLong(6));
+				postalAddressData.setPostCode(rs.getString(7));
+				return postalAddressData;
+			}
+		});
+		return postalAddressList;
+	}
+	
+	@Override
+	public List<PostalAddressData> getAllPostalAddressesByProviderId(long providerId) throws BmsSqlException {
+		StringBuilder sql = new StringBuilder()
+		.append("SELECT ")
+			.append("Id, ")
+			.append("Line1, ")
+			.append("Line2, ")
+			.append("CityId, ")
+			.append("StateId, ")
+			.append("CountryId, ")
+			.append("PostCode ")
+		.append("FROM PostalAddress")
+		.append("LEFT OUTER JOIN ProviderPostalAddress ON ")
+			.append("ProviderPostalAddress.PostalAddressId = PostalAddress.Id")
+		.append("WHERE")
+			.append("ProviderPostalAddress.ProviderId = ?");
+		
+		Object[] params = new Object[] {providerId};
+		List<PostalAddressData> postalAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<PostalAddressData>() {
 			@Override
 			public PostalAddressData mapRow(ResultSet rs, int index) throws SQLException {
 				PostalAddressData postalAddressData = new PostalAddressData();

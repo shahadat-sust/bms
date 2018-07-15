@@ -14,6 +14,6 @@ public interface IUserCardDao {
 	
 	UserCardData getUserCardById(long userCardId) throws BmsSqlException;
 	
-	List<UserCardData> getAllUserCards() throws BmsSqlException;
+	List<UserCardData> getAllUserCardsByUserId(long userId) throws BmsSqlException;
 	
 }

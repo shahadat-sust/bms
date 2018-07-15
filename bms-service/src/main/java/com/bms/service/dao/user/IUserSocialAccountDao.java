@@ -17,6 +17,6 @@ public interface IUserSocialAccountDao {
 	
 	UserSocialAccountData getUserSocialAccountByTypeAccountId(int type, String accountId) throws BmsSqlException;
 	
-	List<UserSocialAccountData> getAllUserSocialAccounts() throws BmsSqlException;
+	List<UserSocialAccountData> getAllUserSocialAccountsByUserId(long userId) throws BmsSqlException;
 	
 }

@@ -16,7 +16,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd
 http://www.springframework.org/schema/jee
 http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-	<context:component-scan base-package="com.bms.admin.controller"/>
+	<context:component-scan base-package="com.bms.admin.controller, com.bms.service.dao, com.bms.service.soa"/>
 	
 	<mvc:annotation-driven/>
 	
@@ -27,9 +27,9 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	
-	<bean class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="messages"/>
-	</bean>
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages" />
+    </bean>
 
 	<bean id="loginInterceptor" class="com.bms.admin.interceptor.LoginInterceptor"/>
 
@@ -43,12 +43,26 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="com.bms.common.BmsException">
+                    error/bmsExceptionView
+                </prop>
+                <prop key="com.bms.service.BmsSqlException">
+                    error/bmsExceptionView
+                </prop>
+            </props>
+        </property>
+        <property name="defaultErrorView" value="error/bmsExceptionView"/>
+    </bean>
+	
 	<!-- 
 	<Resource name="jdbc/betdb" 
 		auth="Container" 
 		type="javax.sql.DataSource"
 	    driverClassName="com.mysql.jdbc.Driver"
-	    url="jdbc:mysql://localhost:3306/betdb"
+	    url="jdbc:mysql://localhost:3306/bmsdb"
 	    username="root" 
 	    password="root"
 	    initialSize="10"
@@ -63,7 +77,7 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 	<!-- 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://localhost:3306/bet_db"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/bmsdb"/>
 		<property name="username" value="root"/>
 		<property name="password" value="root"/>
 		<property name="initialSize" value="5"/>
@@ -73,7 +87,7 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 
 	<!-- 	
 	<jee:jndi-lookup id="dataSource"
-       jndi-name="java:comp/env/jdbc/betdb"
+       jndi-name="java:comp/env/jdbc/bmsdb"
        resource-ref="true"
        lookup-on-startup="false"
        cache="true"

@@ -20,10 +20,11 @@ public class AuthenticationDao extends BaseDao implements IAuthenticationDao {
 			.append("User.ID ")
 		.append("FROM User ")
 		.append("WHERE ")
-			.append("user.Username = ? ")
-			.append("AND user.Email = ? ");
+			.append("Username = ? ")
+			.append("AND Password = ? ");
 
-		List<Long> userIDs = getTemplete().query(sql.toString(), new Object[] {password, username}, new RowMapper<Long> () {
+		Object[] params = new Object[] {username, password};
+		List<Long> userIDs = getTemplete().query(sql.toString(), params, new RowMapper<Long> () {
 			@Override
 			public Long mapRow(ResultSet rs, int index) throws SQLException {
 				return rs.getLong(1);

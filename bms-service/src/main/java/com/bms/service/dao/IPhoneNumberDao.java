@@ -15,6 +15,8 @@ public interface IPhoneNumberDao {
 	
 	PhoneNumberData getPhoneNumberById(long phoneNumberId) throws BmsSqlException;
 	
-	List<PhoneNumberData> getAllPhoneNumbers() throws BmsSqlException;
+	List<PhoneNumberData> getAllPhoneNumbersByUserId(long userId) throws BmsSqlException;
+	
+	List<PhoneNumberData> getAllPhoneNumbersByProviderId(long providerId) throws BmsSqlException;
 	
 }

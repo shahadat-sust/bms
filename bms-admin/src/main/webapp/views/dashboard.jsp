@@ -1610,7 +1610,7 @@
                                     <!-- END Side Overlay -->
 
                                     <div role="separator" class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="op_auth_signin.html">
+                                    <a class="dropdown-item" href="<c:url value="/doLogout"/>">
                                         <i class="far fa-fw fa-arrow-alt-circle-left mr-1"></i> Sign Out
                                     </a>
                                 </div>

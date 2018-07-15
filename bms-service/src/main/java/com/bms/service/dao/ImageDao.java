@@ -10,10 +10,12 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.ImageData;
 
+@Repository//("imageDao")
 public class ImageDao extends BaseDao implements IImageDao {
 
 	@Override

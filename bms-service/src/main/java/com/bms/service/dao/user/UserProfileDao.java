@@ -119,7 +119,7 @@ public class UserProfileDao extends BaseDao implements IUserProfileDao {
 	}
 
 	@Override
-	public UserProfileData getUserProfileById(long userProfileId) throws BmsSqlException {
+	public UserProfileData getUserProfileByUserId(long userId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
 			.append("Id, ")
@@ -134,9 +134,9 @@ public class UserProfileDao extends BaseDao implements IUserProfileDao {
 			.append("Caption ")
 		.append("FROM UserProfile ")
 		.append("WHERE ")
-		.append("Id = ?");
+		.append("UserId = ?");
 		
-		Object[] params = new Object[] {userProfileId};
+		Object[] params = new Object[] {userId};
 		List<UserProfileData> userProfileList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserProfileData>() {
 			@Override
 			public UserProfileData mapRow(ResultSet rs, int index) throws SQLException {

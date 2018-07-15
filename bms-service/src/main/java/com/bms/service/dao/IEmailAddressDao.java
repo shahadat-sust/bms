@@ -17,6 +17,8 @@ public interface IEmailAddressDao {
 	
 	EmailAddressData getEmailAddressByEmail(String email) throws BmsSqlException;
 	
-	List<EmailAddressData> getAllEmailAddresses() throws BmsSqlException;
+	List<EmailAddressData> getAllEmailAddressesByUserId(long userId) throws BmsSqlException;
+	
+	List<EmailAddressData> getAllEmailAddressesByProviderId(long providerId) throws BmsSqlException;
 	
 }

@@ -175,7 +175,7 @@ public class UserSocialAccountDao extends BaseDao implements IUserSocialAccountD
 	}
 	
 	@Override
-	public List<UserSocialAccountData> getAllUserSocialAccounts() throws BmsSqlException {
+	public List<UserSocialAccountData> getAllUserSocialAccountsByUserId(long userId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
 			.append("Id, ")
@@ -184,9 +184,12 @@ public class UserSocialAccountDao extends BaseDao implements IUserSocialAccountD
 			.append("AccountId, ")
 			.append("IsVerified, ")
 			.append("Status ")
-		.append("FROM UserSocialAccount");
+		.append("FROM UserSocialAccount")
+		.append("WHERE ")
+		.append("UserId = ?");
 		
-		List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql.toString(), new RowMapper<UserSocialAccountData>() {
+		Object[] params = new Object[] {userId};
+		List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
 			@Override
 			public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
 				UserSocialAccountData userSocialAccountData = new UserSocialAccountData();

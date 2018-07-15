@@ -13,7 +13,7 @@ public class UserData extends BaseData {
 	private static final long serialVersionUID = -8827275120341700194L;
 	
 	private String username;
-	private String Password;
+	private String password;
 	private boolean isActive;
 	private int status;
 	
@@ -33,10 +33,10 @@ public class UserData extends BaseData {
 		this.username = username;
 	}
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
 	public boolean isActive() {
 		return isActive;
