@@ -44,6 +44,104 @@
                     <span class="nav-main-link-badge badge badge-pill badge-success">5</span>
                 </a>
             </li>
+            <li class="nav-main-heading">Setup</li>
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">User</span>
+                </a>
+                <ul class="nav-main-submenu">
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/group"/>">
+                            <span class="nav-main-link-name">Group</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/role"/>">
+                            <span class="nav-main-link-name">Role</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/policy"/>">
+                            <span class="nav-main-link-name">Policy</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">Location</span>
+                </a>
+                <ul class="nav-main-submenu">
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/city"/>">
+                            <span class="nav-main-link-name">City</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/state"/>">
+                            <span class="nav-main-link-name">State</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/country"/>">
+                            <span class="nav-main-link-name">Country</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">Provider</span>
+                </a>
+                <ul class="nav-main-submenu">
+                	<li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/providertype"/>">
+                            <span class="nav-main-link-name">Provider Type</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/pointofinterest"/>">
+                            <span class="nav-main-link-name">Point Of Interest</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/amenity"/>">
+                            <span class="nav-main-link-name">Amenity</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">Booking</span>
+                </a>
+                <ul class="nav-main-submenu">
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/bookingtype"/>">
+                            <span class="nav-main-link-name">Booking Type</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/bookingstatus"/>">
+                            <span class="nav-main-link-name">Booking Status</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/paymenttype"/>">
+                            <span class="nav-main-link-name">Payment Type</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/paymentmethod"/>">
+                            <span class="nav-main-link-name">Payment Method</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-main-heading">Base</li>
             <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
