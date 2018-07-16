@@ -1,7 +1,5 @@
 package com.bms.admin.controller;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -12,8 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.bms.admin.AppConstants;
 import com.bms.common.BmsException;
 import com.bms.common.util.StringUtils;
