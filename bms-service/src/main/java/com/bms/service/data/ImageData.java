@@ -8,6 +8,9 @@ public class ImageData extends BaseData {
 	private int type;
 	private boolean isDefault;
 	private int status;
+	private long userId;
+	private long providerId;
+	private long itemCategoryId;
 	
 	public String getUrl() {
 		return url;
@@ -32,6 +35,24 @@ public class ImageData extends BaseData {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	public long getProviderId() {
+		return providerId;
+	}
+	public void setProviderId(long providerId) {
+		this.providerId = providerId;
+	}
+	public long getItemCategoryId() {
+		return itemCategoryId;
+	}
+	public void setItemCategoryId(long itemCategoryId) {
+		this.itemCategoryId = itemCategoryId;
 	}
 	
 }

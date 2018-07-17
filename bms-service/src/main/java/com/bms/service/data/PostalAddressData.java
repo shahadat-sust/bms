@@ -10,6 +10,8 @@ public class PostalAddressData extends BaseData {
 	private long stateId;
 	private long countryId;
 	private String postCode;
+	private long userId;
+	private long providerId;
 	
 	public String getLine1() {
 		return line1;
@@ -46,6 +48,18 @@ public class PostalAddressData extends BaseData {
 	}
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
+	}
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	public long getProviderId() {
+		return providerId;
+	}
+	public void setProviderId(long providerId) {
+		this.providerId = providerId;
 	}
 	
 }

@@ -255,7 +255,7 @@ CREATE TABLE `GroupPolicy` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `GroupId` bigint(20) NOT NULL,
   `PolicyId` bigint(20) NOT NULL,
-  `Level` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = View, 3 = Modify, 6 = Create, 9 = Remove',
+  `Level` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 = View, 10 = Create, 100 = Update, 1000 = Delete',
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
   `CreatedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1070,7 +1070,7 @@ CREATE TABLE `RolePolicy` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `RoleId` bigint(20) NOT NULL,
   `PolicyId` bigint(20) NOT NULL,
-  `Level` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = View, 3 = Modify, 6 = Create, 9 = Remove',
+  `Level` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 = View, 10 = Create, 100 = Update, 1000 = Delete',
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
   `CreatedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1409,7 +1409,7 @@ CREATE TABLE `UserPolicy` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `UserId` bigint(20) NOT NULL,
   `PolicyId` bigint(20) NOT NULL,
-  `Level` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = View, 3 = Modify, 6 = Create, 9 = Remove',
+  `Level` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 = View, 10 = Create, 100 = Update, 1000 = Delete',
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
   `CreatedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1487,7 +1487,7 @@ CREATE TABLE `UserProfile` (
   CONSTRAINT `FK_UserProfile_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `UserProfile` (`Id`),
   CONSTRAINT `FK_UserProfile_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `UserProfile` (`Id`),
   CONSTRAINT `FK_UserProfile_UserId` FOREIGN KEY (`UserId`) REFERENCES `User` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1566,4 +1566,4 @@ CREATE TABLE `UserSocialAccount` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-15  9:27:53
+-- Dump completed on 2018-07-17 21:34:21

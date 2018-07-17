@@ -8,6 +8,8 @@ public class EmailAddressData extends BaseData {
 	private boolean isVerified;
 	private boolean isPrimary;
 	private int status;
+	private long userId;
+	private long providerId;
 	
 	public String getEmail() {
 		return email;
@@ -32,6 +34,18 @@ public class EmailAddressData extends BaseData {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	public long getProviderId() {
+		return providerId;
+	}
+	public void setProviderId(long providerId) {
+		this.providerId = providerId;
 	}
 	
 }
