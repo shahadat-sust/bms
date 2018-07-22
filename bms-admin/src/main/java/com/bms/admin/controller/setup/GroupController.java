@@ -1,10 +1,13 @@
 package com.bms.admin.controller.setup;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.ResponseModel;
+import com.bms.common.BmsException;
+import com.bms.service.BmsSqlException;
 import com.bms.service.data.permission.GroupData;
 import com.bms.service.soa.permission.IGroupService;
 
@@ -25,7 +30,9 @@ public class GroupController extends BaseController {
 	private IGroupService groupService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String group() {
+	public String group(Model model) throws BmsSqlException, BmsException {
+		List<GroupData> groupList = groupService.getAllGroups();
+		model.addAttribute("groupList", groupList);
 		return "setup/group";
 	}
 	

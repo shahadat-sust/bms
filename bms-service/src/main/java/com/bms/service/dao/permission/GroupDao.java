@@ -22,7 +22,7 @@ public class GroupDao extends BaseDao implements IGroupDao {
 	@Override
 	public long create(GroupData groupData) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
-		.append("INSERT INTO Group ")
+		.append("INSERT INTO `Group` ")
 		.append("( ")
 			.append("Name, ")
 			.append("Remarks, ")
@@ -60,7 +60,7 @@ public class GroupDao extends BaseDao implements IGroupDao {
 	@Override
 	public boolean update(GroupData groupData) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
-		.append("UPDATE Group SET ")
+		.append("UPDATE `Group` SET ")
 			.append("Name = ?, ")
 			.append("Remarks = ?, ")
 			.append("UpdatedBy = ?, ")
@@ -78,7 +78,7 @@ public class GroupDao extends BaseDao implements IGroupDao {
 	@Override
 	public boolean delete(long groupID) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
-		.append("DELETE FROM Group WHERE Id = ?");
+		.append("DELETE FROM `Group` WHERE Id = ?");
 
 		return this.getTemplete().update(sql.toString(), groupID) == 1;
 	}
@@ -90,7 +90,7 @@ public class GroupDao extends BaseDao implements IGroupDao {
 			.append("Id, ")
 			.append("Name, ")
 			.append("Remarks ")
-		.append("FROM Group ")
+		.append("FROM `Group` ")
 		.append("WHERE ")
 		.append("Id = ?");
 		
@@ -122,7 +122,7 @@ public class GroupDao extends BaseDao implements IGroupDao {
 			.append("Id, ")
 			.append("Name, ")
 			.append("Remarks ")
-		.append("FROM Group");
+		.append("FROM `Group`");
 		
 		List<GroupData> groupList = this.getTemplete().query(sql.toString(), new RowMapper<GroupData>() {
 			@Override
