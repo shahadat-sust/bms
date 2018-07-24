@@ -1,5 +1,6 @@
 package com.bms.service.soa.permission;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,20 @@ public class GroupService extends BaseService implements IGroupService {
 	private IGroupDao groupDao;
 	
 	@Override
-	public long create(GroupData groupData) throws BmsException, BmsSqlException {
+	public long create(GroupData groupData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		groupData.setCreatedBy(loginUserId);
+		groupData.setCreatedOn(currDate);
+		groupData.setUpdatedBy(loginUserId);
+		groupData.setUpdatedOn(currDate);
 		return groupDao.create(groupData);
 	}
 
 	@Override
-	public boolean update(GroupData groupData) throws BmsException, BmsSqlException {
+	public boolean update(GroupData groupData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		groupData.setUpdatedBy(loginUserId);
+		groupData.setUpdatedOn(currDate);
 		return groupDao.update(groupData);
 	}
 

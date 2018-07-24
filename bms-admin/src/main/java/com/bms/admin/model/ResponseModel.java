@@ -34,10 +34,22 @@ public class ResponseModel<T> {
 		}
 		this.errors.add(error);
 	}
+	public void addErrors(List<String> errors) {
+		if(this.errors == null) {
+			this.errors = new ArrayList<>();
+		}
+		this.errors.addAll(errors);
+	}
 	public void addData(T data) {
 		if(this.datas == null) {
 			this.datas = new ArrayList<>();
 		}
 		this.datas.add(data);
+	}
+	public void addDatas(List<T> datas) {
+		if(this.datas == null) {
+			this.datas = new ArrayList<>();
+		}
+		this.datas.addAll(datas);
 	}
 }

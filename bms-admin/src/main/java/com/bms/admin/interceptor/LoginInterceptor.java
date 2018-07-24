@@ -4,10 +4,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.bms.admin.AppConstants;
+import com.bms.admin.listener.LoginUserAware;
 import com.bms.service.data.user.UserData;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -27,6 +29,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		} else {
 			logger.info("Pre-Handle LoginInterceptor(Admin) :: handler = " + handler.getClass().getSimpleName());
+			if(handler instanceof HandlerMethod) {
+				Object bean = ((HandlerMethod)handler).getBean();
+				if(bean instanceof LoginUserAware) {
+					((LoginUserAware)bean).setLoginUserData(userData);
+				}
+			}
 			return super.preHandle(request, response, handler);
 		}
 	}

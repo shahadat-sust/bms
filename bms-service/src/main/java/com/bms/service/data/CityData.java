@@ -2,17 +2,11 @@ package com.bms.service.data;
 
 public class CityData extends BaseData {
 
-	private long Id;
+	private static final long serialVersionUID = -4499044319126060624L;
+	
 	private long stateId;
 	private String name;
-	private String remarks;
 	
-	public long getId() {
-		return Id;
-	}
-	public void setId(long id) {
-		Id = id;
-	}
 	public long getStateId() {
 		return stateId;
 	}
@@ -24,12 +18,6 @@ public class CityData extends BaseData {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getRemarks() {
-		return remarks;
-	}
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
 	}
 	
 }

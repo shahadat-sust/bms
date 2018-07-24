@@ -27,3 +27,8 @@
 -->
 <script src="resources/js/dashmix.app.min.js"></script>
 
+<!-- Page JS Plugins -->
+<script src="resources/js/plugins/jquery-validation/jquery.validate.min.js"></script> 
+<script src="resources/js/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="resources/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="resources/js/custom/utils.js"></script>

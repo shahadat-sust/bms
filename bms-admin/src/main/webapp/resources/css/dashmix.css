@@ -1534,8 +1534,8 @@ pre code {
   border: 0;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #f9fafc;
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: #f2f4f9;
 }
 
 .table-hover tbody tr:hover {

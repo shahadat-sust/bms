@@ -41,7 +41,7 @@
           	    <!-- Full Table -->
                   <div class="block block-rounded block-bordered">
                   	  <div class="block-content text-right">
-						<button id="btnAddNew" type="button" class="btn btn-success mr-1">
+						<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
                             <i class="fa fa-fw fa-plus mr-1"></i> Add Group
                         </button>
                   	  </div>
@@ -87,8 +87,8 @@
             <!-- END Page Content -->
         </main>
         <!-- END Main Container -->
-        <div id="formTemplete" style="display: none;">
-	        <form class="js-validation" action="" method="post">
+        <template id="formTemplete">
+	        <form id="formComponent" action="#" method="post">
 	            <!-- Basic Elements -->
 	            <div class="row items-push">
 	                <div class="col-lg-2 col-xl-4">
@@ -97,7 +97,7 @@
 	                <div class="col-lg-8 col-xl-5">
 	                    <div class="form-group">
 	                        <label for="val-name">Name <span class="text-danger">*</span></label>
-	                        <input type="text" class="form-control" id="val-name" name="name" value="#[name]" placeholder="Enter Name..">
+	                        <input class="form-control" type="text" id="val-name" name="name" value="#[name]" placeholder="Enter Name..">
 	                    </div>
 	                    <div class="form-group">
 	                         <label for="val-remarks">Remarks</label>
@@ -107,7 +107,7 @@
 	                     	<div class="row items-push">
 	                     		<div class="col-lg-6 col-sm-6 col-xs-12 text-left">
 	                     			<input id="val-id" type="hidden" name="id" value="#[id]"/>
-	                     			<button id="btnSubmit" type="submit" class="btn btn-primary">Save</button>
+	                     			<button id="btnSubmit" type="button" class="btn btn-primary">Save</button>
 	                     			<button id="btnCancel" type="button" class="btn btn-primary">Cancel</button>
 	                     		</div>
 	                     		<div class="col-lg-6 col-sm-6 col-xs-12 text-right">
@@ -121,283 +121,39 @@
 	                </div>
 	            </div>
 	        </form>
-        </div>
-        <div id="rowTemplete" style="display: none;">
-        	<table>
-        		<thead>
-                    <tr>
-                        <th style="width: 50%;">Name</th>
-                        <th style="width: 50%;">Remarks</th>
-                        <th class="text-center" style="width: 100px;">Actions</th>
-                    </tr>
-        		</thead>
-        		<tbody>
-		        	<tr>
-				        <td class="font-w600">
-							#[name]
-						</td>
-						<td>
-							#[remarks]
-						</td>
-						<td class="text-center">
-							<input type="hidden" class="col-id" value="#[id]"/>
-							<input type="hidden" class="col-name" value="#[name]"/>
-							<input type="hidden" class="col-remarks" value="#[remarks]"/>
-					        <div class="btn-group">
-						        <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
-						        	<i class="fa fa-pencil-alt"></i>
-						        </button>
-						        <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
-						           <i class="fa fa-times"></i>
-						        </button>
-					        </div>
-					     </td>
-				     </tr>
-			     <tbody>
-		     </table>
-        </div>
+        </template>
+        <template id="rowTemplete">
+	        <td class="font-w600">
+				#[name]
+			</td>
+			<td>
+				#[remarks]
+			</td>
+			<td class="text-center">
+				<input type="hidden" class="col-id" value="#[id]"/>
+				<input type="hidden" class="col-name" value="#[name]"/>
+				<input type="hidden" class="col-remarks" value="#[remarks]"/>
+		        <div class="btn-group">
+			        <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
+			        	<i class="fa fa-pencil-alt"></i>
+			        </button>
+			        <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
+			           <i class="fa fa-times"></i>
+			        </button>
+		        </div>
+		     </td>
+        </template>
 
 		<%@include file="../includes/footer.jsp" %>
         <%@include file="../includes/scripts.jsp" %>  
-        
-         <!-- Page JS Plugins -->
-        <script src="resources/js/plugins/jquery-validation/jquery.validate.min.js"></script> 
+
         <!-- Page JS Code -->
-        <script src="resources/js/pages/be_forms_validation.min.js"></script>    
-        <script type="text/javascript">
-        var dataBeforeEdit = {
-       		id : 0,
-       		name : "",
-       		remarks : ""
-        };
-
-       	$(document).on("click", "#btnAddNew", function(e) {
-       		var formTemplete = $("#formTemplete").clone()
-			var formHtml = formTemplete.html()
-			.replace("#[id]", "0")
-			.replace("#[name]", "")
-			.replace("#[remarks]", "");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='3'>" + formHtml + "</td></tr>");
-       	});
-       	
-       	$(document).on("click", "#btnCancel", function(e) {
-       		if(dataBeforeEdit.id > 0) {
-       			var rowTemplete = $("#rowTemplete > table > tbody > tr").clone();
-       			var rowHtml = rowTemplete.html()
-   				.replace("#[id]", dataBeforeEdit.id)
-   				.replace("#[name]", dataBeforeEdit.name)
-   				.replace("#[name]", dataBeforeEdit.name)
-   				.replace("#[remarks]", dataBeforeEdit.remarks)
-   				.replace("#[remarks]", dataBeforeEdit.remarks);
-               	$(this).closest("tr").html(rowHtml);
-               	
-				dataBeforeEdit.id = 0;
-   				dataBeforeEdit.name = "";
-   				dataBeforeEdit.remarks = "";
-       		} else {
-       			$('#dataTable > tbody tr').first().remove();
-       		}
-       	});
-       	
-       	$(document).on("click", "#btnSave", function(e) {
-       		
-       	});
-       	
-		$(document).on("click", ".edit-button", function(e) {
-			$(this).tooltip('hide');
-			var tr = $(this).closest("tr");
-			dataBeforeEdit.id = $(tr).find(".col-id")[0].value;
-			dataBeforeEdit.name = $(tr).find(".col-name")[0].value;
-			dataBeforeEdit.remarks = $(tr).find(".col-remarks")[0].value;
-			
-			var formTemplete = $("#formTemplete").clone();
-			var formHtml = formTemplete.html()
-			.replace("#[id]", dataBeforeEdit.id)
-			.replace("#[name]", dataBeforeEdit.name)
-			.replace("#[remarks]", dataBeforeEdit.remarks);
-       		$(tr).html("<td colspan='3'>" + formHtml + "</td>");
-       	});
-		
-		$(document).on("click", ".delete-button", function(e) {
-			$(this).tooltip('hide');
-			$(this).closest("tr").remove();
-       	});
-		
-       	</script>
-       	
-        	<!--  var page = 1;
-        	var current_page = 1;
-        	var total_page = 0;
-        	var is_ajax_fire = 0;
-
-
-        	manageData();
-
-
-     
-        	function manageData() {
-        	    $.ajax({
-        	        dataType: 'json',
-        	        url: url+'api/getData.php',
-        	        data: {page:page}
-        	    }).done(function(data){
-        	    	total_page = Math.ceil(data.total/10);
-        	    	current_page = page;
-
-
-        	    	$('#pagination').twbsPagination({
-        		        totalPages: total_page,
-        		        visiblePages: current_page,
-        		        onPageClick: function (event, pageL) {
-        		        	page = pageL;
-        	                if(is_ajax_fire != 0){
-        		        	  getPageData();
-        	                }
-        		        }
-        		    });
-
-
-        	    	manageRow(data.data);
-        	        is_ajax_fire = 1;
-
-
-        	    });
-
-
-        	}
-
-
-    
-        	function getPageData() {
-        		$.ajax({
-        	    	dataType: 'json',
-        	    	url: url+'api/getData.php',
-        	    	data: {page:page}
-        		}).done(function(data){
-        			manageRow(data.data);
-        		});
-        	}
-
-
-        
-        	function manageRow(data) {
-        		var	rows = '';
-        		$.each( data, function( key, value ) {
-        		  	rows = rows + '<tr>';
-        		  	rows = rows + '<td>'+value.title+'</td>';
-        		  	rows = rows + '<td>'+value.description+'</td>';
-        		  	rows = rows + '<td data-id="'+value.id+'">';
-        	        rows = rows + '<button data-toggle="modal" data-target="#edit-item" class="btn btn-primary edit-item">Edit</button> ';
-        	        rows = rows + '<button class="btn btn-danger remove-item">Delete</button>';
-        	        rows = rows + '</td>';
-        		  	rows = rows + '</tr>';
-        		});
-
-
-        		$("tbody").html(rows);
-        	}
-
-
-
-        	$(".crud-submit").click(function(e){
-        	    e.preventDefault();
-        	    var form_action = $("#create-item").find("form").attr("action");
-        	    var title = $("#create-item").find("input[name='title']").val();
-
-        	 
-        	    var description = $("#create-item").find("textarea[name='description']").val();
-
-
-        	    if(title != '' && description != ''){
-        	        $.ajax({
-        	            dataType: 'json',
-        	            type:'POST',
-        	            url: url + form_action,
-        	            data:{title:title, description:description}
-        	        }).done(function(data){
-        	            $("#create-item").find("input[name='title']").val('');
-        	            $("#create-item").find("textarea[name='description']").val('');
-        	            getPageData();
-        	            $(".modal").modal('hide');
-        	            toastr.success('Item Created Successfully.', 'Success Alert', {timeOut: 5000});
-        	        });
-        	    }else{
-        	        alert('You are missing title or description.')
-        	    }
-
-
-        	});
-
-
-        	$("body").on("click",".remove-item",function(){
-        	    var id = $(this).parent("td").data('id');
-        	    var c_obj = $(this).parents("tr");
-
-
-        	    $.ajax({
-        	        dataType: 'json',
-        	        type:'POST',
-        	        url: url + 'api/delete.php',
-        	        data:{id:id}
-        	    }).done(function(data){
-        	        c_obj.remove();
-        	        toastr.success('Item Deleted Successfully.', 'Success Alert', {timeOut: 5000});
-        	        getPageData();
-        	    });
-
-
-        	});
-
-
-        	$("body").on("click",".edit-item",function(){
-
-
-        	    var id = $(this).parent("td").data('id');
-        	    var title = $(this).parent("td").prev("td").prev("td").text();
-        	    var description = $(this).parent("td").prev("td").text();
-
-
-        	    $("#edit-item").find("input[name='title']").val(title);
-        	    $("#edit-item").find("textarea[name='description']").val(description);
-        	    $("#edit-item").find(".edit-id").val(id);
-
-
-        	});
-
-        	$(".crud-submit-edit").click(function(e){
-
-
-        	    e.preventDefault();
-        	    var form_action = $("#edit-item").find("form").attr("action");
-        	    var title = $("#edit-item").find("input[name='title']").val();
-
-        	 
-
-
-        	    var description = $("#edit-item").find("textarea[name='description']").val();
-        	    var id = $("#edit-item").find(".edit-id").val();
-
-
-        	    if(title != '' && description != ''){
-        	        $.ajax({
-        	            dataType: 'json',
-        	            type:'POST',
-        	            url: url + form_action,
-        	            data:{title:title, description:description,id:id}
-        	        }).done(function(data){
-        	            getPageData();
-        	            $(".modal").modal('hide');
-        	            toastr.success('Item Updated Successfully.', 'Success Alert', {timeOut: 5000});
-        	        });
-        	    }else{
-        	        alert('You are missing title or description.')
-        	    }
-
-
-        	});-->
-
-        
-        
-        
+        <script src="resources/js/custom/setup/group.js"></script>   
+		<script type="text/javascript">
+			groupSetup.fetchUrl = '<c:url value="/group/fetch/" />';
+			groupSetup.createUrl = '<c:url value="/group/create" />';
+			groupSetup.updateUrl = '<c:url value="/group/update" />';
+			groupSetup.deleteUrl = '<c:url value="/group/delete/" />';
+		</script>
     </body>
 </html>

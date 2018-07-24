@@ -4,19 +4,13 @@ import com.bms.service.data.BaseData;
 
 public class PolicyData extends BaseData {
 
-	private long Id;
+	private static final long serialVersionUID = -3056457609965164943L;
+	
 	private long parentId;
 	private String name;
 	private String code;
 	private int type;
-	private String remarks;
-	
-	public long getId() {
-		return Id;
-	}
-	public void setId(long id) {
-		Id = id;
-	}
+
 	public long getParentId() {
 		return parentId;
 	}
@@ -41,11 +35,5 @@ public class PolicyData extends BaseData {
 	public void setType(int type) {
 		this.type = type;
 	}
-	public String getRemarks() {
-		return remarks;
-	}
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-	
+
 }

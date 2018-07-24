@@ -5,6 +5,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +21,7 @@ import com.bms.service.soa.auth.IAuthenticationService;
 import com.bms.service.soa.user.IUserService;
 
 @Controller
+@Scope("request")
 public class LoginController extends BaseController {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());

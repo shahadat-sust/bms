@@ -4,28 +4,15 @@ import com.bms.service.data.BaseData;
 
 public class GroupData extends BaseData {
 
-	private long Id;
-	private String name;
-	private String remarks;
+	private static final long serialVersionUID = 1312768785176810705L;
 	
-	public long getId() {
-		return Id;
-	}
-	public void setId(long id) {
-		Id = id;
-	}
+	private String name;
+
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getRemarks() {
-		return remarks;
-	}
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-	
 	
 }

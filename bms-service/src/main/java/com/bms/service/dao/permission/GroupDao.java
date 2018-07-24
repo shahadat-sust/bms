@@ -122,7 +122,8 @@ public class GroupDao extends BaseDao implements IGroupDao {
 			.append("Id, ")
 			.append("Name, ")
 			.append("Remarks ")
-		.append("FROM `Group`");
+		.append("FROM `Group`")
+		.append("ORDER BY Id DESC");
 		
 		List<GroupData> groupList = this.getTemplete().query(sql.toString(), new RowMapper<GroupData>() {
 			@Override
