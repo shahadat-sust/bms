@@ -7,13 +7,13 @@ import com.bms.service.data.permission.RoleData;
 
 public interface IRoleDao {
 	
-	long create(RoleData roleData) throws BmsSqlException;
+	boolean create(RoleData roleData) throws BmsSqlException;
 	
 	boolean update(RoleData roleData) throws BmsSqlException;
 	
 	boolean delete(long roleId) throws BmsSqlException;
 	
-	RoleData getRoleByID(long roleId) throws BmsSqlException;
+	RoleData getRoleById(long roleId) throws BmsSqlException;
 	
 	List<RoleData> getAllRoles() throws BmsSqlException;
 	

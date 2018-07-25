@@ -1,9 +1,11 @@
 package com.bms.service.soa.permission;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
@@ -11,17 +13,26 @@ import com.bms.service.dao.permission.IRoleDao;
 import com.bms.service.data.permission.RoleData;
 import com.bms.service.soa.BaseService;
 
+@Service("roleService")
 public class RoleService extends BaseService implements IRoleService {
 
 	private IRoleDao roleDao;
 	
 	@Override
-	public long create(RoleData roleData) throws BmsException, BmsSqlException {
+	public boolean create(RoleData roleData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		roleData.setCreatedBy(loginUserId);
+		roleData.setCreatedOn(currDate);
+		roleData.setUpdatedBy(loginUserId);
+		roleData.setUpdatedOn(currDate);
 		return roleDao.create(roleData);
 	}
 
 	@Override
-	public boolean update(RoleData roleData) throws BmsException, BmsSqlException {
+	public boolean update(RoleData roleData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		roleData.setUpdatedBy(loginUserId);
+		roleData.setUpdatedOn(currDate);
 		return roleDao.update(roleData);
 	}
 
@@ -31,8 +42,8 @@ public class RoleService extends BaseService implements IRoleService {
 	}
 
 	@Override
-	public RoleData getRoleByID(long roleId) throws BmsException, BmsSqlException {
-		return roleDao.getRoleByID(roleId);
+	public RoleData getRoleById(long roleId) throws BmsException, BmsSqlException {
+		return roleDao.getRoleById(roleId);
 	}
 
 	@Override

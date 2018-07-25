@@ -19,7 +19,7 @@ public class GroupService extends BaseService implements IGroupService {
 	private IGroupDao groupDao;
 	
 	@Override
-	public long create(GroupData groupData, long loginUserId) throws BmsException, BmsSqlException {
+	public boolean create(GroupData groupData, long loginUserId) throws BmsException, BmsSqlException {
 		Date currDate = new Date(System.currentTimeMillis());
 		groupData.setCreatedBy(loginUserId);
 		groupData.setCreatedOn(currDate);

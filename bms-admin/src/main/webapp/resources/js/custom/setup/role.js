@@ -1,7 +1,8 @@
-var groupSetup = {
-	groupData : {
+var roleSetup = {
+	roleData : {
 		id : 0,
    		name : "",
+   		priority : 0,
    		remarks : ""
 	},
 	fetchUrl : "",
@@ -18,30 +19,34 @@ var groupSetup = {
     		var formHtml = formTemplete.html()
     		.replace("#[id]", "")
     		.replace("#[name]", "")
+    		.replace("#[priority]", "")
     		.replace("#[remarks]", "");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='4'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='5'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
        		$("#val-id").removeAttr('disabled');
        		
-       		groupSetup.initValidation();
+       		roleSetup.initValidation();
        	});
        	
        	$(document).on("click", "#btnCancel", function(e) {
        		var _btn = this;
-       		if(groupSetup.groupData.id > 0) {
+       		if(roleSetup.roleData.id > 0) {
        			var rowTemplete = $("#rowTemplete").clone();
        			var rowHtml = rowTemplete.html()
-       				.replace("#[id]", groupSetup.groupData.id)
-    				.replace("#[id]", groupSetup.groupData.id)
-    				.replace("#[name]", groupSetup.groupData.name)
-    				.replace("#[name]", groupSetup.groupData.name)
-    				.replace("#[remarks]", groupSetup.groupData.remarks)
-    				.replace("#[remarks]", groupSetup.groupData.remarks);
+       				.replace("#[id]", roleSetup.roleData.id)
+    				.replace("#[id]", roleSetup.roleData.id)
+    				.replace("#[name]", roleSetup.roleData.name)
+    				.replace("#[name]", roleSetup.roleData.name)
+    				.replace("#[priority]", roleSetup.roleData.priority)
+    				.replace("#[priority]", roleSetup.roleData.priority)
+    				.replace("#[remarks]", roleSetup.roleData.remarks)
+    				.replace("#[remarks]", roleSetup.roleData.remarks);
                	$(_btn).closest("tr").html(rowHtml);
                	
-    			groupSetup.groupData.id = 0;
-    			groupSetup.groupData.name = "";
-    			groupSetup.groupData.remarks = "";
+    			roleSetup.roleData.id = 0;
+    			roleSetup.roleData.name = "";
+    			roleSetup.roleData.priority = "";
+    			roleSetup.roleData.remarks = "";
        		} else {
        			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
@@ -52,13 +57,13 @@ var groupSetup = {
        		var _btn = this;
        		var id = $("#val-id").val();
        		
-       		if(groupSetup.groupData.id > 0 && id != groupSetup.groupData.id) {
+       		if(roleSetup.roleData.id > 0 && id != roleSetup.roleData.id) {
     			return false;
     		}
        		
        		if($("#formComponent").valid()) {
        			swal({
-                    text: "Do you want to " + (groupSetup.groupData.id > 0 ? "update" : "create") + " this group",
+                    text: "Do you want to " + (roleSetup.roleData.id > 0 ? "update" : "create") + " this role",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonClass: "btn btn-danger m-1",
@@ -73,10 +78,10 @@ var groupSetup = {
                     }
            		}).then(function(e) {
                 	if(e.value) {
-                		if(groupSetup.groupData.id > 0) {
-                				groupSetup.doUpdate(_btn, groupSetup.groupData.id);
+                		if(roleSetup.roleData.id > 0) {
+                				roleSetup.doUpdate(_btn, roleSetup.roleData.id);
                 		} else {
-                			groupSetup.doCreate(_btn);
+                			roleSetup.doCreate(_btn);
                 		}
                 	}
                 });
@@ -87,20 +92,22 @@ var groupSetup = {
 			var _btn = this;
 			$(_btn).tooltip('hide');
 			var tr = $(_btn).closest("tr");
-			groupSetup.groupData.id = $.trim($(tr).find(".col-id")[0].value);
-			groupSetup.groupData.name = $.trim($(tr).find(".col-name")[0].value);
-			groupSetup.groupData.remarks = $.trim($(tr).find(".col-remarks")[0].value);
+			roleSetup.roleData.id = $.trim($(tr).find(".col-id")[0].value);
+			roleSetup.roleData.name = $.trim($(tr).find(".col-name")[0].value);
+			roleSetup.roleData.priority = $.trim($(tr).find(".col-priority")[0].value);
+			roleSetup.roleData.remarks = $.trim($(tr).find(".col-remarks")[0].value);
 			
 			var formTemplete = $("#formTemplete").clone();
 			var formHtml = formTemplete.html()
-			.replace("#[id]", groupSetup.groupData.id)
-			.replace("#[name]", groupSetup.groupData.name)
-			.replace("#[remarks]", groupSetup.groupData.remarks);
-	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
+			.replace("#[id]", roleSetup.roleData.id)
+			.replace("#[name]", roleSetup.roleData.name)
+			.replace("#[priority]", roleSetup.roleData.priority)
+			.replace("#[remarks]", roleSetup.roleData.remarks);
+	   		$(tr).html("<td colspan='5'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
 	   		$("#val-id").attr('disabled', true);
 	   		
-	   		groupSetup.initValidation();
+	   		roleSetup.initValidation();
        	});
 		
 		$(document).on("click", ".delete-button", function(e) {
@@ -110,7 +117,7 @@ var groupSetup = {
 			var id = $.trim($(tr).find(".col-id")[0].value);
 			if(id > 0) {
 				swal({
-	                text: "Do you want to delete this group",
+	                text: "Do you want to delete this role",
 	                type: "warning",
 	                showCancelButton: true,
 	                confirmButtonClass: "btn btn-danger m-1",
@@ -125,7 +132,7 @@ var groupSetup = {
 	                }
 	            }).then(function(e) {
 	            	if(e.value) {
-	            		groupSetup.doDelete(_btn, id);
+	            		roleSetup.doDelete(_btn, id);
 	            	}
 	            });
 			} else {
@@ -142,7 +149,7 @@ var groupSetup = {
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
-            url: groupSetup.createUrl,
+            url: roleSetup.createUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -155,6 +162,8 @@ var groupSetup = {
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
+        				.replace("#[priority]", data.datas[0].priority)
+        				.replace("#[priority]", data.datas[0].priority)
         				.replace("#[remarks]", data.datas[0].remarks)
         				.replace("#[remarks]", data.datas[0].remarks);
            			$('#dataTable > tbody tr').first().html(rowHtml);
@@ -171,7 +180,7 @@ var groupSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create group, please try again!'
+                		message: 'Failed to create role, please try again!'
         			});
             	}
             },
@@ -196,7 +205,7 @@ var groupSetup = {
 		$.ajax({
 			type: "PUT",
             contentType: "application/json",
-            url: groupSetup.updateUrl,
+            url: roleSetup.updateUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -208,6 +217,8 @@ var groupSetup = {
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
+        				.replace("#[priority]", data.datas[0].priority)
+        				.replace("#[priority]", data.datas[0].priority)
         				.replace("#[remarks]", data.datas[0].remarks)
         				.replace("#[remarks]", data.datas[0].remarks);
            			$(_btn).closest("tr").html(rowHtml);
@@ -224,7 +235,7 @@ var groupSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update group, please try again!'
+                		message: 'Failed to update role, please try again!'
         			});
             	}
             },
@@ -246,7 +257,7 @@ var groupSetup = {
 		$.ajax({
 			type: "DELETE",
             contentType: "application/json",
-            url: groupSetup.deleteUrl + id,
+            url: roleSetup.deleteUrl + id,
             dataType: 'json',
             timeout: 600000,
             success: function (data) {
@@ -264,7 +275,7 @@ var groupSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete group, please try again!'
+                		message: 'Failed to delete role, please try again!'
         			});
             	}
             },
@@ -300,6 +311,9 @@ var groupSetup = {
                 },
                 "name": {
                     required: true, minlength: 3
+                },
+                "priority": {
+                    required: true, digits: true, min: 1
                 }
             }, 
             messages : {
@@ -308,6 +322,9 @@ var groupSetup = {
                 }, 
             	"name": {
                     required: "Please enter name.", minlength: "Name must consist of at least 3 characters."
+                }, 
+            	"priority": {
+                    required: "Please enter priority.", digits: "Please enter only digits."
                 }
             }
         });
@@ -315,7 +332,7 @@ var groupSetup = {
 }
 
 $(document).ready(function() {
-	groupSetup.init();
+	roleSetup.init();
 });
 
 

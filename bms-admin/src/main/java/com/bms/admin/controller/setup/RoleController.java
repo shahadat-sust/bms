@@ -19,35 +19,35 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
-import com.bms.service.data.permission.GroupData;
-import com.bms.service.soa.permission.IGroupService;
+import com.bms.service.data.permission.RoleData;
+import com.bms.service.soa.permission.IRoleService;
 
 @Controller
-@RequestMapping(value = "/group")
+@RequestMapping(value = "/role")
 @Scope("request")
-public class GroupController extends BaseController {
+public class RoleController extends BaseController {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 	
-	private IGroupService groupService;
+	private IRoleService roleService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String group(Model model) throws BmsSqlException, BmsException {
-		List<GroupData> groupList = groupService.getAllGroups();
-		model.addAttribute("groupList", groupList);
-		return "setup/group";
+	public String role(Model model) throws BmsSqlException, BmsException {
+		List<RoleData> roleList = roleService.getAllRoles();
+		model.addAttribute("roleList", roleList);
+		return "setup/role";
 	}
 	
-	@RequestMapping(value = "/fetch/{groupId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<GroupData> getGroupList(@PathVariable long groupId) {
-		ResponseModel<GroupData> responseModel = new ResponseModel<GroupData>();
+	@RequestMapping(value = "/fetch/{roleId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<RoleData> getRoleList(@PathVariable long roleId) {
+		ResponseModel<RoleData> responseModel = new ResponseModel<RoleData>();
 		try {
-			if(groupId > 0) {
-				GroupData groupData = groupService.getGroupById(groupId);
-				responseModel.addData(groupData);
+			if(roleId > 0) {
+				RoleData roleData = roleService.getRoleById(roleId);
+				responseModel.addData(roleData);
 			} else {
-				List<GroupData> groupList = groupService.getAllGroups();
-				responseModel.addDatas(groupList);
+				List<RoleData> roleList = roleService.getAllRoles();
+				responseModel.addDatas(roleList);
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
@@ -57,13 +57,13 @@ public class GroupController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<GroupData> createGroup(@RequestBody GroupData groupData) {
-		ResponseModel<GroupData> responseModel = new ResponseModel<GroupData>();
+	public @ResponseBody ResponseModel<RoleData> createRole(@RequestBody RoleData roleData) {
+		ResponseModel<RoleData> responseModel = new ResponseModel<RoleData>();
 		try {
-			boolean status = groupService.create(groupData, getLoginUserData().getId());
+			boolean status = roleService.create(roleData, getLoginUserData().getId());
 			if(status) {
 				responseModel.setStatus(true);
-				responseModel.addData(groupData);
+				responseModel.addData(roleData);
 			} else {
 				responseModel.setStatus(false);
 			}
@@ -75,12 +75,12 @@ public class GroupController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<GroupData> updateGroup(@RequestBody GroupData groupData) {
-		ResponseModel<GroupData> responseModel = new ResponseModel<GroupData>();
+	public @ResponseBody ResponseModel<RoleData> updateRole(@RequestBody RoleData roleData) {
+		ResponseModel<RoleData> responseModel = new ResponseModel<RoleData>();
 		try {
-			boolean status = groupService.update(groupData, getLoginUserData().getId());
+			boolean status = roleService.update(roleData, getLoginUserData().getId());
 			if(status) {
-				GroupData data = groupService.getGroupById(groupData.getId());
+				RoleData data = roleService.getRoleById(roleData.getId());
 				responseModel.setStatus(true);
 				responseModel.addData(data);
 			} else {
@@ -93,11 +93,11 @@ public class GroupController extends BaseController {
 	    return responseModel;
 	}
 	
-	@RequestMapping(value = "/delete/{groupId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<GroupData> deleteGroup(@PathVariable long groupId) {
-		ResponseModel<GroupData> responseModel = new ResponseModel<GroupData>();
+	@RequestMapping(value = "/delete/{roleId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<RoleData> deleteRole(@PathVariable long roleId) {
+		ResponseModel<RoleData> responseModel = new ResponseModel<RoleData>();
 		try {
-			responseModel.setStatus(groupService.delete(groupId));
+			responseModel.setStatus(roleService.delete(roleId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
 			responseModel.addError(e.getMessage());
@@ -106,9 +106,9 @@ public class GroupController extends BaseController {
 	}
 
 	@Autowired
-	@Qualifier("groupService")
-	public void setGroupService(IGroupService groupService) {
-		this.groupService = groupService;
+	@Qualifier("roleService")
+	public void setRoleService(IRoleService roleService) {
+		this.roleService = roleService;
 	}
 
 }

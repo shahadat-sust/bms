@@ -7,7 +7,7 @@ import com.bms.service.data.permission.GroupData;
 
 public interface IGroupDao {
 	
-	long create(GroupData groupData) throws BmsSqlException;
+	boolean create(GroupData groupData) throws BmsSqlException;
 	
 	boolean update(GroupData groupData) throws BmsSqlException;
 	

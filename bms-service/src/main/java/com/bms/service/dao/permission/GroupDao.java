@@ -20,10 +20,11 @@ import com.bms.service.data.permission.GroupData;
 public class GroupDao extends BaseDao implements IGroupDao {
 
 	@Override
-	public long create(GroupData groupData) throws BmsSqlException {
+	public boolean create(GroupData groupData) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("INSERT INTO `Group` ")
 		.append("( ")
+			.append("Id, ")
 			.append("Name, ")
 			.append("Remarks, ")
 			.append("CreatedBy, ")
@@ -38,23 +39,23 @@ public class GroupDao extends BaseDao implements IGroupDao {
 			.append("?, ")
 			.append("?, ")
 			.append("?, ")
+			.append("?, ")
 			.append("? ")
 		.append(")");
-		KeyHolder holder = new GeneratedKeyHolder();
-		this.getTemplete().update(new PreparedStatementCreator() {
+		return this.getTemplete().update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
-				ps.setString(1, groupData.getName());
-				ps.setString(2, groupData.getRemarks());
-				ps.setLong(3, groupData.getCreatedBy());
-				ps.setDate(4, new java.sql.Date(groupData.getCreatedOn().getTime()));
-				ps.setLong(5, groupData.getUpdatedBy());
-				ps.setDate(6, new java.sql.Date(groupData.getUpdatedOn().getTime()));
+				PreparedStatement ps = conn.prepareStatement(sql.toString());
+				ps.setLong(1, groupData.getId());
+				ps.setString(2, groupData.getName());
+				ps.setString(3, groupData.getRemarks());
+				ps.setLong(4, groupData.getCreatedBy());
+				ps.setDate(5, new java.sql.Date(groupData.getCreatedOn().getTime()));
+				ps.setLong(6, groupData.getUpdatedBy());
+				ps.setDate(7, new java.sql.Date(groupData.getUpdatedOn().getTime()));
 				return ps;
 			}
-		}, holder);
-		return holder.getKey().longValue();
+		}) == 1;
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class GroupDao extends BaseDao implements IGroupDao {
 			.append("UpdatedBy = ?, ")
 			.append("UpdatedOn = ? ")
 		.append("WHERE ")
-		.append("Id = ?");
+		.append("Id = ? ");
 		return this.getTemplete().update(sql.toString(), 
 				groupData.getName(), 
 				groupData.getRemarks(),

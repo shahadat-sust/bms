@@ -5,8 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
     <head>
-        <title>BMS - Group Setup</title>
-        <meta name="description" content="BMS - Admin Group Setup">
+        <title>BMS - Role Setup</title>
+        <meta name="description" content="BMS - Admin Role Setup">
         <%@include file="../includes/metadata.jsp" %>
         <%@include file="../includes/appicons.jsp" %>
         <%@include file="../includes/styles.jsp" %>
@@ -23,11 +23,11 @@
              <div class="bg-body-light">
                  <div class="content content-full">
                      <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                         <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Group Setup</h1>
+                         <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Role Setup</h1>
                          <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                              <ol class="breadcrumb">
                                  <li class="breadcrumb-item">Setup</li>
-                                 <li class="breadcrumb-item active" aria-current="page">Group</li>
+                                 <li class="breadcrumb-item active" aria-current="page">Role</li>
                              </ol>
                          </nav>
                      </div>
@@ -42,35 +42,40 @@
                   <div class="block block-rounded block-bordered">
                   	  <div class="block-content text-right">
 						<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
-                            <i class="fa fa-fw fa-plus mr-1"></i> Add Group
+                            <i class="fa fa-fw fa-plus mr-1"></i> Add Role
                         </button>
                   	  </div>
                       <div class="block-content">
                            <table id="dataTable" class="table table-bordered table-striped table-vcenter">
                                <thead>
                                    <tr>
-                                   	   <th style="width: 20%;">ID</th>
-                                       <th style="width: 40%;">Name</th>
-                                       <th style="width: 40%;">Remarks</th>
+                                   	   <th style="width: 15%;">ID</th>
+                                       <th style="width: 35%;">Name</th>
+                                       <th style="width: 15%;">Priority</th>
+                                       <th style="width: 35%;">Remarks</th>
                                        <th class="text-center" style="width: 100px;">Actions</th>
                                    </tr>
                                </thead>
                                <tbody>
-                               	   <c:forEach items="${groupList}" var="groupData">
+                               	   <c:forEach items="${roleList}" var="roleData">
                                	   		<tr>
                                	   			<td class="font-w600">
-												${groupData.id}
+												${roleData.id}
 											</td>
 											<td class="font-w600">
-												${groupData.name}
+												${roleData.name}
+											</td>
+											<td class="font-w600">
+												${roleData.priority}
 											</td>
 											<td>
-												${groupData.remarks}
+												${roleData.remarks}
 											</td>
 											<td class="text-center">
-											   <input type="hidden" class="col-id" value="${groupData.id}"/>
-											   <input type="hidden" class="col-name" value="${groupData.name}"/>
-											   <input type="hidden" class="col-remarks" value="${groupData.remarks}"/>
+											   <input type="hidden" class="col-id" value="${roleData.id}"/>
+											   <input type="hidden" class="col-name" value="${roleData.name}"/>
+											   <input type="hidden" class="col-priority" value="${roleData.priority}"/>
+											   <input type="hidden" class="col-remarks" value="${roleData.remarks}"/>
 	                                           <div class="btn-group">
 	                                               <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
 	                                                   <i class="fa fa-pencil-alt"></i>
@@ -108,6 +113,10 @@
 	                        <input class="form-control" type="text" id="val-name" name="name" value="#[name]" placeholder="Enter Name..">
 	                    </div>
 	                    <div class="form-group">
+	                        <label for="val-priority">Priority <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-priority" name="priority" value="#[priority]" placeholder="Enter Priority..">
+	                    </div>
+	                    <div class="form-group">
 	                         <label for="val-remarks">Remarks</label>
 	                         <textarea class="form-control" id="val-remarks" name="remarks" rows="5" placeholder="Enter Remarks..">#[remarks]</textarea>
 	                     </div>
@@ -136,12 +145,16 @@
 	        <td class="font-w600">
 				#[name]
 			</td>
+			<td class="font-w600">
+				#[priority]
+			</td>
 			<td>
 				#[remarks]
 			</td>
 			<td class="text-center">
 				<input type="hidden" class="col-id" value="#[id]"/>
 				<input type="hidden" class="col-name" value="#[name]"/>
+				<input type="hidden" class="col-priority" value="#[priority]"/>
 				<input type="hidden" class="col-remarks" value="#[remarks]"/>
 		        <div class="btn-group">
 			        <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
@@ -158,12 +171,12 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/group.js"></script>   
+        <script src="resources/js/custom/setup/role.js"></script>   
 		<script type="text/javascript">
-			groupSetup.fetchUrl = '<c:url value="/group/fetch/" />';
-			groupSetup.createUrl = '<c:url value="/group/create" />';
-			groupSetup.updateUrl = '<c:url value="/group/update" />';
-			groupSetup.deleteUrl = '<c:url value="/group/delete/" />';
+			roleSetup.fetchUrl = '<c:url value="/role/fetch/" />';
+			roleSetup.createUrl = '<c:url value="/role/create" />';
+			roleSetup.updateUrl = '<c:url value="/role/update" />';
+			roleSetup.deleteUrl = '<c:url value="/role/delete/" />';
 		</script>
     </body>
 </html>

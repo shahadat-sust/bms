@@ -1,5 +1,6 @@
 package com.bms.service.soa;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,20 @@ public class CountryService extends BaseService implements ICountryService {
 	private ICountryDao countryDao;
 	
 	@Override
-	public long create(CountryData countryData) throws BmsException, BmsSqlException {
+	public long create(CountryData countryData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		countryData.setCreatedBy(loginUserId);
+		countryData.setCreatedOn(currDate);
+		countryData.setUpdatedBy(loginUserId);
+		countryData.setUpdatedOn(currDate);
 		return countryDao.create(countryData);
 	}
 
 	@Override
-	public boolean update(CountryData countryData) throws BmsException, BmsSqlException {
+	public boolean update(CountryData countryData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		countryData.setUpdatedBy(loginUserId);
+		countryData.setUpdatedOn(currDate);
 		return countryDao.update(countryData);
 	}
 

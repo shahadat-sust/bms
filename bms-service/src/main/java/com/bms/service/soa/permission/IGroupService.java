@@ -9,7 +9,7 @@ import com.bms.service.data.permission.GroupData;
 
 public interface IGroupService {
 
-	long create(GroupData groupData, long loginUserId) throws BmsException, BmsSqlException;
+	boolean create(GroupData groupData, long loginUserId) throws BmsException, BmsSqlException;
 	
 	boolean update(GroupData groupData, long loginUserId) throws BmsException, BmsSqlException;
 	

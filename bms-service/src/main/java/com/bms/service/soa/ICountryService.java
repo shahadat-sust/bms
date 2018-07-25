@@ -9,9 +9,9 @@ import com.bms.service.data.CountryData;
 
 public interface ICountryService {
 	
-	long create(CountryData countryData) throws BmsException, BmsSqlException;
+	long create(CountryData countryData, long loginUserId) throws BmsException, BmsSqlException;
 	
-	boolean update(CountryData countryData) throws BmsException, BmsSqlException;
+	boolean update(CountryData countryData, long loginUserId) throws BmsException, BmsSqlException;
 	
 	boolean delete(long countryId) throws BmsException, BmsSqlException;
 	

@@ -20,10 +20,11 @@ import com.bms.service.data.permission.RoleData;
 public class RoleDao extends BaseDao implements IRoleDao {
 
 	@Override
-	public long create(RoleData roleData) throws BmsSqlException {
+	public boolean create(RoleData roleData) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("INSERT INTO Role ")
 		.append("( ")
+			.append("Id, ")
 			.append("Name, ")
 			.append("Priority, ")
 			.append("Remarks, ")
@@ -40,24 +41,25 @@ public class RoleDao extends BaseDao implements IRoleDao {
 			.append("?, ")
 			.append("?, ")
 			.append("?, ")
+			.append("?, ")
 			.append("? ")
 		.append(")");
-		KeyHolder holder = new GeneratedKeyHolder();
-		this.getTemplete().update(new PreparedStatementCreator() {
+		
+		return this.getTemplete().update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
-				ps.setString(1, roleData.getName());
-				ps.setInt(2, roleData.getPriority());
-				ps.setString(3, roleData.getRemarks());
-				ps.setLong(4, roleData.getCreatedBy());
-				ps.setDate(5, new java.sql.Date(roleData.getCreatedOn().getTime()));
-				ps.setLong(6, roleData.getUpdatedBy());
-				ps.setDate(7, new java.sql.Date(roleData.getUpdatedOn().getTime()));
+				PreparedStatement ps = conn.prepareStatement(sql.toString());
+				ps.setLong(1, roleData.getId());
+				ps.setString(2, roleData.getName());
+				ps.setInt(3, roleData.getPriority());
+				ps.setString(4, roleData.getRemarks());
+				ps.setLong(5, roleData.getCreatedBy());
+				ps.setDate(6, new java.sql.Date(roleData.getCreatedOn().getTime()));
+				ps.setLong(7, roleData.getUpdatedBy());
+				ps.setDate(8, new java.sql.Date(roleData.getUpdatedOn().getTime()));
 				return ps;
 			}
-		}, holder);
-		return holder.getKey().longValue();
+		}) == 1;
 	}
 
 	@Override
@@ -89,12 +91,12 @@ public class RoleDao extends BaseDao implements IRoleDao {
 	}
 
 	@Override
-	public RoleData getRoleByID(long roleId) throws BmsSqlException {
+	public RoleData getRoleById(long roleId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
 			.append("Id, ")
+			.append("Name, ")
 			.append("Priority, ")
-			.append("Code, ")
 			.append("Remarks ")
 		.append("FROM Role ")
 		.append("WHERE ")
@@ -127,10 +129,11 @@ public class RoleDao extends BaseDao implements IRoleDao {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
 			.append("Id, ")
+			.append("Name, ")
 			.append("Priority, ")
-			.append("Code, ")
 			.append("Remarks ")
-		.append("FROM Role");
+		.append("FROM Role ")
+		.append("ORDER BY Id DESC");
 
 		List<RoleData> roleList = this.getTemplete().query(sql.toString(), new RowMapper<RoleData>() {
 			@Override

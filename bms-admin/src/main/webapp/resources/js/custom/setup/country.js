@@ -1,5 +1,5 @@
-var groupSetup = {
-	groupData : {
+var countrySetup = {
+	countryData : {
 		id : 0,
    		name : "",
    		remarks : ""
@@ -16,32 +16,30 @@ var groupSetup = {
        		
        		var formTemplete = $("#formTemplete").clone()
     		var formHtml = formTemplete.html()
-    		.replace("#[id]", "")
+    		.replace("#[id]", "0")
     		.replace("#[name]", "")
     		.replace("#[remarks]", "");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='4'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='3'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
-       		$("#val-id").removeAttr('disabled');
        		
-       		groupSetup.initValidation();
+       		countrySetup.initValidation();
        	});
        	
        	$(document).on("click", "#btnCancel", function(e) {
        		var _btn = this;
-       		if(groupSetup.groupData.id > 0) {
+       		if(countrySetup.countryData.id > 0) {
        			var rowTemplete = $("#rowTemplete").clone();
        			var rowHtml = rowTemplete.html()
-       				.replace("#[id]", groupSetup.groupData.id)
-    				.replace("#[id]", groupSetup.groupData.id)
-    				.replace("#[name]", groupSetup.groupData.name)
-    				.replace("#[name]", groupSetup.groupData.name)
-    				.replace("#[remarks]", groupSetup.groupData.remarks)
-    				.replace("#[remarks]", groupSetup.groupData.remarks);
+    				.replace("#[id]", countrySetup.countryData.id)
+    				.replace("#[name]", countrySetup.countryData.name)
+    				.replace("#[name]", countrySetup.countryData.name)
+    				.replace("#[remarks]", countrySetup.countryData.remarks)
+    				.replace("#[remarks]", countrySetup.countryData.remarks);
                	$(_btn).closest("tr").html(rowHtml);
                	
-    			groupSetup.groupData.id = 0;
-    			groupSetup.groupData.name = "";
-    			groupSetup.groupData.remarks = "";
+    			countrySetup.countryData.id = 0;
+    			countrySetup.countryData.name = "";
+    			countrySetup.countryData.remarks = "";
        		} else {
        			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
@@ -50,15 +48,9 @@ var groupSetup = {
        	
        	$(document).on("click", "#btnSubmit", function(e) {
        		var _btn = this;
-       		var id = $("#val-id").val();
-       		
-       		if(groupSetup.groupData.id > 0 && id != groupSetup.groupData.id) {
-    			return false;
-    		}
-       		
        		if($("#formComponent").valid()) {
        			swal({
-                    text: "Do you want to " + (groupSetup.groupData.id > 0 ? "update" : "create") + " this group",
+                    text: "Do you want to " + (countrySetup.countryData.id > 0 ? "update" : "create") + " this country",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonClass: "btn btn-danger m-1",
@@ -73,10 +65,10 @@ var groupSetup = {
                     }
            		}).then(function(e) {
                 	if(e.value) {
-                		if(groupSetup.groupData.id > 0) {
-                				groupSetup.doUpdate(_btn, groupSetup.groupData.id);
+                		if(countrySetup.countryData.id > 0) {
+                			countrySetup.doUpdate(_btn);
                 		} else {
-                			groupSetup.doCreate(_btn);
+                			countrySetup.doCreate(_btn);
                 		}
                 	}
                 });
@@ -87,20 +79,19 @@ var groupSetup = {
 			var _btn = this;
 			$(_btn).tooltip('hide');
 			var tr = $(_btn).closest("tr");
-			groupSetup.groupData.id = $.trim($(tr).find(".col-id")[0].value);
-			groupSetup.groupData.name = $.trim($(tr).find(".col-name")[0].value);
-			groupSetup.groupData.remarks = $.trim($(tr).find(".col-remarks")[0].value);
+			countrySetup.countryData.id = $.trim($(tr).find(".col-id")[0].value);
+			countrySetup.countryData.name = $.trim($(tr).find(".col-name")[0].value);
+			countrySetup.countryData.remarks = $.trim($(tr).find(".col-remarks")[0].value);
 			
 			var formTemplete = $("#formTemplete").clone();
 			var formHtml = formTemplete.html()
-			.replace("#[id]", groupSetup.groupData.id)
-			.replace("#[name]", groupSetup.groupData.name)
-			.replace("#[remarks]", groupSetup.groupData.remarks);
-	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
+			.replace("#[id]", countrySetup.countryData.id)
+			.replace("#[name]", countrySetup.countryData.name)
+			.replace("#[remarks]", countrySetup.countryData.remarks);
+	   		$(tr).html("<td colspan='3'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
-	   		$("#val-id").attr('disabled', true);
 	   		
-	   		groupSetup.initValidation();
+	   		countrySetup.initValidation();
        	});
 		
 		$(document).on("click", ".delete-button", function(e) {
@@ -110,7 +101,7 @@ var groupSetup = {
 			var id = $.trim($(tr).find(".col-id")[0].value);
 			if(id > 0) {
 				swal({
-	                text: "Do you want to delete this group",
+	                text: "Do you want to delete this country",
 	                type: "warning",
 	                showCancelButton: true,
 	                confirmButtonClass: "btn btn-danger m-1",
@@ -125,7 +116,7 @@ var groupSetup = {
 	                }
 	            }).then(function(e) {
 	            	if(e.value) {
-	            		groupSetup.doDelete(_btn, id);
+	            		countrySetup.doDelete(_btn, id);
 	            	}
 	            });
 			} else {
@@ -138,11 +129,11 @@ var groupSetup = {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
-
+		
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
-            url: groupSetup.createUrl,
+            url: countrySetup.createUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -151,7 +142,6 @@ var groupSetup = {
             		$("#btnCreateNew").removeAttr('disabled');
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
-           				.replace("#[id]", data.datas[0].id)
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
@@ -163,7 +153,7 @@ var groupSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Group created successfully!'
+                		message: 'country created successfully!'
         			});
             	} else {
             		$(_btn).removeAttr("disabled");
@@ -171,7 +161,7 @@ var groupSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create group, please try again!'
+                		message: 'Failed to create country, please try again!'
         			});
             	}
             },
@@ -187,16 +177,15 @@ var groupSetup = {
 		});
 	},
 	
-	doUpdate : function(_btn, id) {
+	doUpdate : function(_btn) {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
-		serializeForm["id"] = id;
 		
 		$.ajax({
 			type: "PUT",
             contentType: "application/json",
-            url: groupSetup.updateUrl,
+            url: countrySetup.updateUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -204,7 +193,6 @@ var groupSetup = {
             	if(data.status) {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
-        				.replace("#[id]", data.datas[0].id)
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
@@ -216,7 +204,7 @@ var groupSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Group updated successfully!'
+                		message: 'country updated successfully!'
         			});
             	} else {
             		$(_btn).removeAttr("disabled");
@@ -224,7 +212,7 @@ var groupSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update group, please try again!'
+                		message: 'Failed to update country, please try again!'
         			});
             	}
             },
@@ -246,7 +234,7 @@ var groupSetup = {
 		$.ajax({
 			type: "DELETE",
             contentType: "application/json",
-            url: groupSetup.deleteUrl + id,
+            url: countrySetup.deleteUrl + id,
             dataType: 'json',
             timeout: 600000,
             success: function (data) {
@@ -256,7 +244,7 @@ var groupSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Group deleted successfully!'
+                		message: 'country deleted successfully!'
         			});
             	} else {
             		$(_btn).removeAttr("disabled");
@@ -264,7 +252,7 @@ var groupSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete group, please try again!'
+                		message: 'Failed to delete country, please try again!'
         			});
             	}
             },
@@ -295,19 +283,13 @@ var groupSetup = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
-            	"id": {
-                    required: true, digits: true
-                },
-                "name": {
+            	"name": {
                     required: true, minlength: 3
                 }
             }, 
             messages : {
-            	"id": {
-                    required: "Please enter ID.", digits: "Please enter only digits."
-                }, 
             	"name": {
-                    required: "Please enter name.", minlength: "Name must consist of at least 3 characters."
+                    required: "Please enter name", minlength: "Name must consist of at least 3 characters"
                 }
             }
         });
@@ -315,7 +297,7 @@ var groupSetup = {
 }
 
 $(document).ready(function() {
-	groupSetup.init();
+	countrySetup.init();
 });
 
 

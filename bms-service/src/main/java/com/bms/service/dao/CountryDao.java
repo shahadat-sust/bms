@@ -122,7 +122,8 @@ public class CountryDao extends BaseDao implements ICountryDao {
 			.append("Id, ")
 			.append("Name, ")
 			.append("Remarks ")
-		.append("FROM Country ");
+		.append("FROM Country ")
+		.append("ORDER BY Id DESC ");
 
 		List<CountryData> countryList = this.getTemplete().query(sql.toString(), new RowMapper<CountryData>() {
 			@Override

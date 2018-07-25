@@ -11,7 +11,7 @@ import com.bms.admin.controller.BaseController;
 @Controller
 @RequestMapping(value = "/city")
 @Scope("request")
-public class CityController extends BaseController{
+public class CityController extends BaseController {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 	
