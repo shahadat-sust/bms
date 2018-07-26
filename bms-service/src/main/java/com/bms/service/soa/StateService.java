@@ -1,5 +1,6 @@
 package com.bms.service.soa;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,20 @@ public class StateService extends BaseService implements IStateService {
 	private IStateDao stateDao;
 	
 	@Override
-	public long create(StateData stateData) throws BmsException, BmsSqlException {
+	public long create(StateData stateData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		stateData.setCreatedBy(loginUserId);
+		stateData.setCreatedOn(currDate);
+		stateData.setUpdatedBy(loginUserId);
+		stateData.setUpdatedOn(currDate);
 		return stateDao.create(stateData);
 	}
 
 	@Override
-	public boolean update(StateData stateData) throws BmsException, BmsSqlException {
+	public boolean update(StateData stateData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		stateData.setUpdatedBy(loginUserId);
+		stateData.setUpdatedOn(currDate);
 		return stateDao.update(stateData);
 	}
 
@@ -34,6 +43,11 @@ public class StateService extends BaseService implements IStateService {
 	@Override
 	public StateData getStateById(long stateId) throws BmsException, BmsSqlException {
 		return stateDao.getStateById(stateId);
+	}
+	
+	@Override
+	public List<StateData> getStatesByCountryId(long countryId) throws BmsException, BmsSqlException {
+		return stateDao.getStatesByCountryId(countryId);
 	}
 
 	@Override

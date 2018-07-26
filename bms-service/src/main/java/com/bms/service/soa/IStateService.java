@@ -9,13 +9,15 @@ import com.bms.service.data.StateData;
 
 public interface IStateService {
 	
-	long create(StateData stateData) throws BmsException, BmsSqlException;
+	long create(StateData stateData, long loginUserId) throws BmsException, BmsSqlException;
 	
-	boolean update(StateData stateData) throws BmsException, BmsSqlException;
+	boolean update(StateData stateData, long loginUserId) throws BmsException, BmsSqlException;
 	
 	boolean delete(long stateId) throws BmsException, BmsSqlException;
 	
 	StateData getStateById(long stateId) throws BmsException, BmsSqlException;
+	
+	List<StateData> getStatesByCountryId(long countryId) throws BmsException, BmsSqlException;
 	
 	List<StateData> getAllStates() throws BmsException, BmsSqlException;
 	

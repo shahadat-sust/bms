@@ -15,6 +15,8 @@ public interface IStateDao {
 	
 	StateData getStateById(long stateId) throws BmsSqlException;
 	
+	List<StateData> getStatesByCountryId(long countryId) throws BmsSqlException;
+	
 	List<StateData> getAllStates() throws BmsSqlException;
 	
 }

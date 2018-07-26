@@ -6,6 +6,7 @@ public class StateData extends BaseData {
 	
 	private long countryId;
 	private String name;
+	private String countryName;
 	
 	public long getCountryId() {
 		return countryId;
@@ -18,6 +19,12 @@ public class StateData extends BaseData {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getCountryName() {
+		return countryName;
+	}
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
 	}
 
 }

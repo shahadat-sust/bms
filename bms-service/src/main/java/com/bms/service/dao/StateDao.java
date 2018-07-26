@@ -91,13 +91,16 @@ public class StateDao extends BaseDao implements IStateDao {
 	public StateData getStateById(long stateId) throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("Id, ")
-			.append("CountryId, ")
-			.append("Name, ")
-			.append("Remarks ")
+			.append("State.Id, ")
+			.append("State.CountryId, ")
+			.append("State.Name, ")
+			.append("State.Remarks, ")
+			.append("Country.Name AS CountryName ")
 		.append("FROM State ")
+		.append("LEFT OUTER JOIN Country ON ")
+			.append("Country.Id = State.CountryId ")
 		.append("WHERE ")
-		.append("Id = ?");
+		.append("State.Id = ?");
 		
 		Object[] params = new Object[] {stateId};
 		List<StateData> stateList = this.getTemplete().query(sql.toString(), params, new RowMapper<StateData>() {
@@ -108,6 +111,7 @@ public class StateDao extends BaseDao implements IStateDao {
 				stateData.setCountryId(rs.getLong(2));
 				stateData.setName(rs.getString(3));
 				stateData.setRemarks(rs.getString(4));
+				stateData.setCountryName(rs.getString(5));
 				return stateData;
 			}
 		});
@@ -120,16 +124,51 @@ public class StateDao extends BaseDao implements IStateDao {
 		  throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");   
 		}
 	}
+	
+	public List<StateData> getStatesByCountryId(long countryId) throws BmsSqlException {
+		StringBuilder sql = new StringBuilder()
+		.append("SELECT ")
+				.append("State.Id, ")
+				.append("State.CountryId, ")
+				.append("State.Name, ")
+				.append("State.Remarks, ")
+				.append("Country.Name AS CountryName ")
+		.append("FROM State ")
+		.append("LEFT OUTER JOIN Country ON ")
+			.append("Country.Id = State.CountryId ")
+		.append("WHERE State.CountryId = ? ")
+		.append("ORDER BY State.Name ASC ");
+
+		Object[] params = new Object[] {countryId};
+		List<StateData> stateList = this.getTemplete().query(sql.toString(), params, new RowMapper<StateData>() {
+			@Override
+			public StateData mapRow(ResultSet rs, int index) throws SQLException {
+				StateData stateData = new StateData();
+				stateData.setId(rs.getLong(1));
+				stateData.setCountryId(rs.getLong(2));
+				stateData.setName(rs.getString(3));
+				stateData.setRemarks(rs.getString(4));
+				stateData.setCountryName(rs.getString(5));
+				return stateData;
+			}
+		});
+		
+		return stateList;
+	}
 
 	@Override
 	public List<StateData> getAllStates() throws BmsSqlException {
 		StringBuilder sql = new StringBuilder()
 		.append("SELECT ")
-			.append("Id, ")
-			.append("CountryId, ")
-			.append("Name, ")
-			.append("Remarks ")
-		.append("FROM State ");
+				.append("State.Id, ")
+				.append("State.CountryId, ")
+				.append("State.Name, ")
+				.append("State.Remarks, ")
+				.append("Country.Name AS CountryName ")
+		.append("FROM State ")
+		.append("LEFT OUTER JOIN Country ON ")
+			.append("Country.Id = State.CountryId ")
+		.append("ORDER BY State.Id DESC ");
 
 		List<StateData> stateList = this.getTemplete().query(sql.toString(), new RowMapper<StateData>() {
 			@Override
@@ -139,6 +178,7 @@ public class StateDao extends BaseDao implements IStateDao {
 				stateData.setCountryId(rs.getLong(2));
 				stateData.setName(rs.getString(3));
 				stateData.setRemarks(rs.getString(4));
+				stateData.setCountryName(rs.getString(5));
 				return stateData;
 			}
 		});
