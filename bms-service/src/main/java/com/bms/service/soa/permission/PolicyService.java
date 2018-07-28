@@ -1,5 +1,6 @@
 package com.bms.service.soa.permission;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,33 @@ public class PolicyService extends BaseService implements IPolicyService {
 	private IPolicyDao policyDao;
 	
 	@Override
-	public long create(PolicyData policyData) throws BmsException, BmsSqlException {
-		return policyDao.create(policyData);
+	public long create(PolicyData policyData, long loginUserId) throws BmsException, BmsSqlException {
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			policyData.setCreatedBy(loginUserId);
+			policyData.setCreatedOn(currDate);
+			policyData.setUpdatedBy(loginUserId);
+			policyData.setUpdatedOn(currDate);
+			return policyDao.create(policyData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean update(PolicyData policyData) throws BmsException, BmsSqlException {
-		return policyDao.update(policyData);
+	public boolean update(PolicyData policyData, long loginUserId) throws BmsException, BmsSqlException {
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			policyData.setUpdatedBy(loginUserId);
+			policyData.setUpdatedOn(currDate);
+			return policyDao.update(policyData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

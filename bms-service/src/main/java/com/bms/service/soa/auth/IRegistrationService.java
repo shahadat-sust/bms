@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
 import com.bms.service.dao.IEmailAddressDao;
 import com.bms.service.dao.IImageDao;
@@ -17,9 +18,9 @@ import com.bms.service.data.user.UserData;
 
 public interface IRegistrationService {
 
-	public long registerUser(UserData userData, long loginUserId) throws BmsSqlException;
+	public long registerUser(UserData userData, long loginUserId) throws BmsException, BmsSqlException;
 	
-	public boolean isUserAlearyExists(String username, String email, int socialType, String socialID) throws BmsSqlException;
+	public boolean isUserAlearyExists(String username, String email, int socialType, String socialID) throws BmsException, BmsSqlException;
 
 	public PlatformTransactionManager getTxManager();
 

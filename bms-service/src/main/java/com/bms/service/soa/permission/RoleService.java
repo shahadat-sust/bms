@@ -20,20 +20,32 @@ public class RoleService extends BaseService implements IRoleService {
 	
 	@Override
 	public boolean create(RoleData roleData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		roleData.setCreatedBy(loginUserId);
-		roleData.setCreatedOn(currDate);
-		roleData.setUpdatedBy(loginUserId);
-		roleData.setUpdatedOn(currDate);
-		return roleDao.create(roleData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			roleData.setCreatedBy(loginUserId);
+			roleData.setCreatedOn(currDate);
+			roleData.setUpdatedBy(loginUserId);
+			roleData.setUpdatedOn(currDate);
+			return roleDao.create(roleData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public boolean update(RoleData roleData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		roleData.setUpdatedBy(loginUserId);
-		roleData.setUpdatedOn(currDate);
-		return roleDao.update(roleData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			roleData.setUpdatedBy(loginUserId);
+			roleData.setUpdatedOn(currDate);
+			return roleDao.update(roleData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

@@ -166,6 +166,7 @@ var groupSetup = {
                 		message: 'Group created successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -219,6 +220,7 @@ var groupSetup = {
                 		message: 'Group updated successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -259,6 +261,7 @@ var groupSetup = {
                 		message: 'Group deleted successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',

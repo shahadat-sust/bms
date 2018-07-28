@@ -14,7 +14,7 @@ public class BmsException extends Exception {
 		super(message, ex);
 	}
 
-	public BmsException(Exception ex) {
+	public BmsException(Throwable ex) {
 		super(ex);
 	}
 	

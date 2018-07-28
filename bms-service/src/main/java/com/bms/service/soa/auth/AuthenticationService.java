@@ -17,7 +17,13 @@ public class AuthenticationService extends BaseService implements IAuthenticatio
 
 	@Override
 	public long getAuthorizedAdmin(String username, String password) throws BmsException, BmsSqlException {
-		return authenticationDao.getAuthorizedAdmin(username, new CryptoChiper().encrypt(password));
+		try {
+			return authenticationDao.getAuthorizedAdmin(username, new CryptoChiper().encrypt(password));
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

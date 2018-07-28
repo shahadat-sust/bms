@@ -169,6 +169,7 @@ var stateSetup = {
                 		message: 'state created successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -223,6 +224,7 @@ var stateSetup = {
                 		message: 'state updated successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -263,6 +265,7 @@ var stateSetup = {
                 		message: 'state deleted successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',

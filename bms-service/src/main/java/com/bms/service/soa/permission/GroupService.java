@@ -20,20 +20,32 @@ public class GroupService extends BaseService implements IGroupService {
 	
 	@Override
 	public boolean create(GroupData groupData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		groupData.setCreatedBy(loginUserId);
-		groupData.setCreatedOn(currDate);
-		groupData.setUpdatedBy(loginUserId);
-		groupData.setUpdatedOn(currDate);
-		return groupDao.create(groupData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			groupData.setCreatedBy(loginUserId);
+			groupData.setCreatedOn(currDate);
+			groupData.setUpdatedBy(loginUserId);
+			groupData.setUpdatedOn(currDate);
+			return groupDao.create(groupData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public boolean update(GroupData groupData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		groupData.setUpdatedBy(loginUserId);
-		groupData.setUpdatedOn(currDate);
-		return groupDao.update(groupData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			groupData.setUpdatedBy(loginUserId);
+			groupData.setUpdatedOn(currDate);
+			return groupDao.update(groupData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

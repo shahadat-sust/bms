@@ -19,20 +19,32 @@ public class CountryService extends BaseService implements ICountryService {
 	
 	@Override
 	public long create(CountryData countryData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		countryData.setCreatedBy(loginUserId);
-		countryData.setCreatedOn(currDate);
-		countryData.setUpdatedBy(loginUserId);
-		countryData.setUpdatedOn(currDate);
-		return countryDao.create(countryData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			countryData.setCreatedBy(loginUserId);
+			countryData.setCreatedOn(currDate);
+			countryData.setUpdatedBy(loginUserId);
+			countryData.setUpdatedOn(currDate);
+			return countryDao.create(countryData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public boolean update(CountryData countryData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		countryData.setUpdatedBy(loginUserId);
-		countryData.setUpdatedOn(currDate);
-		return countryDao.update(countryData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			countryData.setUpdatedBy(loginUserId);
+			countryData.setUpdatedOn(currDate);
+			return countryDao.update(countryData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

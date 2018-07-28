@@ -175,6 +175,7 @@ var roleSetup = {
                 		message: 'Group created successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -230,6 +231,7 @@ var roleSetup = {
                 		message: 'Group updated successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -270,6 +272,7 @@ var roleSetup = {
                 		message: 'Group deleted successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',

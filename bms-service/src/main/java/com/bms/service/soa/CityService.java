@@ -19,20 +19,32 @@ public class CityService extends BaseService implements ICityService {
 	
 	@Override
 	public long create(CityData cityData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		cityData.setCreatedBy(loginUserId);
-		cityData.setCreatedOn(currDate);
-		cityData.setUpdatedBy(loginUserId);
-		cityData.setUpdatedOn(currDate);
-		return cityDao.create(cityData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			cityData.setCreatedBy(loginUserId);
+			cityData.setCreatedOn(currDate);
+			cityData.setUpdatedBy(loginUserId);
+			cityData.setUpdatedOn(currDate);
+			return cityDao.create(cityData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public boolean update(CityData cityData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		cityData.setUpdatedBy(loginUserId);
-		cityData.setUpdatedOn(currDate);
-		return cityDao.update(cityData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			cityData.setUpdatedBy(loginUserId);
+			cityData.setUpdatedOn(currDate);
+			return cityDao.update(cityData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

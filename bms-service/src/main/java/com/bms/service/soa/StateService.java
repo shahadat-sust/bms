@@ -19,20 +19,32 @@ public class StateService extends BaseService implements IStateService {
 	
 	@Override
 	public long create(StateData stateData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		stateData.setCreatedBy(loginUserId);
-		stateData.setCreatedOn(currDate);
-		stateData.setUpdatedBy(loginUserId);
-		stateData.setUpdatedOn(currDate);
-		return stateDao.create(stateData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			stateData.setCreatedBy(loginUserId);
+			stateData.setCreatedOn(currDate);
+			stateData.setUpdatedBy(loginUserId);
+			stateData.setUpdatedOn(currDate);
+			return stateDao.create(stateData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public boolean update(StateData stateData, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		stateData.setUpdatedBy(loginUserId);
-		stateData.setUpdatedOn(currDate);
-		return stateDao.update(stateData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			stateData.setUpdatedBy(loginUserId);
+			stateData.setUpdatedOn(currDate);
+			return stateDao.update(stateData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

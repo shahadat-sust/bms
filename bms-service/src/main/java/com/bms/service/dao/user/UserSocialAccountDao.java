@@ -21,188 +21,212 @@ public class UserSocialAccountDao extends BaseDao implements IUserSocialAccountD
 
 	@Override
 	public long create(UserSocialAccountData userSocialAccountData) throws BmsSqlException {
-		StringBuilder sql = new StringBuilder()
-		.append("INSERT INTO UserSocialAccount ")
-		.append("( ")
-			.append("UserId, ")
-			.append("Type, ")
-			.append("AccountId, ")
-			.append("IsVerified, ")
-			.append("Status, ")
-			.append("CreatedBy, ")
-			.append("CreatedOn, ")
-			.append("UpdatedBy, ")
-			.append("UpdatedOn ")
-		.append(") ")
-		.append("VALUES ")
-		.append("( ")
-			.append("?, ")
-			.append("?, ")
-			.append("?, ")
-			.append("?, ")
-			.append("?, ")
-			.append("?, ")
-			.append("?, ")
-			.append("?, ")
-			.append("? ")
-		.append(")");
-		KeyHolder holder = new GeneratedKeyHolder();
-		this.getTemplete().update(new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
-				ps.setLong(1, userSocialAccountData.getUserId());
-				ps.setInt(2, userSocialAccountData.getType());
-				ps.setString(3, userSocialAccountData.getAccountId());
-				ps.setBoolean(4, userSocialAccountData.isVerified());
-				ps.setInt(5, userSocialAccountData.getStatus());
-				ps.setLong(6, userSocialAccountData.getCreatedBy());
-				ps.setDate(7, new java.sql.Date(userSocialAccountData.getCreatedOn().getTime()));
-				ps.setLong(8, userSocialAccountData.getUpdatedBy());
-				ps.setDate(9, new java.sql.Date(userSocialAccountData.getUpdatedOn().getTime()));
-				return ps;
-			}
-		}, holder);
-		return holder.getKey().longValue();
+		try {
+			StringBuilder sql = new StringBuilder()
+			.append("INSERT INTO UserSocialAccount ")
+			.append("( ")
+				.append("UserId, ")
+				.append("Type, ")
+				.append("AccountId, ")
+				.append("IsVerified, ")
+				.append("Status, ")
+				.append("CreatedBy, ")
+				.append("CreatedOn, ")
+				.append("UpdatedBy, ")
+				.append("UpdatedOn ")
+			.append(") ")
+			.append("VALUES ")
+			.append("( ")
+				.append("?, ")
+				.append("?, ")
+				.append("?, ")
+				.append("?, ")
+				.append("?, ")
+				.append("?, ")
+				.append("?, ")
+				.append("?, ")
+				.append("? ")
+			.append(")");
+			KeyHolder holder = new GeneratedKeyHolder();
+			this.getTemplete().update(new PreparedStatementCreator() {
+				@Override
+				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					ps.setLong(1, userSocialAccountData.getUserId());
+					ps.setInt(2, userSocialAccountData.getType());
+					ps.setString(3, userSocialAccountData.getAccountId());
+					ps.setBoolean(4, userSocialAccountData.isVerified());
+					ps.setInt(5, userSocialAccountData.getStatus());
+					ps.setLong(6, userSocialAccountData.getCreatedBy());
+					ps.setTimestamp(7, new java.sql.Timestamp(userSocialAccountData.getCreatedOn().getTime()));
+					ps.setLong(8, userSocialAccountData.getUpdatedBy());
+					ps.setTimestamp(9, new java.sql.Timestamp(userSocialAccountData.getUpdatedOn().getTime()));
+					return ps;
+				}
+			}, holder);
+			return holder.getKey().longValue();
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
 	}
 
 	@Override
 	public boolean update(UserSocialAccountData userSocialAccountData) throws BmsSqlException {
-		StringBuilder sql = new StringBuilder()
-		.append("UPDATE UserSocialAccount SET ")
-			.append("UserId = ?, ")
-			.append("Type = ?, ")
-			.append("AccountId = ?, ")
-			.append("IsVerified = ?, ")
-			.append("Status = ?, ")
-			.append("UpdatedBy = ?, ")
-			.append("UpdatedOn = ? ")
-		.append("WHERE ")
-		.append("Id = ?");
-		return this.getTemplete().update(sql.toString(), 
-				userSocialAccountData.getUserId(), 
-				userSocialAccountData.getType(),
-				userSocialAccountData.getAccountId(),
-				userSocialAccountData.isVerified(),
-				userSocialAccountData.getStatus(), 
-				userSocialAccountData.getUpdatedBy(),
-				userSocialAccountData.getUpdatedOn(),
-				userSocialAccountData.getId()) == 1;
+		try {
+			StringBuilder sql = new StringBuilder()
+			.append("UPDATE UserSocialAccount SET ")
+				.append("UserId = ?, ")
+				.append("Type = ?, ")
+				.append("AccountId = ?, ")
+				.append("IsVerified = ?, ")
+				.append("Status = ?, ")
+				.append("UpdatedBy = ?, ")
+				.append("UpdatedOn = ? ")
+			.append("WHERE ")
+			.append("Id = ?");
+			return this.getTemplete().update(sql.toString(), 
+					userSocialAccountData.getUserId(), 
+					userSocialAccountData.getType(),
+					userSocialAccountData.getAccountId(),
+					userSocialAccountData.isVerified(),
+					userSocialAccountData.getStatus(), 
+					userSocialAccountData.getUpdatedBy(),
+					new java.sql.Timestamp(userSocialAccountData.getUpdatedOn().getTime()),
+					userSocialAccountData.getId()) == 1;
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
 	}
 
 	@Override
 	public boolean delete(long userSocialAccountId) throws BmsSqlException {
-		StringBuilder sql = new StringBuilder()
-		.append("DELETE FROM socialaccount WHERE Id = ?");
-
-		return this.getTemplete().update(sql.toString(), userSocialAccountId) == 1;
+		try {
+			StringBuilder sql = new StringBuilder()
+			.append("DELETE FROM socialaccount WHERE Id = ?");
+	
+			return this.getTemplete().update(sql.toString(), userSocialAccountId) == 1;
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
 	}
 
 	@Override
 	public UserSocialAccountData getUserSocialAccountByID(long userSocialAccountId) throws BmsSqlException {
-		StringBuilder sql = new StringBuilder()
-		.append("SELECT ")
-			.append("Id, ")
-			.append("UserId, ")
-			.append("Type, ")
-			.append("AccountId, ")
-			.append("IsVerified, ")
-			.append("Status ")
-		.append("FROM UserSocialAccount ")
-		.append("WHERE ")
-		.append("Id = ?");
-		
-		Object[] params = new Object[] {userSocialAccountId};
-		List<UserSocialAccountData> socialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
-			@Override
-			public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
-				UserSocialAccountData userSocialAccountData = new UserSocialAccountData();
-				userSocialAccountData.setId(rs.getLong(1));
-				userSocialAccountData.setUserId(rs.getLong(2));
-				userSocialAccountData.setType(rs.getInt(3));
-				userSocialAccountData.setAccountId(rs.getString(4));
-				userSocialAccountData.setVerified(rs.getBoolean(5));
-				userSocialAccountData.setStatus(rs.getInt(6));
-				return userSocialAccountData;
+		try {
+			StringBuilder sql = new StringBuilder()
+			.append("SELECT ")
+				.append("Id, ")
+				.append("UserId, ")
+				.append("Type, ")
+				.append("AccountId, ")
+				.append("IsVerified, ")
+				.append("Status ")
+			.append("FROM UserSocialAccount ")
+			.append("WHERE ")
+			.append("Id = ?");
+			
+			Object[] params = new Object[] {userSocialAccountId};
+			List<UserSocialAccountData> socialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
+				@Override
+				public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
+					UserSocialAccountData userSocialAccountData = new UserSocialAccountData();
+					userSocialAccountData.setId(rs.getLong(1));
+					userSocialAccountData.setUserId(rs.getLong(2));
+					userSocialAccountData.setType(rs.getInt(3));
+					userSocialAccountData.setAccountId(rs.getString(4));
+					userSocialAccountData.setVerified(rs.getBoolean(5));
+					userSocialAccountData.setStatus(rs.getInt(6));
+					return userSocialAccountData;
+				}
+			});
+			
+			if (socialAccountList.isEmpty()) {
+			  return null;
+			} else if (socialAccountList.size() == 1) {
+			  return socialAccountList.get(0);
+			} else {
+			  throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");   
 			}
-		});
-		
-		if (socialAccountList.isEmpty()) {
-		  return null;
-		} else if (socialAccountList.size() == 1) {
-		  return socialAccountList.get(0);
-		} else {
-		  throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");   
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
 		}
 	}
 
 	public UserSocialAccountData getUserSocialAccountByTypeAccountId(int type, String accountId) throws BmsSqlException {
-		StringBuilder sql = new StringBuilder()
-		.append("SELECT ")
-			.append("Id, ")
-			.append("UserId, ")
-			.append("Type, ")
-			.append("AccountId, ")
-			.append("IsVerified, ")
-			.append("Status ")
-		.append("FROM UserSocialAccount ")
-		.append("WHERE ")
-		.append("Type = ? AND ")
-		.append("AccountId = ?");
-		
-		Object[] params = new Object[] {type, accountId};
-		List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
-			@Override
-			public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
-				UserSocialAccountData userSocialAccountData = new UserSocialAccountData();
-				userSocialAccountData.setId(rs.getLong(1));
-				userSocialAccountData.setUserId(rs.getLong(2));
-				userSocialAccountData.setType(rs.getInt(3));
-				userSocialAccountData.setAccountId(rs.getString(4));
-				userSocialAccountData.setVerified(rs.getBoolean(5));
-				userSocialAccountData.setStatus(rs.getInt(6));
-				return userSocialAccountData;
+		try {
+			StringBuilder sql = new StringBuilder()
+			.append("SELECT ")
+				.append("Id, ")
+				.append("UserId, ")
+				.append("Type, ")
+				.append("AccountId, ")
+				.append("IsVerified, ")
+				.append("Status ")
+			.append("FROM UserSocialAccount ")
+			.append("WHERE ")
+			.append("Type = ? AND ")
+			.append("AccountId = ?");
+			
+			Object[] params = new Object[] {type, accountId};
+			List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
+				@Override
+				public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
+					UserSocialAccountData userSocialAccountData = new UserSocialAccountData();
+					userSocialAccountData.setId(rs.getLong(1));
+					userSocialAccountData.setUserId(rs.getLong(2));
+					userSocialAccountData.setType(rs.getInt(3));
+					userSocialAccountData.setAccountId(rs.getString(4));
+					userSocialAccountData.setVerified(rs.getBoolean(5));
+					userSocialAccountData.setStatus(rs.getInt(6));
+					return userSocialAccountData;
+				}
+			});
+			
+			if (userSocialAccountList.isEmpty()) {
+			  return null;
+			} else if (userSocialAccountList.size() == 1) {
+			  return userSocialAccountList.get(0);
+			} else {
+			  throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");   
 			}
-		});
-		
-		if (userSocialAccountList.isEmpty()) {
-		  return null;
-		} else if (userSocialAccountList.size() == 1) {
-		  return userSocialAccountList.get(0);
-		} else {
-		  throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");   
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
 		}
 	}
 	
 	@Override
 	public List<UserSocialAccountData> getAllUserSocialAccountsByUserId(long userId) throws BmsSqlException {
-		StringBuilder sql = new StringBuilder()
-		.append("SELECT ")
-			.append("Id, ")
-			.append("UserId, ")
-			.append("Type, ")
-			.append("AccountId, ")
-			.append("IsVerified, ")
-			.append("Status ")
-		.append("FROM UserSocialAccount ")
-		.append("WHERE ")
-		.append("UserId = ?");
-		
-		Object[] params = new Object[] {userId};
-		List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
-			@Override
-			public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
-				UserSocialAccountData userSocialAccountData = new UserSocialAccountData();
-				userSocialAccountData.setId(rs.getLong(1));
-				userSocialAccountData.setUserId(rs.getLong(2));
-				userSocialAccountData.setType(rs.getInt(3));
-				userSocialAccountData.setAccountId(rs.getString(4));
-				userSocialAccountData.setVerified(rs.getBoolean(5));
-				userSocialAccountData.setStatus(rs.getInt(6));
-				return userSocialAccountData;
-			}
-		});
-		return userSocialAccountList;
+		try {
+			StringBuilder sql = new StringBuilder()
+			.append("SELECT ")
+				.append("Id, ")
+				.append("UserId, ")
+				.append("Type, ")
+				.append("AccountId, ")
+				.append("IsVerified, ")
+				.append("Status ")
+			.append("FROM UserSocialAccount ")
+			.append("WHERE ")
+			.append("UserId = ?");
+			
+			Object[] params = new Object[] {userId};
+			List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
+				@Override
+				public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
+					UserSocialAccountData userSocialAccountData = new UserSocialAccountData();
+					userSocialAccountData.setId(rs.getLong(1));
+					userSocialAccountData.setUserId(rs.getLong(2));
+					userSocialAccountData.setType(rs.getInt(3));
+					userSocialAccountData.setAccountId(rs.getString(4));
+					userSocialAccountData.setVerified(rs.getBoolean(5));
+					userSocialAccountData.setStatus(rs.getInt(6));
+					return userSocialAccountData;
+				}
+			});
+			return userSocialAccountList;
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
 	}
 
 }

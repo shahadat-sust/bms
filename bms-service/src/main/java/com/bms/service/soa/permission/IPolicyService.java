@@ -9,9 +9,9 @@ import com.bms.service.data.permission.PolicyData;
 
 public interface IPolicyService {
 
-	long create(PolicyData policyData) throws BmsException, BmsSqlException;
+	long create(PolicyData policyData, long loginUserId) throws BmsException, BmsSqlException;
 	
-	boolean update(PolicyData policyData) throws BmsException, BmsSqlException;
+	boolean update(PolicyData policyData, long loginUserId) throws BmsException, BmsSqlException;
 	
 	boolean delete(long policyId) throws BmsException, BmsSqlException;
 	

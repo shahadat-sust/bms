@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.bms.common.BmsException;
 import com.bms.common.util.StringUtils;
 import com.bms.service.BmsSqlException;
 import com.bms.service.dao.IEmailAddressDao;
@@ -41,9 +42,10 @@ public class RegistrationService extends BaseService implements IRegistrationSer
 	private IImageDao imageDao;
 
 	@Override
-	public long registerUser(UserData userData, long loginUserId) throws BmsSqlException {
-		TransactionStatus txStatus = getTxManager().getTransaction(new DefaultTransactionDefinition());
+	public long registerUser(UserData userData, long loginUserId) throws BmsException, BmsSqlException {
+		TransactionStatus txStatus = null;
 		try {
+			txStatus = getTxManager().getTransaction(new DefaultTransactionDefinition());
 			Date currDate = new Date(System.currentTimeMillis());
 			userData.setCreatedBy(loginUserId);
 			userData.setCreatedOn(currDate);
@@ -131,22 +133,36 @@ public class RegistrationService extends BaseService implements IRegistrationSer
 			userGroupDao.create(userGroupDTO);*/
 			
 			getTxManager().commit(txStatus);
-		} catch (Exception e) {
-			getTxManager().rollback(txStatus);
+		} catch (BmsSqlException e) {
+			if(txStatus != null) {
+				getTxManager().rollback(txStatus);
+			}
 			userData.setId(0);
-			throw new BmsSqlException(e.fillInStackTrace());
+			throw e;
+		} catch (Exception e) {
+			if(txStatus != null) {
+				getTxManager().rollback(txStatus);
+			}
+			userData.setId(0);
+			throw new BmsException(e);
 		}
 		return userData.getId();
 	}
 	
 	@Override
-	public boolean isUserAlearyExists(String user, String email, int socialType, String socialID) throws BmsSqlException {
-		if(!StringUtils.isNullEmptyOrWhiteSpace(email)) {
-			return this.emailAddressDao.getEmailAddressByEmail(email) != null;
-		} else if(!StringUtils.isNullEmptyOrWhiteSpace(socialID)) {
-			return this.userSocialAccountDao.getUserSocialAccountByTypeAccountId(socialType, socialID) != null;
+	public boolean isUserAlearyExists(String user, String email, int socialType, String socialID) throws BmsException, BmsSqlException {
+		try {
+			if(!StringUtils.isNullEmptyOrWhiteSpace(email)) {
+				return this.emailAddressDao.getEmailAddressByEmail(email) != null;
+			} else if(!StringUtils.isNullEmptyOrWhiteSpace(socialID)) {
+				return this.userSocialAccountDao.getUserSocialAccountByTypeAccountId(socialType, socialID) != null;
+			}
+			return true;
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
 		}
-		return true;
 	}
 
 	@Override

@@ -253,6 +253,7 @@ var citySetup = {
                 		message: 'city updated successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -293,6 +294,7 @@ var citySetup = {
                 		message: 'city deleted successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -333,6 +335,7 @@ var citySetup = {
             			$('#val-stateId').val(stateId);
             		} 
             	} else {
+            		console.log(data.errors);
             		citySetup.stateFetchAjax = undefined;
             		Dashmix.helpers('notify', {
                 		align: 'center',

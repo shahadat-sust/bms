@@ -156,6 +156,7 @@ var countrySetup = {
                 		message: 'country created successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -207,6 +208,7 @@ var countrySetup = {
                 		message: 'country updated successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -247,6 +249,7 @@ var countrySetup = {
                 		message: 'country deleted successfully!'
         			});
             	} else {
+            		console.log(data.errors);
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
