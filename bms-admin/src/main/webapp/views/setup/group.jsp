@@ -6,7 +6,7 @@
 <html lang="en">
     <head>
         <title>BMS - Group Setup</title>
-        <meta name="description" content="BMS - Admin Group Setup">
+        <meta name="description" content="BMS - Group Setup">
         <%@include file="../includes/metadata.jsp" %>
         <%@include file="../includes/appicons.jsp" %>
         <%@include file="../includes/styles.jsp" %>

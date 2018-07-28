@@ -5,8 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
     <head>
-        <title>BMS - City Setup</title>
-        <meta name="description" content="BMS - City Setup">
+        <title>BMS - Payment Method Setup</title>
+        <meta name="description" content="BMS - Payment Method Setup">
         <%@include file="../includes/metadata.jsp" %>
         <%@include file="../includes/appicons.jsp" %>
         <%@include file="../includes/styles.jsp" %>
@@ -23,11 +23,11 @@
              <div class="bg-body-light">
                  <div class="content content-full">
                      <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                         <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">City Setup</h1>
+                         <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Payment Method Setup</h1>
                          <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                              <ol class="breadcrumb">
                                  <li class="breadcrumb-item">Setup</li>
-                                 <li class="breadcrumb-item active" aria-current="page">City</li>
+                                 <li class="breadcrumb-item active" aria-current="page">Payment Method</li>
                              </ol>
                          </nav>
                      </div>
@@ -42,43 +42,31 @@
                   <div class="block block-rounded block-bordered">
                   	  <div class="block-content text-right">
 						<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
-                            <i class="fa fa-fw fa-plus mr-1"></i> Add City
+                            <i class="fa fa-fw fa-plus mr-1"></i> Add Payment Method
                         </button>
                   	  </div>
                       <div class="block-content">
                            <table id="dataTable" class="table table-bordered table-striped table-vcenter">
                                <thead>
                                    <tr>
-                                       <th style="width: 25%;">Name</th>
-                                       <th style="width: 25%;">State</th>
-                                       <th style="width: 25%;">Country</th>
-                                       <th style="width: 25%;">Remarks</th>
+                                       <th style="width: 50%;">Name</th>
+                                       <th style="width: 50%;">Remarks</th>
                                        <th class="text-center" style="width: 100px;">Actions</th>
                                    </tr>
                                </thead>
                                <tbody>
-                               	   <c:forEach items="${cityList}" var="cityData">
+                               	   <c:forEach items="${paymentMethodList}" var="paymentMethodData">
                                	   		<tr>
 											<td class="font-w600">
-												${cityData.name}
-											</td>
-											<td class="font-w600">
-												${cityData.stateName}
-											</td>
-											<td class="font-w600">
-												${cityData.countryName}
+												${paymentMethodData.name}
 											</td>
 											<td>
-												${cityData.remarks}
+												${paymentMethodData.remarks}
 											</td>
 											<td class="text-center">
-											   <input type="hidden" class="col-id" value="${cityData.id}"/>
-											   <input type="hidden" class="col-name" value="${cityData.name}"/>
-											   <input type="hidden" class="col-remarks" value="${cityData.remarks}"/>
-											   <input type="hidden" class="col-stateId" value="${cityData.stateId}"/>
-											   <input type="hidden" class="col-stateName" value="${cityData.stateName}"/>
-											   <input type="hidden" class="col-countryId" value="${cityData.countryId}"/>
-												<input type="hidden" class="col-countryName" value="${cityData.countryName}"/>
+											   <input type="hidden" class="col-id" value="${paymentMethodData.id}"/>
+											   <input type="hidden" class="col-name" value="${paymentMethodData.name}"/>
+											   <input type="hidden" class="col-remarks" value="${paymentMethodData.remarks}"/>
 	                                           <div class="btn-group">
 	                                               <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
 	                                                   <i class="fa fa-pencil-alt"></i>
@@ -112,21 +100,6 @@
 	                        <input class="form-control" type="text" id="val-name" name="name" value="#[name]" placeholder="Enter Name..">
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-countryId">Country</label>
-                              <select class="form-control" id="val-countryId" name="countryId">
-                                  <option value="">Please select</option>
-                                  <c:forEach items="${countryList}" var="i">
-                                  	<option value="${i.value}">${i.label}</option>
-                                  </c:forEach>
-                              </select>
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="val-stateId">State <span class="text-danger">*</span></label>
-                              <select class="form-control" id="val-stateId" name="stateId">
-                                  <option value="">Please select</option>
-                              </select>
-	                    </div>
-	                    <div class="form-group">
 	                         <label for="val-remarks">Remarks</label>
 	                         <textarea class="form-control" id="val-remarks" name="remarks" rows="5" placeholder="Enter Remarks..">#[remarks]</textarea>
 	                     </div>
@@ -153,12 +126,6 @@
 	        <td class="font-w600">
 				#[name]
 			</td>
-			<td class="font-w600">
-				#[stateName]
-			</td>
-			<td class="font-w600">
-				#[countryName]
-			</td>
 			<td>
 				#[remarks]
 			</td>
@@ -166,10 +133,6 @@
 				<input type="hidden" class="col-id" value="#[id]"/>
 				<input type="hidden" class="col-name" value="#[name]"/>
 				<input type="hidden" class="col-remarks" value="#[remarks]"/>
-				<input type="hidden" class="col-stateId" value="#[stateId]"/>
-				<input type="hidden" class="col-stateName" value="#[stateName]"/>
-				<input type="hidden" class="col-countryId" value="#[countryId]"/>
-				<input type="hidden" class="col-countryName" value="#[countryName]"/>
 		        <div class="btn-group">
 			        <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
 			        	<i class="fa fa-pencil-alt"></i>
@@ -185,13 +148,12 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/city.js"></script>   
+        <script src="resources/js/custom/setup/paymentmethod.js"></script>   
 		<script type="text/javascript">
-			citySetup.fetchUrl = '<c:url value="/city/fetch/" />';
-			citySetup.createUrl = '<c:url value="/city/create" />';
-			citySetup.updateUrl = '<c:url value="/city/update" />';
-			citySetup.deleteUrl = '<c:url value="/city/delete/" />';
-			citySetup.stateFetchUrl = '<c:url value="/state/fetch/" />/0/';
+			paymentMethodSetup.fetchUrl = '<c:url value="/paymentmethod/fetch/" />';
+			paymentMethodSetup.createUrl = '<c:url value="/paymentmethod/create" />';
+			paymentMethodSetup.updateUrl = '<c:url value="/paymentmethod/update" />';
+			paymentMethodSetup.deleteUrl = '<c:url value="/paymentmethod/delete/" />';
 		</script>
     </body>
 </html>

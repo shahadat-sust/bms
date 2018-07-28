@@ -6,7 +6,7 @@
 <html lang="en">
     <head>
         <title>BMS - State Setup</title>
-        <meta name="description" content="BMS - Admin State Setup">
+        <meta name="description" content="BMS - State Setup">
         <%@include file="../includes/metadata.jsp" %>
         <%@include file="../includes/appicons.jsp" %>
         <%@include file="../includes/styles.jsp" %>

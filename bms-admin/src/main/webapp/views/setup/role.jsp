@@ -6,7 +6,7 @@
 <html lang="en">
     <head>
         <title>BMS - Role Setup</title>
-        <meta name="description" content="BMS - Admin Role Setup">
+        <meta name="description" content="BMS - Role Setup">
         <%@include file="../includes/metadata.jsp" %>
         <%@include file="../includes/appicons.jsp" %>
         <%@include file="../includes/styles.jsp" %>
