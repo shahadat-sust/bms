@@ -79,6 +79,7 @@ public class StateController extends BaseController {
 				List<StateData> stateList = stateService.getAllStates();
 				responseModel.addDatas(stateList);
 			}
+			responseModel.setStatus(true);
 		} catch (Exception e) {
 			responseModel.setStatus(false);
 			responseModel.addError(e.getMessage());

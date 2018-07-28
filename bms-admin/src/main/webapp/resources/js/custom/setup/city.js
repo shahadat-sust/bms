@@ -1,8 +1,10 @@
-var stateSetup = {
-	stateData : {
+var citySetup = {
+	cityData : {
 		id : 0,
    		name : "",
    		remarks : "",
+   		stateId : 0,
+   		stateName : "",
    		countryId : 0,
    		countryName : ""
 	},
@@ -10,6 +12,7 @@ var stateSetup = {
 	createUrl : "",
 	updateUrl : "",
 	deleteUrl : "",
+	stateFetchAjax : undefined,
 	
 	init : function() {
 		$(document).on("click", "#btnCreateNew", function(e) {
@@ -21,35 +24,44 @@ var stateSetup = {
     		.replace("#[id]", "0")
     		.replace("#[name]", "")
     		.replace("#[remarks]", "");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='4'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='5'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
        		
-       		stateSetup.initValidation();
+       		citySetup.initValidation();
        	});
        	
        	$(document).on("click", "#btnCancel", function(e) {
        		var _btn = this;
-       		if(stateSetup.stateData.id > 0) {
+       		if(citySetup.cityData.id > 0) {
        			var rowTemplete = $("#rowTemplete").clone();
        			var rowHtml = rowTemplete.html()
-    				.replace("#[id]", stateSetup.stateData.id)
-					.replace("#[countryId]", stateSetup.stateData.countryId)
-					.replace("#[name]", stateSetup.stateData.name)
-					.replace("#[name]", stateSetup.stateData.name)
-					.replace("#[remarks]", stateSetup.stateData.remarks)
-					.replace("#[remarks]", stateSetup.stateData.remarks)
-	       			.replace("#[countryName]", stateSetup.stateData.countryName)
-					.replace("#[countryName]", stateSetup.stateData.countryName);
+    				.replace("#[id]", citySetup.cityData.id)
+					.replace("#[stateId]", citySetup.cityData.stateId)
+					.replace("#[countryId]", citySetup.cityData.countryId)
+					.replace("#[name]", citySetup.cityData.name)
+					.replace("#[name]", citySetup.cityData.name)
+					.replace("#[remarks]", citySetup.cityData.remarks)
+					.replace("#[remarks]", citySetup.cityData.remarks)
+	       			.replace("#[stateName]", citySetup.cityData.stateName)
+					.replace("#[stateName]", citySetup.cityData.stateName)
+	       			.replace("#[countryName]", citySetup.cityData.countryName)
+					.replace("#[countryName]", citySetup.cityData.countryName);
                	$(_btn).closest("tr").html(rowHtml);
                	
-    			stateSetup.stateData.id = 0;
-    			stateSetup.stateData.name = "";
-    			stateSetup.stateData.remarks = "";
-    			stateSetup.stateData.countryId = 0;
-    			stateSetup.stateData.countryName = "";
+    			citySetup.cityData.id = 0;
+    			citySetup.cityData.name = "";
+    			citySetup.cityData.remarks = "";
+    			citySetup.cityData.stateId = 0;
+    			citySetup.cityData.stateName = "";
+    			citySetup.cityData.countryId = 0;
+    			citySetup.cityData.countryName = "";
        		} else {
        			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
+       		}
+       		if(citySetup.stateFetchAjax) {
+       			citySetup.stateFetchAjax.abort();
+       			citySetup.stateFetchAjax = undefined;
        		}
        	});
        	
@@ -57,7 +69,7 @@ var stateSetup = {
        		var _btn = this;
        		if($("#formComponent").valid()) {
        			swal({
-                    text: "Do you want to " + (stateSetup.stateData.id > 0 ? "update" : "create") + " this state",
+                    text: "Do you want to " + (citySetup.cityData.id > 0 ? "update" : "create") + " this city",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonClass: "btn btn-danger m-1",
@@ -72,10 +84,10 @@ var stateSetup = {
                     }
            		}).then(function(e) {
                 	if(e.value) {
-                		if(stateSetup.stateData.id > 0) {
-                			stateSetup.doUpdate(_btn);
+                		if(citySetup.cityData.id > 0) {
+                			citySetup.doUpdate(_btn);
                 		} else {
-                			stateSetup.doCreate(_btn);
+                			citySetup.doCreate(_btn);
                 		}
                 	}
                 });
@@ -86,22 +98,25 @@ var stateSetup = {
 			var _btn = this;
 			$(_btn).tooltip('hide');
 			var tr = $(_btn).closest("tr");
-			stateSetup.stateData.id = $.trim($(tr).find(".col-id")[0].value);
-			stateSetup.stateData.name = $.trim($(tr).find(".col-name")[0].value);
-			stateSetup.stateData.remarks = $.trim($(tr).find(".col-remarks")[0].value);
-			stateSetup.stateData.countryId = $.trim($(tr).find(".col-countryId")[0].value);
-			stateSetup.stateData.countryName = $.trim($(tr).find(".col-countryName")[0].value);
+			citySetup.cityData.id = $.trim($(tr).find(".col-id")[0].value);
+			citySetup.cityData.name = $.trim($(tr).find(".col-name")[0].value);
+			citySetup.cityData.remarks = $.trim($(tr).find(".col-remarks")[0].value);
+			citySetup.cityData.stateId = $.trim($(tr).find(".col-stateId")[0].value);
+			citySetup.cityData.stateName = $.trim($(tr).find(".col-stateName")[0].value);
+			citySetup.cityData.countryId = $.trim($(tr).find(".col-countryId")[0].value);
+			citySetup.cityData.countryName = $.trim($(tr).find(".col-countryName")[0].value);
 			
 			var formTemplete = $("#formTemplete").clone();
 			var formHtml = formTemplete.html()
-			.replace("#[id]", stateSetup.stateData.id)
-			.replace("#[name]", stateSetup.stateData.name)
-			.replace("#[remarks]", stateSetup.stateData.remarks);
-	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
-	   		$('#val-countryId').val(stateSetup.stateData.countryId);
+			.replace("#[id]", citySetup.cityData.id)
+			.replace("#[name]", citySetup.cityData.name)
+			.replace("#[remarks]", citySetup.cityData.remarks);
+	   		$(tr).html("<td colspan='5'>" + formHtml + "</td>");
+	   		$('#val-countryId').val(citySetup.cityData.countryId);
 	   		$("#btnSubmit").html('Update');
+	   		citySetup.getStateList(citySetup.cityData.countryId, citySetup.cityData.stateId);
 	   		
-	   		stateSetup.initValidation();
+	   		citySetup.initValidation();
        	});
 		
 		$(document).on("click", ".delete-button", function(e) {
@@ -111,7 +126,7 @@ var stateSetup = {
 			var id = $.trim($(tr).find(".col-id")[0].value);
 			if(id > 0) {
 				swal({
-	                text: "Do you want to delete this state",
+	                text: "Do you want to delete this city",
 	                type: "warning",
 	                showCancelButton: true,
 	                confirmButtonClass: "btn btn-danger m-1",
@@ -126,11 +141,20 @@ var stateSetup = {
 	                }
 	            }).then(function(e) {
 	            	if(e.value) {
-	            		stateSetup.doDelete(_btn, id);
+	            		citySetup.doDelete(_btn, id);
 	            	}
 	            });
 			} else {
 				$(tr).remove();
+			}
+       	});
+		
+		$(document).on("change", "#val-countryId", function(e) {
+			var countryId = $("#val-countryId").val();
+			if(countryId != "") {
+				citySetup.getStateList(countryId);
+			} else {
+				$("#val-stateId").html('<option value="">Please select</option>');
 			}
        	});
 	}, 
@@ -143,7 +167,7 @@ var stateSetup = {
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
-            url: stateSetup.createUrl,
+            url: citySetup.createUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -153,11 +177,14 @@ var stateSetup = {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
         				.replace("#[id]", data.datas[0].id)
+        				.replace("#[stateId]", data.datas[0].stateId)
         				.replace("#[countryId]", data.datas[0].countryId)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[remarks]", data.datas[0].remarks)
         				.replace("#[remarks]", data.datas[0].remarks)
+	           			.replace("#[stateName]", data.datas[0].stateName)
+	    				.replace("#[stateName]", data.datas[0].stateName)
 	           			.replace("#[countryName]", data.datas[0].countryName)
 	    				.replace("#[countryName]", data.datas[0].countryName);
            			$('#dataTable > tbody tr').first().html(rowHtml);
@@ -166,7 +193,7 @@ var stateSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'state created successfully!'
+                		message: 'city created successfully!'
         			});
             	} else {
             		$(_btn).removeAttr("disabled");
@@ -174,7 +201,7 @@ var stateSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create state, please try again!'
+                		message: 'Failed to create city, please try again!'
         			});
             	}
             },
@@ -198,7 +225,7 @@ var stateSetup = {
 		$.ajax({
 			type: "PUT",
             contentType: "application/json",
-            url: stateSetup.updateUrl,
+            url: citySetup.updateUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -207,11 +234,14 @@ var stateSetup = {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
         				.replace("#[id]", data.datas[0].id)
+        				.replace("#[stateId]", data.datas[0].stateId)
         				.replace("#[countryId]", data.datas[0].countryId)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[remarks]", data.datas[0].remarks)
         				.replace("#[remarks]", data.datas[0].remarks)
+	           			.replace("#[stateName]", data.datas[0].stateName)
+	    				.replace("#[stateName]", data.datas[0].stateName)
 	           			.replace("#[countryName]", data.datas[0].countryName)
 	    				.replace("#[countryName]", data.datas[0].countryName);
            			$(_btn).closest("tr").html(rowHtml);
@@ -220,7 +250,7 @@ var stateSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'state updated successfully!'
+                		message: 'city updated successfully!'
         			});
             	} else {
             		$(_btn).removeAttr("disabled");
@@ -228,7 +258,7 @@ var stateSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update state, please try again!'
+                		message: 'Failed to update city, please try again!'
         			});
             	}
             },
@@ -250,7 +280,7 @@ var stateSetup = {
 		$.ajax({
 			type: "DELETE",
             contentType: "application/json",
-            url: stateSetup.deleteUrl + id,
+            url: citySetup.deleteUrl + id,
             dataType: 'json',
             timeout: 600000,
             success: function (data) {
@@ -260,7 +290,7 @@ var stateSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'state deleted successfully!'
+                		message: 'city deleted successfully!'
         			});
             	} else {
             		$(_btn).removeAttr("disabled");
@@ -268,12 +298,52 @@ var stateSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete state, please try again!'
+                		message: 'Failed to delete city, please try again!'
         			});
             	}
             },
             error: function (e) {
             	$(_btn).removeAttr("disabled");
+            	Dashmix.helpers('notify', {
+            		align: 'center',
+            		type: 'danger', 
+            		icon: 'fa fa-times mr-1', 
+            		message: 'Failed to process request!'
+    			});
+            }
+		});
+	},
+	
+	getStateList : function(countryId, stateId) {
+		citySetup.stateFetchAjax = $.ajax({
+			type: "GET",
+            contentType: "application/json",
+            url: citySetup.stateFetchUrl + countryId,
+            dataType: 'json',
+            timeout: 600000,
+            success: function (data) {
+            	if(data.status) {
+            		citySetup.stateFetchAjax = undefined;
+            		var html = '<option value="">Please select</option>';
+            		$.each(data.datas, function(index, data) {
+            			html += '<option value="' + data.id + '">' + data.name + '</option>';
+            		});
+            		$('#val-stateId').html(html);
+            		if(stateId) {
+            			$('#val-stateId').val(stateId);
+            		} 
+            	} else {
+            		citySetup.stateFetchAjax = undefined;
+            		Dashmix.helpers('notify', {
+                		align: 'center',
+                		type: 'danger', 
+                		icon: 'fa fa-times mr-1', 
+                		message: 'Failed to get states!'
+        			});
+            	}
+            },
+            error: function (e) {
+            	citySetup.stateFetchAjax = undefined;
             	Dashmix.helpers('notify', {
             		align: 'center',
             		type: 'danger', 
@@ -302,7 +372,7 @@ var stateSetup = {
             	"name": {
                     required: true, minlength: 3
                 }, 
-                "countryId": {
+                "stateId": {
 	                required: true
 	            }
             }, 
@@ -310,14 +380,14 @@ var stateSetup = {
             	"name": {
                     required: "Please enter name", minlength: "Name must consist of at least 3 characters"
                 },
-                "countryId": "Please enter country"
+                "stateId": "Please enter state"
             }
         });
 	}
 }
 
 $(document).ready(function() {
-	stateSetup.init();
+	citySetup.init();
 });
 
 

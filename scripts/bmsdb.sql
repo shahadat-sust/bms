@@ -160,14 +160,13 @@ CREATE TABLE `City` (
   `UpdatedBy` bigint(20) NOT NULL,
   `UpdatedOn` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `UK_City_Name_StateId` (`StateId`,`Name`),
-  KEY `FK_City_StateId_idx` (`StateId`),
   KEY `FK_City_CreatedBy_idx` (`CreatedBy`),
   KEY `FK_City_UpdatedBy_idx` (`UpdatedBy`),
+  KEY `FK_City_StateId_idx` (`StateId`),
+  CONSTRAINT `FK_City_StateId_idx` FOREIGN KEY (`StateId`) REFERENCES `State` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_City_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
-  CONSTRAINT `FK_City_StateId` FOREIGN KEY (`StateId`) REFERENCES `State` (`Id`),
   CONSTRAINT `FK_City_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,7 +190,7 @@ CREATE TABLE `Country` (
   KEY `FK_Country_UpdatedBy_idx` (`UpdatedBy`),
   CONSTRAINT `FK_Country_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
   CONSTRAINT `FK_Country_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1167,7 +1166,7 @@ CREATE TABLE `State` (
   CONSTRAINT `FK_State_CountryId` FOREIGN KEY (`CountryId`) REFERENCES `Country` (`Id`),
   CONSTRAINT `FK_State_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
   CONSTRAINT `FK_State_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1219,7 +1218,7 @@ CREATE TABLE `User` (
   KEY `FK_User_UpdatedBy_idx` (`UpdatedBy`),
   CONSTRAINT `FK_User_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
   CONSTRAINT `FK_User_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1566,4 +1565,4 @@ CREATE TABLE `UserSocialAccount` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-17 21:34:21
+-- Dump completed on 2018-07-28  9:58:02

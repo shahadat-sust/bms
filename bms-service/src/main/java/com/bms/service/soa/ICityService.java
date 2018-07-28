@@ -9,13 +9,15 @@ import com.bms.service.data.CityData;
 
 public interface ICityService {
 	
-	long create(CityData cityData) throws BmsException, BmsSqlException;
+	long create(CityData cityData, long loginUserId) throws BmsException, BmsSqlException;
 	
-	boolean update(CityData cityData) throws BmsException, BmsSqlException;
+	boolean update(CityData cityData, long loginUserId) throws BmsException, BmsSqlException;
 	
 	boolean delete(long cityId) throws BmsException, BmsSqlException;
 	
 	CityData getCityById(long cityId) throws BmsException, BmsSqlException;
+	
+	List<CityData> getCitiesByCountryId(long countryId) throws BmsException, BmsSqlException;
 	
 	List<CityData> getAllCities() throws BmsException, BmsSqlException;
 	

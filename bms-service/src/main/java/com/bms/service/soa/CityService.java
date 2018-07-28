@@ -1,5 +1,6 @@
 package com.bms.service.soa;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,20 @@ public class CityService extends BaseService implements ICityService {
 	private ICityDao cityDao;
 	
 	@Override
-	public long create(CityData cityData) throws BmsException, BmsSqlException {
+	public long create(CityData cityData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		cityData.setCreatedBy(loginUserId);
+		cityData.setCreatedOn(currDate);
+		cityData.setUpdatedBy(loginUserId);
+		cityData.setUpdatedOn(currDate);
 		return cityDao.create(cityData);
 	}
 
 	@Override
-	public boolean update(CityData cityData) throws BmsException, BmsSqlException {
+	public boolean update(CityData cityData, long loginUserId) throws BmsException, BmsSqlException {
+		Date currDate = new Date(System.currentTimeMillis());
+		cityData.setUpdatedBy(loginUserId);
+		cityData.setUpdatedOn(currDate);
 		return cityDao.update(cityData);
 	}
 
@@ -34,6 +43,11 @@ public class CityService extends BaseService implements ICityService {
 	@Override
 	public CityData getCityById(long cityId) throws BmsException, BmsSqlException {
 		return cityDao.getCityById(cityId);
+	}
+	
+	@Override
+	public List<CityData> getCitiesByCountryId(long countryId) throws BmsException, BmsSqlException {
+		return cityDao.getCitiesByCountryId(countryId);
 	}
 
 	@Override
