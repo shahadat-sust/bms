@@ -43,9 +43,9 @@ var groupSetup = {
     			groupSetup.groupData.name = "";
     			groupSetup.groupData.remarks = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -99,6 +99,7 @@ var groupSetup = {
 	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
 	   		$("#val-id").attr('disabled', true);
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		groupSetup.initValidation();
        	});
@@ -163,7 +164,8 @@ var groupSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Group created successfully!'
+                		message: 'Group created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -172,7 +174,8 @@ var groupSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create group, please try again!'
+                		message: 'Failed to create group, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -182,7 +185,8 @@ var groupSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -213,11 +217,16 @@ var groupSetup = {
         				.replace("#[remarks]", data.datas[0].remarks);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			groupSetup.groupData.id = 0;
+        			groupSetup.groupData.name = "";
+        			groupSetup.groupData.remarks = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Group updated successfully!'
+                		message: 'Group updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -226,7 +235,8 @@ var groupSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update group, please try again!'
+                		message: 'Failed to update group, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -236,7 +246,8 @@ var groupSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -258,7 +269,8 @@ var groupSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Group deleted successfully!'
+                		message: 'Group deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -267,7 +279,8 @@ var groupSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete group, please try again!'
+                		message: 'Failed to delete group, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -277,7 +290,8 @@ var groupSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

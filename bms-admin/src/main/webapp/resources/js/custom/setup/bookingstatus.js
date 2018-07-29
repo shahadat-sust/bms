@@ -43,9 +43,9 @@ var bookingStatusSetup = {
     			bookingStatusSetup.bookingStatusData.name = "";
     			bookingStatusSetup.bookingStatusData.remarks = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -99,6 +99,7 @@ var bookingStatusSetup = {
 	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
 	   		$("#val-id").attr('disabled', true);
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		bookingStatusSetup.initValidation();
        	});
@@ -163,7 +164,8 @@ var bookingStatusSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Pooking status created successfully!'
+                		message: 'Booking status created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -172,7 +174,8 @@ var bookingStatusSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create booking status, please try again!'
+                		message: 'Failed to create booking status, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -182,7 +185,8 @@ var bookingStatusSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -213,11 +217,16 @@ var bookingStatusSetup = {
         				.replace("#[remarks]", data.datas[0].remarks);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			bookingStatusSetup.bookingStatusData.id = 0;
+        			bookingStatusSetup.bookingStatusData.name = "";
+        			bookingStatusSetup.bookingStatusData.remarks = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Pooking status updated successfully!'
+                		message: 'Booking status updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -226,7 +235,8 @@ var bookingStatusSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update booking status, please try again!'
+                		message: 'Failed to update booking status, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -236,7 +246,8 @@ var bookingStatusSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -258,7 +269,8 @@ var bookingStatusSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Pooking status deleted successfully!'
+                		message: 'Booking status deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -267,7 +279,8 @@ var bookingStatusSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete booking status, please try again!'
+                		message: 'Failed to delete booking status, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -277,7 +290,8 @@ var bookingStatusSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

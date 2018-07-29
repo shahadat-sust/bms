@@ -41,9 +41,9 @@ var countrySetup = {
     			countrySetup.countryData.name = "";
     			countrySetup.countryData.remarks = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -90,6 +90,7 @@ var countrySetup = {
 			.replace("#[remarks]", countrySetup.countryData.remarks);
 	   		$(tr).html("<td colspan='3'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		countrySetup.initValidation();
        	});
@@ -153,7 +154,8 @@ var countrySetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'country created successfully!'
+                		message: 'Country created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -162,7 +164,8 @@ var countrySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create country, please try again!'
+                		message: 'Failed to create country, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -172,7 +175,8 @@ var countrySetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -201,11 +205,16 @@ var countrySetup = {
         				.replace("#[remarks]", data.datas[0].remarks);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			countrySetup.countryData.id = 0;
+        			countrySetup.countryData.name = "";
+        			countrySetup.countryData.remarks = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'country updated successfully!'
+                		message: 'Country updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -214,7 +223,8 @@ var countrySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update country, please try again!'
+                		message: 'Failed to update country, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -224,7 +234,8 @@ var countrySetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -246,7 +257,8 @@ var countrySetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'country deleted successfully!'
+                		message: 'Country deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -255,7 +267,8 @@ var countrySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete country, please try again!'
+                		message: 'Failed to delete country, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -265,7 +278,8 @@ var countrySetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

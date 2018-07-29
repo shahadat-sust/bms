@@ -48,9 +48,9 @@ var roleSetup = {
     			roleSetup.roleData.priority = "";
     			roleSetup.roleData.remarks = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -106,6 +106,7 @@ var roleSetup = {
 	   		$(tr).html("<td colspan='5'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
 	   		$("#val-id").attr('disabled', true);
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		roleSetup.initValidation();
        	});
@@ -172,7 +173,8 @@ var roleSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Group created successfully!'
+                		message: 'Group created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -181,7 +183,8 @@ var roleSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create role, please try again!'
+                		message: 'Failed to create role, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -191,7 +194,8 @@ var roleSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -224,11 +228,17 @@ var roleSetup = {
         				.replace("#[remarks]", data.datas[0].remarks);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			roleSetup.roleData.id = 0;
+        			roleSetup.roleData.name = "";
+        			roleSetup.roleData.priority = "";
+        			roleSetup.roleData.remarks = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Group updated successfully!'
+                		message: 'Group updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -237,7 +247,8 @@ var roleSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update role, please try again!'
+                		message: 'Failed to update role, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -247,7 +258,8 @@ var roleSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -269,7 +281,8 @@ var roleSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Group deleted successfully!'
+                		message: 'Group deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -278,7 +291,8 @@ var roleSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete role, please try again!'
+                		message: 'Failed to delete role, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -288,7 +302,8 @@ var roleSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

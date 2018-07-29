@@ -48,9 +48,9 @@ var pointOfInterestSetup = {
     			pointOfInterestSetup.pointOfInterestData.providerTypeId = 0;
     			pointOfInterestSetup.pointOfInterestData.providerTypeName = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -100,6 +100,7 @@ var pointOfInterestSetup = {
 	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$('#val-providerTypeId').val(pointOfInterestSetup.pointOfInterestData.providerTypeId);
 	   		$("#btnSubmit").html('Update');
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		pointOfInterestSetup.initValidation();
        	});
@@ -166,7 +167,8 @@ var pointOfInterestSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Point of interest created successfully!'
+                		message: 'Point of interest created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -175,7 +177,8 @@ var pointOfInterestSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create point of interest, please try again!'
+                		message: 'Failed to create point of interest, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -185,7 +188,8 @@ var pointOfInterestSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -217,11 +221,18 @@ var pointOfInterestSetup = {
 	    				.replace("#[providerTypeName]", data.datas[0].providerTypeName);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			pointOfInterestSetup.pointOfInterestData.id = 0;
+        			pointOfInterestSetup.pointOfInterestData.name = "";
+        			pointOfInterestSetup.pointOfInterestData.remarks = "";
+        			pointOfInterestSetup.pointOfInterestData.providerTypeId = 0;
+        			pointOfInterestSetup.pointOfInterestData.providerTypeName = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Point of interest updated successfully!'
+                		message: 'Point of interest updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -230,7 +241,8 @@ var pointOfInterestSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update point of interest, please try again!'
+                		message: 'Failed to update point of interest, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -240,7 +252,8 @@ var pointOfInterestSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -262,7 +275,8 @@ var pointOfInterestSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Point of interest deleted successfully!'
+                		message: 'Point of interest deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -271,7 +285,8 @@ var pointOfInterestSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete point of interest, please try again!'
+                		message: 'Failed to delete point of interest, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -281,7 +296,8 @@ var pointOfInterestSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

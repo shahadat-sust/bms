@@ -48,9 +48,9 @@ var stateSetup = {
     			stateSetup.stateData.countryId = 0;
     			stateSetup.stateData.countryName = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -100,6 +100,7 @@ var stateSetup = {
 	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$('#val-countryId').val(stateSetup.stateData.countryId);
 	   		$("#btnSubmit").html('Update');
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		stateSetup.initValidation();
        	});
@@ -166,7 +167,8 @@ var stateSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'state created successfully!'
+                		message: 'State created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -175,7 +177,8 @@ var stateSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create state, please try again!'
+                		message: 'Failed to create state, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -185,7 +188,8 @@ var stateSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -217,11 +221,18 @@ var stateSetup = {
 	    				.replace("#[countryName]", data.datas[0].countryName);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			stateSetup.stateData.id = 0;
+        			stateSetup.stateData.name = "";
+        			stateSetup.stateData.remarks = "";
+        			stateSetup.stateData.countryId = 0;
+        			stateSetup.stateData.countryName = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'state updated successfully!'
+                		message: 'State updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -230,7 +241,8 @@ var stateSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update state, please try again!'
+                		message: 'Failed to update state, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -240,7 +252,8 @@ var stateSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -262,7 +275,8 @@ var stateSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'state deleted successfully!'
+                		message: 'State deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -271,7 +285,8 @@ var stateSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete state, please try again!'
+                		message: 'Failed to delete state, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -281,7 +296,8 @@ var stateSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

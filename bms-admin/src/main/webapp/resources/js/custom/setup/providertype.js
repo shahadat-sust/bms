@@ -43,9 +43,9 @@ var providerTypeSetup = {
     			providerTypeSetup.providerTypeData.name = "";
     			providerTypeSetup.providerTypeData.remarks = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -99,6 +99,7 @@ var providerTypeSetup = {
 	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
 	   		$("#val-id").attr('disabled', true);
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		providerTypeSetup.initValidation();
        	});
@@ -163,7 +164,8 @@ var providerTypeSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Provider type created successfully!'
+                		message: 'Provider type created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -172,7 +174,8 @@ var providerTypeSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create provider type, please try again!'
+                		message: 'Failed to create provider type, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -182,7 +185,8 @@ var providerTypeSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -213,11 +217,16 @@ var providerTypeSetup = {
         				.replace("#[remarks]", data.datas[0].remarks);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			providerTypeSetup.providerTypeData.id = 0;
+        			providerTypeSetup.providerTypeData.name = "";
+        			providerTypeSetup.providerTypeData.remarks = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Provider type updated successfully!'
+                		message: 'Provider type updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -226,7 +235,8 @@ var providerTypeSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update provider type, please try again!'
+                		message: 'Failed to update provider type, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -236,7 +246,8 @@ var providerTypeSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -258,7 +269,8 @@ var providerTypeSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Provider type deleted successfully!'
+                		message: 'Provider type deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -267,7 +279,8 @@ var providerTypeSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete provider type, please try again!'
+                		message: 'Failed to delete provider type, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -277,7 +290,8 @@ var providerTypeSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

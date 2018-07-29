@@ -43,9 +43,9 @@ var bookingTypeSetup = {
     			bookingTypeSetup.bookingTypeData.name = "";
     			bookingTypeSetup.bookingTypeData.remarks = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -99,6 +99,7 @@ var bookingTypeSetup = {
 	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
 	   		$("#val-id").attr('disabled', true);
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		bookingTypeSetup.initValidation();
        	});
@@ -163,7 +164,8 @@ var bookingTypeSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Booking type created successfully!'
+                		message: 'Booking type created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -172,7 +174,8 @@ var bookingTypeSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create booking type, please try again!'
+                		message: 'Failed to create booking type, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -182,7 +185,8 @@ var bookingTypeSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -212,12 +216,17 @@ var bookingTypeSetup = {
         				.replace("#[remarks]", data.datas[0].remarks)
         				.replace("#[remarks]", data.datas[0].remarks);
            			$(_btn).closest("tr").html(rowHtml);
+           			
+           			bookingTypeSetup.bookingTypeData.id = 0;
+        			bookingTypeSetup.bookingTypeData.name = "";
+        			bookingTypeSetup.bookingTypeData.remarks = "";
             		
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Booking type updated successfully!'
+                		message: 'Booking type updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -226,7 +235,8 @@ var bookingTypeSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update booking type, please try again!'
+                		message: 'Failed to update booking type, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -236,7 +246,8 @@ var bookingTypeSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -258,7 +269,8 @@ var bookingTypeSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Booking type deleted successfully!'
+                		message: 'Booking type deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -267,7 +279,8 @@ var bookingTypeSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete booking type, please try again!'
+                		message: 'Failed to delete booking type, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -277,7 +290,8 @@ var bookingTypeSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

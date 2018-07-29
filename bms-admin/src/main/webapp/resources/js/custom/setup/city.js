@@ -56,9 +56,10 @@ var citySetup = {
     			citySetup.cityData.countryId = 0;
     			citySetup.cityData.countryName = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
+       		
        		if(citySetup.stateFetchAjax) {
        			citySetup.stateFetchAjax.abort();
        			citySetup.stateFetchAjax = undefined;
@@ -114,6 +115,8 @@ var citySetup = {
 	   		$(tr).html("<td colspan='5'>" + formHtml + "</td>");
 	   		$('#val-countryId').val(citySetup.cityData.countryId);
 	   		$("#btnSubmit").html('Update');
+	   		$("#btnCreateNew").attr('disabled', true);
+	   		
 	   		citySetup.getStateList(citySetup.cityData.countryId, citySetup.cityData.stateId);
 	   		
 	   		citySetup.initValidation();
@@ -193,7 +196,8 @@ var citySetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'city created successfully!'
+                		message: 'City created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		$(_btn).removeAttr("disabled");
@@ -201,7 +205,8 @@ var citySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create city, please try again!'
+                		message: 'Failed to create city, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -211,7 +216,8 @@ var citySetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -246,11 +252,20 @@ var citySetup = {
 	    				.replace("#[countryName]", data.datas[0].countryName);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			citySetup.cityData.id = 0;
+        			citySetup.cityData.name = "";
+        			citySetup.cityData.remarks = "";
+        			citySetup.cityData.stateId = 0;
+        			citySetup.cityData.stateName = "";
+        			citySetup.cityData.countryId = 0;
+        			citySetup.cityData.countryName = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'city updated successfully!'
+                		message: 'City updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -259,7 +274,8 @@ var citySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update city, please try again!'
+                		message: 'Failed to update city, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -269,7 +285,8 @@ var citySetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -291,7 +308,8 @@ var citySetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'city deleted successfully!'
+                		message: 'City deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -300,7 +318,8 @@ var citySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete city, please try again!'
+                		message: 'Failed to delete city, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -310,7 +329,8 @@ var citySetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -341,7 +361,8 @@ var citySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to get states!'
+                		message: 'Failed to get states!',
+                		delay: 1e3
         			});
             	}
             },
@@ -351,7 +372,8 @@ var citySetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

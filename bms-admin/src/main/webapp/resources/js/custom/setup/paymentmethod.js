@@ -43,9 +43,9 @@ var paymentMethodSetup = {
     			paymentMethodSetup.paymentMethodData.name = "";
     			paymentMethodSetup.paymentMethodData.remarks = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -99,6 +99,7 @@ var paymentMethodSetup = {
 	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
 	   		$("#val-id").attr('disabled', true);
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		paymentMethodSetup.initValidation();
        	});
@@ -163,7 +164,8 @@ var paymentMethodSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Payment method created successfully!'
+                		message: 'Payment method created successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -172,7 +174,8 @@ var paymentMethodSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create payment method, please try again!'
+                		message: 'Failed to create payment method, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -182,7 +185,8 @@ var paymentMethodSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -213,11 +217,16 @@ var paymentMethodSetup = {
         				.replace("#[remarks]", data.datas[0].remarks);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			paymentMethodSetup.paymentMethodData.id = 0;
+        			paymentMethodSetup.paymentMethodData.name = "";
+        			paymentMethodSetup.paymentMethodData.remarks = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Payment method updated successfully!'
+                		message: 'Payment method updated successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -226,7 +235,8 @@ var paymentMethodSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update payment method, please try again!'
+                		message: 'Failed to update payment method, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -236,7 +246,8 @@ var paymentMethodSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});
@@ -258,7 +269,8 @@ var paymentMethodSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Payment method deleted successfully!'
+                		message: 'Payment method deleted successfully!',
+                		delay: 1e3
         			});
             	} else {
             		console.log(data.errors);
@@ -267,7 +279,8 @@ var paymentMethodSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete payment method, please try again!'
+                		message: 'Failed to delete payment method, please try again!',
+                		delay: 1e3
         			});
             	}
             },
@@ -277,7 +290,8 @@ var paymentMethodSetup = {
             		align: 'center',
             		type: 'danger', 
             		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!'
+            		message: 'Failed to process request!',
+            		delay: 1e3
     			});
             }
 		});

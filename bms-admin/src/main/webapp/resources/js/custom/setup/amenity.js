@@ -48,9 +48,9 @@ var amenitySetup = {
     			amenitySetup.amenityData.providerTypeId = 0;
     			amenitySetup.amenityData.providerTypeName = "";
        		} else {
-       			$("#btnCreateNew").removeAttr('disabled');
        			$('#dataTable > tbody tr').first().remove();
        		}
+       		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
        	$(document).on("click", "#btnSubmit", function(e) {
@@ -100,6 +100,7 @@ var amenitySetup = {
 	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$('#val-providerTypeId').val(amenitySetup.amenityData.providerTypeId);
 	   		$("#btnSubmit").html('Update');
+	   		$("#btnCreateNew").attr('disabled', true);
 	   		
 	   		amenitySetup.initValidation();
        	});
@@ -217,6 +218,12 @@ var amenitySetup = {
 	    				.replace("#[providerTypeName]", data.datas[0].providerTypeName);
            			$(_btn).closest("tr").html(rowHtml);
             		
+           			amenitySetup.amenityData.id = 0;
+        			amenitySetup.amenityData.name = "";
+        			amenitySetup.amenityData.remarks = "";
+        			amenitySetup.amenityData.providerTypeId = 0;
+        			amenitySetup.amenityData.providerTypeName = "";
+           			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
