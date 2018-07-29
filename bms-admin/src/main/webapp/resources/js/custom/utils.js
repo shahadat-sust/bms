@@ -14,3 +14,12 @@ $.fn.serializeObject = function()
     });
     return o;
 };
+
+$(document).ajaxStart(function() {
+	$.loader({
+		className:"blue-with-image-custom",
+		content:''
+	});
+}).ajaxStop(function() {
+	$.loader('close');
+});
