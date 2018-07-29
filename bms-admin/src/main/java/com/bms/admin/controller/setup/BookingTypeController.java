@@ -19,6 +19,7 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
+import com.bms.service.data.booking.BookingStatusData;
 import com.bms.service.data.booking.BookingTypeData;
 import com.bms.service.soa.booking.IBookingTypeService;
 
@@ -60,11 +61,11 @@ public class BookingTypeController extends BaseController {
 	public @ResponseBody ResponseModel<BookingTypeData> createGroup(@RequestBody BookingTypeData bookingTypeData) {
 		ResponseModel<BookingTypeData> responseModel = new ResponseModel<BookingTypeData>();
 		try {
-			long bookingTypeId = bookingTypeService.create(bookingTypeData, getLoginUserData().getId());
-			if(bookingTypeId > 0) {
-				bookingTypeData.setId(bookingTypeId);
+			boolean status = bookingTypeService.create(bookingTypeData, getLoginUserData().getId());
+			if(status) {
+				BookingTypeData data = bookingTypeService.getBookingTypeById(bookingTypeData.getId());
 				responseModel.setStatus(true);
-				responseModel.addData(bookingTypeData);
+				responseModel.addData(data);
 			} else {
 				responseModel.setStatus(false);
 			}

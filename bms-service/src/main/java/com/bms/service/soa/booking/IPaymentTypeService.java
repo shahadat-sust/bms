@@ -9,7 +9,7 @@ import com.bms.service.data.booking.PaymentTypeData;
 
 public interface IPaymentTypeService {
 	
-	long create(PaymentTypeData paymentTypeData, long loginUserId) throws BmsException, BmsSqlException;
+	boolean create(PaymentTypeData paymentTypeData, long loginUserId) throws BmsException, BmsSqlException;
 	
 	boolean update(PaymentTypeData paymentTypeData, long loginUserId) throws BmsException, BmsSqlException;
 	

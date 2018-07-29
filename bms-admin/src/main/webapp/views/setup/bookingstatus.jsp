@@ -49,14 +49,18 @@
                            <table id="dataTable" class="table table-bordered table-striped table-vcenter">
                                <thead>
                                    <tr>
-                                       <th style="width: 50%;">Name</th>
-                                       <th style="width: 50%;">Remarks</th>
+                                   	   <th style="width: 20%;">ID</th>
+                                       <th style="width: 40%;">Name</th>
+                                       <th style="width: 40%;">Remarks</th>
                                        <th class="text-center" style="width: 100px;">Actions</th>
                                    </tr>
                                </thead>
                                <tbody>
                                	   <c:forEach items="${bookingStatusList}" var="bookingStatusData">
                                	   		<tr>
+                               	   			<td class="font-w600">
+												${bookingStatusData.id}
+											</td>
 											<td class="font-w600">
 												${bookingStatusData.name}
 											</td>
@@ -95,6 +99,10 @@
 	                    <p class="text-muted"></p>
 	                </div>
 	                <div class="col-lg-8 col-xl-5">
+	                	<div class="form-group">
+	                        <label for="val-id">ID <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-id" name="id" value="#[id]" placeholder="Enter ID..">
+	                    </div>
 	                    <div class="form-group">
 	                        <label for="val-name">Name <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-name" name="name" value="#[name]" placeholder="Enter Name..">
@@ -106,7 +114,6 @@
 	                     <div class="form-group">
 	                     	<div class="row items-push">
 	                     		<div class="col-lg-6 col-sm-6 col-xs-12 text-left">
-	                     			<input id="val-id" type="hidden" name="id" value="#[id]"/>
 	                     			<button id="btnSubmit" type="button" class="btn btn-primary">Save</button>
 	                     			<button id="btnCancel" type="button" class="btn btn-primary">Cancel</button>
 	                     		</div>
@@ -123,6 +130,9 @@
 	        </form>
         </template>
         <template id="rowTemplete">
+        	<td class="font-w600">
+				#[id]
+			</td>
 	        <td class="font-w600">
 				#[name]
 			</td>

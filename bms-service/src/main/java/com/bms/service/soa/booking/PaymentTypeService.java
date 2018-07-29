@@ -19,7 +19,7 @@ public class PaymentTypeService extends BaseService implements IPaymentTypeServi
 	private IPaymentTypeDao paymentTypeDao;
 	
 	@Override
-	public long create(PaymentTypeData paymentTypeData, long loginUserId) throws BmsException, BmsSqlException {
+	public boolean create(PaymentTypeData paymentTypeData, long loginUserId) throws BmsException, BmsSqlException {
 		try {
 			Date currDate = new Date(System.currentTimeMillis());
 			paymentTypeData.setCreatedBy(loginUserId);

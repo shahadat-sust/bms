@@ -8,7 +8,7 @@ import com.bms.service.dao.provider.IProviderTypeDao;
 import com.bms.service.data.provider.ProviderTypeData;
 public interface IProviderTypeService {
 	
-	long create(ProviderTypeData providerTypeData, long loginUserId) throws BmsException, BmsSqlException;
+	boolean create(ProviderTypeData providerTypeData, long loginUserId) throws BmsException, BmsSqlException;
 	
 	boolean update(ProviderTypeData providerTypeData, long loginUserId) throws BmsException, BmsSqlException;
 	

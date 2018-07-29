@@ -19,6 +19,7 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
+import com.bms.service.data.booking.BookingTypeData;
 import com.bms.service.data.booking.PaymentMethodData;
 import com.bms.service.soa.booking.IPaymentMethodService;
 
@@ -60,11 +61,11 @@ public class PaymentMethodController extends BaseController {
 	public @ResponseBody ResponseModel<PaymentMethodData> createGroup(@RequestBody PaymentMethodData paymentMethodData) {
 		ResponseModel<PaymentMethodData> responseModel = new ResponseModel<PaymentMethodData>();
 		try {
-			long paymentMethodId = paymentMethodService.create(paymentMethodData, getLoginUserData().getId());
-			if(paymentMethodId > 0) {
-				paymentMethodData.setId(paymentMethodId);
+			boolean status = paymentMethodService.create(paymentMethodData, getLoginUserData().getId());
+			if(status) {
+				PaymentMethodData data = paymentMethodService.getPaymentMethodById(paymentMethodData.getId());
 				responseModel.setStatus(true);
-				responseModel.addData(paymentMethodData);
+				responseModel.addData(data);
 			} else {
 				responseModel.setStatus(false);
 			}

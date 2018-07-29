@@ -16,11 +16,12 @@ var paymentMethodSetup = {
        		
        		var formTemplete = $("#formTemplete").clone()
     		var formHtml = formTemplete.html()
-    		.replace("#[id]", "0")
+    		.replace("#[id]", "")
     		.replace("#[name]", "")
     		.replace("#[remarks]", "");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='3'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='4'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
+       		$("#val-id").removeAttr('disabled');
        		
        		paymentMethodSetup.initValidation();
        	});
@@ -30,6 +31,7 @@ var paymentMethodSetup = {
        		if(paymentMethodSetup.paymentMethodData.id > 0) {
        			var rowTemplete = $("#rowTemplete").clone();
        			var rowHtml = rowTemplete.html()
+       				.replace("#[id]", paymentMethodSetup.paymentMethodData.id)
     				.replace("#[id]", paymentMethodSetup.paymentMethodData.id)
     				.replace("#[name]", paymentMethodSetup.paymentMethodData.name)
     				.replace("#[name]", paymentMethodSetup.paymentMethodData.name)
@@ -48,6 +50,12 @@ var paymentMethodSetup = {
        	
        	$(document).on("click", "#btnSubmit", function(e) {
        		var _btn = this;
+       		var id = $("#val-id").val();
+       		
+       		if(paymentMethodSetup.paymentMethodData.id > 0 && id != paymentMethodSetup.paymentMethodData.id) {
+    			return false;
+    		}
+       		
        		if($("#formComponent").valid()) {
        			swal({
                     text: "Do you want to " + (paymentMethodSetup.paymentMethodData.id > 0 ? "update" : "create") + " this payment method",
@@ -66,7 +74,7 @@ var paymentMethodSetup = {
            		}).then(function(e) {
                 	if(e.value) {
                 		if(paymentMethodSetup.paymentMethodData.id > 0) {
-                			paymentMethodSetup.doUpdate(_btn);
+                				paymentMethodSetup.doUpdate(_btn, paymentMethodSetup.paymentMethodData.id);
                 		} else {
                 			paymentMethodSetup.doCreate(_btn);
                 		}
@@ -88,8 +96,9 @@ var paymentMethodSetup = {
 			.replace("#[id]", paymentMethodSetup.paymentMethodData.id)
 			.replace("#[name]", paymentMethodSetup.paymentMethodData.name)
 			.replace("#[remarks]", paymentMethodSetup.paymentMethodData.remarks);
-	   		$(tr).html("<td colspan='3'>" + formHtml + "</td>");
+	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
+	   		$("#val-id").attr('disabled', true);
 	   		
 	   		paymentMethodSetup.initValidation();
        	});
@@ -129,7 +138,7 @@ var paymentMethodSetup = {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
-		
+
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
@@ -142,6 +151,7 @@ var paymentMethodSetup = {
             		$("#btnCreateNew").removeAttr('disabled');
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
+           				.replace("#[id]", data.datas[0].id)
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
@@ -178,10 +188,11 @@ var paymentMethodSetup = {
 		});
 	},
 	
-	doUpdate : function(_btn) {
+	doUpdate : function(_btn, id) {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
+		serializeForm["id"] = id;
 		
 		$.ajax({
 			type: "PUT",
@@ -194,6 +205,7 @@ var paymentMethodSetup = {
             	if(data.status) {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
+        				.replace("#[id]", data.datas[0].id)
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
@@ -286,13 +298,19 @@ var paymentMethodSetup = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
-            	"name": {
+            	"id": {
+                    required: true, digits: true, min: 1
+                },
+                "name": {
                     required: true, minlength: 3
                 }
             }, 
             messages : {
+            	"id": {
+                    required: "Please enter ID.", digits: "Please enter only digits."
+                }, 
             	"name": {
-                    required: "Please enter name", minlength: "Name must consist of at least 3 characters"
+                    required: "Please enter name.", minlength: "Name must consist of at least 3 characters."
                 }
             }
         });

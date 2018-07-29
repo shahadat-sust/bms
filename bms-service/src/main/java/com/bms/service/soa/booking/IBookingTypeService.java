@@ -9,7 +9,7 @@ import com.bms.service.data.booking.BookingTypeData;
 
 public interface IBookingTypeService {
 	
-	long create(BookingTypeData bookingTypeData, long loginUserId) throws BmsException, BmsSqlException;
+	boolean create(BookingTypeData bookingTypeData, long loginUserId) throws BmsException, BmsSqlException;
 	
 	boolean update(BookingTypeData bookingTypeData, long loginUserId) throws BmsException, BmsSqlException;
 	

@@ -19,7 +19,7 @@ public class ProviderTypeService extends BaseService implements IProviderTypeSer
 	private IProviderTypeDao providerTypeDao;
 	
 	@Override
-	public long create(ProviderTypeData providerTypeData, long loginUserId) throws BmsException, BmsSqlException {
+	public boolean create(ProviderTypeData providerTypeData, long loginUserId) throws BmsException, BmsSqlException {
 		try {
 			Date currDate = new Date(System.currentTimeMillis());
 			providerTypeData.setCreatedBy(loginUserId);

@@ -7,7 +7,7 @@ import com.bms.service.data.booking.BookingStatusData;
 
 public interface IBookingStatusDao {
 	
-	long create(BookingStatusData bookingStatusData) throws BmsSqlException;
+	boolean create(BookingStatusData bookingStatusData) throws BmsSqlException;
 	
 	boolean update(BookingStatusData bookingStatusData) throws BmsSqlException;
 	

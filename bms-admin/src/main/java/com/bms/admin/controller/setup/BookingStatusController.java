@@ -20,6 +20,7 @@ import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.booking.BookingStatusData;
+import com.bms.service.data.provider.ProviderTypeData;
 import com.bms.service.soa.booking.IBookingStatusService;
 
 @Controller
@@ -60,11 +61,11 @@ public class BookingStatusController extends BaseController {
 	public @ResponseBody ResponseModel<BookingStatusData> createGroup(@RequestBody BookingStatusData bookingStatusData) {
 		ResponseModel<BookingStatusData> responseModel = new ResponseModel<BookingStatusData>();
 		try {
-			long bookingStatusId = bookingStatusService.create(bookingStatusData, getLoginUserData().getId());
-			if(bookingStatusId > 0) {
-				bookingStatusData.setId(bookingStatusId);
+			boolean status = bookingStatusService.create(bookingStatusData, getLoginUserData().getId());
+			if(status) {
+				BookingStatusData data = bookingStatusService.getBookingStatusById(bookingStatusData.getId());
 				responseModel.setStatus(true);
-				responseModel.addData(bookingStatusData);
+				responseModel.addData(data);
 			} else {
 				responseModel.setStatus(false);
 			}

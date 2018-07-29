@@ -20,11 +20,12 @@ import com.bms.service.data.provider.ProviderTypeData;
 public class ProviderTypeDao extends BaseDao implements IProviderTypeDao {
 
 	@Override
-	public long create(ProviderTypeData providerTypeData) throws BmsSqlException {
+	public boolean create(ProviderTypeData providerTypeData) throws BmsSqlException {
 		try {
 			StringBuilder sql = new StringBuilder()
 			.append("INSERT INTO ProviderType ")
 			.append("( ")
+				.append("Id, ")
 				.append("Name, ")
 				.append("Remarks, ")
 				.append("CreatedBy, ")
@@ -39,23 +40,23 @@ public class ProviderTypeDao extends BaseDao implements IProviderTypeDao {
 				.append("?, ")
 				.append("?, ")
 				.append("?, ")
+				.append("?, ")
 				.append("? ")
 			.append(")");
-			KeyHolder holder = new GeneratedKeyHolder();
-			this.getTemplete().update(new PreparedStatementCreator() {
+			return this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
-					ps.setString(1, providerTypeData.getName());
-					ps.setString(2, providerTypeData.getRemarks());
-					ps.setLong(3, providerTypeData.getCreatedBy());
-					ps.setTimestamp(4, new java.sql.Timestamp(providerTypeData.getCreatedOn().getTime()));
-					ps.setLong(5, providerTypeData.getUpdatedBy());
-					ps.setTimestamp(6, new java.sql.Timestamp(providerTypeData.getUpdatedOn().getTime()));
+					PreparedStatement ps = conn.prepareStatement(sql.toString());
+					ps.setLong(1, providerTypeData.getId());
+					ps.setString(2, providerTypeData.getName());
+					ps.setString(3, providerTypeData.getRemarks());
+					ps.setLong(4, providerTypeData.getCreatedBy());
+					ps.setTimestamp(5, new java.sql.Timestamp(providerTypeData.getCreatedOn().getTime()));
+					ps.setLong(6, providerTypeData.getUpdatedBy());
+					ps.setTimestamp(7, new java.sql.Timestamp(providerTypeData.getUpdatedOn().getTime()));
 					return ps;
 				}
-			}, holder);
-			return holder.getKey().longValue();
+			}) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}

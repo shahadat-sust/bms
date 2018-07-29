@@ -310,7 +310,7 @@ var roleSetup = {
             }, 
             rules : {
             	"id": {
-                    required: true, digits: true
+                    required: true, digits: true, min: 1
                 },
                 "name": {
                     required: true, minlength: 3

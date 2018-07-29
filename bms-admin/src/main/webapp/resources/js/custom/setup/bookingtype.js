@@ -16,11 +16,12 @@ var bookingTypeSetup = {
        		
        		var formTemplete = $("#formTemplete").clone()
     		var formHtml = formTemplete.html()
-    		.replace("#[id]", "0")
+    		.replace("#[id]", "")
     		.replace("#[name]", "")
     		.replace("#[remarks]", "");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='3'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='4'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
+       		$("#val-id").removeAttr('disabled');
        		
        		bookingTypeSetup.initValidation();
        	});
@@ -30,6 +31,7 @@ var bookingTypeSetup = {
        		if(bookingTypeSetup.bookingTypeData.id > 0) {
        			var rowTemplete = $("#rowTemplete").clone();
        			var rowHtml = rowTemplete.html()
+       				.replace("#[id]", bookingTypeSetup.bookingTypeData.id)
     				.replace("#[id]", bookingTypeSetup.bookingTypeData.id)
     				.replace("#[name]", bookingTypeSetup.bookingTypeData.name)
     				.replace("#[name]", bookingTypeSetup.bookingTypeData.name)
@@ -48,6 +50,12 @@ var bookingTypeSetup = {
        	
        	$(document).on("click", "#btnSubmit", function(e) {
        		var _btn = this;
+       		var id = $("#val-id").val();
+       		
+       		if(bookingTypeSetup.bookingTypeData.id > 0 && id != bookingTypeSetup.bookingTypeData.id) {
+    			return false;
+    		}
+       		
        		if($("#formComponent").valid()) {
        			swal({
                     text: "Do you want to " + (bookingTypeSetup.bookingTypeData.id > 0 ? "update" : "create") + " this booking type",
@@ -66,7 +74,7 @@ var bookingTypeSetup = {
            		}).then(function(e) {
                 	if(e.value) {
                 		if(bookingTypeSetup.bookingTypeData.id > 0) {
-                			bookingTypeSetup.doUpdate(_btn);
+                				bookingTypeSetup.doUpdate(_btn, bookingTypeSetup.bookingTypeData.id);
                 		} else {
                 			bookingTypeSetup.doCreate(_btn);
                 		}
@@ -88,8 +96,9 @@ var bookingTypeSetup = {
 			.replace("#[id]", bookingTypeSetup.bookingTypeData.id)
 			.replace("#[name]", bookingTypeSetup.bookingTypeData.name)
 			.replace("#[remarks]", bookingTypeSetup.bookingTypeData.remarks);
-	   		$(tr).html("<td colspan='3'>" + formHtml + "</td>");
+	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
+	   		$("#val-id").attr('disabled', true);
 	   		
 	   		bookingTypeSetup.initValidation();
        	});
@@ -129,7 +138,7 @@ var bookingTypeSetup = {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
-		
+
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
@@ -142,6 +151,7 @@ var bookingTypeSetup = {
             		$("#btnCreateNew").removeAttr('disabled');
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
+           				.replace("#[id]", data.datas[0].id)
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
@@ -178,10 +188,11 @@ var bookingTypeSetup = {
 		});
 	},
 	
-	doUpdate : function(_btn) {
+	doUpdate : function(_btn, id) {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
+		serializeForm["id"] = id;
 		
 		$.ajax({
 			type: "PUT",
@@ -194,6 +205,7 @@ var bookingTypeSetup = {
             	if(data.status) {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
+        				.replace("#[id]", data.datas[0].id)
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
@@ -286,13 +298,19 @@ var bookingTypeSetup = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
-            	"name": {
+            	"id": {
+                    required: true, digits: true, min: 1
+                },
+                "name": {
                     required: true, minlength: 3
                 }
             }, 
             messages : {
+            	"id": {
+                    required: "Please enter ID.", digits: "Please enter only digits."
+                }, 
             	"name": {
-                    required: "Please enter name", minlength: "Name must consist of at least 3 characters"
+                    required: "Please enter name.", minlength: "Name must consist of at least 3 characters."
                 }
             }
         });

@@ -7,6 +7,7 @@ public class AmenityData extends BaseData {
 	private static final long serialVersionUID = 122457197422769523L;
 
 	private String name;
+	private int type;
 	private long providerTypeId;
 	private String providerTypeName;
 	
@@ -16,6 +17,14 @@ public class AmenityData extends BaseData {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	public long getProviderTypeId() {

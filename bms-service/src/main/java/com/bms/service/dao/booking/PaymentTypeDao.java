@@ -20,11 +20,12 @@ import com.bms.service.data.booking.PaymentTypeData;
 public class PaymentTypeDao extends BaseDao implements IPaymentTypeDao {
 
 	@Override
-	public long create(PaymentTypeData paymentTypeData) throws BmsSqlException {
+	public boolean create(PaymentTypeData paymentTypeData) throws BmsSqlException {
 		try {
 			StringBuilder sql = new StringBuilder()
 			.append("INSERT INTO PaymentType ")
 			.append("( ")
+				.append("Id, ")
 				.append("Name, ")
 				.append("Remarks, ")
 				.append("CreatedBy, ")
@@ -39,23 +40,23 @@ public class PaymentTypeDao extends BaseDao implements IPaymentTypeDao {
 				.append("?, ")
 				.append("?, ")
 				.append("?, ")
+				.append("?, ")
 				.append("? ")
 			.append(")");
-			KeyHolder holder = new GeneratedKeyHolder();
-			this.getTemplete().update(new PreparedStatementCreator() {
+			return this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
-					ps.setString(1, paymentTypeData.getName());
-					ps.setString(2, paymentTypeData.getRemarks());
-					ps.setLong(3, paymentTypeData.getCreatedBy());
-					ps.setTimestamp(4, new java.sql.Timestamp(paymentTypeData.getCreatedOn().getTime()));
-					ps.setLong(5, paymentTypeData.getUpdatedBy());
-					ps.setTimestamp(6, new java.sql.Timestamp(paymentTypeData.getUpdatedOn().getTime()));
+					PreparedStatement ps = conn.prepareStatement(sql.toString());
+					ps.setLong(1, paymentTypeData.getId());
+					ps.setString(2, paymentTypeData.getName());
+					ps.setString(3, paymentTypeData.getRemarks());
+					ps.setLong(4, paymentTypeData.getCreatedBy());
+					ps.setTimestamp(5, new java.sql.Timestamp(paymentTypeData.getCreatedOn().getTime()));
+					ps.setLong(6, paymentTypeData.getUpdatedBy());
+					ps.setTimestamp(7, new java.sql.Timestamp(paymentTypeData.getUpdatedOn().getTime()));
 					return ps;
 				}
-			}, holder);
-			return holder.getKey().longValue();
+			}) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}

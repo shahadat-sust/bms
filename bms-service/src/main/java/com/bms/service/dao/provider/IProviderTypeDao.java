@@ -7,7 +7,7 @@ import com.bms.service.data.provider.ProviderTypeData;
 
 public interface IProviderTypeDao {
 	
-	long create(ProviderTypeData providerTypeData) throws BmsSqlException;
+	boolean create(ProviderTypeData providerTypeData) throws BmsSqlException;
 	
 	boolean update(ProviderTypeData providerTypeData) throws BmsSqlException;
 	

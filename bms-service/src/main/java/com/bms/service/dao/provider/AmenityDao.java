@@ -27,6 +27,7 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 			.append("( ")
 				.append("ProviderTypeId, ")
 				.append("Name, ")
+				.append("Type, ")
 				.append("Remarks, ")
 				.append("CreatedBy, ")
 				.append("CreatedOn, ")
@@ -35,6 +36,7 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 			.append(") ")
 			.append("VALUES ")
 			.append("( ")
+				.append("?, ")
 				.append("?, ")
 				.append("?, ")
 				.append("?, ")
@@ -50,11 +52,12 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
 					ps.setLong(1, amenityData.getProviderTypeId());
 					ps.setString(2, amenityData.getName());
-					ps.setString(3, amenityData.getRemarks());
-					ps.setLong(4, amenityData.getCreatedBy());
-					ps.setTimestamp(5, new java.sql.Timestamp(amenityData.getCreatedOn().getTime()));
-					ps.setLong(6, amenityData.getUpdatedBy());
-					ps.setTimestamp(7, new java.sql.Timestamp(amenityData.getUpdatedOn().getTime()));
+					ps.setInt(3, amenityData.getType());
+					ps.setString(4, amenityData.getRemarks());
+					ps.setLong(5, amenityData.getCreatedBy());
+					ps.setTimestamp(6, new java.sql.Timestamp(amenityData.getCreatedOn().getTime()));
+					ps.setLong(7, amenityData.getUpdatedBy());
+					ps.setTimestamp(8, new java.sql.Timestamp(amenityData.getUpdatedOn().getTime()));
 					return ps;
 				}
 			}, holder);
@@ -71,6 +74,7 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 			.append("UPDATE Amenity SET ")
 				.append("ProviderTypeId = ?, ")
 				.append("Name = ?, ")
+				.append("Type = ?, ")
 				.append("Remarks = ?, ")
 				.append("UpdatedBy = ?, ")
 				.append("UpdatedOn = ? ")
@@ -79,6 +83,7 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 			return this.getTemplete().update(sql.toString(), 
 					amenityData.getProviderTypeId(), 
 					amenityData.getName(), 
+					amenityData.getType(), 
 					amenityData.getRemarks(),
 					amenityData.getUpdatedBy(),
 					new java.sql.Timestamp(amenityData.getUpdatedOn().getTime()),
@@ -108,6 +113,7 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 				.append("Amenity.Id, ")
 				.append("Amenity.ProviderTypeId, ")
 				.append("Amenity.Name, ")
+				.append("Amenity.Type, ")
 				.append("Amenity.Remarks, ")
 				.append("ProviderType.Name AS ProviderTypeName ")
 			.append("FROM Amenity ")
@@ -124,8 +130,9 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 					amenityData.setId(rs.getLong(1));
 					amenityData.setProviderTypeId(rs.getLong(2));
 					amenityData.setName(rs.getString(3));
-					amenityData.setRemarks(rs.getString(4));
-					amenityData.setProviderTypeName(rs.getString(5));
+					amenityData.setType(rs.getInt(4));
+					amenityData.setRemarks(rs.getString(5));
+					amenityData.setProviderTypeName(rs.getString(6));
 					return amenityData;
 				}
 			});
@@ -149,6 +156,7 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 					.append("Amenity.Id, ")
 					.append("Amenity.ProviderTypeId, ")
 					.append("Amenity.Name, ")
+					.append("Amenity.Type, ")
 					.append("Amenity.Remarks, ")
 					.append("ProviderType.Name AS ProviderTypeName ")
 			.append("FROM Amenity ")
@@ -165,8 +173,9 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 					amenityData.setId(rs.getLong(1));
 					amenityData.setProviderTypeId(rs.getLong(2));
 					amenityData.setName(rs.getString(3));
-					amenityData.setRemarks(rs.getString(4));
-					amenityData.setProviderTypeName(rs.getString(5));
+					amenityData.setType(rs.getInt(4));
+					amenityData.setRemarks(rs.getString(5));
+					amenityData.setProviderTypeName(rs.getString(6));
 					return amenityData;
 				}
 			});
@@ -185,6 +194,7 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 					.append("Amenity.Id, ")
 					.append("Amenity.ProviderTypeId, ")
 					.append("Amenity.Name, ")
+					.append("Amenity.Type, ")
 					.append("Amenity.Remarks, ")
 					.append("ProviderType.Name AS ProviderTypeName ")
 			.append("FROM Amenity ")
@@ -199,8 +209,9 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 					amenityData.setId(rs.getLong(1));
 					amenityData.setProviderTypeId(rs.getLong(2));
 					amenityData.setName(rs.getString(3));
-					amenityData.setRemarks(rs.getString(4));
-					amenityData.setProviderTypeName(rs.getString(5));
+					amenityData.setType(rs.getInt(4));
+					amenityData.setRemarks(rs.getString(5));
+					amenityData.setProviderTypeName(rs.getString(6));
 					return amenityData;
 				}
 			});

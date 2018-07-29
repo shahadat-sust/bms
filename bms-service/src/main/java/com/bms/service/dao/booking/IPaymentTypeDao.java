@@ -7,7 +7,7 @@ import com.bms.service.data.booking.PaymentTypeData;
 
 public interface IPaymentTypeDao {
 	
-	long create(PaymentTypeData paymentTypeData) throws BmsSqlException;
+	boolean create(PaymentTypeData paymentTypeData) throws BmsSqlException;
 	
 	boolean update(PaymentTypeData paymentTypeData) throws BmsSqlException;
 	

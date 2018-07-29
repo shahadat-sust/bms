@@ -106,7 +106,7 @@ public class PointOfInterestDao extends BaseDao implements IPointOfInterestDao {
 			StringBuilder sql = new StringBuilder()
 			.append("SELECT ")
 				.append("PointOfInterest.Id, ")
-				.append("PointOfInterest.CountryId, ")
+				.append("PointOfInterest.ProviderTypeId, ")
 				.append("PointOfInterest.Name, ")
 				.append("PointOfInterest.Remarks, ")
 				.append("ProviderType.Name AS ProviderTypeName ")

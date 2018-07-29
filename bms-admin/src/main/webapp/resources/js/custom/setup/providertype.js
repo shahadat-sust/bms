@@ -16,11 +16,12 @@ var providerTypeSetup = {
        		
        		var formTemplete = $("#formTemplete").clone()
     		var formHtml = formTemplete.html()
-    		.replace("#[id]", "0")
+    		.replace("#[id]", "")
     		.replace("#[name]", "")
     		.replace("#[remarks]", "");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='3'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='4'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
+       		$("#val-id").removeAttr('disabled');
        		
        		providerTypeSetup.initValidation();
        	});
@@ -30,6 +31,7 @@ var providerTypeSetup = {
        		if(providerTypeSetup.providerTypeData.id > 0) {
        			var rowTemplete = $("#rowTemplete").clone();
        			var rowHtml = rowTemplete.html()
+       				.replace("#[id]", providerTypeSetup.providerTypeData.id)
     				.replace("#[id]", providerTypeSetup.providerTypeData.id)
     				.replace("#[name]", providerTypeSetup.providerTypeData.name)
     				.replace("#[name]", providerTypeSetup.providerTypeData.name)
@@ -48,6 +50,12 @@ var providerTypeSetup = {
        	
        	$(document).on("click", "#btnSubmit", function(e) {
        		var _btn = this;
+       		var id = $("#val-id").val();
+       		
+       		if(providerTypeSetup.providerTypeData.id > 0 && id != providerTypeSetup.providerTypeData.id) {
+    			return false;
+    		}
+       		
        		if($("#formComponent").valid()) {
        			swal({
                     text: "Do you want to " + (providerTypeSetup.providerTypeData.id > 0 ? "update" : "create") + " this provider type",
@@ -66,7 +74,7 @@ var providerTypeSetup = {
            		}).then(function(e) {
                 	if(e.value) {
                 		if(providerTypeSetup.providerTypeData.id > 0) {
-                			providerTypeSetup.doUpdate(_btn);
+                				providerTypeSetup.doUpdate(_btn, providerTypeSetup.providerTypeData.id);
                 		} else {
                 			providerTypeSetup.doCreate(_btn);
                 		}
@@ -88,8 +96,9 @@ var providerTypeSetup = {
 			.replace("#[id]", providerTypeSetup.providerTypeData.id)
 			.replace("#[name]", providerTypeSetup.providerTypeData.name)
 			.replace("#[remarks]", providerTypeSetup.providerTypeData.remarks);
-	   		$(tr).html("<td colspan='3'>" + formHtml + "</td>");
+	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
+	   		$("#val-id").attr('disabled', true);
 	   		
 	   		providerTypeSetup.initValidation();
        	});
@@ -129,7 +138,7 @@ var providerTypeSetup = {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
-		
+
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
@@ -142,6 +151,7 @@ var providerTypeSetup = {
             		$("#btnCreateNew").removeAttr('disabled');
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
+           				.replace("#[id]", data.datas[0].id)
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
@@ -178,10 +188,11 @@ var providerTypeSetup = {
 		});
 	},
 	
-	doUpdate : function(_btn) {
+	doUpdate : function(_btn, id) {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
+		serializeForm["id"] = id;
 		
 		$.ajax({
 			type: "PUT",
@@ -194,6 +205,7 @@ var providerTypeSetup = {
             	if(data.status) {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
+        				.replace("#[id]", data.datas[0].id)
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
@@ -286,13 +298,19 @@ var providerTypeSetup = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
-            	"name": {
+            	"id": {
+                    required: true, digits: true, min: 1
+                },
+                "name": {
                     required: true, minlength: 3
                 }
             }, 
             messages : {
+            	"id": {
+                    required: "Please enter ID.", digits: "Please enter only digits."
+                }, 
             	"name": {
-                    required: "Please enter name", minlength: "Name must consist of at least 3 characters"
+                    required: "Please enter name.", minlength: "Name must consist of at least 3 characters."
                 }
             }
         });

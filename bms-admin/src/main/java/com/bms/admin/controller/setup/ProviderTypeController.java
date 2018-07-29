@@ -60,11 +60,11 @@ public class ProviderTypeController extends BaseController {
 	public @ResponseBody ResponseModel<ProviderTypeData> createGroup(@RequestBody ProviderTypeData providerTypeData) {
 		ResponseModel<ProviderTypeData> responseModel = new ResponseModel<ProviderTypeData>();
 		try {
-			long providerTypeId = providerTypeService.create(providerTypeData, getLoginUserData().getId());
-			if(providerTypeId > 0) {
-				providerTypeData.setId(providerTypeId);
+			boolean status = providerTypeService.create(providerTypeData, getLoginUserData().getId());
+			if(status) {
+				ProviderTypeData data = providerTypeService.getProviderTypeById(providerTypeData.getId());
 				responseModel.setStatus(true);
-				responseModel.addData(providerTypeData);
+				responseModel.addData(data);
 			} else {
 				responseModel.setStatus(false);
 			}

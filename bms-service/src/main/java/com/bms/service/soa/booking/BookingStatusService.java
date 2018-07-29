@@ -19,7 +19,7 @@ public class BookingStatusService extends BaseService implements IBookingStatusS
 	private IBookingStatusDao bookingStatusDao;
 	
 	@Override
-	public long create(BookingStatusData bookingStatusData, long loginUserId) throws BmsException, BmsSqlException {
+	public boolean create(BookingStatusData bookingStatusData, long loginUserId) throws BmsException, BmsSqlException {
 		try {
 			Date currDate = new Date(System.currentTimeMillis());
 			bookingStatusData.setCreatedBy(loginUserId);

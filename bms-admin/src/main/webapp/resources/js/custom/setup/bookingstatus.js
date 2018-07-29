@@ -16,11 +16,12 @@ var bookingStatusSetup = {
        		
        		var formTemplete = $("#formTemplete").clone()
     		var formHtml = formTemplete.html()
-    		.replace("#[id]", "0")
+    		.replace("#[id]", "")
     		.replace("#[name]", "")
     		.replace("#[remarks]", "");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='3'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='4'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
+       		$("#val-id").removeAttr('disabled');
        		
        		bookingStatusSetup.initValidation();
        	});
@@ -30,6 +31,7 @@ var bookingStatusSetup = {
        		if(bookingStatusSetup.bookingStatusData.id > 0) {
        			var rowTemplete = $("#rowTemplete").clone();
        			var rowHtml = rowTemplete.html()
+       				.replace("#[id]", bookingStatusSetup.bookingStatusData.id)
     				.replace("#[id]", bookingStatusSetup.bookingStatusData.id)
     				.replace("#[name]", bookingStatusSetup.bookingStatusData.name)
     				.replace("#[name]", bookingStatusSetup.bookingStatusData.name)
@@ -48,6 +50,12 @@ var bookingStatusSetup = {
        	
        	$(document).on("click", "#btnSubmit", function(e) {
        		var _btn = this;
+       		var id = $("#val-id").val();
+       		
+       		if(bookingStatusSetup.bookingStatusData.id > 0 && id != bookingStatusSetup.bookingStatusData.id) {
+    			return false;
+    		}
+       		
        		if($("#formComponent").valid()) {
        			swal({
                     text: "Do you want to " + (bookingStatusSetup.bookingStatusData.id > 0 ? "update" : "create") + " this booking status",
@@ -66,7 +74,7 @@ var bookingStatusSetup = {
            		}).then(function(e) {
                 	if(e.value) {
                 		if(bookingStatusSetup.bookingStatusData.id > 0) {
-                			bookingStatusSetup.doUpdate(_btn);
+                				bookingStatusSetup.doUpdate(_btn, bookingStatusSetup.bookingStatusData.id);
                 		} else {
                 			bookingStatusSetup.doCreate(_btn);
                 		}
@@ -88,8 +96,9 @@ var bookingStatusSetup = {
 			.replace("#[id]", bookingStatusSetup.bookingStatusData.id)
 			.replace("#[name]", bookingStatusSetup.bookingStatusData.name)
 			.replace("#[remarks]", bookingStatusSetup.bookingStatusData.remarks);
-	   		$(tr).html("<td colspan='3'>" + formHtml + "</td>");
+	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
 	   		$("#btnSubmit").html('Update');
+	   		$("#val-id").attr('disabled', true);
 	   		
 	   		bookingStatusSetup.initValidation();
        	});
@@ -129,7 +138,7 @@ var bookingStatusSetup = {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
-		
+
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
@@ -142,6 +151,7 @@ var bookingStatusSetup = {
             		$("#btnCreateNew").removeAttr('disabled');
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
+           				.replace("#[id]", data.datas[0].id)
         				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
@@ -153,7 +163,7 @@ var bookingStatusSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Booking status created successfully!'
+                		message: 'Pooking status created successfully!'
         			});
             	} else {
             		console.log(data.errors);
@@ -178,10 +188,11 @@ var bookingStatusSetup = {
 		});
 	},
 	
-	doUpdate : function(_btn) {
+	doUpdate : function(_btn, id) {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
+		serializeForm["id"] = id;
 		
 		$.ajax({
 			type: "PUT",
@@ -195,6 +206,7 @@ var bookingStatusSetup = {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
         				.replace("#[id]", data.datas[0].id)
+        				.replace("#[id]", data.datas[0].id)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[name]", data.datas[0].name)
         				.replace("#[remarks]", data.datas[0].remarks)
@@ -205,7 +217,7 @@ var bookingStatusSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Booking status updated successfully!'
+                		message: 'Pooking status updated successfully!'
         			});
             	} else {
             		console.log(data.errors);
@@ -246,7 +258,7 @@ var bookingStatusSetup = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Booking status deleted successfully!'
+                		message: 'Pooking status deleted successfully!'
         			});
             	} else {
             		console.log(data.errors);
@@ -286,13 +298,19 @@ var bookingStatusSetup = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
-            	"name": {
+            	"id": {
+                    required: true, digits: true, min: 1
+                },
+                "name": {
                     required: true, minlength: 3
                 }
             }, 
             messages : {
+            	"id": {
+                    required: "Please enter ID.", digits: "Please enter only digits."
+                }, 
             	"name": {
-                    required: "Please enter name", minlength: "Name must consist of at least 3 characters"
+                    required: "Please enter name.", minlength: "Name must consist of at least 3 characters."
                 }
             }
         });
