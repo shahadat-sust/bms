@@ -95,15 +95,15 @@ INSERT INTO PaymentMethod (Id, Name, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn)
 -- Create Point Of Interest
 -- -----------------------------------------------------------------------------------------------------------------
 INSERT INTO PointOfInterest (Id, Name, ProviderTypeId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES
-(1, 'Swimming Pool', 1, 1, 1, CURDATE(), 1, CURDATE()),
-(2, 'Parking', 1, 1, 1, CURDATE(), 1, CURDATE());
+(1, 'Swimming Pool', 1, 1, CURDATE(), 1, CURDATE()),
+(2, 'Parking', 1, 1, CURDATE(), 1, CURDATE());
 
 -- -----------------------------------------------------------------------------------------------------------------
 -- Create Point Of Interest
 -- -----------------------------------------------------------------------------------------------------------------
 INSERT INTO Amenity (Id, Name, Type, ProviderTypeId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES
-(1, 'Television', 0, 1, 1, 1, CURDATE(), 1, CURDATE()),
-(2, 'Lan Phone', 0, 1, 1, 1, CURDATE(), 1, CURDATE()),
-(3, 'Air Conditioner', 0, 1, 1, 1, CURDATE(), 1, CURDATE());
+(1, 'Television', 0, 1, 1, CURDATE(), 1, CURDATE()),
+(2, 'Lan Phone', 0, 1, 1, CURDATE(), 1, CURDATE()),
+(3, 'Air Conditioner', 0, 1, 1, CURDATE(), 1, CURDATE());
 
 
