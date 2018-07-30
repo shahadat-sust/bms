@@ -24,6 +24,32 @@ INSERT INTO Role (Id, Name, Priority, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn
 (3, 'Administrator', 1, 1, CURDATE(), 1, CURDATE());
 
 -- -----------------------------------------------------------------------------------------------------------------
+-- Create Country
+-- -----------------------------------------------------------------------------------------------------------------
+INSERT INTO Country (Id, Name, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES
+(1, 'Bangladesh', 1, CURDATE(), 1, CURDATE()),
+(2, 'India', 1, CURDATE(), 1, CURDATE());
+
+-- -----------------------------------------------------------------------------------------------------------------
+-- Create State
+-- -----------------------------------------------------------------------------------------------------------------
+INSERT INTO State (Id, Name, CountryId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES
+(1, 'Dhaka', 1, 1, CURDATE(), 1, CURDATE()),
+(2, 'Chittagong', 1, 1, CURDATE(), 1, CURDATE()),
+(3, 'Sylhet', 1, 1, CURDATE(), 1, CURDATE()),
+(4, 'Goa', 2, 1, CURDATE(), 1, CURDATE());
+
+-- -----------------------------------------------------------------------------------------------------------------
+-- Create City
+-- -----------------------------------------------------------------------------------------------------------------
+INSERT INTO City (Id, Name, StateId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES
+(1, 'Dhaka', 1, 1, CURDATE(), 1, CURDATE()),
+(2, 'Cox''s Bazar', 2, 1, CURDATE(), 1, CURDATE()),
+(3, 'Srimongol', 3, 1, CURDATE(), 1, CURDATE()),
+(4, 'Goa', 4, 1, CURDATE(), 1, CURDATE());
+
+
+-- -----------------------------------------------------------------------------------------------------------------
 -- Create Provider Type
 -- -----------------------------------------------------------------------------------------------------------------
 INSERT INTO ProviderType (Id, Name, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES 
@@ -64,3 +90,20 @@ INSERT INTO PaymentMethod (Id, Name, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn)
 (4, 'bKash', 1, CURDATE(), 1, CURDATE()),
 (5, 'PayPal', 1, CURDATE(), 1, CURDATE()),
 (6, 'iPal', 1, CURDATE(), 1, CURDATE());
+
+-- -----------------------------------------------------------------------------------------------------------------
+-- Create Point Of Interest
+-- -----------------------------------------------------------------------------------------------------------------
+INSERT INTO PointOfInterest (Id, Name, ProviderTypeId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES
+(1, 'Swimming Pool', 1, 1, 1, CURDATE(), 1, CURDATE()),
+(2, 'Parking', 1, 1, 1, CURDATE(), 1, CURDATE());
+
+-- -----------------------------------------------------------------------------------------------------------------
+-- Create Point Of Interest
+-- -----------------------------------------------------------------------------------------------------------------
+INSERT INTO Amenity (Id, Name, Type, ProviderTypeId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES
+(1, 'Television', 0, 1, 1, 1, CURDATE(), 1, CURDATE()),
+(2, 'Lan Phone', 0, 1, 1, 1, CURDATE(), 1, CURDATE()),
+(3, 'Air Conditioner', 0, 1, 1, 1, CURDATE(), 1, CURDATE());
+
+
