@@ -5,7 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -15,41 +21,24 @@ import org.springframework.stereotype.Repository;
 import com.bms.service.BmsSqlException;
 import com.bms.service.dao.BaseDao;
 import com.bms.service.data.user.UserData;
+import com.bms.service.data.user.UserProfileData;
 
 @Repository("userDao")
 public class UserDao extends BaseDao implements IUserDao {
 
+	@Autowired
+	@Qualifier("userQuery")
+	private Properties userQuery;
+
 	@Override
 	public long create(UserData userData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO User ")
-			.append("( ")
-				.append("Username, ")
-				.append("Password, ")
-				.append("IsActive, ")
-				.append("Status, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = userQuery.getProperty("user.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setString(1, userData.getUsername());
 					ps.setString(2, userData.getPassword());
 					ps.setBoolean(3, userData.isActive());
@@ -70,17 +59,8 @@ public class UserDao extends BaseDao implements IUserDao {
 	@Override
 	public boolean update(UserData userData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE User SET ")
-				.append("Username = ?, ")
-				.append("Password = ?, ")
-				.append("IsActive = ?, ")
-				.append("Status = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = userQuery.getProperty("user.update");
+			return this.getTemplete().update(sql, 
 					userData.getUsername(), 
 					userData.getPassword(),
 					userData.isActive() ? 1 : 0,
@@ -96,31 +76,20 @@ public class UserDao extends BaseDao implements IUserDao {
 	@Override
 	public boolean delete(long userId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM User WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), userId) == 1;
+			String sql = userQuery.getProperty("user.delete");
+			return this.getTemplete().update(sql, userId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
 	}
 
 	@Override
-	public UserData getUserByID(long userId) throws BmsSqlException {
+	public UserData getUserDataById(long userId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Username, ")
-				.append("Password, ")
-				.append("IsActive, ")
-				.append("Status ")
-			.append("FROM User ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = userQuery.getProperty("user.getUserDataById");
 			Object[] params = new Object[] {userId};
-			List<UserData> userList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserData>() {
+			
+			List<UserData> userList = this.getTemplete().query(sql, params, new RowMapper<UserData>() {
 				@Override
 				public UserData mapRow(ResultSet rs, int index) throws SQLException {
 					UserData userData = new UserData();
@@ -146,18 +115,10 @@ public class UserDao extends BaseDao implements IUserDao {
 	}
 
 	@Override
-	public List<UserData> getAllUsers() throws BmsSqlException {
+	public List<UserData> getAllUserDatas() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Username, ")
-				.append("Password, ")
-				.append("IsActive, ")
-				.append("Status ")
-			.append("FROM User");
-			
-			List<UserData> userList = this.getTemplete().query(sql.toString(), new RowMapper<UserData>() {
+			String sql = userQuery.getProperty("user.getAllUserDatas");
+			List<UserData> userList = this.getTemplete().query(sql, new RowMapper<UserData>() {
 				@Override
 				public UserData mapRow(ResultSet rs, int index) throws SQLException {
 					UserData userData = new UserData();
@@ -166,6 +127,13 @@ public class UserDao extends BaseDao implements IUserDao {
 					userData.setPassword(rs.getString(3));
 					userData.setActive(rs.getBoolean(4));
 					userData.setStatus(rs.getInt(5));
+					userData.setUserProfileData(new UserProfileData());
+					long userProfileId = rs.getLong(6);
+					if(userProfileId > 0) {
+						userData.getUserProfileData().setId(userProfileId);
+						userData.getUserProfileData().setFirstName(rs.getString(7));
+						userData.getUserProfileData().setLastName(rs.getString(8));
+					}
 					return userData;
 				}
 			});

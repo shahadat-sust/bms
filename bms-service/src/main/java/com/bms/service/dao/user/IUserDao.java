@@ -13,8 +13,8 @@ public interface IUserDao {
 	
 	boolean delete(long userId) throws BmsSqlException;
 	
-	UserData getUserByID(long userId) throws BmsSqlException;
+	UserData getUserDataById(long userId) throws BmsSqlException;
 	
-	List<UserData> getAllUsers() throws BmsSqlException;
+	List<UserData> getAllUserDatas() throws BmsSqlException;
 
 }

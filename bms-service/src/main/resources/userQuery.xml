@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="user.create">
+	    <![CDATA[
+			INSERT INTO User (Username, Password, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ? )
+	    ]]>
+	</entry>  
+	<entry key="user.update">
+	    <![CDATA[
+			UPDATE User SET 
+				Username = ?, 
+				Password = ?, 
+				IsActive = ?, 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="user.delete">
+	    <![CDATA[
+			DELETE FROM User WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="user.getUserDataById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Username, 
+				Password, 
+				IsActive, 
+				Status 
+			FROM User 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="user.getAllUserDatas">
+	    <![CDATA[
+			SELECT
+				User.Id,
+				User.Username,
+				User.Password,
+				User.IsActive,
+				User.Status,
+				UserProfile.Id AS UserProfileId,
+				UserProfile.FirstName,
+				UserProfile.LastName,
+				UserProfile.Gender
+			FROM User
+			LEFT OUTER JOIN UserProfile ON
+				UserProfile.UserId = User.Id 
+	    ]]>
+	</entry>    
+</properties>

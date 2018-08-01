@@ -142,9 +142,20 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-main-heading">User Management</li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link" href="<c:url value="/createuser"/>">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">Create User</span>
+                </a>
+            	<a class="nav-main-link" href="<c:url value="/userlist"/>">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">User List</span>
+                </a>
+            </li>
             <li class="nav-main-heading">Base</li>
             <li class="nav-main-item">
-                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="<c:url value="user/createuser"/>">
                     <i class="nav-main-link-icon si si-grid"></i>
                     <span class="nav-main-link-name">Blocks</span>
                 </a>

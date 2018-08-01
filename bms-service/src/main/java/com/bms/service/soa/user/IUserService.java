@@ -1,5 +1,7 @@
 package com.bms.service.soa.user;
 
+import java.util.List;
+
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
 import com.bms.service.dao.IEmailAddressDao;
@@ -15,6 +17,8 @@ import com.bms.service.data.user.UserData;
 
 public interface IUserService {
 
+	public List<UserData> getAllUserDatas() throws BmsException, BmsSqlException;
+	
 	public UserData getUserDetailInfo(long userId) throws BmsException, BmsSqlException;
 	
 	public void updateUserDeviceLastUsedTime(long userID, String deviceToken, int platform, String deviceName, String imeiNumber, long loginUserId) throws BmsException, BmsSqlException;

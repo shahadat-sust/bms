@@ -19,6 +19,7 @@ import com.bms.service.dao.user.IUserDao;
 import com.bms.service.dao.user.IUserDeviceDao;
 import com.bms.service.dao.user.IUserProfileDao;
 import com.bms.service.dao.user.IUserSocialAccountDao;
+import com.bms.service.data.CityData;
 import com.bms.service.data.EmailAddressData;
 import com.bms.service.data.PhoneNumberData;
 import com.bms.service.data.PostalAddressData;
@@ -43,8 +44,13 @@ public class UserService extends BaseService implements IUserService {
 	private IImageDao imageDao;
 	
 	@Override
+	public List<UserData> getAllUserDatas() throws BmsException, BmsSqlException {
+		return userDao.getAllUserDatas();
+	}
+	
+	@Override
 	public UserData getUserDetailInfo(long userId) throws BmsException, BmsSqlException {
-		UserData userData = userDao.getUserByID(userId);
+		UserData userData = userDao.getUserDataById(userId);
 		if(userData != null) {
 			UserProfileData userProfileData = userProfileDao.getUserProfileByUserId(userId);
 			if(userProfileData != null) {
