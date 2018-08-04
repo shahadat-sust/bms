@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,35 +21,19 @@ import com.bms.service.data.StateData;
 @Repository("stateDao")
 public class StateDao extends BaseDao implements IStateDao {
 
+	@Autowired
+	@Qualifier("stateQuery")
+	private Properties stateQuery;
+	
 	@Override
 	public long create(StateData stateData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO State ")
-			.append("( ")
-				.append("CountryId, ")
-				.append("Name, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = stateQuery.getProperty("state.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setLong(1, stateData.getCountryId());
 					ps.setString(2, stateData.getName());
 					ps.setString(3, stateData.getRemarks());
@@ -66,16 +53,8 @@ public class StateDao extends BaseDao implements IStateDao {
 	@Override
 	public boolean update(StateData stateData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE State SET ")
-				.append("CountryId = ?, ")
-				.append("Name = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = stateQuery.getProperty("state.update");
+			return this.getTemplete().update(sql, 
 					stateData.getCountryId(), 
 					stateData.getName(), 
 					stateData.getRemarks(),
@@ -90,10 +69,8 @@ public class StateDao extends BaseDao implements IStateDao {
 	@Override
 	public boolean delete(long stateId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM State WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), stateId) == 1;
+			String sql = stateQuery.getProperty("state.delete");
+			return this.getTemplete().update(sql, stateId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -102,21 +79,9 @@ public class StateDao extends BaseDao implements IStateDao {
 	@Override
 	public StateData getStateById(long stateId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("State.Id, ")
-				.append("State.CountryId, ")
-				.append("State.Name, ")
-				.append("State.Remarks, ")
-				.append("Country.Name AS CountryName ")
-			.append("FROM State ")
-			.append("LEFT OUTER JOIN Country ON ")
-				.append("Country.Id = State.CountryId ")
-			.append("WHERE ")
-			.append("State.Id = ?");
-			
+			String sql = stateQuery.getProperty("state.getStateById");
 			Object[] params = new Object[] {stateId};
-			List<StateData> stateList = this.getTemplete().query(sql.toString(), params, new RowMapper<StateData>() {
+			List<StateData> stateList = this.getTemplete().query(sql, params, new RowMapper<StateData>() {
 				@Override
 				public StateData mapRow(ResultSet rs, int index) throws SQLException {
 					StateData stateData = new StateData();
@@ -143,21 +108,9 @@ public class StateDao extends BaseDao implements IStateDao {
 	
 	public List<StateData> getStatesByCountryId(long countryId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-					.append("State.Id, ")
-					.append("State.CountryId, ")
-					.append("State.Name, ")
-					.append("State.Remarks, ")
-					.append("Country.Name AS CountryName ")
-			.append("FROM State ")
-			.append("LEFT OUTER JOIN Country ON ")
-				.append("Country.Id = State.CountryId ")
-			.append("WHERE State.CountryId = ? ")
-			.append("ORDER BY State.Name ASC ");
-	
+			String sql = stateQuery.getProperty("state.getStatesByCountryId");
 			Object[] params = new Object[] {countryId};
-			List<StateData> stateList = this.getTemplete().query(sql.toString(), params, new RowMapper<StateData>() {
+			List<StateData> stateList = this.getTemplete().query(sql, params, new RowMapper<StateData>() {
 				@Override
 				public StateData mapRow(ResultSet rs, int index) throws SQLException {
 					StateData stateData = new StateData();
@@ -179,19 +132,8 @@ public class StateDao extends BaseDao implements IStateDao {
 	@Override
 	public List<StateData> getAllStates() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-					.append("State.Id, ")
-					.append("State.CountryId, ")
-					.append("State.Name, ")
-					.append("State.Remarks, ")
-					.append("Country.Name AS CountryName ")
-			.append("FROM State ")
-			.append("LEFT OUTER JOIN Country ON ")
-				.append("Country.Id = State.CountryId ")
-			.append("ORDER BY State.Id DESC ");
-	
-			List<StateData> stateList = this.getTemplete().query(sql.toString(), new RowMapper<StateData>() {
+			String sql = stateQuery.getProperty("state.getAllStates");
+			List<StateData> stateList = this.getTemplete().query(sql, new RowMapper<StateData>() {
 				@Override
 				public StateData mapRow(ResultSet rs, int index) throws SQLException {
 					StateData stateData = new StateData();

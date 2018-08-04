@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="emailAddress.create">
+	    <![CDATA[
+			INSERT INTO EmailAddress (Email, IsVerified, IsPrimary, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="userEmailAddress.create">
+	    <![CDATA[
+			INSERT INTO UserEmailAddress (UserId, EmailAddressId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	<entry key="providerEmailAddress.create">
+	    <![CDATA[
+			INSERT INTO ProviderEmailAddress (ProviderId, EmailAddressId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	<entry key="emailAddress.update">
+	    <![CDATA[
+			UPDATE EmailAddress SET 
+				Email = ?, 
+				IsVerified = ?, 
+				IsPrimary = ?, 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="emailAddress.delete">
+	    <![CDATA[
+			DELETE FROM EmailAddress WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="emailAddress.getEmailAddressById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Email, 
+				IsVerified, 
+				IsPrimary, 
+				Status 
+			FROM EmailAddress 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="emailAddress.getEmailAddressByEmail">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Email, 
+				IsVerified, 
+				IsPrimary, 
+				Status 
+			FROM EmailAddress 
+			WHERE 
+				Email = ?
+	    ]]>
+	</entry>
+	<entry key="emailAddress.getAllEmailAddressesByUserId">
+	    <![CDATA[
+			SELECT 
+				EmailAddress.Id, 
+				Email, 
+				IsVerified, 
+				IsPrimary, 
+				Status 
+			FROM EmailAddress 
+			LEFT OUTER JOIN UserEmailAddress ON 
+				UserEmailAddress.EmailAddressId = EmailAddress.Id 
+			WHERE 
+				UserEmailAddress.UserId = ?
+	    ]]>
+	</entry>    
+	<entry key="emailAddress.getAllEmailAddressesByProviderId">
+	    <![CDATA[
+			SELECT 
+				EmailAddress.Id, 
+				Email, 
+				IsVerified, 
+				IsPrimary, 
+				Status 
+			FROM EmailAddress 
+			LEFT OUTER JOIN ProviderEmailAddress ON 
+				ProviderEmailAddress.EmailAddressId = EmailAddress.Id 
+			WHERE 
+				ProviderEmailAddress.ProviderId = ?
+	    ]]>
+	</entry>  
+</properties>

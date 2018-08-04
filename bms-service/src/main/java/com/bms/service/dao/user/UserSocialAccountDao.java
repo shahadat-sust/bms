@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,39 +22,19 @@ import com.bms.service.data.user.UserSocialAccountData;
 @Repository("userSocialAccountDao")
 public class UserSocialAccountDao extends BaseDao implements IUserSocialAccountDao {
 
+	@Autowired
+	@Qualifier("userSocialAccountQuery")
+	private Properties userSocialAccountQuery;
+	
 	@Override
 	public long create(UserSocialAccountData userSocialAccountData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO UserSocialAccount ")
-			.append("( ")
-				.append("UserId, ")
-				.append("Type, ")
-				.append("AccountId, ")
-				.append("IsVerified, ")
-				.append("Status, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = userSocialAccountQuery.getProperty("userSocialAccount.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setLong(1, userSocialAccountData.getUserId());
 					ps.setInt(2, userSocialAccountData.getType());
 					ps.setString(3, userSocialAccountData.getAccountId());
@@ -73,18 +56,8 @@ public class UserSocialAccountDao extends BaseDao implements IUserSocialAccountD
 	@Override
 	public boolean update(UserSocialAccountData userSocialAccountData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE UserSocialAccount SET ")
-				.append("UserId = ?, ")
-				.append("Type = ?, ")
-				.append("AccountId = ?, ")
-				.append("IsVerified = ?, ")
-				.append("Status = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = userSocialAccountQuery.getProperty("userSocialAccount.update");
+			return this.getTemplete().update(sql, 
 					userSocialAccountData.getUserId(), 
 					userSocialAccountData.getType(),
 					userSocialAccountData.getAccountId(),
@@ -101,32 +74,19 @@ public class UserSocialAccountDao extends BaseDao implements IUserSocialAccountD
 	@Override
 	public boolean delete(long userSocialAccountId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM socialaccount WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), userSocialAccountId) == 1;
+			String sql = userSocialAccountQuery.getProperty("userSocialAccount.delete");
+			return this.getTemplete().update(sql, userSocialAccountId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
 	}
 
 	@Override
-	public UserSocialAccountData getUserSocialAccountByID(long userSocialAccountId) throws BmsSqlException {
+	public UserSocialAccountData getUserSocialAccountById(long userSocialAccountId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("UserId, ")
-				.append("Type, ")
-				.append("AccountId, ")
-				.append("IsVerified, ")
-				.append("Status ")
-			.append("FROM UserSocialAccount ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = userSocialAccountQuery.getProperty("userSocialAccount.getUserSocialAccountById");
 			Object[] params = new Object[] {userSocialAccountId};
-			List<UserSocialAccountData> socialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
+			List<UserSocialAccountData> socialAccountList = this.getTemplete().query(sql, params, new RowMapper<UserSocialAccountData>() {
 				@Override
 				public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
 					UserSocialAccountData userSocialAccountData = new UserSocialAccountData();
@@ -154,21 +114,9 @@ public class UserSocialAccountDao extends BaseDao implements IUserSocialAccountD
 
 	public UserSocialAccountData getUserSocialAccountByTypeAccountId(int type, String accountId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("UserId, ")
-				.append("Type, ")
-				.append("AccountId, ")
-				.append("IsVerified, ")
-				.append("Status ")
-			.append("FROM UserSocialAccount ")
-			.append("WHERE ")
-			.append("Type = ? AND ")
-			.append("AccountId = ?");
-			
+			String sql = userSocialAccountQuery.getProperty("userSocialAccount.getUserSocialAccountByTypeAccountId");
 			Object[] params = new Object[] {type, accountId};
-			List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
+			List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql, params, new RowMapper<UserSocialAccountData>() {
 				@Override
 				public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
 					UserSocialAccountData userSocialAccountData = new UserSocialAccountData();
@@ -197,20 +145,9 @@ public class UserSocialAccountDao extends BaseDao implements IUserSocialAccountD
 	@Override
 	public List<UserSocialAccountData> getAllUserSocialAccountsByUserId(long userId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("UserId, ")
-				.append("Type, ")
-				.append("AccountId, ")
-				.append("IsVerified, ")
-				.append("Status ")
-			.append("FROM UserSocialAccount ")
-			.append("WHERE ")
-			.append("UserId = ?");
-			
+			String sql = userSocialAccountQuery.getProperty("userSocialAccount.getAllUserSocialAccountsByUserId");
 			Object[] params = new Object[] {userId};
-			List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserSocialAccountData>() {
+			List<UserSocialAccountData> userSocialAccountList = this.getTemplete().query(sql, params, new RowMapper<UserSocialAccountData>() {
 				@Override
 				public UserSocialAccountData mapRow(ResultSet rs, int index) throws SQLException {
 					UserSocialAccountData userSocialAccountData = new UserSocialAccountData();

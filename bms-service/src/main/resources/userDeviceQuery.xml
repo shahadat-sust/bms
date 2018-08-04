@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="userDevice.create">
+	    <![CDATA[
+			INSERT INTO UserDevice (UserId, Name, Token, Platform, ImeiNumber, FirstUsedTime, LastUsedTime, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="userDevice.update">
+	    <![CDATA[
+			UPDATE UserDevice SET 
+				Name = ?, 
+				Token = ?, 
+				Platform = ?, 
+				ImeiNumber = ?, 
+				FirstUsedTime = ?, 
+				LastUsedTime = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ? AND
+				UserId = ?
+	    ]]>
+	</entry>
+	<entry key="userDevice.delete">
+	    <![CDATA[
+			DELETE FROM UserDevice WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="userDevice.getUserDeviceById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				Name, 
+				Token, 
+				Platform, 
+				ImeiNumber, 
+				FirstUsedTime, 
+				LastUsedTime 
+			FROM UserDevice 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="userDevice.getUserDevice">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				Name, 
+				Token, 
+				Platform, 
+				ImeiNumber, 
+				FirstUsedTime, 
+				LastUsedTime 
+			FROM UserDevice 
+			WHERE 
+				UserId = ? AND 
+				Token = ? AND 
+				Platform = ? 
+	    ]]>
+	</entry>   
+	<entry key="userDevice.getAllUserDevices">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				Name, 
+				Token, 
+				Platform, 
+				ImeiNumber, 
+				FirstUsedTime, 
+				LastUsedTime 
+			FROM UserDevice
+	    ]]>
+	</entry>
+</properties>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="phoneNumber.create">
+	    <![CDATA[
+			INSERT INTO PhoneNumber (Type, Number, Code, IsVerified, IsPrimary, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="userPhoneNumber.create">
+	    <![CDATA[
+			INSERT INTO UserPhoneNumber (UserId, PhoneNumberId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn ) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	<entry key="providerPhoneNumber.create">
+	    <![CDATA[
+			INSERT INTO ProviderPhoneNumber (ProviderId, PhoneNumberId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	<entry key="phoneNumber.update">
+	    <![CDATA[
+			UPDATE PhoneNumber SET 
+				Type = ?, 
+				Number = ?, 
+				Code = ?, 
+				IsVerified = ?, 
+				IsPrimary = ?, 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+			Id = ?
+	    ]]>
+	</entry>
+	<entry key="phoneNumber.delete">
+	    <![CDATA[
+			DELETE FROM PhoneNumber WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="phoneNumber.getPhoneNumberById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Type, 
+				Number, 
+				Code, 
+				IsVerified, 
+				IsPrimary, 
+				Status 
+			FROM PhoneNumber 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="phoneNumber.getAllPhoneNumbersByUserId">
+	    <![CDATA[
+			SELECT 
+				PhoneNumber.Id, 
+				Type, 
+				Number, 
+				Code, 
+				IsVerified, 
+				IsPrimary, 
+				Status 
+			FROM PhoneNumber 
+			LEFT OUTER JOIN UserPhoneNumber ON 
+				UserPhoneNumber.PhoneNumberId = PhoneNumber.Id 
+			WHERE 
+				UserPhoneNumber.UserId = ?
+	    ]]>
+	</entry>   
+	<entry key="phoneNumber.getAllPhoneNumbersByProviderId">
+	    <![CDATA[
+			SELECT 
+				PhoneNumber.Id, 
+				Type, 
+				Number, 
+				Code, 
+				IsVerified, 
+				IsPrimary, 
+				Status 
+			FROM PhoneNumber 
+			LEFT OUTER JOIN ProviderPhoneNumber ON 
+				ProviderPhoneNumber.PhoneNumberId = PhoneNumber.Id 
+			WHERE 
+				ProviderPhoneNumber.ProviderId = ?
+	    ]]>
+	</entry> 
+</properties>

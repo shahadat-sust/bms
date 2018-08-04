@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="state.create">
+	    <![CDATA[
+			INSERT INTO State (CountryId, Name, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="state.update">
+	    <![CDATA[
+			UPDATE State SET 
+				CountryId = ?, 
+				Name = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+			Id = ?
+	    ]]>
+	</entry>
+	<entry key="state.delete">
+	    <![CDATA[
+			DELETE FROM State WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="state.getStateById">
+	    <![CDATA[
+			SELECT 
+				State.Id, 
+				State.CountryId, 
+				State.Name, 
+				State.Remarks, 
+				Country.Name AS CountryName 
+			FROM State 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = State.CountryId 
+			WHERE 
+			State.Id = ?
+	    ]]>
+	</entry> 
+	<entry key="state.getStatesByCountryId">
+	    <![CDATA[
+			SELECT 
+				State.Id, 
+				State.CountryId, 
+				State.Name, 
+				State.Remarks, 
+				Country.Name AS CountryName 
+			FROM State 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = State.CountryId 
+			WHERE State.CountryId = ? 
+			ORDER BY State.Name ASC 
+	    ]]>
+	</entry> 
+	<entry key="state.getAllStates">
+	    <![CDATA[
+			SELECT 
+				State.Id, 
+				State.CountryId, 
+				State.Name, 
+				State.Remarks, 
+				Country.Name AS CountryName 
+			FROM State 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = State.CountryId 
+			ORDER BY State.Id DESC 
+	    ]]>
+	</entry>   
+</properties>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="group.create">
+	    <![CDATA[
+			INSERT INTO `Group` (Id, Name, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="group.update">
+	    <![CDATA[
+			UPDATE `Group` SET 
+				Name = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="group.delete">
+	    <![CDATA[
+			DELETE FROM `Group` WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="group.getGroupById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM `Group` 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="group.getAllGroups">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM `Group` 
+			ORDER BY Id DESC
+	    ]]>
+	</entry>   
+</properties>

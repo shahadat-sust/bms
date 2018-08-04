@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,33 +22,19 @@ import com.bms.service.data.permission.GroupData;
 @Repository("countryDao")
 public class CountryDao extends BaseDao implements ICountryDao {
 
+	@Autowired
+	@Qualifier("countryQuery")
+	private Properties countryQuery;
+	
 	@Override
 	public long create(CountryData countryData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO Country ")
-			.append("( ")
-				.append("Name, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = countryQuery.getProperty("country.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setString(1, countryData.getName());
 					ps.setString(2, countryData.getRemarks());
 					ps.setLong(3, countryData.getCreatedBy());
@@ -64,15 +53,8 @@ public class CountryDao extends BaseDao implements ICountryDao {
 	@Override
 	public boolean update(CountryData countryData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE Country SET ")
-				.append("Name = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = countryQuery.getProperty("country.update");
+			return this.getTemplete().update(sql, 
 					countryData.getName(), 
 					countryData.getRemarks(),
 					countryData.getUpdatedBy(),
@@ -86,10 +68,8 @@ public class CountryDao extends BaseDao implements ICountryDao {
 	@Override
 	public boolean delete(long countryId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM Country WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), countryId) == 1;
+			String sql = countryQuery.getProperty("country.delete");
+			return this.getTemplete().update(sql, countryId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -98,17 +78,9 @@ public class CountryDao extends BaseDao implements ICountryDao {
 	@Override
 	public CountryData getCountryById(long countryId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM Country ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = countryQuery.getProperty("country.getCountryById");
 			Object[] params = new Object[] {countryId};
-			List<CountryData> countryList = this.getTemplete().query(sql.toString(), params, new RowMapper<CountryData>() {
+			List<CountryData> countryList = this.getTemplete().query(sql, params, new RowMapper<CountryData>() {
 				@Override
 				public CountryData mapRow(ResultSet rs, int index) throws SQLException {
 					CountryData countryData = new CountryData();
@@ -134,15 +106,8 @@ public class CountryDao extends BaseDao implements ICountryDao {
 	@Override
 	public List<CountryData> getAllCountries() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM Country ")
-			.append("ORDER BY Id DESC ");
-	
-			List<CountryData> countryList = this.getTemplete().query(sql.toString(), new RowMapper<CountryData>() {
+			String sql = countryQuery.getProperty("country.getAllCountries");
+			List<CountryData> countryList = this.getTemplete().query(sql, new RowMapper<CountryData>() {
 				@Override
 				public CountryData mapRow(ResultSet rs, int index) throws SQLException {
 					CountryData countryData = new CountryData();

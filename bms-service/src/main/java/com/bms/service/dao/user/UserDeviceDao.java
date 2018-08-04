@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,43 +22,19 @@ import com.bms.service.data.user.UserDeviceData;
 @Repository("userDeviceDao")
 public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 
+	@Autowired
+	@Qualifier("userDeviceQuery")
+	private Properties userDeviceQuery;
+	
 	@Override
 	public long create(UserDeviceData userDeviceData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO UserDevice ")
-			.append("( ")
-				.append("UserId, ")
-				.append("Name, ")
-				.append("Token, ")
-				.append("Platform, ")
-				.append("ImeiNumber, ")
-				.append("FirstUsedTime, ")
-				.append("LastUsedTime, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = userDeviceQuery.getProperty("userCard.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setLong(1, userDeviceData.getUserId());
 					ps.setString(2, userDeviceData.getName());
 					ps.setString(3, userDeviceData.getToken());
@@ -79,20 +58,8 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 	@Override
 	public boolean update(UserDeviceData userDeviceData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE UserDevice SET ")
-				.append("Name = ?, ")
-				.append("Token = ?, ")
-				.append("Platform = ?, ")
-				.append("ImeiNumber = ?, ")
-				.append("FirstUsedTime = ?, ")
-				.append("LastUsedTime = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?")
-			.append("UserId = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = userDeviceQuery.getProperty("userCard.update");
+			return this.getTemplete().update(sql, 
 					userDeviceData.getName(),
 					userDeviceData.getToken(),
 					userDeviceData.getPlatform(),
@@ -111,10 +78,8 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 	@Override
 	public boolean delete(long userDeviceId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM UserDevice WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), userDeviceId) == 1;
+			String sql = userDeviceQuery.getProperty("userCard.delete");
+			return this.getTemplete().update(sql, userDeviceId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -123,22 +88,9 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 	@Override
 	public UserDeviceData getUserDeviceById(long userDeviceId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("UserId, ")
-				.append("Name, ")
-				.append("Token, ")
-				.append("Platform, ")
-				.append("ImeiNumber, ")
-				.append("FirstUsedTime, ")
-				.append("LastUsedTime ")
-			.append("FROM UserDevice ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = userDeviceQuery.getProperty("userCard.getUserDeviceById");
 			Object[] params = new Object[] {userDeviceId};
-			List<UserDeviceData> deviceList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserDeviceData>() {
+			List<UserDeviceData> deviceList = this.getTemplete().query(sql, params, new RowMapper<UserDeviceData>() {
 				@Override
 				public UserDeviceData mapRow(ResultSet rs, int index) throws SQLException {
 					UserDeviceData userDeviceData = new UserDeviceData();
@@ -169,24 +121,9 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 	@Override
 	public UserDeviceData getUserDevice(long userId, String token, int platform) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("UserId, ")
-				.append("Name, ")
-				.append("Token, ")
-				.append("Platform, ")
-				.append("ImeiNumber, ")
-				.append("FirstUsedTime, ")
-				.append("LastUsedTime ")
-			.append("FROM UserDevice ")
-			.append("WHERE ")
-			.append("UserId = ? AND ")
-			.append("Token = ? AND ")
-			.append("Platform = ? ");
-			
+			String sql = userDeviceQuery.getProperty("userCard.getUserDevice");
 			Object[] params = new Object[] {userId, token, platform};
-			List<UserDeviceData> deviceList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserDeviceData>() {
+			List<UserDeviceData> deviceList = this.getTemplete().query(sql, params, new RowMapper<UserDeviceData>() {
 				@Override
 				public UserDeviceData mapRow(ResultSet rs, int index) throws SQLException {
 					UserDeviceData userDeviceData = new UserDeviceData();
@@ -217,19 +154,8 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 	@Override
 	public List<UserDeviceData> getAllUserDevices() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("UserId, ")
-				.append("Name, ")
-				.append("Token, ")
-				.append("Platform, ")
-				.append("ImeiNumber, ")
-				.append("FirstUsedTime, ")
-				.append("LastUsedTime ")
-			.append("FROM UserDevice");
-			
-			List<UserDeviceData> deviceList = this.getTemplete().query(sql.toString(), new RowMapper<UserDeviceData>() {
+			String sql = userDeviceQuery.getProperty("userCard.getAllUserDevices");
+			List<UserDeviceData> deviceList = this.getTemplete().query(sql, new RowMapper<UserDeviceData>() {
 				@Override
 				public UserDeviceData mapRow(ResultSet rs, int index) throws SQLException {
 					UserDeviceData userDeviceData = new UserDeviceData();

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="pointOfInterest.create">
+	    <![CDATA[
+			INSERT INTO PointOfInterest (ProviderTypeId, Name, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="pointOfInterest.update">
+	    <![CDATA[
+			UPDATE PointOfInterest SET 
+				ProviderTypeId = ?, 
+				Name = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+			Id = ?
+	    ]]>
+	</entry>
+	<entry key="pointOfInterest.delete">
+	    <![CDATA[
+			DELETE FROM PointOfInterest WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="pointOfInterest.getPointOfInterestById">
+	    <![CDATA[
+			SELECT 
+				PointOfInterest.Id, 
+				PointOfInterest.ProviderTypeId, 
+				PointOfInterest.Name, 
+				PointOfInterest.Remarks, 
+				ProviderType.Name AS ProviderTypeName 
+			FROM PointOfInterest 
+			LEFT OUTER JOIN ProviderType ON 
+				ProviderType.Id = PointOfInterest.ProviderTypeId 
+			WHERE 
+			PointOfInterest.Id = ?
+	    ]]>
+	</entry> 
+	<entry key="pointOfInterest.getPointOfInterestsByProviderTypeId">
+	    <![CDATA[
+			SELECT 
+				PointOfInterest.Id, 
+				PointOfInterest.ProviderTypeId, 
+				PointOfInterest.Name, 
+				PointOfInterest.Remarks, 
+				ProviderType.Name AS ProviderTypeName 
+			FROM PointOfInterest 
+			LEFT OUTER JOIN ProviderType ON 
+				ProviderType.Id = PointOfInterest.ProviderTypeId 
+			WHERE PointOfInterest.ProviderTypeId = ? 
+			ORDER BY PointOfInterest.Name ASC  
+	    ]]>
+	</entry> 
+	<entry key="pointOfInterest.getAllPointOfInterests">
+	    <![CDATA[
+			SELECT 
+				PointOfInterest.Id, 
+				PointOfInterest.ProviderTypeId, 
+				PointOfInterest.Name, 
+				PointOfInterest.Remarks, 
+				ProviderType.Name AS ProviderTypeName 
+			FROM PointOfInterest 
+			LEFT OUTER JOIN ProviderType ON 
+				ProviderType.Id = PointOfInterest.ProviderTypeId 
+			ORDER BY PointOfInterest.Id DESC 
+	    ]]>
+	</entry>   
+</properties>

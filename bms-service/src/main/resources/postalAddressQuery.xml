@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="postalAddress.create">
+	    <![CDATA[
+			INSERT INTO PostalAddress (Line1, Line2, CityId, StateId, CountryId, PostCode, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="userPostalAddress.create">
+	    <![CDATA[
+			INSERT INTO UserPostalAddress (UserId, PostalAddressId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	<entry key="providerPostalAddress.create">
+	    <![CDATA[
+			INSERT INTO ProviderPostalAddress (ProviderId, PostalAddressId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES ( ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	<entry key="postalAddress.update">
+	    <![CDATA[
+			UPDATE PostalAddress SET 
+				Line1 = ?, 
+				Line2 = ?, 
+				CityId = ?, 
+				StateId = ?, 
+				CountryId = ?, 
+				PostCode = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="postalAddress.delete">
+	    <![CDATA[
+			DELETE FROM PostalAddress WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="postalAddress.getPostalAddressById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Line1, 
+				Line2, 
+				CityId, 
+				StateId, 
+				CountryId, 
+				PostCode 
+			FROM PostalAddress 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="postalAddress.getAllPostalAddressesByUserId">
+	    <![CDATA[
+			SELECT 
+				PostalAddress.Id, 
+				Line1, 
+				Line2, 
+				CityId, 
+				StateId, 
+				CountryId, 
+				PostCode 
+			FROM PostalAddress 
+			LEFT OUTER JOIN UserPostalAddress ON 
+				UserPostalAddress.PostalAddressId = PostalAddress.Id 
+			WHERE 
+				UserPostalAddress.UserId = ?
+	    ]]>
+	</entry>   
+	<entry key="postalAddress.getAllPostalAddressesByProviderId">
+	    <![CDATA[
+			SELECT 
+				PostalAddress.Id, 
+				Line1, 
+				Line2, 
+				CityId, 
+				StateId, 
+				CountryId, 
+				PostCode 
+			FROM PostalAddress 
+			LEFT OUTER JOIN ProviderPostalAddress ON 
+				ProviderPostalAddress.PostalAddressId = PostalAddress.Id 
+			WHERE 
+				ProviderPostalAddress.ProviderId = ?
+	    ]]>
+	</entry> 
+</properties>

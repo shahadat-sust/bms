@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,41 +22,19 @@ import com.bms.service.data.PostalAddressData;
 @Repository("postalAddressDao")
 public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 
+	@Autowired
+	@Qualifier("postalAddressQuery")
+	private Properties postalAddressQuery;
+	
 	@Override
 	public long create(long userId, long providerId, PostalAddressData postalAddressData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO PostalAddress ")
-			.append("( ")
-				.append("Line1, ")
-				.append("Line2, ")
-				.append("CityId, ")
-				.append("StateId, ")
-				.append("CountryId, ")
-				.append("PostCode, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = postalAddressQuery.getProperty("postalAddress.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setString(1, postalAddressData.getLine1());
 					ps.setString(2, postalAddressData.getLine2());
 					ps.setLong(3, postalAddressData.getCityId());
@@ -70,30 +51,12 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 			long postalAddressId = holder.getKey().longValue();
 			
 			if(userId > 0) {
-				StringBuilder sql1 = new StringBuilder()
-				.append("INSERT INTO UserPostalAddress ")
-				.append("( ")
-					.append("UserId, ")
-					.append("PostalAddressId, ")
-					.append("CreatedBy, ")
-					.append("CreatedOn, ")
-					.append("UpdatedBy, ")
-					.append("UpdatedOn ")
-				.append(") ")
-				.append("VALUES ")
-				.append("( ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("? ")
-				.append(")");
+				String sql1 = postalAddressQuery.getProperty("userPostalAddress.create");
 				KeyHolder holder1 = new GeneratedKeyHolder();
 				this.getTemplete().update(new PreparedStatementCreator() {
 					@Override
 					public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-						PreparedStatement ps = conn.prepareStatement(sql1.toString(), new String[] { "Id" });
+						PreparedStatement ps = conn.prepareStatement(sql1, new String[] { "Id" });
 						ps.setLong(1, userId);
 						ps.setLong(2, postalAddressId);
 						ps.setLong(3, postalAddressData.getCreatedBy());
@@ -104,25 +67,7 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 					}
 				}, holder1);
 			} else if(providerId > 0) {
-				StringBuilder sql1 = new StringBuilder()
-				.append("INSERT INTO ProviderPostalAddress ")
-				.append("( ")
-					.append("ProviderId, ")
-					.append("PostalAddressId, ")
-					.append("CreatedBy, ")
-					.append("CreatedOn, ")
-					.append("UpdatedBy, ")
-					.append("UpdatedOn ")
-				.append(") ")
-				.append("VALUES ")
-				.append("( ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("? ")
-				.append(")");
+				String sql1 = postalAddressQuery.getProperty("providerPostalAddress.create");
 				KeyHolder holder1 = new GeneratedKeyHolder();
 				this.getTemplete().update(new PreparedStatementCreator() {
 					@Override
@@ -148,19 +93,8 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 	@Override
 	public boolean update(PostalAddressData postalAddressData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE PostalAddress SET ")
-				.append("Line1 = ?, ")
-				.append("Line2 = ?, ")
-				.append("CityId = ?, ")
-				.append("StateId = ?, ")
-				.append("CountryId = ?, ")
-				.append("PostCode = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = postalAddressQuery.getProperty("postalAddress.update");
+			return this.getTemplete().update(sql, 
 					postalAddressData.getLine1(), 
 					postalAddressData.getLine2(),
 					postalAddressData.getCityId(),
@@ -178,10 +112,8 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 	@Override
 	public boolean delete(long postalAddressId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM PostalAddress WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), postalAddressId) == 1;
+			String sql = postalAddressQuery.getProperty("postalAddress.delete");
+			return this.getTemplete().update(sql, postalAddressId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -190,21 +122,9 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 	@Override
 	public PostalAddressData getPostalAddressById(long postalAddressId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Line1, ")
-				.append("Line2, ")
-				.append("CityId, ")
-				.append("StateId, ")
-				.append("CountryId, ")
-				.append("PostCode ")
-			.append("FROM PostalAddress ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = postalAddressQuery.getProperty("postalAddress.getPostalAddressById");
 			Object[] params = new Object[] {postalAddressId};
-			List<PostalAddressData> postalAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<PostalAddressData>() {
+			List<PostalAddressData> postalAddressList = this.getTemplete().query(sql, params, new RowMapper<PostalAddressData>() {
 				@Override
 				public PostalAddressData mapRow(ResultSet rs, int index) throws SQLException {
 					PostalAddressData postalAddressData = new PostalAddressData();
@@ -234,23 +154,9 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 	@Override
 	public List<PostalAddressData> getAllPostalAddressesByUserId(long userId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("PostalAddress.Id, ")
-				.append("Line1, ")
-				.append("Line2, ")
-				.append("CityId, ")
-				.append("StateId, ")
-				.append("CountryId, ")
-				.append("PostCode ")
-			.append("FROM PostalAddress ")
-			.append("LEFT OUTER JOIN UserPostalAddress ON ")
-				.append("UserPostalAddress.PostalAddressId = PostalAddress.Id ")
-			.append("WHERE ")
-				.append("UserPostalAddress.UserId = ?");
-			
+			String sql = postalAddressQuery.getProperty("postalAddress.getAllPostalAddressesByUserId");
 			Object[] params = new Object[] {userId};
-			List<PostalAddressData> postalAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<PostalAddressData>() {
+			List<PostalAddressData> postalAddressList = this.getTemplete().query(sql, params, new RowMapper<PostalAddressData>() {
 				@Override
 				public PostalAddressData mapRow(ResultSet rs, int index) throws SQLException {
 					PostalAddressData postalAddressData = new PostalAddressData();
@@ -273,23 +179,9 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 	@Override
 	public List<PostalAddressData> getAllPostalAddressesByProviderId(long providerId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("PostalAddress.Id, ")
-				.append("Line1, ")
-				.append("Line2, ")
-				.append("CityId, ")
-				.append("StateId, ")
-				.append("CountryId, ")
-				.append("PostCode ")
-			.append("FROM PostalAddress ")
-			.append("LEFT OUTER JOIN ProviderPostalAddress ON ")
-				.append("ProviderPostalAddress.PostalAddressId = PostalAddress.Id ")
-			.append("WHERE ")
-				.append("ProviderPostalAddress.ProviderId = ?");
-			
+			String sql = postalAddressQuery.getProperty("postalAddress.getAllPostalAddressesByProviderId");
 			Object[] params = new Object[] {providerId};
-			List<PostalAddressData> postalAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<PostalAddressData>() {
+			List<PostalAddressData> postalAddressList = this.getTemplete().query(sql, params, new RowMapper<PostalAddressData>() {
 				@Override
 				public PostalAddressData mapRow(ResultSet rs, int index) throws SQLException {
 					PostalAddressData postalAddressData = new PostalAddressData();

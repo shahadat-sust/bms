@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="userSocialAccount.create">
+	    <![CDATA[
+			INSERT INTO UserSocialAccount (UserId, Type, AccountId, IsVerified, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="userSocialAccount.update">
+	    <![CDATA[
+			UPDATE UserSocialAccount SET 
+				UserId = ?, 
+				Type = ?, 
+				AccountId = ?, 
+				IsVerified = ?, 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="userSocialAccount.delete">
+	    <![CDATA[
+			DELETE FROM UserSocialAccount WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="userSocialAccount.getUserProfileByUserId">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				Type, 
+				AccountId, 
+				IsVerified, 
+				Status 
+			FROM UserSocialAccount 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="userSocialAccount.getUserSocialAccountByTypeAccountId">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				Type, 
+				AccountId, 
+				IsVerified, 
+				Status 
+			FROM UserSocialAccount 
+			WHERE 
+				Type = ? AND 
+				AccountId = ?
+	    ]]>
+	</entry>   
+	<entry key="userSocialAccount.getAllUserSocialAccountsByUserId">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				Type, 
+				AccountId, 
+				IsVerified, 
+				Status 
+			FROM UserSocialAccount 
+			WHERE 
+				UserId = ?
+	    ]]>
+	</entry>  
+</properties>

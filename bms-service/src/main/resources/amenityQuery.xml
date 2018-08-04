@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="amenity.create">
+	    <![CDATA[
+			INSERT INTO Amenity (ProviderTypeId, Name, Type, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="amenity.update">
+	    <![CDATA[
+			UPDATE Amenity SET 
+				ProviderTypeId = ?, 
+				Name = ?, 
+				Type = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="amenity.delete">
+	    <![CDATA[
+			DELETE FROM Amenity WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="amenity.getAmenityById">
+	    <![CDATA[
+			SELECT 
+				Amenity.Id, 
+				Amenity.ProviderTypeId, 
+				Amenity.Name, 
+				Amenity.Type, 
+				Amenity.Remarks, 
+				ProviderType.Name AS ProviderTypeName 
+			FROM Amenity 
+			LEFT OUTER JOIN ProviderType ON 
+				ProviderType.Id = Amenity.ProviderTypeId 
+			WHERE 
+			Amenity.Id = ? 
+	    ]]>
+	</entry> 
+	<entry key="amenity.getAmenitiesByProviderTypeId">
+	    <![CDATA[
+			SELECT 
+				Amenity.Id, 
+				Amenity.ProviderTypeId, 
+				Amenity.Name, 
+				Amenity.Type, 
+				Amenity.Remarks, 
+				ProviderType.Name AS ProviderTypeName 
+			FROM Amenity 
+			LEFT OUTER JOIN ProviderType ON 
+				ProviderType.Id = Amenity.ProviderTypeId 
+			WHERE Amenity.ProviderTypeId = ? 
+			ORDER BY Amenity.Name ASC 
+	    ]]>
+	</entry> 
+	<entry key="amenity.getAllAmenities">
+	    <![CDATA[
+			SELECT 
+				Amenity.Id, 
+				Amenity.ProviderTypeId, 
+				Amenity.Name, 
+				Amenity.Type, 
+				Amenity.Remarks, 
+				ProviderType.Name AS ProviderTypeName 
+			FROM Amenity 
+			LEFT OUTER JOIN ProviderType ON 
+				ProviderType.Id = Amenity.ProviderTypeId 
+			ORDER BY Amenity.Id DESC 
+	    ]]>
+	</entry>   
+</properties>

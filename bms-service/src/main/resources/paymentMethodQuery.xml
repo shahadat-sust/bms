@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="paymentMethod.create">
+	    <![CDATA[
+			INSERT INTO PaymentMethod (Id, Name, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="paymentMethod.update">
+	    <![CDATA[
+			UPDATE PaymentMethod SET 
+				Name = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="paymentMethod.delete">
+	    <![CDATA[
+			DELETE FROM PaymentMethod WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="paymentMethod.getPaymentMethodById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM PaymentMethod 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="paymentMethod.getAllPaymentMethods">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM PaymentMethod 
+			ORDER BY Id DESC
+	    ]]>
+	</entry>   
+</properties>

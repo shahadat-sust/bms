@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="city.create">
+	    <![CDATA[
+			INSERT INTO City (StateId, Name, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="city.update">
+	    <![CDATA[
+			UPDATE City SET 
+				StateId = ?, 
+				Name = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="city.delete">
+	    <![CDATA[
+			DELETE FROM City WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="city.getCityById">
+	    <![CDATA[
+			SELECT 
+				City.Id, 
+				City.StateId, 
+				City.Name, 
+				City.Remarks, 
+				State.Name AS StateName, 
+				Country.Id AS CountryId, 
+				Country.Name AS CountryName 
+			FROM City 
+			LEFT OUTER JOIN State ON 
+				State.Id = City.StateId 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = State.CountryId 
+			WHERE City.Id = ?
+	    ]]>
+	</entry> 
+	<entry key="city.getCitiesByCountryId">
+	    <![CDATA[
+			SELECT 
+				City.Id, 
+				City.StateId, 
+				City.Name, 
+				City.Remarks, 
+				State.Name AS StateName, 
+				Country.Id AS CountryId, 
+				Country.Name AS CountryName 
+			FROM City 
+			LEFT OUTER JOIN State ON 
+				State.Id = City.StateId 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = State.CountryId 
+			WHERE Country.Id = ? 
+			ORDER BY City.Name ASC
+	    ]]>
+	</entry> 
+	<entry key="city.getAllCities">
+	    <![CDATA[
+			SELECT 
+				City.Id, 
+				City.StateId, 
+				City.Name, 
+				City.Remarks, 
+				State.Name AS StateName, 
+				Country.Id AS CountryId, 
+				Country.Name AS CountryName 
+			FROM City 
+			LEFT OUTER JOIN State ON 
+				State.Id = City.StateId 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = State.CountryId 
+			ORDER BY City.Id DESC
+	    ]]>
+	</entry>   
+</properties>

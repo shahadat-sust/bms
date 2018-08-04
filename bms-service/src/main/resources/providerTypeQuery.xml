@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="providerType.create">
+	    <![CDATA[
+			INSERT INTO ProviderType (Id, Name, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="providerType.update">
+	    <![CDATA[
+			UPDATE ProviderType SET 
+				Name = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="providerType.delete">
+	    <![CDATA[
+			DELETE FROM ProviderType WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="providerType.getProviderTypeById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM ProviderType 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="providerType.getAllProviderTypes">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM ProviderType 
+			ORDER BY Id DESC 
+	    ]]>
+	</entry>   
+</properties>

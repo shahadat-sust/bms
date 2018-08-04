@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="userProfile.create">
+	    <![CDATA[
+			INSERT INTO UserProfile (UserId, FirstName, LastName, BirthDay, Gender, SecurityNumber, PassportNumber, DrivingLicenceNumber, Caption, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="userProfile.update">
+	    <![CDATA[
+			UPDATE UserProfile SET 
+				FirstName = ?, 
+				LastName = ?, 
+				BirthDay = ?, 
+				Gender = ?, 
+				SecurityNumber = ?, 
+				PassportNumber = ?, 
+				DrivingLicenceNumber = ?, 
+				Caption = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ? AND
+				UserId = ?
+	    ]]>
+	</entry>
+	<entry key="userProfile.delete">
+	    <![CDATA[
+			DELETE FROM UserProfile WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="userProfile.getUserProfileByUserId">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				FirstName, 
+				LastName, 
+				BirthDay, 
+				Gender, 
+				SecurityNumber, 
+				PassportNumber, 
+				DrivingLicenceNumber, 
+				Caption 
+			FROM UserProfile 
+			WHERE 
+				UserId = ?
+	    ]]>
+	</entry> 
+	<entry key="userProfile.getAllUserProfileDatas">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				FirstName, 
+				LastName, 
+				BirthDay, 
+				Gender, 
+				SecurityNumber, 
+				PassportNumber, 
+				DrivingLicenceNumber, 
+				Caption 
+			FROM UserProfile  
+	    ]]>
+	</entry>   
+</properties>

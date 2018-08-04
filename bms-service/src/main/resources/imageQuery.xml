@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="image.create">
+	    <![CDATA[
+			INSERT INTO Image (Url, Type, IsDefault, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn ) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="userImage.create">
+	    <![CDATA[
+			INSERT INTO UserImage (UserId, ImageId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	<entry key="providerImage.create">
+	    <![CDATA[
+			INSERT INTO ProviderImage (ProviderId, ImageId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	<entry key="itemCategoryImage.create">
+	    <![CDATA[
+			INSERT INTO ItemCategoryImage (ItemCategoryId, ImageId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	<entry key="image.update">
+	    <![CDATA[
+			UPDATE Image SET 
+				Url = ?, 
+				Type = ?, 
+				IsDefault = ?, 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="image.delete">
+	    <![CDATA[
+			DELETE FROM Image WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="image.getImageById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Url, 
+				Type, 
+				IsDefault, 
+				Status 
+			FROM Image 
+			WHERE 
+			Id = ?
+	    ]]>
+	</entry> 
+	<entry key="image.getAllImages">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Url, 
+				Type, 
+				IsDefault, 
+				Status 
+			FROM Image
+	    ]]>
+	</entry>   
+</properties>

@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,35 +22,19 @@ import com.bms.service.data.StateData;
 @Repository("cityDao")
 public class CityDao extends BaseDao implements ICityDao {
 
+	@Autowired
+	@Qualifier("cityQuery")
+	private Properties cityQuery;
+	
 	@Override
 	public long create(CityData cityData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO City ")
-			.append("( ")
-				.append("StateId, ")
-				.append("Name, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = cityQuery.getProperty("city.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setLong(1, cityData.getStateId());
 					ps.setString(2, cityData.getName());
 					ps.setString(3, cityData.getRemarks());
@@ -67,16 +54,8 @@ public class CityDao extends BaseDao implements ICityDao {
 	@Override
 	public boolean update(CityData cityData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE City SET ")
-				.append("StateId = ?, ")
-				.append("Name = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = cityQuery.getProperty("city.update");
+			return this.getTemplete().update(sql, 
 					cityData.getStateId(), 
 					cityData.getName(), 
 					cityData.getRemarks(),
@@ -91,10 +70,8 @@ public class CityDao extends BaseDao implements ICityDao {
 	@Override
 	public boolean delete(long cityId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM City WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), cityId) == 1;
+			String sql = cityQuery.getProperty("city.delete");
+			return this.getTemplete().update(sql, cityId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -103,24 +80,9 @@ public class CityDao extends BaseDao implements ICityDao {
 	@Override
 	public CityData getCityById(long cityId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-					.append("City.Id, ")
-					.append("City.StateId, ")
-					.append("City.Name, ")
-					.append("City.Remarks, ")
-					.append("State.Name AS StateName, ")
-					.append("Country.Id AS CountryId, ")
-					.append("Country.Name AS CountryName ")
-			.append("FROM City ")
-			.append("LEFT OUTER JOIN State ON ")
-				.append("State.Id = City.StateId ")
-			.append("LEFT OUTER JOIN Country ON ")
-				.append("Country.Id = State.CountryId ")
-			.append("WHERE City.Id = ? ");
-			
+			String sql = cityQuery.getProperty("city.getCityById");
 			Object[] params = new Object[] {cityId};
-			List<CityData> cityList = this.getTemplete().query(sql.toString(), params, new RowMapper<CityData>() {
+			List<CityData> cityList = this.getTemplete().query(sql, params, new RowMapper<CityData>() {
 				@Override
 				public CityData mapRow(ResultSet rs, int index) throws SQLException {
 					CityData cityData = new CityData();
@@ -149,25 +111,9 @@ public class CityDao extends BaseDao implements ICityDao {
 	
 	public List<CityData> getCitiesByCountryId(long countryId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-					.append("City.Id, ")
-					.append("City.StateId, ")
-					.append("City.Name, ")
-					.append("City.Remarks, ")
-					.append("State.Name AS StateName, ")
-					.append("Country.Id AS CountryId, ")
-					.append("Country.Name AS CountryName ")
-			.append("FROM City ")
-			.append("LEFT OUTER JOIN State ON ")
-				.append("State.Id = City.StateId ")
-			.append("LEFT OUTER JOIN Country ON ")
-				.append("Country.Id = State.CountryId ")
-			.append("WHERE Country.Id = ? ")
-			.append("ORDER BY City.Name ASC ");
-	
+			String sql = cityQuery.getProperty("city.getCitiesByCountryId");
 			Object[] params = new Object[] {countryId};
-			List<CityData> cityList = this.getTemplete().query(sql.toString(), params, new RowMapper<CityData>() {
+			List<CityData> cityList = this.getTemplete().query(sql, params, new RowMapper<CityData>() {
 				@Override
 				public CityData mapRow(ResultSet rs, int index) throws SQLException {
 					CityData cityData = new CityData();
@@ -191,23 +137,8 @@ public class CityDao extends BaseDao implements ICityDao {
 	@Override
 	public List<CityData> getAllCities() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-					.append("City.Id, ")
-					.append("City.StateId, ")
-					.append("City.Name, ")
-					.append("City.Remarks, ")
-					.append("State.Name AS StateName, ")
-					.append("Country.Id AS CountryId, ")
-					.append("Country.Name AS CountryName ")
-			.append("FROM City ")
-			.append("LEFT OUTER JOIN State ON ")
-				.append("State.Id = City.StateId ")
-			.append("LEFT OUTER JOIN Country ON ")
-				.append("Country.Id = State.CountryId ")
-			.append("ORDER BY City.Id DESC ");
-	
-			List<CityData> cityList = this.getTemplete().query(sql.toString(), new RowMapper<CityData>() {
+			String sql = cityQuery.getProperty("city.getAllCities");
+			List<CityData> cityList = this.getTemplete().query(sql, new RowMapper<CityData>() {
 				@Override
 				public CityData mapRow(ResultSet rs, int index) throws SQLException {
 					CityData cityData = new CityData();

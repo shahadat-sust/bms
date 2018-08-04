@@ -13,7 +13,7 @@ public interface IUserSocialAccountDao {
 	
 	boolean delete(long userSocialAccountId) throws BmsSqlException;
 	
-	UserSocialAccountData getUserSocialAccountByID(long userSocialAccountId) throws BmsSqlException;
+	UserSocialAccountData getUserSocialAccountById(long userSocialAccountId) throws BmsSqlException;
 	
 	UserSocialAccountData getUserSocialAccountByTypeAccountId(int type, String accountId) throws BmsSqlException;
 	

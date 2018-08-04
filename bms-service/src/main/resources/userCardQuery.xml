@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="userCard.create">
+	    <![CDATA[
+			INSERT INTO UserCard (UserId, CardNumber, HolderName, CvvNumber, ExpireDate, Status, IsDefault, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="userCard.update">
+	    <![CDATA[
+			UPDATE UserCard SET 
+				CardNumber = ?, 
+				HolderName = ?, 
+				CvvNumber = ?, 
+				ExpireDate = ?, 
+				Status = ?, 
+				IsDefault = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+			Id = ? AND
+			UserId = ?
+	    ]]>
+	</entry>
+	<entry key="userCard.delete">
+	    <![CDATA[
+			DELETE FROM UserCard WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="userCard.getUserCardById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				CardNumber, 
+				HolderName, 
+				CvvNumber, 
+				ExpireDate, 
+				Status, 
+				IsDefault 
+			FROM UserCard 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="userCard.getAllUserCardsByUserId">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				UserId, 
+				CardNumber, 
+				HolderName, 
+				CvvNumber, 
+				ExpireDate, 
+				Status, 
+				IsDefault 
+			FROM UserCard 
+			WHERE 
+				UserId = ?
+	    ]]>
+	</entry>   
+</properties>

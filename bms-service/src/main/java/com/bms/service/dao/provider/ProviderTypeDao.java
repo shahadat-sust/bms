@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,34 +22,18 @@ import com.bms.service.data.provider.ProviderTypeData;
 @Repository("providerTypeDao")
 public class ProviderTypeDao extends BaseDao implements IProviderTypeDao {
 
+	@Autowired
+	@Qualifier("providerTypeQuery")
+	private Properties providerTypeQuery;
+	
 	@Override
 	public boolean create(ProviderTypeData providerTypeData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO ProviderType ")
-			.append("( ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = providerTypeQuery.getProperty("providerType.create");
 			return this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString());
+					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setLong(1, providerTypeData.getId());
 					ps.setString(2, providerTypeData.getName());
 					ps.setString(3, providerTypeData.getRemarks());
@@ -65,15 +52,8 @@ public class ProviderTypeDao extends BaseDao implements IProviderTypeDao {
 	@Override
 	public boolean update(ProviderTypeData providerTypeData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE ProviderType SET ")
-				.append("Name = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = providerTypeQuery.getProperty("providerType.update");
+			return this.getTemplete().update(sql, 
 					providerTypeData.getName(), 
 					providerTypeData.getRemarks(),
 					providerTypeData.getUpdatedBy(),
@@ -87,10 +67,8 @@ public class ProviderTypeDao extends BaseDao implements IProviderTypeDao {
 	@Override
 	public boolean delete(long providerTypeId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM ProviderType WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), providerTypeId) == 1;
+			String sql = providerTypeQuery.getProperty("providerType.delete");
+			return this.getTemplete().update(sql, providerTypeId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -99,17 +77,9 @@ public class ProviderTypeDao extends BaseDao implements IProviderTypeDao {
 	@Override
 	public ProviderTypeData getProviderTypeById(long providerTypeId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM ProviderType ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = providerTypeQuery.getProperty("providerType.getProviderTypeById");
 			Object[] params = new Object[] {providerTypeId};
-			List<ProviderTypeData> providerTypeList = this.getTemplete().query(sql.toString(), params, new RowMapper<ProviderTypeData>() {
+			List<ProviderTypeData> providerTypeList = this.getTemplete().query(sql, params, new RowMapper<ProviderTypeData>() {
 				@Override
 				public ProviderTypeData mapRow(ResultSet rs, int index) throws SQLException {
 					ProviderTypeData providerTypeData = new ProviderTypeData();
@@ -135,15 +105,8 @@ public class ProviderTypeDao extends BaseDao implements IProviderTypeDao {
 	@Override
 	public List<ProviderTypeData> getAllProviderTypes() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM ProviderType ")
-			.append("ORDER BY Id DESC ");
-	
-			List<ProviderTypeData> providerTypeList = this.getTemplete().query(sql.toString(), new RowMapper<ProviderTypeData>() {
+			String sql = providerTypeQuery.getProperty("providerType.getAllProviderTypes");
+			List<ProviderTypeData> providerTypeList = this.getTemplete().query(sql, new RowMapper<ProviderTypeData>() {
 				@Override
 				public ProviderTypeData mapRow(ResultSet rs, int index) throws SQLException {
 					ProviderTypeData providerTypeData = new ProviderTypeData();

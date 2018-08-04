@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.bms.service.BmsSqlException;
@@ -19,34 +20,18 @@ import com.bms.service.data.booking.PaymentTypeData;
 @Repository("paymentTypeDao")
 public class PaymentTypeDao extends BaseDao implements IPaymentTypeDao {
 
+	@Autowired
+	@Qualifier("paymentTypeQuery")
+	private Properties paymentTypeQuery;
+	
 	@Override
 	public boolean create(PaymentTypeData paymentTypeData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO PaymentType ")
-			.append("( ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = paymentTypeQuery.getProperty("paymentType.create");
 			return this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString());
+					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setLong(1, paymentTypeData.getId());
 					ps.setString(2, paymentTypeData.getName());
 					ps.setString(3, paymentTypeData.getRemarks());
@@ -65,15 +50,8 @@ public class PaymentTypeDao extends BaseDao implements IPaymentTypeDao {
 	@Override
 	public boolean update(PaymentTypeData paymentTypeData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE PaymentType SET ")
-				.append("Name = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = paymentTypeQuery.getProperty("paymentType.update");
+			return this.getTemplete().update(sql, 
 					paymentTypeData.getName(), 
 					paymentTypeData.getRemarks(),
 					paymentTypeData.getUpdatedBy(),
@@ -87,10 +65,8 @@ public class PaymentTypeDao extends BaseDao implements IPaymentTypeDao {
 	@Override
 	public boolean delete(long paymentTypeId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM PaymentType WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), paymentTypeId) == 1;
+			String sql = paymentTypeQuery.getProperty("paymentType.delete");
+			return this.getTemplete().update(sql, paymentTypeId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -99,17 +75,9 @@ public class PaymentTypeDao extends BaseDao implements IPaymentTypeDao {
 	@Override
 	public PaymentTypeData getPaymentTypeById(long paymentTypeId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM PaymentType ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = paymentTypeQuery.getProperty("paymentType.getPaymentTypeById");
 			Object[] params = new Object[] {paymentTypeId};
-			List<PaymentTypeData> paymentTypeList = this.getTemplete().query(sql.toString(), params, new RowMapper<PaymentTypeData>() {
+			List<PaymentTypeData> paymentTypeList = this.getTemplete().query(sql, params, new RowMapper<PaymentTypeData>() {
 				@Override
 				public PaymentTypeData mapRow(ResultSet rs, int index) throws SQLException {
 					PaymentTypeData paymentTypeData = new PaymentTypeData();
@@ -135,15 +103,8 @@ public class PaymentTypeDao extends BaseDao implements IPaymentTypeDao {
 	@Override
 	public List<PaymentTypeData> getAllPaymentTypes() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM PaymentType ")
-			.append("ORDER BY Id DESC ");
-	
-			List<PaymentTypeData> paymentTypeList = this.getTemplete().query(sql.toString(), new RowMapper<PaymentTypeData>() {
+			String sql = paymentTypeQuery.getProperty("paymentType.getAllPaymentTypes");
+			List<PaymentTypeData> paymentTypeList = this.getTemplete().query(sql, new RowMapper<PaymentTypeData>() {
 				@Override
 				public PaymentTypeData mapRow(ResultSet rs, int index) throws SQLException {
 					PaymentTypeData paymentTypeData = new PaymentTypeData();

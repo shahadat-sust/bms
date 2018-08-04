@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,37 +20,18 @@ import com.bms.service.data.permission.RoleData;
 @Repository("roleDao")
 public class RoleDao extends BaseDao implements IRoleDao {
 
+	@Autowired
+	@Qualifier("roleQuery")
+	private Properties roleQuery;
+	
 	@Override
 	public boolean create(RoleData roleData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO Role ")
-			.append("( ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Priority, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
-			
+			String sql = roleQuery.getProperty("role.create");
 			return this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString());
+					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setLong(1, roleData.getId());
 					ps.setString(2, roleData.getName());
 					ps.setInt(3, roleData.getPriority());
@@ -67,16 +51,8 @@ public class RoleDao extends BaseDao implements IRoleDao {
 	@Override
 	public boolean update(RoleData roleData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE Role SET ")
-				.append("Name = ?, ")
-				.append("Priority = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = roleQuery.getProperty("role.update");
+			return this.getTemplete().update(sql, 
 					roleData.getName(), 
 					roleData.getPriority(), 
 					roleData.getRemarks(),
@@ -91,10 +67,8 @@ public class RoleDao extends BaseDao implements IRoleDao {
 	@Override
 	public boolean delete(long roleId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM Role WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), roleId) == 1;
+			String sql = roleQuery.getProperty("role.delete");
+			return this.getTemplete().update(sql, roleId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -103,18 +77,9 @@ public class RoleDao extends BaseDao implements IRoleDao {
 	@Override
 	public RoleData getRoleById(long roleId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Priority, ")
-				.append("Remarks ")
-			.append("FROM Role ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = roleQuery.getProperty("role.getRoleById");
 			Object[] params = new Object[] {roleId};
-			List<RoleData> roleList = this.getTemplete().query(sql.toString(), params, new RowMapper<RoleData>() {
+			List<RoleData> roleList = this.getTemplete().query(sql, params, new RowMapper<RoleData>() {
 				@Override
 				public RoleData mapRow(ResultSet rs, int index) throws SQLException {
 					RoleData roleData = new RoleData();
@@ -141,16 +106,8 @@ public class RoleDao extends BaseDao implements IRoleDao {
 	@Override
 	public List<RoleData> getAllRoles() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Priority, ")
-				.append("Remarks ")
-			.append("FROM Role ")
-			.append("ORDER BY Id DESC");
-	
-			List<RoleData> roleList = this.getTemplete().query(sql.toString(), new RowMapper<RoleData>() {
+			String sql = roleQuery.getProperty("role.getAllRoles");
+			List<RoleData> roleList = this.getTemplete().query(sql, new RowMapper<RoleData>() {
 				@Override
 				public RoleData mapRow(ResultSet rs, int index) throws SQLException {
 					RoleData roleData = new RoleData();

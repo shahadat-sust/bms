@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,35 +22,19 @@ import com.bms.service.data.provider.PointOfInterestData;
 @Repository("pointOfInterestDao")
 public class PointOfInterestDao extends BaseDao implements IPointOfInterestDao {
 
+	@Autowired
+	@Qualifier("pointOfInterestQuery")
+	private Properties pointOfInterestQuery;
+	
 	@Override
 	public long create(PointOfInterestData pointOfInterestData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO PointOfInterest ")
-			.append("( ")
-				.append("ProviderTypeId, ")
-				.append("Name, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = pointOfInterestQuery.getProperty("pointOfInterest.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setLong(1, pointOfInterestData.getProviderTypeId());
 					ps.setString(2, pointOfInterestData.getName());
 					ps.setString(3, pointOfInterestData.getRemarks());
@@ -67,16 +54,8 @@ public class PointOfInterestDao extends BaseDao implements IPointOfInterestDao {
 	@Override
 	public boolean update(PointOfInterestData pointOfInterestData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE PointOfInterest SET ")
-				.append("ProviderTypeId = ?, ")
-				.append("Name = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = pointOfInterestQuery.getProperty("pointOfInterest.update");
+			return this.getTemplete().update(sql, 
 					pointOfInterestData.getProviderTypeId(), 
 					pointOfInterestData.getName(), 
 					pointOfInterestData.getRemarks(),
@@ -91,10 +70,8 @@ public class PointOfInterestDao extends BaseDao implements IPointOfInterestDao {
 	@Override
 	public boolean delete(long pointOfInterestId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM PointOfInterest WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), pointOfInterestId) == 1;
+			String sql = pointOfInterestQuery.getProperty("pointOfInterest.delete");
+			return this.getTemplete().update(sql, pointOfInterestId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -103,21 +80,9 @@ public class PointOfInterestDao extends BaseDao implements IPointOfInterestDao {
 	@Override
 	public PointOfInterestData getPointOfInterestById(long pointOfInterestId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("PointOfInterest.Id, ")
-				.append("PointOfInterest.ProviderTypeId, ")
-				.append("PointOfInterest.Name, ")
-				.append("PointOfInterest.Remarks, ")
-				.append("ProviderType.Name AS ProviderTypeName ")
-			.append("FROM PointOfInterest ")
-			.append("LEFT OUTER JOIN ProviderType ON ")
-				.append("ProviderType.Id = PointOfInterest.ProviderTypeId ")
-			.append("WHERE ")
-			.append("PointOfInterest.Id = ?");
-			
+			String sql = pointOfInterestQuery.getProperty("pointOfInterest.getPointOfInterestById");
 			Object[] params = new Object[] {pointOfInterestId};
-			List<PointOfInterestData> pointOfInterestList = this.getTemplete().query(sql.toString(), params, new RowMapper<PointOfInterestData>() {
+			List<PointOfInterestData> pointOfInterestList = this.getTemplete().query(sql, params, new RowMapper<PointOfInterestData>() {
 				@Override
 				public PointOfInterestData mapRow(ResultSet rs, int index) throws SQLException {
 					PointOfInterestData pointOfInterestData = new PointOfInterestData();
@@ -144,21 +109,9 @@ public class PointOfInterestDao extends BaseDao implements IPointOfInterestDao {
 	
 	public List<PointOfInterestData> getPointOfInterestsByProviderTypeId(long providerTypeId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-					.append("PointOfInterest.Id, ")
-					.append("PointOfInterest.ProviderTypeId, ")
-					.append("PointOfInterest.Name, ")
-					.append("PointOfInterest.Remarks, ")
-					.append("ProviderType.Name AS ProviderTypeName ")
-			.append("FROM PointOfInterest ")
-			.append("LEFT OUTER JOIN ProviderType ON ")
-				.append("ProviderType.Id = PointOfInterest.ProviderTypeId ")
-			.append("WHERE PointOfInterest.ProviderTypeId = ? ")
-			.append("ORDER BY PointOfInterest.Name ASC ");
-	
+			String sql = pointOfInterestQuery.getProperty("pointOfInterest.getPointOfInterestsByProviderTypeId");
 			Object[] params = new Object[] {providerTypeId};
-			List<PointOfInterestData> pointOfInterestList = this.getTemplete().query(sql.toString(), params, new RowMapper<PointOfInterestData>() {
+			List<PointOfInterestData> pointOfInterestList = this.getTemplete().query(sql, params, new RowMapper<PointOfInterestData>() {
 				@Override
 				public PointOfInterestData mapRow(ResultSet rs, int index) throws SQLException {
 					PointOfInterestData pointOfInterestData = new PointOfInterestData();
@@ -180,19 +133,8 @@ public class PointOfInterestDao extends BaseDao implements IPointOfInterestDao {
 	@Override
 	public List<PointOfInterestData> getAllPointOfInterests() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-					.append("PointOfInterest.Id, ")
-					.append("PointOfInterest.ProviderTypeId, ")
-					.append("PointOfInterest.Name, ")
-					.append("PointOfInterest.Remarks, ")
-					.append("ProviderType.Name AS ProviderTypeName ")
-			.append("FROM PointOfInterest ")
-			.append("LEFT OUTER JOIN ProviderType ON ")
-				.append("ProviderType.Id = PointOfInterest.ProviderTypeId ")
-			.append("ORDER BY PointOfInterest.Id DESC ");
-	
-			List<PointOfInterestData> pointOfInterestList = this.getTemplete().query(sql.toString(), new RowMapper<PointOfInterestData>() {
+			String sql = pointOfInterestQuery.getProperty("pointOfInterest.getAllPointOfInterests");
+			List<PointOfInterestData> pointOfInterestList = this.getTemplete().query(sql, new RowMapper<PointOfInterestData>() {
 				@Override
 				public PointOfInterestData mapRow(ResultSet rs, int index) throws SQLException {
 					PointOfInterestData pointOfInterestData = new PointOfInterestData();

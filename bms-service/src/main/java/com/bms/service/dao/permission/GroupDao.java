@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,34 +20,18 @@ import com.bms.service.data.permission.GroupData;
 @Repository("groupDao")
 public class GroupDao extends BaseDao implements IGroupDao {
 
+	@Autowired
+	@Qualifier("groupQuery")
+	private Properties groupQuery;
+	
 	@Override
 	public boolean create(GroupData groupData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO `Group` ")
-			.append("( ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = groupQuery.getProperty("group.create");
 			return this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString());
+					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setLong(1, groupData.getId());
 					ps.setString(2, groupData.getName());
 					ps.setString(3, groupData.getRemarks());
@@ -63,15 +50,8 @@ public class GroupDao extends BaseDao implements IGroupDao {
 	@Override
 	public boolean update(GroupData groupData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE `Group` SET ")
-				.append("Name = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ? ");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = groupQuery.getProperty("group.update");
+			return this.getTemplete().update(sql, 
 					groupData.getName(), 
 					groupData.getRemarks(),
 					groupData.getUpdatedBy(),
@@ -85,10 +65,8 @@ public class GroupDao extends BaseDao implements IGroupDao {
 	@Override
 	public boolean delete(long groupID) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM `Group` WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), groupID) == 1;
+			String sql = groupQuery.getProperty("group.delete");
+			return this.getTemplete().update(sql, groupID) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -97,17 +75,9 @@ public class GroupDao extends BaseDao implements IGroupDao {
 	@Override
 	public GroupData getGroupById(long groupId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM `Group` ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = groupQuery.getProperty("group.getGroupById");
 			Object[] params = new Object[] {groupId};
-			List<GroupData> groupList = this.getTemplete().query(sql.toString(), params, new RowMapper<GroupData>() {
+			List<GroupData> groupList = this.getTemplete().query(sql, params, new RowMapper<GroupData>() {
 				@Override
 				public GroupData mapRow(ResultSet rs, int index) throws SQLException {
 					GroupData groupData = new GroupData();
@@ -133,15 +103,8 @@ public class GroupDao extends BaseDao implements IGroupDao {
 	@Override
 	public List<GroupData> getAllGroups() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM `Group`")
-			.append("ORDER BY Id DESC");
-			
-			List<GroupData> groupList = this.getTemplete().query(sql.toString(), new RowMapper<GroupData>() {
+			String sql = groupQuery.getProperty("group.getAllGroups");
+			List<GroupData> groupList = this.getTemplete().query(sql, new RowMapper<GroupData>() {
 				@Override
 				public GroupData mapRow(ResultSet rs, int index) throws SQLException {
 					GroupData groupData = new GroupData();

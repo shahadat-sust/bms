@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.bms.service.BmsSqlException;
@@ -19,34 +20,18 @@ import com.bms.service.data.booking.BookingStatusData;
 @Repository("bookingStatusDao")
 public class BookingStatusDao extends BaseDao implements IBookingStatusDao {
 
+	@Autowired
+	@Qualifier("bookingStatusQuery")
+	private Properties bookingStatusQuery;
+	
 	@Override
 	public boolean create(BookingStatusData bookingStatusData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO BookingStatus ")
-			.append("( ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = bookingStatusQuery.getProperty("bookingStatus.create");
 			return this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString());
+					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setLong(1, bookingStatusData.getId());
 					ps.setString(2, bookingStatusData.getName());
 					ps.setString(3, bookingStatusData.getRemarks());
@@ -65,15 +50,8 @@ public class BookingStatusDao extends BaseDao implements IBookingStatusDao {
 	@Override
 	public boolean update(BookingStatusData bookingStatusData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE BookingStatus SET ")
-				.append("Name = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = bookingStatusQuery.getProperty("bookingStatus.update");
+			return this.getTemplete().update(sql, 
 					bookingStatusData.getName(), 
 					bookingStatusData.getRemarks(),
 					bookingStatusData.getUpdatedBy(),
@@ -87,10 +65,8 @@ public class BookingStatusDao extends BaseDao implements IBookingStatusDao {
 	@Override
 	public boolean delete(long bookingStatusId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM BookingStatus WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), bookingStatusId) == 1;
+			String sql = bookingStatusQuery.getProperty("bookingStatus.delete");
+			return this.getTemplete().update(sql, bookingStatusId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -99,17 +75,9 @@ public class BookingStatusDao extends BaseDao implements IBookingStatusDao {
 	@Override
 	public BookingStatusData getBookingStatusById(long bookingStatusId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM BookingStatus ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = bookingStatusQuery.getProperty("bookingStatus.getBookingStatusById");
 			Object[] params = new Object[] {bookingStatusId};
-			List<BookingStatusData> bookingStatusList = this.getTemplete().query(sql.toString(), params, new RowMapper<BookingStatusData>() {
+			List<BookingStatusData> bookingStatusList = this.getTemplete().query(sql, params, new RowMapper<BookingStatusData>() {
 				@Override
 				public BookingStatusData mapRow(ResultSet rs, int index) throws SQLException {
 					BookingStatusData bookingStatusData = new BookingStatusData();
@@ -135,15 +103,8 @@ public class BookingStatusDao extends BaseDao implements IBookingStatusDao {
 	@Override
 	public List<BookingStatusData> getAllBookingStatuses() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Remarks ")
-			.append("FROM BookingStatus ")
-			.append("ORDER BY Id DESC ");
-	
-			List<BookingStatusData> bookingStatusList = this.getTemplete().query(sql.toString(), new RowMapper<BookingStatusData>() {
+			String sql = bookingStatusQuery.getProperty("bookingStatus.getAllBookingStatuses");
+			List<BookingStatusData> bookingStatusList = this.getTemplete().query(sql, new RowMapper<BookingStatusData>() {
 				@Override
 				public BookingStatusData mapRow(ResultSet rs, int index) throws SQLException {
 					BookingStatusData bookingStatusData = new BookingStatusData();

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="bookingType.create">
+	    <![CDATA[
+			INSERT INTO BookingType (Id, Name, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="bookingType.update">
+	    <![CDATA[
+			UPDATE BookingType SET 
+				Name = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="bookingType.delete">
+	    <![CDATA[
+			DELETE FROM BookingType WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="bookingType.getBookingTypeById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM BookingType 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="bookingType.getAllBookingTypes">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM BookingType 
+			ORDER BY Id DESC
+	    ]]>
+	</entry>   
+</properties>

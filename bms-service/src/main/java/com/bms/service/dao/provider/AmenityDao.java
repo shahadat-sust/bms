@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,37 +22,19 @@ import com.bms.service.data.provider.AmenityData;
 @Repository("amenityDao")
 public class AmenityDao extends BaseDao implements IAmenityDao {
 
+	@Autowired
+	@Qualifier("amenityQuery")
+	private Properties amenityQuery;
+	
 	@Override
 	public long create(AmenityData amenityData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO Amenity ")
-			.append("( ")
-				.append("ProviderTypeId, ")
-				.append("Name, ")
-				.append("Type, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = amenityQuery.getProperty("amenity.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setLong(1, amenityData.getProviderTypeId());
 					ps.setString(2, amenityData.getName());
 					ps.setInt(3, amenityData.getType());
@@ -70,17 +55,8 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 	@Override
 	public boolean update(AmenityData amenityData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE Amenity SET ")
-				.append("ProviderTypeId = ?, ")
-				.append("Name = ?, ")
-				.append("Type = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = amenityQuery.getProperty("amenity.update");
+			return this.getTemplete().update(sql, 
 					amenityData.getProviderTypeId(), 
 					amenityData.getName(), 
 					amenityData.getType(), 
@@ -96,10 +72,8 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 	@Override
 	public boolean delete(long amenityId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM Amenity WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), amenityId) == 1;
+			String sql = amenityQuery.getProperty("amenity.delete");
+			return this.getTemplete().update(sql, amenityId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -108,22 +82,9 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 	@Override
 	public AmenityData getAmenityById(long amenityId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Amenity.Id, ")
-				.append("Amenity.ProviderTypeId, ")
-				.append("Amenity.Name, ")
-				.append("Amenity.Type, ")
-				.append("Amenity.Remarks, ")
-				.append("ProviderType.Name AS ProviderTypeName ")
-			.append("FROM Amenity ")
-			.append("LEFT OUTER JOIN ProviderType ON ")
-				.append("ProviderType.Id = Amenity.ProviderTypeId ")
-			.append("WHERE ")
-			.append("Amenity.Id = ?");
-			
+			String sql = amenityQuery.getProperty("amenity.getAmenityById");
 			Object[] params = new Object[] {amenityId};
-			List<AmenityData> amenityList = this.getTemplete().query(sql.toString(), params, new RowMapper<AmenityData>() {
+			List<AmenityData> amenityList = this.getTemplete().query(sql, params, new RowMapper<AmenityData>() {
 				@Override
 				public AmenityData mapRow(ResultSet rs, int index) throws SQLException {
 					AmenityData amenityData = new AmenityData();
@@ -151,22 +112,9 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 	
 	public List<AmenityData> getAmenitiesByProviderTypeId(long providerTypeId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-					.append("Amenity.Id, ")
-					.append("Amenity.ProviderTypeId, ")
-					.append("Amenity.Name, ")
-					.append("Amenity.Type, ")
-					.append("Amenity.Remarks, ")
-					.append("ProviderType.Name AS ProviderTypeName ")
-			.append("FROM Amenity ")
-			.append("LEFT OUTER JOIN ProviderType ON ")
-				.append("ProviderType.Id = Amenity.ProviderTypeId ")
-			.append("WHERE Amenity.ProviderTypeId = ? ")
-			.append("ORDER BY Amenity.Name ASC ");
-	
+			String sql = amenityQuery.getProperty("amenity.getAmenitiesByProviderTypeId");
 			Object[] params = new Object[] {providerTypeId};
-			List<AmenityData> amenityList = this.getTemplete().query(sql.toString(), params, new RowMapper<AmenityData>() {
+			List<AmenityData> amenityList = this.getTemplete().query(sql, params, new RowMapper<AmenityData>() {
 				@Override
 				public AmenityData mapRow(ResultSet rs, int index) throws SQLException {
 					AmenityData amenityData = new AmenityData();
@@ -189,20 +137,8 @@ public class AmenityDao extends BaseDao implements IAmenityDao {
 	@Override
 	public List<AmenityData> getAllAmenities() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-					.append("Amenity.Id, ")
-					.append("Amenity.ProviderTypeId, ")
-					.append("Amenity.Name, ")
-					.append("Amenity.Type, ")
-					.append("Amenity.Remarks, ")
-					.append("ProviderType.Name AS ProviderTypeName ")
-			.append("FROM Amenity ")
-			.append("LEFT OUTER JOIN ProviderType ON ")
-				.append("ProviderType.Id = Amenity.ProviderTypeId ")
-			.append("ORDER BY Amenity.Id DESC ");
-	
-			List<AmenityData> amenityList = this.getTemplete().query(sql.toString(), new RowMapper<AmenityData>() {
+			String sql = amenityQuery.getProperty("amenity.getAllAmenities");
+			List<AmenityData> amenityList = this.getTemplete().query(sql, new RowMapper<AmenityData>() {
 				@Override
 				public AmenityData mapRow(ResultSet rs, int index) throws SQLException {
 					AmenityData amenityData = new AmenityData();

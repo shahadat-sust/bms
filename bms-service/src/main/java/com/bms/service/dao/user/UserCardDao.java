@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,43 +22,19 @@ import com.bms.service.data.user.UserCardData;
 @Repository("userCardDao")
 public class UserCardDao extends BaseDao implements IUserCardDao {
 
+	@Autowired
+	@Qualifier("userCardQuery")
+	private Properties userCardQuery;
+	
 	@Override
 	public long create(UserCardData userCardData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO UserCard ")
-			.append("( ")
-				.append("UserId, ")
-				.append("CardNumber, ")
-				.append("HolderName, ")
-				.append("CvvNumber, ")
-				.append("ExpireDate, ")
-				.append("Status, ")
-				.append("IsDefault, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = userCardQuery.getProperty("userCard.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setLong(1, userCardData.getUserId());
 					ps.setString(2, userCardData.getCardNumber());
 					ps.setString(3, userCardData.getHolderName());
@@ -79,20 +58,8 @@ public class UserCardDao extends BaseDao implements IUserCardDao {
 	@Override
 	public boolean update(UserCardData userCardData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE UserCard SET ")
-				.append("CardNumber = ?, ")
-				.append("HolderName = ?, ")
-				.append("CvvNumber = ?, ")
-				.append("ExpireDate = ?, ")
-				.append("Status = ?, ")
-				.append("IsDefault = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?")
-			.append("UserId = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = userCardQuery.getProperty("userCard.update");
+			return this.getTemplete().update(sql, 
 					userCardData.getCardNumber(),
 					userCardData.getHolderName(),
 					userCardData.getCvvNumber(),
@@ -111,9 +78,7 @@ public class UserCardDao extends BaseDao implements IUserCardDao {
 	@Override
 	public boolean delete(long userCardId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM UserCard WHERE Id = ?");
-	
+			String sql = userCardQuery.getProperty("userCard.delete");
 			return this.getTemplete().update(sql.toString(), userCardId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
@@ -123,22 +88,9 @@ public class UserCardDao extends BaseDao implements IUserCardDao {
 	@Override
 	public UserCardData getUserCardById(long userCardId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("UserId, ")
-				.append("CardNumber, ")
-				.append("HolderName, ")
-				.append("CvvNumber, ")
-				.append("ExpireDate, ")
-				.append("Status, ")
-				.append("IsDefault ")
-			.append("FROM UserCard ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = userCardQuery.getProperty("userCard.getUserCardById");
 			Object[] params = new Object[] {userCardId};
-			List<UserCardData> userCardList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserCardData>() {
+			List<UserCardData> userCardList = this.getTemplete().query(sql, params, new RowMapper<UserCardData>() {
 				@Override
 				public UserCardData mapRow(ResultSet rs, int index) throws SQLException {
 					UserCardData userDeviceData = new UserCardData();
@@ -169,22 +121,9 @@ public class UserCardDao extends BaseDao implements IUserCardDao {
 	@Override
 	public List<UserCardData> getAllUserCardsByUserId(long userId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("UserId, ")
-				.append("CardNumber, ")
-				.append("HolderName, ")
-				.append("CvvNumber, ")
-				.append("ExpireDate, ")
-				.append("Status, ")
-				.append("IsDefault ")
-			.append("FROM UserCard ")
-			.append("WHERE ")
-			.append("UserId = ?");
-			
+			String sql = userCardQuery.getProperty("userCard.getAllUserCardsByUserId");
 			Object[] params = new Object[] {userId};
-			List<UserCardData> userCardList = this.getTemplete().query(sql.toString(), params, new RowMapper<UserCardData>() {
+			List<UserCardData> userCardList = this.getTemplete().query(sql, params, new RowMapper<UserCardData>() {
 				@Override
 				public UserCardData mapRow(ResultSet rs, int index) throws SQLException {
 					UserCardData userDeviceData = new UserCardData();

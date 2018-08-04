@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,36 +21,14 @@ import com.bms.service.data.PhoneNumberData;
 @Repository("phoneNumberDao")
 public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 
+	@Autowired
+	@Qualifier("phoneNumberQuery")
+	private Properties phoneNumberQuery;
+	
 	@Override
 	public long create(long userId, long providerId, PhoneNumberData phoneNumberData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO PhoneNumber ")
-			.append("( ")
-				.append("Type, ")
-				.append("Number, ")
-				.append("Code, ")
-				.append("IsVerified, ")
-				.append("IsPrimary, ")
-				.append("Status, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = phoneNumberQuery.getProperty("phoneNumber.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
@@ -69,30 +50,12 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 			long phoneNumberId = holder.getKey().longValue();
 			
 			if(userId > 0) {
-				StringBuilder sql1 = new StringBuilder()
-				.append("INSERT INTO UserPhoneNumber ")
-				.append("( ")
-					.append("UserId, ")
-					.append("PhoneNumberId, ")
-					.append("CreatedBy, ")
-					.append("CreatedOn, ")
-					.append("UpdatedBy, ")
-					.append("UpdatedOn ")
-				.append(") ")
-				.append("VALUES ")
-				.append("( ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("? ")
-				.append(")");
+				String sql1 = phoneNumberQuery.getProperty("userPhoneNumber.create");
 				KeyHolder holder1 = new GeneratedKeyHolder();
 				this.getTemplete().update(new PreparedStatementCreator() {
 					@Override
 					public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-						PreparedStatement ps = conn.prepareStatement(sql1.toString(), new String[] { "Id" });
+						PreparedStatement ps = conn.prepareStatement(sql1, new String[] { "Id" });
 						ps.setLong(1, userId);
 						ps.setLong(2, phoneNumberId);
 						ps.setLong(3, phoneNumberData.getCreatedBy());
@@ -103,30 +66,12 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 					}
 				}, holder1);
 			} else if(providerId > 0) {
-				StringBuilder sql1 = new StringBuilder()
-				.append("INSERT INTO ProviderPhoneNumber ")
-				.append("( ")
-					.append("ProviderId, ")
-					.append("PhoneNumberId, ")
-					.append("CreatedBy, ")
-					.append("CreatedOn, ")
-					.append("UpdatedBy, ")
-					.append("UpdatedOn ")
-				.append(") ")
-				.append("VALUES ")
-				.append("( ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("? ")
-				.append(")");
+				String sql1 = phoneNumberQuery.getProperty("providerPhoneNumber.create");
 				KeyHolder holder1 = new GeneratedKeyHolder();
 				this.getTemplete().update(new PreparedStatementCreator() {
 					@Override
 					public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-						PreparedStatement ps = conn.prepareStatement(sql1.toString(), new String[] { "Id" });
+						PreparedStatement ps = conn.prepareStatement(sql1, new String[] { "Id" });
 						ps.setLong(1, providerId);
 						ps.setLong(2, phoneNumberId);
 						ps.setLong(3, phoneNumberData.getCreatedBy());
@@ -147,19 +92,8 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 	@Override
 	public boolean update(PhoneNumberData phoneNumberData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE PhoneNumber SET ")
-				.append("Type = ?, ")
-				.append("Number = ?, ")
-				.append("Code = ?, ")
-				.append("IsVerified = ?, ")
-				.append("IsPrimary = ?, ")
-				.append("Status = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(),  
+			String sql = phoneNumberQuery.getProperty("phoneNumber.update");
+			return this.getTemplete().update(sql,  
 					phoneNumberData.getType(),
 					phoneNumberData.getNumber(),
 					phoneNumberData.getCode(),
@@ -175,12 +109,10 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 	}
 
 	@Override
-	public boolean delete(long phoneNumberID) throws BmsSqlException {
+	public boolean delete(long phoneNumberId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM PhoneNumber WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), phoneNumberID) == 1;
+			String sql = phoneNumberQuery.getProperty("phoneNumber.delete");
+			return this.getTemplete().update(sql, phoneNumberId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -189,21 +121,9 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 	@Override
 	public PhoneNumberData getPhoneNumberById(long phoneNumberId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Type, ")
-				.append("Number, ")
-				.append("Code, ")
-				.append("IsVerified, ")
-				.append("IsPrimary, ")
-				.append("Status ")
-			.append("FROM PhoneNumber ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = phoneNumberQuery.getProperty("phoneNumber.getPhoneNumberById");
 			Object[] params = new Object[] {phoneNumberId};
-			List<PhoneNumberData> phoneNumberList = this.getTemplete().query(sql.toString(), params, new RowMapper<PhoneNumberData>() {
+			List<PhoneNumberData> phoneNumberList = this.getTemplete().query(sql, params, new RowMapper<PhoneNumberData>() {
 				@Override
 				public PhoneNumberData mapRow(ResultSet rs, int index) throws SQLException {
 					PhoneNumberData phoneNumberData = new PhoneNumberData();
@@ -233,23 +153,9 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 	@Override
 	public List<PhoneNumberData> getAllPhoneNumbersByUserId(long userId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("PhoneNumber.Id, ")
-				.append("Type, ")
-				.append("Number, ")
-				.append("Code, ")
-				.append("IsVerified, ")
-				.append("IsPrimary, ")
-				.append("Status ")
-			.append("FROM PhoneNumber ")
-				.append("LEFT OUTER JOIN UserPhoneNumber ON ")
-				.append("UserPhoneNumber.PhoneNumberId = PhoneNumber.Id ")
-			.append("WHERE ")
-				.append("UserPhoneNumber.UserId = ?");
-			
+			String sql = phoneNumberQuery.getProperty("phoneNumber.getAllPhoneNumbersByUserId");
 			Object[] params = new Object[] {userId};
-			List<PhoneNumberData> phoneNumberList = this.getTemplete().query(sql.toString(), params, new RowMapper<PhoneNumberData>() {
+			List<PhoneNumberData> phoneNumberList = this.getTemplete().query(sql, params, new RowMapper<PhoneNumberData>() {
 				@Override
 				public PhoneNumberData mapRow(ResultSet rs, int index) throws SQLException {
 					PhoneNumberData phoneNumberData = new PhoneNumberData();
@@ -272,23 +178,9 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 	@Override
 	public List<PhoneNumberData> getAllPhoneNumbersByProviderId(long providerId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("PhoneNumber.Id, ")
-				.append("Type, ")
-				.append("Number, ")
-				.append("Code, ")
-				.append("IsVerified, ")
-				.append("IsPrimary, ")
-				.append("Status ")
-			.append("FROM PhoneNumber ")
-			.append("LEFT OUTER JOIN ProviderPhoneNumber ON ")
-				.append("ProviderPhoneNumber.PhoneNumberId = PhoneNumber.Id ")
-			.append("WHERE ")
-				.append("ProviderPhoneNumber.ProviderId = ?");
-			
+			String sql = phoneNumberQuery.getProperty("phoneNumber.getAllPhoneNumbersByProviderId");
 			Object[] params = new Object[] {providerId};
-			List<PhoneNumberData> phoneNumberList = this.getTemplete().query(sql.toString(), params, new RowMapper<PhoneNumberData>() {
+			List<PhoneNumberData> phoneNumberList = this.getTemplete().query(sql, params, new RowMapper<PhoneNumberData>() {
 				@Override
 				public PhoneNumberData mapRow(ResultSet rs, int index) throws SQLException {
 					PhoneNumberData phoneNumberData = new PhoneNumberData();

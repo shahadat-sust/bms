@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="country.create">
+	    <![CDATA[
+			INSERT INTO Country (Name, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="country.update">
+	    <![CDATA[
+			UPDATE Country SET 
+				Name = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="country.delete">
+	    <![CDATA[
+			DELETE FROM Country WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="country.getCountryById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM Country 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="country.getAllCountries">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Remarks 
+			FROM Country 
+			ORDER BY Id DESC
+	    ]]>
+	</entry>   
+</properties>

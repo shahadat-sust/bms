@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,39 +22,19 @@ import com.bms.service.data.permission.PolicyData;
 @Repository("policyDao")
 public class PolicyDao extends BaseDao implements IPolicyDao {
 
+	@Autowired
+	@Qualifier("policyQuery")
+	private Properties policyQuery;
+	
 	@Override
 	public long create(PolicyData policyData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO Policy ")
-			.append("( ")
-				.append("Name, ")
-				.append("Code, ")
-				.append("Type, ")
-				.append("ParentId, ")
-				.append("Remarks, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = policyQuery.getProperty("policy.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setString(1, policyData.getName());
 					ps.setString(2, policyData.getCode());
 					ps.setInt(3, policyData.getType());
@@ -73,18 +56,8 @@ public class PolicyDao extends BaseDao implements IPolicyDao {
 	@Override
 	public boolean update(PolicyData policyData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE Policy SET ")
-				.append("Name = ?, ")
-				.append("Code = ?, ")
-				.append("Type = ?, ")
-				.append("ParentId = ?, ")
-				.append("Remarks = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = policyQuery.getProperty("policy.update");
+			return this.getTemplete().update(sql, 
 					policyData.getName(), 
 					policyData.getCode(), 
 					policyData.getType(),
@@ -101,10 +74,8 @@ public class PolicyDao extends BaseDao implements IPolicyDao {
 	@Override
 	public boolean delete(long policyId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM Policy WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), policyId) == 1;
+			String sql = policyQuery.getProperty("policy.delete");
+			return this.getTemplete().update(sql, policyId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -113,20 +84,9 @@ public class PolicyDao extends BaseDao implements IPolicyDao {
 	@Override
 	public PolicyData getPolicyById(long policyId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("ID, ")
-				.append("Name, ")
-				.append("Code, ")
-				.append("Type, ")
-				.append("ParentId, ")
-				.append("Remarks ")
-			.append("FROM Policy ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = policyQuery.getProperty("policy.getPolicyById");
 			Object[] params = new Object[] {policyId};
-			List<PolicyData> policyList = this.getTemplete().query(sql.toString(), params, new RowMapper<PolicyData>() {
+			List<PolicyData> policyList = this.getTemplete().query(sql, params, new RowMapper<PolicyData>() {
 				@Override
 				public PolicyData mapRow(ResultSet rs, int index) throws SQLException {
 					PolicyData policyData = new PolicyData();
@@ -155,17 +115,8 @@ public class PolicyDao extends BaseDao implements IPolicyDao {
 	@Override
 	public List<PolicyData> getAllPolicies() throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Name, ")
-				.append("Code, ")
-				.append("Type, ")
-				.append("ParentId, ")
-				.append("Remarks ")
-			.append("FROM Policy");
-	
-			List<PolicyData> policyList = this.getTemplete().query(sql.toString(), new RowMapper<PolicyData>() {
+			String sql = policyQuery.getProperty("policy.getAllPolicies");
+			List<PolicyData> policyList = this.getTemplete().query(sql, new RowMapper<PolicyData>() {
 				@Override
 				public PolicyData mapRow(ResultSet rs, int index) throws SQLException {
 					PolicyData policyData = new PolicyData();

@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,37 +21,19 @@ import com.bms.service.data.EmailAddressData;
 @Repository("emailAddressDao")
 public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 
+	@Autowired
+	@Qualifier("emailAddressQuery")
+	private Properties emailAddressQuery;
+	
 	@Override
 	public long create(long userId, long providerId, EmailAddressData emailAddressData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO EmailAddress ")
-			.append("( ")
-				.append("Email, ")
-				.append("IsVerified, ")
-				.append("IsPrimary, ")
-				.append("Status, ")
-				.append("CreatedBy, ")
-				.append("CreatedOn, ")
-				.append("UpdatedBy, ")
-				.append("UpdatedOn ")
-			.append(") ")
-			.append("VALUES ")
-			.append("( ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("?, ")
-				.append("? ")
-			.append(")");
+			String sql = emailAddressQuery.getProperty("emailAddress.create");
 			KeyHolder holder = new GeneratedKeyHolder();
 			this.getTemplete().update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					PreparedStatement ps = conn.prepareStatement(sql.toString(), new String[] { "Id" });
+					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setString(1, emailAddressData.getEmail());
 					ps.setBoolean(2, emailAddressData.isVerified());
 					ps.setBoolean(3, emailAddressData.isPrimary());
@@ -63,30 +48,12 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 			long emailAddressId = holder.getKey().longValue();
 			
 			if(userId > 0) {
-				StringBuilder sql1 = new StringBuilder()
-				.append("INSERT INTO UserEmailAddress ")
-				.append("( ")
-					.append("UserId, ")
-					.append("EmailAddressId, ")
-					.append("CreatedBy, ")
-					.append("CreatedOn, ")
-					.append("UpdatedBy, ")
-					.append("UpdatedOn ")
-				.append(") ")
-				.append("VALUES ")
-				.append("( ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("? ")
-				.append(")");
+				String sql1 = emailAddressQuery.getProperty("userEmailAddress.create");
 				KeyHolder holder1 = new GeneratedKeyHolder();
 				this.getTemplete().update(new PreparedStatementCreator() {
 					@Override
 					public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-						PreparedStatement ps = conn.prepareStatement(sql1.toString(), new String[] { "Id" });
+						PreparedStatement ps = conn.prepareStatement(sql1, new String[] { "Id" });
 						ps.setLong(1, userId);
 						ps.setLong(2, emailAddressId);
 						ps.setLong(3, emailAddressData.getCreatedBy());
@@ -97,30 +64,12 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 					}
 				}, holder1);
 			} else if(providerId > 0) {
-				StringBuilder sql1 = new StringBuilder()
-				.append("INSERT INTO ProviderEmailAddress ")
-				.append("( ")
-					.append("ProviderId, ")
-					.append("EmailAddressId, ")
-					.append("CreatedBy, ")
-					.append("CreatedOn, ")
-					.append("UpdatedBy, ")
-					.append("UpdatedOn ")
-				.append(") ")
-				.append("VALUES ")
-				.append("( ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("?, ")
-					.append("? ")
-				.append(")");
+				String sql1 = emailAddressQuery.getProperty("providerEmailAddress.create");
 				KeyHolder holder1 = new GeneratedKeyHolder();
 				this.getTemplete().update(new PreparedStatementCreator() {
 					@Override
 					public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-						PreparedStatement ps = conn.prepareStatement(sql1.toString(), new String[] { "Id" });
+						PreparedStatement ps = conn.prepareStatement(sql1, new String[] { "Id" });
 						ps.setLong(1, providerId);
 						ps.setLong(2, emailAddressId);
 						ps.setLong(3, emailAddressData.getCreatedBy());
@@ -141,17 +90,8 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 	@Override
 	public boolean update(EmailAddressData emailAddressData) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("UPDATE EmailAddress SET ")
-				.append("Email = ?, ")
-				.append("IsVerified = ?, ")
-				.append("IsPrimary = ?, ")
-				.append("Status = ?, ")
-				.append("UpdatedBy = ?, ")
-				.append("UpdatedOn = ? ")
-			.append("WHERE ")
-			.append("Id = ?");
-			return this.getTemplete().update(sql.toString(), 
+			String sql = emailAddressQuery.getProperty("emailAddress.update");
+			return this.getTemplete().update(sql, 
 					emailAddressData.getEmail(),
 					emailAddressData.isVerified(),
 					emailAddressData.isPrimary(),
@@ -167,10 +107,8 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 	@Override
 	public boolean delete(long emailAddressId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("DELETE FROM EmailAddress WHERE Id = ?");
-	
-			return this.getTemplete().update(sql.toString(), emailAddressId) == 1;
+			String sql = emailAddressQuery.getProperty("emailAddress.delete");
+			return this.getTemplete().update(sql, emailAddressId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -179,19 +117,9 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 	@Override
 	public EmailAddressData getEmailAddressById(long emailAddressId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("Id, ")
-				.append("Email, ")
-				.append("IsVerified, ")
-				.append("IsPrimary, ")
-				.append("Status ")
-			.append("FROM EmailAddress ")
-			.append("WHERE ")
-			.append("Id = ?");
-			
+			String sql = emailAddressQuery.getProperty("emailAddress.getEmailAddressById");
 			Object[] params = new Object[] {emailAddressId};
-			List<EmailAddressData> emailAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<EmailAddressData>() {
+			List<EmailAddressData> emailAddressList = this.getTemplete().query(sql, params, new RowMapper<EmailAddressData>() {
 				@Override
 				public EmailAddressData mapRow(ResultSet rs, int index) throws SQLException {
 					EmailAddressData emailAddressData = new EmailAddressData();
@@ -219,17 +147,7 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 	@Override
 	public EmailAddressData getEmailAddressByEmail(String email) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-				.append("SELECT ")
-					.append("Id, ")
-					.append("Email, ")
-					.append("IsVerified, ")
-					.append("IsPrimary, ")
-					.append("Status ")
-				.append("FROM EmailAddress ")
-				.append("WHERE ")
-				.append("Email = ?");
-					
+			String sql = emailAddressQuery.getProperty("emailAddress.getEmailAddressByEmail");
 			Object[] params = new Object[] {email};
 			List<EmailAddressData> emailAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<EmailAddressData>() {
 				@Override
@@ -259,21 +177,9 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 	@Override
 	public List<EmailAddressData> getAllEmailAddressesByUserId(long userId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("EmailAddress.Id, ")
-				.append("Email, ")
-				.append("IsVerified, ")
-				.append("IsPrimary, ")
-				.append("Status ")
-			.append("FROM EmailAddress ")
-			.append("LEFT OUTER JOIN UserEmailAddress ON ")
-				.append("UserEmailAddress.EmailAddressId = EmailAddress.Id ")
-			.append("WHERE ")
-				.append("UserEmailAddress.UserId = ?");
-			
+			String sql = emailAddressQuery.getProperty("emailAddress.getAllEmailAddressesByUserId");
 			Object[] params = new Object[] {userId};
-			List<EmailAddressData> emailAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<EmailAddressData>() {
+			List<EmailAddressData> emailAddressList = this.getTemplete().query(sql, params, new RowMapper<EmailAddressData>() {
 				@Override
 				public EmailAddressData mapRow(ResultSet rs, int index) throws SQLException {
 					EmailAddressData emailAddressData = new EmailAddressData();
@@ -294,21 +200,9 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 	@Override
 	public List<EmailAddressData> getAllEmailAddressesByProviderId(long providerId) throws BmsSqlException {
 		try {
-			StringBuilder sql = new StringBuilder()
-			.append("SELECT ")
-				.append("EmailAddress.Id, ")
-				.append("Email, ")
-				.append("IsVerified, ")
-				.append("IsPrimary, ")
-				.append("Status ")
-				.append("FROM EmailAddress ")
-				.append("LEFT OUTER JOIN ProviderEmailAddress ON ")
-					.append("ProviderEmailAddress.EmailAddressId = EmailAddress.Id ")
-				.append("WHERE ")
-					.append("ProviderEmailAddress.ProviderId = ?");
-			
+			String sql = emailAddressQuery.getProperty("emailAddress.getAllEmailAddressesByProviderId");
 			Object[] params = new Object[] {providerId};
-			List<EmailAddressData> emailAddressList = this.getTemplete().query(sql.toString(), params, new RowMapper<EmailAddressData>() {
+			List<EmailAddressData> emailAddressList = this.getTemplete().query(sql, params, new RowMapper<EmailAddressData>() {
 				@Override
 				public EmailAddressData mapRow(ResultSet rs, int index) throws SQLException {
 					EmailAddressData emailAddressData = new EmailAddressData();

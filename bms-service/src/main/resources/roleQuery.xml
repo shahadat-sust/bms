@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="role.create">
+	    <![CDATA[
+			INSERT INTO Role (Id, Name, Priority, Remarks, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="role.update">
+	    <![CDATA[
+			UPDATE Role SET 
+				Name = ?, 
+				Priority = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="role.delete">
+	    <![CDATA[
+			DELETE FROM Role WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="role.getRoleById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Priority, 
+				Remarks 
+			FROM Role 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry> 
+	<entry key="role.getAllRoles">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				Priority, 
+				Remarks 
+			FROM Role 
+			ORDER BY Id DESC
+	    ]]>
+	</entry>   
+</properties>
