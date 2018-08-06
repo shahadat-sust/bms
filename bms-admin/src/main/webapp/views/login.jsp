@@ -92,8 +92,8 @@
         <%@include file="includes/scripts.jsp" %>
 
         <!-- Page JS Plugins -->
-        <script type="text/javascript" src="<c:url value="resources/js/plugins/jquery-validation/jquery.validate.min.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/resources/js/plugins/jquery-validation/jquery.validate.min.js" />"></script>
         <!-- Page JS Code -->
-        <script type="text/javascript" src="resources/js/pages/op_auth_signin.min.js"></script>
+        <script type="text/javascript" src="<c:url value="/resources/js/pages/op_auth_signin.min.js" />"></script>
     </body>
 </html>

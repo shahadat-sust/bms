@@ -148,7 +148,7 @@
                     <i class="nav-main-link-icon si si-grid"></i>
                     <span class="nav-main-link-name">Create User</span>
                 </a>
-            	<a class="nav-main-link" href="<c:url value="/userlist"/>">
+            	<a class="nav-main-link" href="<c:url value="/listusers"/>">
                     <i class="nav-main-link-icon si si-grid"></i>
                     <span class="nav-main-link-name">User List</span>
                 </a>

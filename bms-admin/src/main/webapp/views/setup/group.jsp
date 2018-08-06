@@ -158,7 +158,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/group.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/group.js"/>"></script>   
 		<script type="text/javascript">
 			groupSetup.fetchUrl = '<c:url value="/group/fetch/" />';
 			groupSetup.createUrl = '<c:url value="/group/create" />';

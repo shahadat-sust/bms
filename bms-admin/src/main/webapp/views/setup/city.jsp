@@ -185,7 +185,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/city.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/city.js"/>"></script>   
 		<script type="text/javascript">
 			citySetup.fetchUrl = '<c:url value="/city/fetch/" />';
 			citySetup.createUrl = '<c:url value="/city/create" />';

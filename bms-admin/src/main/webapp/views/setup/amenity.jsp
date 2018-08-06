@@ -168,7 +168,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/amenity.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/amenity.js"/>"></script>   
 		<script type="text/javascript">
 			amenitySetup.fetchUrl = '<c:url value="/amenity/fetch/" />';
 			amenitySetup.createUrl = '<c:url value="/amenity/create" />';

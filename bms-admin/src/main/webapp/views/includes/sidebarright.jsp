@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!-- Side Overlay-->
 <aside id="side-overlay">
     <!-- Side Header -->
-    <div class="bg-image" style="background-image: url('resources/media/various/bg_side_overlay_header.jpg');">
+    <div class="bg-image" style="background-image: url('<c:url value="/resources/media/various/bg_side_overlay_header.jpg"/>');">
         <div class="bg-primary-op">
             <div class="content-header">
                 <!-- User Avatar -->
                 <a class="img-link mr-1" href="be_pages_generic_profile.html">
-                    <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar10.jpg" alt="">
+                    <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar10.jpg"/>" alt="">
                 </a>
                 <!-- END User Avatar -->
 
@@ -182,7 +183,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar6.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar6.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-success"></span>
                                         </div>
                                         <div class="media-body">
@@ -194,7 +195,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar13.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar13.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-success"></span>
                                         </div>
                                         <div class="media-body">
@@ -206,7 +207,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar6.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar6.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-success"></span>
                                         </div>
                                         <div class="media-body">
@@ -228,7 +229,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar8.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar8.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-danger"></span>
                                         </div>
                                         <div class="media-body">
@@ -250,7 +251,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar15.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar15.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-warning"></span>
                                         </div>
                                         <div class="media-body">
@@ -262,7 +263,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar8.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar8.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-warning"></span>
                                         </div>
                                         <div class="media-body">
@@ -284,7 +285,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar11.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar11.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-muted"></span>
                                         </div>
                                         <div class="media-body">
@@ -296,7 +297,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar4.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar4.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-muted"></span>
                                         </div>
                                         <div class="media-body">
@@ -308,7 +309,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar6.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar6.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-muted"></span>
                                         </div>
                                         <div class="media-body">
@@ -320,7 +321,7 @@
                                 <li>
                                     <a class="media py-2" href="be_pages_generic_profile.html">
                                         <div class="mx-3 overlay-container">
-                                            <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar9.jpg" alt="">
+                                            <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar9.jpg"/>" alt="">
                                             <span class="overlay-item item item-tiny item-circle border border-2x border-white bg-muted"></span>
                                         </div>
                                         <div class="media-body">

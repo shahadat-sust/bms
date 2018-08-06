@@ -572,10 +572,10 @@
         <%@include file="includes/scripts.jsp" %>
         
         <!-- Page JS Plugins -->
-		<script src="resources/js/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
-		<script src="resources/js/plugins/chart.js/Chart.bundle.min.js"></script>
+		<script src="<c:url value="/resources/js/plugins/jquery-sparkline/jquery.sparkline.min.js"/>"></script>
+		<script src="<c:url value="/resources/js/plugins/chart.js/Chart.bundle.min.js"/>"></script>
 		<!-- Page JS Code -->
-		<script src="resources/js/pages/be_pages_dashboard.min.js"></script>
+		<script src="<c:url value="/resources/js/pages/be_pages_dashboard.min.js"/>"></script>
 		<!-- Page JS Helpers (jQuery Sparkline plugin) -->
 		<script>jQuery(function(){ Dashmix.helpers('sparkline'); });</script>
     </body>

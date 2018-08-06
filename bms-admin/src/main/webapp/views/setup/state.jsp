@@ -168,7 +168,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/state.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/state.js"/>"></script>   
 		<script type="text/javascript">
 			stateSetup.fetchUrl = '<c:url value="/state/fetch/" />';
 			stateSetup.createUrl = '<c:url value="/state/create" />';

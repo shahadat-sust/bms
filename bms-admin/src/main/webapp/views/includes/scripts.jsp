@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
 <!--
     Dashmix JS Core
@@ -17,7 +18,7 @@
     resources/js/core/jquery.appear.min.js
     resources/js/core/js.cookie.min.js
 -->
-<script src="resources/js/dashmix.core.min.js"></script>
+<script src="<c:url value="/resources/js/dashmix.core.min.js"/>"></script>
 
 <!--
     Dashmix JS
@@ -25,11 +26,11 @@
     Custom functionality including Blocks/Layout API as well as other vital and optional helpers
     webpack is putting everything together at resources/_es6/main/app.js
 -->
-<script src="resources/js/dashmix.app.min.js"></script>
+<script src="<c:url value="/resources/js/dashmix.app.min.js"/>"></script>
 
 <!-- Page JS Plugins -->
-<script src="resources/js/plugins/jquery-validation/jquery.validate.min.js"></script> 
-<script src="resources/js/plugins/jquery-loader/jquery.loader.js"></script> 
-<script src="resources/js/plugins/sweetalert2/sweetalert2.min.js"></script>
-<script src="resources/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="resources/js/custom/utils.js"></script>
+<script src="<c:url value="/resources/js/plugins/jquery-validation/jquery.validate.min.js"/>"></script> 
+<script src="<c:url value="/resources/js/plugins/jquery-loader/jquery.loader.js"/>"></script> 
+<script src="<c:url value="/resources/js/plugins/sweetalert2/sweetalert2.min.js"/>"></script>
+<script src="<c:url value="/resources/js/plugins/bootstrap-notify/bootstrap-notify.min.js"/>"></script>
+<script src="<c:url value="/resources/js/custom/utils.js"/>"></script>

@@ -171,7 +171,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/role.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/role.js"/>"></script>   
 		<script type="text/javascript">
 			roleSetup.fetchUrl = '<c:url value="/role/fetch/" />';
 			roleSetup.createUrl = '<c:url value="/role/create" />';

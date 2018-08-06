@@ -148,7 +148,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/country.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/country.js"/>"></script>   
 		<script type="text/javascript">
 			countrySetup.fetchUrl = '<c:url value="/country/fetch/" />';
 			countrySetup.createUrl = '<c:url value="/country/create" />';

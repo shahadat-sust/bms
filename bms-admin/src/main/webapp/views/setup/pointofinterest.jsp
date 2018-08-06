@@ -168,7 +168,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/pointofinterest.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/pointofinterest.js"/>"></script>   
 		<script type="text/javascript">
 			pointOfInterestSetup.fetchUrl = '<c:url value="/pointofinterest/fetch/" />';
 			pointOfInterestSetup.createUrl = '<c:url value="/pointofinterest/create" />';

@@ -158,7 +158,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/paymentmethod.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/paymentmethod.js"/>"></script>   
 		<script type="text/javascript">
 			paymentMethodSetup.fetchUrl = '<c:url value="/paymentmethod/fetch/" />';
 			paymentMethodSetup.createUrl = '<c:url value="/paymentmethod/create" />';

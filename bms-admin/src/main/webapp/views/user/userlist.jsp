@@ -41,9 +41,9 @@
           	    <!-- Full Table -->
                   <div class="block block-rounded block-bordered">
                   	  <div class="block-content text-right">
-						<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
+						<a id="btnCreateNew" class="btn btn-success text-white mr-1" href='<c:url value="/createuser"/>'>
                             <i class="fa fa-fw fa-plus mr-1"></i> Create User
-                        </button>
+                        </a>
                   	  </div>
                       <div class="block-content">
                            <table id="dataTable" class="table table-bordered table-striped table-vcenter">
@@ -62,7 +62,7 @@
                                	   <c:forEach items="${userList}" var="userData">
                                	   		<tr>
                                	   			<td class="text-center">
-                                                <img class="img-avatar img-avatar48" src="resources/media/avatars/avatar3.jpg" alt="">
+                                                <img class="img-avatar img-avatar48" src="<c:url value="/resources/media/avatars/avatar3.jpg"/>" alt="">
                                             </td>
                                             <td class="font-w600">
 												${userData.username}
@@ -74,14 +74,17 @@
 												${userData.active}
 											</td>
 											<td class="text-center">
-											   <input type="hidden" class="col-id" value="${userData.id}"/>
+											   <form action='<c:url value="/deleteuser"/>' method="post"><input type="hidden" id="userId" name="userId" value="${userData.id}"/></form>
 	                                           <div class="btn-group">
-	                                               <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
+	                                           	   <a class="btn btn-sm btn-primary text-white edit-button" data-toggle="tooltip" title="View" href='<c:url value="/viewuser/${userData.id}"/>'>
+	                                                   <i class="fa fa-file"></i>
+	                                               </a>
+	                                               <a class="btn btn-sm btn-primary text-white edit-button" data-toggle="tooltip" title="Edit" href='<c:url value="/edituser/${userData.id}"/>'>
 	                                                   <i class="fa fa-pencil-alt"></i>
-	                                               </button>
-	                                               <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
+	                                               </a>
+	                                               <a class="btn btn-sm btn-primary text-white delete-button" data-toggle="tooltip" title="Delete" href='#'>
 	                                                   <i class="fa fa-times"></i>
-	                                               </button>
+	                                               </a>
 	                                           </div>
 	                                       </td>
                                        </tr>
@@ -95,8 +98,43 @@
             <!-- END Page Content -->
         </main>
         <!-- END Main Container -->
-        
+
 		<%@include file="../includes/footer.jsp" %>
         <%@include file="../includes/scripts.jsp" %>  
+        
+        <script type="text/javascript">
+        
+        var userlist = {
+       		init : function() {
+       			$(document).on("click", ".delete-button", function(e) {
+       				var tr = $(this).closest("tr");
+  					swal({
+  		                text: "Do you want to delete this user",
+  		                type: "warning",
+  		                showCancelButton: true,
+  		                confirmButtonClass: "btn btn-danger m-1",
+  		                cancelButtonClass: "btn btn-secondary m-1",
+  		                html: false,
+  		                preConfirm: function(e) {
+  		                    return new Promise(function(e) {
+  		                        setTimeout(function() {
+  		                            e()
+  		                        }, 50)
+  		                    })
+  		                }
+  		            }).then(function(e) {
+  		            	if(e.value) {
+  		            		$($(tr).find("form")[0]).submit();
+  		            	}
+  		            });
+       	       	});
+       		}
+        };
+        
+        $(document).ready(function() {
+        	userlist.init();
+        });
+        
+        </script>
     </body>
 </html>

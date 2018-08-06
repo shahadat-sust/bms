@@ -158,7 +158,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/providertype.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/providertype.js"/>"></script>   
 		<script type="text/javascript">
 			providerTypeSetup.fetchUrl = '<c:url value="/providertype/fetch/" />';
 			providerTypeSetup.createUrl = '<c:url value="/providertype/create" />';

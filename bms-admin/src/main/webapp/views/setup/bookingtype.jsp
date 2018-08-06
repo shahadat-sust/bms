@@ -158,7 +158,7 @@
         <%@include file="../includes/scripts.jsp" %>  
 
         <!-- Page JS Code -->
-        <script src="resources/js/custom/setup/bookingtype.js"></script>   
+        <script src="<c:url value="/resources/js/custom/setup/bookingtype.js"/>"></script>   
 		<script type="text/javascript">
 			bookingTypeSetup.fetchUrl = '<c:url value="/bookingtype/fetch/" />';
 			bookingTypeSetup.createUrl = '<c:url value="/bookingtype/create" />';
