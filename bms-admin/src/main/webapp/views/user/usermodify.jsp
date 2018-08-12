@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="com.bms.common.Constants" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -40,7 +43,8 @@
 			<!-- Page Content -->
             <div class="content">
           	     <!-- User Form -->
-                 <form class="js-validation" action="#" method="post">
+          	     <c:url var="saveuser" value="/saveuser" />
+                 <form:form class="js-validation" action="${saveuser}" method="post" modelAttribute="userForm">
                      <div class="block block-rounded block-bordered">
                          <div class="block-header block-header-default">
                              <h3 class="block-title">User Create - Form</h3>
@@ -63,40 +67,45 @@
                                      <div class="col-lg-8 col-xl-5">
                                          <div class="form-group">
                                              <label for="val-firstName">First Name <span class="text-danger">*</span></label>
-                                             <input type="text" class="form-control" id="val-firstName" name="firstName" placeholder="Enter a first name..">
+                                             <form:input cssClass="form-control" id="val-firstName" path="userProfileData.firstName" placeholder="Enter a first name.."/>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-lastName">Last Name <span class="text-danger">*</span></label>
-                                             <input type="text" class="form-control" id="val-lastName" name="lastName" placeholder="Enter a last name..">
+                                             <form:input cssClass="form-control" id="val-lastName" path="userProfileData.lastName" placeholder="Enter a last name.."/>
                                          </div>
                                          <div class="form-group">
                                               <label for="val-gender">Gender <span class="text-danger">*</span></label>
-                                              <select class="form-control" id="val-gender" name="gender">
+                                              <form:select cssClass="form-control" id="val-gender" path="userProfileData.gender">
+                                              	<form:option value="0" label="Please select"></form:option>
+                                              	<form:option value="<%= Constants.MALE %>" label="Male"></form:option>
+                                              	<form:option value="<%= Constants.FEMALE %>" label="Female"></form:option>
+                                              </form:select>
+                                              <%-- <select class="form-control" id="val-gender" name="userProfileData.gender">
                                                   <option value="">Please select</option>
-                                                  <option value="1">Male</option>
-                                                  <option value="2">Female</option>          
-                                              </select>
+                                                  <option value="<%= Constants.MALE %>">Male</option>
+                                                  <option value="<%= Constants.MALE %>">Female</option>          
+                                              </select> --%>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-birthDay">Birthday </label>
-                                             <input type="text" class="js-datepicker form-control" id="val-birthDay" name="birthDay" data-week-start="1" data-autoclose="true" 
-                                             	data-today-highlight="true" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" placeholder="Enter a birthday..">
+                                             <form:input cssClass="js-datepicker form-control" id="val-birthDay" path="userProfileData.birthDay" placeholder="dd-mm-yyyy"
+                                              		data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-mm-yyyy"/>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-securityNumber">Security Number </label>
-                                             <input type="text" class="form-control" id="val-securityNumber" name="securityNumber" placeholder="Enter a security number..">
+                                             <form:input cssClass="form-control" id="val-securityNumber" path="userProfileData.securityNumber" placeholder="Enter a security number.."/>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-passportNumber">Passport Number </label>
-                                             <input type="text" class="form-control" id="val-passportNumber" name="passportNumber" placeholder="Enter a passport number..">
+                                             <form:input cssClass="form-control" id="val-passportNumber" path="userProfileData.passportNumber" placeholder="Enter a passport number.."/>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-drivingLicenceNumber">Passport Number </label>
-                                             <input type="text" class="form-control" id="val-drivingLicenceNumber" name="drivingLicenceNumber" placeholder="Enter a driving licence number..">
+                                             <form:input cssClass="form-control" id="val-drivingLicenceNumber" path="userProfileData.drivingLicenceNumber" placeholder="Enter a driving licence number.."/>
                                          </div>
                                          <div class="form-group">
                                               <label for="val-caption">Caption </label>
-                                              <textarea class="form-control" id="val-caption" name="caption" rows="5" placeholder="What would you like to write somthing about you?"></textarea>
+                                              <form:textarea cssClass="form-control" id="val-caption" path="userProfileData.caption" rows="3" placeholder="What would you like to write somthing about user?"/>
                                           </div>
                                      </div>
                                  </div>
@@ -113,7 +122,7 @@
                                      <div class="col-lg-8 col-xl-5">
                                          <div class="form-group">
                                              <label for="val-username">Username <span class="text-danger">*</span></label>
-                                             <input type="text" class="form-control" id="val-username" name="username" placeholder="Enter a username..">
+                                             <form:input cssClass="form-control" id="val-username" path="username" placeholder="Enter a username.."/>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-password">Password <span class="text-danger">*</span></label>
@@ -138,39 +147,22 @@
                                      <div class="col-lg-8 col-xl-5">
                                          <div class="form-group">
                                              <label for="val-email">Email <span class="text-danger">*</span></label>
-                                             <input type="text" class="form-control" id="val-email" name="email" placeholder="Your valid email..">
+                                             <form:input cssClass="form-control" id="val-email" path="emailAddressDatas[0].email" placeholder="Your valid email.."/>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-phoneNumber">Phone Number <span class="text-danger">*</span></label>
-                                             <input type="text" class="form-control" id="val-phoneNumber" name="phoneNumber" placeholder="Your valid phone number..">
+                                             <form:input cssClass="form-control" id="val-phoneNumber" path="phoneNumberDatas[0].number" placeholder="Your valid phone number.."/>
                                          </div>
                                          <div class="form-group">
                                               <label for="val-caption">Address </label>
-                                              <textarea class="form-control" id="val-caption" name="line1" rows="3" placeholder="Enter address"></textarea>
+                                              <form:textarea cssClass="form-control" id="val-line1" path="postalAddressDatas[0].line1" rows="3" placeholder="Enter address"/>
                                           </div>
                                          <div class="form-group">
-                                              <label for="val-countryId">Country </label>
-                                              <select class="form-control" id="val-countryId" name="countryId">
-                                                  <option value="">Please select</option>
-                                                  <option value="1">Male</option>
-                                                  <option value="2">Female</option>          
-                                              </select>
-                                         </div> 
-                                         <div class="form-group">
-                                              <label for="val-stateId">State </label>
-                                              <select class="form-control" id="val-stateId" name="stateId">
-                                                  <option value="">Please select</option>
-                                                  <option value="1">Male</option>
-                                                  <option value="2">Female</option>          
-                                              </select>
-                                         </div> 
-                                         <div class="form-group">
-                                              <label for="val-cityId">City </label>
-                                              <select class="form-control" id="val-cityId" name="cityId">
-                                                  <option value="">Please select</option>
-                                                  <option value="1">Male</option>
-                                                  <option value="2">Female</option>          
-                                              </select>
+                                              <label for="val-countryId">Country <span class="text-danger">*</span></label>
+                                              <form:select cssClass="form-control" id="val-countryId" path="postalAddressDatas[0].countryId">
+                                              	 <form:option value="0" label="Please select"></form:option>
+                                              	 <form:options items="${countryList}" itemValue="id" itemLabel="name"/>
+                                              </form:select>
                                          </div> 
                                      </div>
                                  </div>
@@ -186,7 +178,7 @@
                              </div>
                          </div>
                      </div>
-                 </form>
+                 </form:form>
                  <!-- User Form -->
             </div>
             <!-- END Page Content -->
