@@ -15,6 +15,7 @@
         <%@include file="../includes/styles.jsp" %>
         
         <link rel="stylesheet" href="<c:url value="/resources/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/resources/css/intlTelInput.css"/>"></link>
     </head>
     <body>
         <%@include file="../includes/header.jsp" %>
@@ -155,9 +156,35 @@
                                              <form:input cssClass="form-control" id="val-email" path="emailAddressDatas[0].email" placeholder="Your valid email.."/>
                                          </div>
                                          <div class="form-group">
-                                             <label for="val-phoneNumber">Phone Number <span class="text-danger">*</span></label>
-                                             <form:input cssClass="form-control" id="val-phoneNumber" path="phoneNumberDatas[0].number" placeholder="Your valid phone number.."/>
-                                         </div>
+											<label for="val-email">Phone Number <span class="text-danger">*</span></label>
+											<div class="input-group">
+												<span class="input-group-btn">
+													<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+														<c:if test="${not empty phoneNumberDatas[0].code}">
+														    <span class="type-text">+${phoneNumberDatas[0].code}</span> 
+														</c:if>
+														<c:if test="${empty phoneNumberDatas[0].code}">
+															<span class="type-text">Code</span> 
+														</c:if>
+														<span class="caret"></span>
+													</button>
+													<div class="dropdown-menu" role="menu">
+														<ul class="intl-tel-input country-list" role="menu">
+															<c:forEach var="countryCode" items="${countryCodeList}">
+																<li class="country" data-dial-code="${countryCode.code}" data-country-code="${countryCode.shortCode}">
+																	<div class="flag-box"><div class="iti-flag ${countryCode.shortCode}"></div></div>
+																	<span class="country-name">${countryCode.name}</span>
+																	<span class="dial-code">+${countryCode.code}</span>
+																</li>
+																<c:if test="${countryCode.priority == 1}"><li class="divider"></li></c:if>
+															</c:forEach>
+														</ul>	
+													</div>				
+												</span>
+												<form:hidden id="val-code" path="phoneNumberDatas[0].code"/>
+												<form:input cssClass="form-control" id="val-phoneNumber" path="phoneNumberDatas[0].number" placeholder="Your valid phone number.."/>
+											</div>
+										</div>
                                          <div class="form-group">
                                               <label for="val-caption">Address </label>
                                               <form:textarea cssClass="form-control" id="val-line1" path="postalAddressDatas[0].line1" rows="3" placeholder="Enter address"/>
@@ -199,6 +226,7 @@
         <script>
         	usermodify.isEditMode = ${isEditMode};
         	usermodify.isUsernameAlreadyExistsUrl = '<c:url value="/isUsernameAlreadyExists" />';
+        	usermodify.countryCode = "${phoneNumberDatas[0].code}";
 		</script>
         
     </body>

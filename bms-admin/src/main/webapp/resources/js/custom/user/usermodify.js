@@ -1,14 +1,29 @@
 var usermodify = {
 		isEditMode : false,
 		isUsernameAlreadyExistsUrl : "",
+		countryCode : "",
 		
 		init : function () {
 			Dashmix.helpers(['datepicker']);
 			usermodify.initValidation();
-			
+
 			$("button[type='submit']").on("click", function() {
 				if($("#formUserModify").valid()) {
 					$("#formUserModify").submit();
+				}
+			});
+			
+			$(".country").on('click', function(){
+				var selectedCode = $(this).find('.dial-code').html();
+				$('.type-text').text(selectedCode);
+				$('#val-code').val(selectedCode);
+			});
+			
+			$("button[type='reset']").on('click', function() {
+				if(usermodify.countryCode) {
+					$('.type-text').text(usermodify.countryCode);
+				} else {
+					$('.type-text').text("Code");
 				}
 			});
 		},
@@ -18,7 +33,7 @@ var usermodify = {
 			 * Custom validator for contains date in dd-mm-yyyy format
 			 */
 			$.validator.addMethod("date", function(value, element) {
-		        return value.match(/^\d\d?\-\d\d?\-\d\d\d\d$/);
+		        return value.trim() == "" || value.match(/^\d\d?\-\d\d?\-\d\d\d\d$/);
 		    }, "Please enter a date in the format dd-mm-yyyy.");
 			
 			/**
@@ -122,8 +137,11 @@ var usermodify = {
 	            	"emailAddressDatas[0].email": {
 	                    required: true, email: true
 	                },
+	                "phoneNumberDatas[0].code": {
+	                    required: true
+	                },
 	            	"phoneNumberDatas[0].number": {
-	                    required: true, maxlength: 11, digits : true
+	                    required: true, digits : true
 	                },
 	            	"postalAddressDatas[0].countryId": {
 	            		min : 1
@@ -141,7 +159,16 @@ var usermodify = {
 	                },
 	                "repassword": {
 	                    equalTo : "Password does not match the confirm password"
-	                }
+	                },
+	                "emailAddressDatas[0].email": {
+	                	required: "Email is required"
+	                },
+	                "phoneNumberDatas[0].code": {
+	                	required: "Country code is required"
+	                },
+	                "phoneNumberDatas[0].number": {
+	                    required: "Phone number is required"
+	                },
 	            }
 			});
 		}

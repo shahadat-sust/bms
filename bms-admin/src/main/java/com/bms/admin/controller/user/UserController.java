@@ -1,5 +1,6 @@
 package com.bms.admin.controller.user;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bms.admin.model.CountryCodeModel;
 import com.bms.admin.model.LabelValueModel;
 import com.bms.common.BmsException;
+import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.CountryData;
 import com.bms.service.data.user.UserData;
@@ -66,6 +69,12 @@ public class UserController {
 			});
 		}
 		model.addAttribute("countryList", countryList);
+		
+		List<CountryCodeModel> countryCodeList = new ArrayList<>();
+		for(String[] countryCode : Constants.COUNTRY_CODES) {
+			countryCodeList.add(new CountryCodeModel(countryCode[0], countryCode[1], countryCode[2], countryCode[3]));
+		}
+		model.addAttribute("countryCodeList", countryCodeList);
 		return "user/usermodify";
 	}
 	

@@ -2964,6 +2964,10 @@ input[type="button"].btn-block {
   position: relative;
 }
 
+.input-group .dropdown-toggle {
+	border-radius: .25rem .0rem .0rem .25rem;
+}
+
 .dropdown-toggle::after {
   display: inline-block;
   width: 0;
