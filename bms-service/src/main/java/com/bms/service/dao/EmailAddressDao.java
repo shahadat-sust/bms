@@ -220,4 +220,28 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 		}
 	}
 
+	@Override
+	public boolean isEmailAvailableForUser(long userId, String email) throws BmsSqlException {
+		try {
+			String sql = emailAddressQuery.getProperty("userEmailAddress.isEmailAvailableForUser");
+			Object[] params = new Object[] {userId, userId, email, userId, email};
+			List<Long> userIDs = getTemplete().query(sql, params, new RowMapper<Long> () {
+				@Override
+				public Long mapRow(ResultSet rs, int index) throws SQLException {
+					return rs.getLong(1);
+				}
+			});
+			
+			if (userIDs.isEmpty()) {
+			  return true;
+			} else if (userIDs.size() == 1) {
+			  return false;
+			} else {
+			  throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");   
+			}
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
+	}
+
 }

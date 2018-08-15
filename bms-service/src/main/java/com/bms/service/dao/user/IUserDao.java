@@ -17,4 +17,6 @@ public interface IUserDao {
 	
 	List<UserData> getAllUserDatas() throws BmsSqlException;
 
+	boolean isUsernameAvailable(long userId, String username) throws BmsSqlException;
+
 }

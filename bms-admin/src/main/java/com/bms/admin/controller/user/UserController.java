@@ -1,28 +1,29 @@
 package com.bms.admin.controller.user;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bms.admin.model.LabelValueModel;
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.CountryData;
-import com.bms.service.data.EmailAddressData;
-import com.bms.service.data.PhoneNumberData;
-import com.bms.service.data.PostalAddressData;
-import com.bms.service.data.StateData;
 import com.bms.service.data.user.UserData;
-import com.bms.service.data.user.UserProfileData;
 import com.bms.service.soa.ICountryService;
 import com.bms.service.soa.user.IUserService;
 
@@ -30,6 +31,8 @@ import com.bms.service.soa.user.IUserService;
 @Scope("request")
 public class UserController {
 
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
+	
 	private IUserService userService;
 	private ICountryService countryService;
 	
@@ -50,19 +53,18 @@ public class UserController {
 	@RequestMapping(value = "createuser", method = RequestMethod.GET)
 	public String createUser(Model model) throws BmsSqlException, BmsException {
 		UserData userForm = new UserData();
-		List<EmailAddressData> emailAddressDatas = new ArrayList<>();
-		emailAddressDatas.add(new EmailAddressData());
-		List<PhoneNumberData> phoneNumberDatas = new ArrayList<>();
-		phoneNumberDatas.add(new PhoneNumberData());
-		List<PostalAddressData> postalAddressDatas = new ArrayList<>();
-		postalAddressDatas.add(new PostalAddressData());
-		userForm.setUserProfileData(new UserProfileData());
-		userForm.setEmailAddressDatas(emailAddressDatas);
-		userForm.setPhoneNumberDatas(phoneNumberDatas);
-		userForm.setPostalAddressDatas(postalAddressDatas);
 		model.addAttribute("userForm", userForm);
+		model.addAttribute("isEditMode", false);
 		
 		List<CountryData> countryList = countryService.getAllCountries();
+		if(countryList != null && countryList.size() > 0) {
+			Collections.sort(countryList, new Comparator<CountryData>() {
+				@Override
+				public int compare(CountryData o1, CountryData o2) {
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+		}
 		model.addAttribute("countryList", countryList);
 		return "user/usermodify";
 	}
@@ -70,29 +72,35 @@ public class UserController {
 	@RequestMapping(value = "edituser/{userId}", method = RequestMethod.GET)
 	public String editUser(@PathVariable long userId, Model model) throws BmsSqlException, BmsException {
 		UserData userForm = userService.getUserDetailInfo(userId);
-		if(userForm.getEmailAddressDatas().size() == 0) {
-			EmailAddressData emailAddressData = new EmailAddressData();
-			emailAddressData.setUserId(userForm.getId());
-			userForm.getEmailAddressDatas().add(emailAddressData);
-		}
-		if(userForm.getPhoneNumberDatas().size() == 0) {
-			PhoneNumberData phoneNumberData = new PhoneNumberData();
-			phoneNumberData.setUserId(userForm.getId());
-			userForm.getPhoneNumberDatas().add(phoneNumberData);
-		}
-		if(userForm.getPostalAddressDatas().size() == 0) {
-			PostalAddressData postalAddressData = new PostalAddressData();
-			postalAddressData.setUserId(userForm.getId());
-			userForm.getPostalAddressDatas().add(postalAddressData);
-		}
 		model.addAttribute("userForm", userForm);
+		model.addAttribute("isEditMode", true);
+		
 		List<CountryData> countryList = countryService.getAllCountries();
+		if(countryList != null && countryList.size() > 0) {
+			Collections.sort(countryList, new Comparator<CountryData>() {
+				@Override
+				public int compare(CountryData o1, CountryData o2) {
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+		}
 		model.addAttribute("countryList", countryList);
 		return "user/usermodify";
 	}
 	
+	@RequestMapping(value = "isUsernameAlreadyExists", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody boolean isUsernameAlreadyExists(@RequestParam("userId") long userId, @RequestParam("username") String username) throws BmsSqlException, BmsException {
+		boolean status = false;
+		try {
+			status = userService.isUsernameAvailable(userId, username);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return status;
+	}
+	
 	@RequestMapping(value = "saveuser", method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("userForm") UserData userForm) throws BmsSqlException, BmsException {
+	public String saveUser(@ModelAttribute("userForm") UserData userForm, BindingResult result) throws BmsSqlException, BmsException {
 		return "user/usermodify";
 	}
 	

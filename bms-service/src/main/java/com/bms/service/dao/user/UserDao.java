@@ -143,4 +143,28 @@ public class UserDao extends BaseDao implements IUserDao {
 		}
 	}
 	
+	@Override
+	public boolean isUsernameAvailable(long userId, String username) throws BmsSqlException {
+		try {
+			String sql = userQuery.getProperty("user.isUsernameAvailable");
+			Object[] params = new Object[] {userId, userId, username, userId, username};
+			List<Long> userIDs = getTemplete().query(sql, params, new RowMapper<Long> () {
+				@Override
+				public Long mapRow(ResultSet rs, int index) throws SQLException {
+					return rs.getLong(1);
+				}
+			});
+			
+			if (userIDs.isEmpty()) {
+			  return true;
+			} else if (userIDs.size() == 1) {
+			  return false;
+			} else {
+			  throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");   
+			}
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
+	}
+	
 }

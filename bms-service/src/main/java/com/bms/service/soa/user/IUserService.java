@@ -23,6 +23,12 @@ public interface IUserService {
 	
 	public void updateUserDeviceLastUsedTime(long userID, String deviceToken, int platform, String deviceName, String imeiNumber, long loginUserId) throws BmsException, BmsSqlException;
 
+	public boolean isUsernameAvailable(long userId, String username) throws BmsException, BmsSqlException;
+	
+	public boolean isPhoneNumberAvailableForUser(long userId, String code, String number) throws BmsException, BmsSqlException;
+	
+	public boolean isEmailAvailableForUser(long userId, String username) throws BmsException, BmsSqlException;
+	
 	public IUserDao getUserDao();
 
 	public void setUserDao(IUserDao userDao);
@@ -58,4 +64,5 @@ public interface IUserService {
 	public IImageDao getImageDao();
 
 	public void setImageDao(IImageDao imageDao);
+
 }

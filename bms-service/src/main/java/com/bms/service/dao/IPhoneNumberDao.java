@@ -19,4 +19,6 @@ public interface IPhoneNumberDao {
 	
 	List<PhoneNumberData> getAllPhoneNumbersByProviderId(long providerId) throws BmsSqlException;
 	
+	boolean isPhoneNumberAvailableForUser(long userId, String code, String number) throws BmsSqlException;
+	
 }

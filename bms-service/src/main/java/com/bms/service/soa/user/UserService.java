@@ -19,7 +19,6 @@ import com.bms.service.dao.user.IUserDao;
 import com.bms.service.dao.user.IUserDeviceDao;
 import com.bms.service.dao.user.IUserProfileDao;
 import com.bms.service.dao.user.IUserSocialAccountDao;
-import com.bms.service.data.CityData;
 import com.bms.service.data.EmailAddressData;
 import com.bms.service.data.PhoneNumberData;
 import com.bms.service.data.PostalAddressData;
@@ -30,7 +29,7 @@ import com.bms.service.data.user.UserProfileData;
 import com.bms.service.data.user.UserSocialAccountData;
 import com.bms.service.soa.BaseService;
 
-@Service//("userService")
+@Service("userService")
 public class UserService extends BaseService implements IUserService {
 
 	private IUserDao userDao;
@@ -125,6 +124,20 @@ public class UserService extends BaseService implements IUserService {
 		}
 	}
 
+	public boolean isUsernameAvailable(long userId, String username) throws BmsException, BmsSqlException {
+		return userDao.isUsernameAvailable(userId, username);
+	}
+	
+	@Override
+	public boolean isPhoneNumberAvailableForUser(long userId, String code, String number) throws BmsException, BmsSqlException {
+		return phoneNumberDao.isPhoneNumberAvailableForUser(userId, code, number);
+	}
+
+	@Override
+	public boolean isEmailAvailableForUser(long userId, String username) throws BmsException, BmsSqlException {
+		return emailAddressDao.isEmailAvailableForUser(userId, username);
+	}
+	
 	@Override
 	public IUserDao getUserDao() {
 		return userDao;

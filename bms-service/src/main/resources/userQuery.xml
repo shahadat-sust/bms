@@ -55,5 +55,15 @@
 			LEFT OUTER JOIN UserProfile ON
 				UserProfile.UserId = User.Id 
 	    ]]>
-	</entry>    
+	</entry>  
+	<entry key="user.isUsernameAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM User
+			WHERE
+				(? > 0 AND Id != ? AND Username = ?)
+			    OR (? <= 0 AND Username = ?); 
+	    ]]>
+	</entry>      
 </properties>

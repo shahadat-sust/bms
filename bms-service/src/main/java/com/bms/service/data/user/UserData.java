@@ -14,6 +14,7 @@ public class UserData extends BaseData {
 	
 	private String username;
 	private String password;
+	private String repassword;
 	private boolean isActive;
 	private int status;
 	
@@ -37,6 +38,12 @@ public class UserData extends BaseData {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getRepassword() {
+		return repassword;
+	}
+	public void setRepassword(String repassword) {
+		this.repassword = repassword;
 	}
 	public boolean isActive() {
 		return isActive;

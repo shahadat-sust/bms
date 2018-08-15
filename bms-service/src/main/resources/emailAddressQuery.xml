@@ -94,4 +94,16 @@
 				ProviderEmailAddress.ProviderId = ?
 	    ]]>
 	</entry>  
+	<entry key="userEmailAddress.isEmailAvailableForUser">
+	    <![CDATA[
+			SELECT
+				UserEmailAddress.Id
+			FROM UserEmailAddress
+			LEFT OUTER JOIN EmailAddress ON 
+				EmailAddress.Id = UserEmailAddress.EmailAddressId
+			WHERE
+				(? > 0 AND UserEmailAddress.UserId != ? AND EmailAddress.Email = ?)
+			    OR (? <= 0 AND EmailAddress.Email = ?); 
+	    ]]>
+	</entry>   
 </properties>

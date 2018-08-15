@@ -21,4 +21,6 @@ public interface IEmailAddressDao {
 	
 	List<EmailAddressData> getAllEmailAddressesByProviderId(long providerId) throws BmsSqlException;
 	
+	boolean isEmailAvailableForUser(long userId, String username) throws BmsSqlException;
+	
 }

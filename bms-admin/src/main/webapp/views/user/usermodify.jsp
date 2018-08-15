@@ -44,14 +44,22 @@
             <div class="content">
           	     <!-- User Form -->
           	     <c:url var="saveuser" value="/saveuser" />
-                 <form:form class="js-validation" action="${saveuser}" method="post" modelAttribute="userForm">
+                 <form:form id="formUserModify" action="${saveuser}" method="post" modelAttribute="userForm">
                      <div class="block block-rounded block-bordered">
                          <div class="block-header block-header-default">
                              <h3 class="block-title">User Create - Form</h3>
                              <div class="block-options">
-                                 <button type="submit" class="btn btn-sm btn-light">
+                             	 <form:hidden id="val-userId" path="id"/>
+                             	 <form:hidden id="val-userProfileId" path="userProfileData.id"/>
+                             	 <form:hidden id="val-emailAddressId" path="emailAddressDatas[0].id"/>
+                             	 <form:hidden id="val-phoneNumberId" path="phoneNumberDatas[0].id"/>
+                             	 <form:hidden id="val-postalAddressId" path="postalAddressDatas[0].id"/>
+                                 <button type="submit" class="btn btn-sm btn-light" onclick="return false;">
                                      <i class="fa fa-fw fa-check"></i> Submit
                                  </button>
+                                 <button type="reset" class="btn btn-sm btn-light">
+                                 	<i class="fa fa-fw fa-undo"></i> Reset
+								</button>
                              </div>
                          </div>
                          <div class="block-content block-content-full">
@@ -79,12 +87,7 @@
                                               	<form:option value="0" label="Please select"></form:option>
                                               	<form:option value="<%= Constants.MALE %>" label="Male"></form:option>
                                               	<form:option value="<%= Constants.FEMALE %>" label="Female"></form:option>
-                                              </form:select>
-                                              <%-- <select class="form-control" id="val-gender" name="userProfileData.gender">
-                                                  <option value="">Please select</option>
-                                                  <option value="<%= Constants.MALE %>">Male</option>
-                                                  <option value="<%= Constants.MALE %>">Female</option>          
-                                              </select> --%>
+                                              </form:select> 
                                          </div>
                                          <div class="form-group">
                                              <label for="val-birthDay">Birthday </label>
@@ -110,31 +113,33 @@
                                      </div>
                                  </div>
                                  <!-- END Basic Info -->
-                             
-                                 <!-- Security Info -->
-                                 <h2 class="content-heading">Security Info</h2>
-                                 <div class="row items-push">
-                                     <div class="col-lg-4">
-                                         <p class="text-muted">
-                                             Enter authentication related information like username and password
-                                         </p>
-                                     </div>
-                                     <div class="col-lg-8 col-xl-5">
-                                         <div class="form-group">
-                                             <label for="val-username">Username <span class="text-danger">*</span></label>
-                                             <form:input cssClass="form-control" id="val-username" path="username" placeholder="Enter a username.."/>
-                                         </div>
-                                         <div class="form-group">
-                                             <label for="val-password">Password <span class="text-danger">*</span></label>
-                                             <input type="password" class="form-control" id="val-password" name="password" placeholder="Choose a safe one..">
-                                         </div>
-                                         <div class="form-group">
-                                             <label for="val-repassword">Confirm Password <span class="text-danger">*</span></label>
-                                             <input type="password" class="form-control" id="val-repassword" name="repassword" placeholder="..and confirm it!">
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <!-- END Security Info -->
+                                 
+                             	 <c:if test="${!isEditMode}">
+	                                 <!-- Security Info -->
+	                                 <h2 class="content-heading">Security Info</h2>
+	                                 <div class="row items-push">
+	                                     <div class="col-lg-4">
+	                                         <p class="text-muted">
+	                                             Enter authentication related information like username and password
+	                                         </p>
+	                                     </div>
+	                                     <div class="col-lg-8 col-xl-5">
+	                                         <div class="form-group">
+	                                             <label for="val-username">Username <span class="text-danger">*</span></label>
+	                                             <form:input cssClass="form-control" id="val-username" path="username" placeholder="Enter a username.."/>
+	                                         </div>
+	                                         <div class="form-group">
+	                                             <label for="val-password">Password <span class="text-danger">*</span></label>
+	                                             <input type="password" class="form-control" id="val-password" name="password" placeholder="Choose a safe one.."/>
+	                                         </div>
+	                                         <div class="form-group">
+	                                             <label for="val-repassword">Confirm Password <span class="text-danger">*</span></label>
+	                                             <input type="password" class="form-control" id="val-repassword" name="repassword" placeholder="..and confirm it!"/>
+	                                         </div>
+	                                     </div>
+	                                 </div>
+	                                 <!-- END Security Info -->
+                                 </c:if>
 
 								 <!-- Contact Info -->
                                  <h2 class="content-heading">Basic Info</h2>
@@ -171,7 +176,8 @@
                                  <!-- Submit -->
                                  <div class="row items-push">
                                      <div class="col-lg-7 offset-lg-4">
-                                         <button type="submit" class="btn btn-primary">Submit</button>
+                                         <button type="submit" class="btn btn-primary" onclick="return false;">Submit</button>
+                                         <button type="reset" class="btn btn-secondary">Reset</button>
                                      </div>
                                  </div>
                                  <!-- END Submit -->
@@ -189,6 +195,11 @@
         <%@include file="../includes/scripts.jsp" %>  
         
         <script src="<c:url value="/resources/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"/>"></script>
-        <script>jQuery(function(){ Dashmix.helpers(['datepicker']); });</script>
+        <script src="<c:url value="/resources/js/custom/user/usermodify.js"/>"></script>
+        <script>
+        	usermodify.isEditMode = ${isEditMode};
+        	usermodify.isUsernameAlreadyExistsUrl = '<c:url value="/isUsernameAlreadyExists" />';
+		</script>
+        
     </body>
 </html>
