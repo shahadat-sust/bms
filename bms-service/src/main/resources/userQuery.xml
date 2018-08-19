@@ -63,7 +63,7 @@
 			FROM User
 			WHERE
 				(? > 0 AND Id != ? AND Username = ?)
-			    OR (? <= 0 AND Username = ?); 
+			    OR (? <= 0 AND Username = ?) 
 	    ]]>
 	</entry>      
 </properties>

@@ -16,7 +16,12 @@ http://www.springframework.org/schema/tx/spring-tx.xsd
 http://www.springframework.org/schema/jee
 http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-	<context:component-scan base-package="com.bms.admin.controller, com.bms.service.configuration, com.bms.service.dao, com.bms.service.soa"/>
+	<context:component-scan base-package="com.bms.admin.controller, 
+		com.bms.admin.controller,
+		com.bms.admin.validator, 
+		com.bms.service.configuration, 
+		com.bms.service.dao, 
+		com.bms.service.soa"/>
 	
 	<mvc:annotation-driven/>
 	

@@ -2,6 +2,8 @@ package com.bms.service.data.user;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.bms.common.util.StringUtils;
 import com.bms.service.data.BaseData;
 
@@ -13,6 +15,7 @@ public class UserProfileData extends BaseData {
 	private String firstName;
 	private String lastName;
 	private int gender;
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date birthDay;
 	private String securityNumber;
 	private String passportNumber;

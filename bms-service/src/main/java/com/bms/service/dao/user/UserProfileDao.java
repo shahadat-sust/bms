@@ -72,8 +72,7 @@ public class UserProfileDao extends BaseDao implements IUserProfileDao {
 					userProfileData.getCaption(),
 					userProfileData.getUpdatedBy(),
 					new java.sql.Timestamp(userProfileData.getUpdatedOn().getTime()),
-					userProfileData.getId(),
-					userProfileData.getUserId()) == 1;
+					userProfileData.getId()) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}

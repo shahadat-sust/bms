@@ -63,6 +63,16 @@
 								</button>
                              </div>
                          </div>
+                         <c:set var="firstNameError"><form:errors path="userProfileData.firstName"/></c:set>
+                         <c:set var="lastNameError"><form:errors path="userProfileData.lastName"/></c:set>
+                         <c:set var="genderError"><form:errors path="userProfileData.gender"/></c:set>
+                         <c:set var="usernameError"><form:errors path="username"/></c:set>
+                         <c:set var="passwordError"><form:errors path="password"/></c:set>
+                         <c:set var="repasswordError"><form:errors path="repassword"/></c:set>
+                         <c:set var="emailError"><form:errors path="emailAddressDatas[0].email"/></c:set>
+                         <c:set var="countryCodeError"><form:errors path="phoneNumberDatas[0].code"/></c:set>
+                         <c:set var="phoneNumberError"><form:errors path="phoneNumberDatas[0].number"/></c:set>
+                         <c:set var="countryIdError"><form:errors path="postalAddressDatas[0].countryId"/></c:set>
                          <div class="block-content block-content-full">
                              <div class="">
                              	<!-- Security Info -->
@@ -76,19 +86,34 @@
                                      <div class="col-lg-8 col-xl-5">
                                          <div class="form-group">
                                              <label for="val-firstName">First Name <span class="text-danger">*</span></label>
-                                             <form:input cssClass="form-control" id="val-firstName" path="userProfileData.firstName" placeholder="Enter a first name.."/>
+                                             <form:input id="val-firstName" path="userProfileData.firstName" placeholder="Enter a first name.."
+                                              	cssClass="form-control ${not empty firstNameError ? 'is-invalid' :''}"
+                                              	aria-describedby="${not empty countryIdError ? 'val-firstName-error' :''}"/>
+                                             <c:if test="${not empty firstNameError}">
+                                             	<div id="val-firstName-error" class="invalid-feedback animated fadeIn">${firstNameError}</div>
+                                             </c:if>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-lastName">Last Name <span class="text-danger">*</span></label>
-                                             <form:input cssClass="form-control" id="val-lastName" path="userProfileData.lastName" placeholder="Enter a last name.."/>
+                                             <form:input id="val-lastName" path="userProfileData.lastName" placeholder="Enter a last name.."
+                                             	cssClass="form-control ${not empty lastNameError ? 'is-invalid' :''}"
+                                             	aria-describedby="${not empty countryIdError ? 'val-lastName-error' :''}"/>
+                                             <c:if test="${not empty lastNameError}">
+                                             	<div id="val-lastName-error" class="invalid-feedback animated fadeIn">${lastNameError}</div>
+                                             </c:if>
                                          </div>
                                          <div class="form-group">
-                                              <label for="val-gender">Gender <span class="text-danger">*</span></label>
-                                              <form:select cssClass="form-control" id="val-gender" path="userProfileData.gender">
+                                             <label for="val-gender">Gender <span class="text-danger">*</span></label>
+                                             <form:select id="val-gender" path="userProfileData.gender"
+                                              	cssClass="form-control ${not empty genderError ? 'is-invalid' :''}"
+                                              	aria-describedby="${not empty countryIdError ? 'val-gender-error' :''}">
                                               	<form:option value="0" label="Please select"></form:option>
                                               	<form:option value="<%= Constants.MALE %>" label="Male"></form:option>
                                               	<form:option value="<%= Constants.FEMALE %>" label="Female"></form:option>
                                               </form:select> 
+                                              <c:if test="${not empty genderError}">
+                                             	<div id="val-gender-error" class="invalid-feedback animated fadeIn">${genderError}</div>
+                                             </c:if>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-birthDay">Birthday </label>
@@ -127,15 +152,30 @@
 	                                     <div class="col-lg-8 col-xl-5">
 	                                         <div class="form-group">
 	                                             <label for="val-username">Username <span class="text-danger">*</span></label>
-	                                             <form:input cssClass="form-control" id="val-username" path="username" placeholder="Enter a username.."/>
+	                                             <form:input id="val-username" path="username" placeholder="Enter a username.."
+	                                             	cssClass="form-control ${not empty usernameError ? 'is-invalid' :''}"
+	                                             	aria-describedby="${not empty countryIdError ? 'val-username-error' :''}"/>
+	                                             <c:if test="${not empty usernameError}">
+	                                             	<div id="val-username-error" class="invalid-feedback animated fadeIn">${usernameError}</div>
+	                                             </c:if>
 	                                         </div>
 	                                         <div class="form-group">
 	                                             <label for="val-password">Password <span class="text-danger">*</span></label>
-	                                             <input type="password" class="form-control" id="val-password" name="password" placeholder="Choose a safe one.."/>
+	                                             <form:password id="val-password" path="password" placeholder="Choose a safe one.."
+	                                             	cssClass="form-control ${not empty passwordError ? 'is-invalid' :''}"
+	                                             	aria-describedby="${not empty countryIdError ? 'val-password-error' :''}"/>
+	                                             <c:if test="${not empty passwordError}">
+	                                             	<div id="val-password-error" class="invalid-feedback animated fadeIn">${passwordError}</div>
+	                                             </c:if>
 	                                         </div>
 	                                         <div class="form-group">
 	                                             <label for="val-repassword">Confirm Password <span class="text-danger">*</span></label>
-	                                             <input type="password" class="form-control" id="val-repassword" name="repassword" placeholder="..and confirm it!"/>
+	                                             <form:password id="val-repassword" path="repassword" placeholder="..and confirm it!"
+	                                             	cssClass="form-control ${not empty repasswordError ? 'is-invalid' :''}"
+	                                             	aria-describedby="${not empty countryIdError ? 'val-repassword-error' :''}"/>
+	                                             <c:if test="${not empty repasswordError}">
+	                                             	<div id="val-repassword-error" class="invalid-feedback animated fadeIn">${repasswordError}</div>
+	                                             </c:if>
 	                                         </div>
 	                                     </div>
 	                                 </div>
@@ -153,17 +193,22 @@
                                      <div class="col-lg-8 col-xl-5">
                                          <div class="form-group">
                                              <label for="val-email">Email <span class="text-danger">*</span></label>
-                                             <form:input cssClass="form-control" id="val-email" path="emailAddressDatas[0].email" placeholder="Your valid email.."/>
+                                             <form:input id="val-email" path="emailAddressDatas[0].email" placeholder="Your valid email.."
+                                             	cssClass="form-control ${not empty emailError ? 'is-invalid' :''}"
+                                             	aria-describedby="${not empty countryIdError ? 'val-email-error' :''}"/>
+                                             <c:if test="${not empty emailError}">
+                                             	<div id="val-email-error" class="invalid-feedback animated fadeIn">${emailError}</div>
+                                             </c:if>
                                          </div>
                                          <div class="form-group">
 											<label for="val-email">Phone Number <span class="text-danger">*</span></label>
 											<div class="input-group">
 												<span class="input-group-btn">
 													<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-														<c:if test="${not empty phoneNumberDatas[0].code}">
-														    <span class="type-text">+${phoneNumberDatas[0].code}</span> 
+														<c:if test="${not empty userForm.phoneNumberDatas[0].code}">
+														    <span class="type-text">+${userForm.phoneNumberDatas[0].code}</span> 
 														</c:if>
-														<c:if test="${empty phoneNumberDatas[0].code}">
+														<c:if test="${empty userForm.phoneNumberDatas[0].code}">
 															<span class="type-text">Code</span> 
 														</c:if>
 														<span class="caret"></span>
@@ -181,8 +226,18 @@
 														</ul>	
 													</div>				
 												</span>
-												<form:hidden id="val-code" path="phoneNumberDatas[0].code"/>
-												<form:input cssClass="form-control" id="val-phoneNumber" path="phoneNumberDatas[0].number" placeholder="Your valid phone number.."/>
+												<form:hidden id="val-code" path="phoneNumberDatas[0].code"
+													cssClass="form-control ${not empty countryCodeError ? 'is-invalid' :''}"
+													aria-describedby="${not empty countryIdError ? 'val-code-error' :''}"/>
+												<form:input id="val-number" path="phoneNumberDatas[0].number" placeholder="Your valid phone number.." 
+													cssClass="form-control ${not empty phoneNumberError ? 'is-invalid' :''}"
+													aria-describedby="${not empty countryIdError ? 'val-number-error' :''}"/>
+												<c:if test="${not empty countryCodeError}">
+	                                             	<div id="val-code-error" class="invalid-feedback animated fadeIn">${countryCodeError}</div>
+	                                            </c:if>
+	                                            <c:if test="${not empty phoneNumberError}">
+	                                             	<div id="val-number-error" class="invalid-feedback animated fadeIn">${phoneNumberError}</div>
+	                                            </c:if>
 											</div>
 										</div>
                                          <div class="form-group">
@@ -191,10 +246,15 @@
                                           </div>
                                          <div class="form-group">
                                               <label for="val-countryId">Country <span class="text-danger">*</span></label>
-                                              <form:select cssClass="form-control" id="val-countryId" path="postalAddressDatas[0].countryId">
+                                              <form:select id="val-countryId" path="postalAddressDatas[0].countryId"
+                                              	 cssClass="form-control ${not empty countryIdError ? 'is-invalid' :''}"
+                                              	 aria-describedby="${not empty countryIdError ? 'val-countryId-error' :''}">
                                               	 <form:option value="0" label="Please select"></form:option>
                                               	 <form:options items="${countryList}" itemValue="id" itemLabel="name"/>
                                               </form:select>
+                                              <c:if test="${not empty countryIdError}">
+                                             	<div id="val-countryId-error" class="invalid-feedback animated fadeIn">${countryIdError}</div>
+                                             </c:if>
                                          </div> 
                                      </div>
                                  </div>
@@ -225,7 +285,9 @@
         <script src="<c:url value="/resources/js/custom/user/usermodify.js"/>"></script>
         <script>
         	usermodify.isEditMode = ${isEditMode};
-        	usermodify.isUsernameAlreadyExistsUrl = '<c:url value="/isUsernameAlreadyExists" />';
+        	usermodify.isUsernameAvailableUrl = '<c:url value="/isUsernameAvailable" />';
+        	usermodify.isEmailAvailableUrl = '<c:url value="/isEmailAvailable" />';
+        	usermodify.isPhoneNumberAvailableUrl = '<c:url value="/isPhoneNumberAvailable" />';
         	usermodify.countryCode = "${phoneNumberDatas[0].code}";
 		</script>
         

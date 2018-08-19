@@ -1,6 +1,8 @@
 var usermodify = {
 		isEditMode : false,
-		isUsernameAlreadyExistsUrl : "",
+		isUsernameAvailableUrl : "",
+		isEmailAvailableUrl : "",
+    	isPhoneNumberAvailableUrl : "",
 		countryCode : "",
 		
 		init : function () {
@@ -14,9 +16,9 @@ var usermodify = {
 			});
 			
 			$(".country").on('click', function(){
-				var selectedCode = $(this).find('.dial-code').html();
-				$('.type-text').text(selectedCode);
-				$('#val-code').val(selectedCode);
+				var selectedCode = $(this).data('dial-code');
+				$('.type-text').text("+" + selectedCode);
+				$('#val-code').val(selectedCode).valid();
 			});
 			
 			$("button[type='reset']").on('click', function() {
@@ -26,6 +28,7 @@ var usermodify = {
 					$('.type-text').text("Code");
 				}
 			});
+
 		},
 
 		initValidation : function() {
@@ -34,21 +37,21 @@ var usermodify = {
 			 */
 			$.validator.addMethod("date", function(value, element) {
 		        return value.trim() == "" || value.match(/^\d\d?\-\d\d?\-\d\d\d\d$/);
-		    }, "Please enter a date in the format dd-mm-yyyy.");
+		    }, "Please enter a date in the format dd-mm-yyyy");
 			
 			/**
 			 * Custom validator for contains only characters(upper/lower) and numbers
 			 */
 			$.validator.addMethod("usernamecheck", function(value, element) {
 			    return value.match(/^[a-zA-Z0-9]+$/);
-			}, "Username must contains only letter(upper/lower) or number.");
+			}, "Username must contains only letter(upper/lower) or number");
 			
 			/**
 			 * Custom validator for contains at least one lower-case letter
 			 */
 			$.validator.addMethod("passwordcheck", function (value, element) {
-			    return value.match(/^[a-zA-Z0-9!@#$%^&*]+$/);
-			}, "Password must contains only letter(upper/lower), number or special characters(!@#$%^&*).");
+			    return value.match(/^[a-zA-Z0-9!@#$%^&*+=]+$/);
+			}, "Password must contains only letter(upper/lower), number or special characters(!@#$%^&*+=)");
 			
 			/**
 			 * Custom validator for contains at least one lower-case letter
@@ -75,7 +78,7 @@ var usermodify = {
 			 * Custom validator for contains at least one symbol.
 			 */
 			$.validator.addMethod("atLeastOneSymbol", function (value, element) {
-			    return this.optional(element) || /[!@#$%^&*]+/.test(value);
+			    return this.optional(element) || /[!@#$%^&*+=]+/.test(value);
 			}, "Must have at least one symbol");
 			
 			$('#formUserModify').validate({
@@ -109,7 +112,7 @@ var usermodify = {
 	                    minlength: 8,
 	                    usernamecheck: true,
 	                    remote : {
-	                    	url : usermodify.isUsernameAlreadyExistsUrl,
+	                    	url : usermodify.isUsernameAvailableUrl,
 	                    	type : "get",
 	                    	data : {
 	                    		userId : function() {
@@ -128,20 +131,63 @@ var usermodify = {
 	                    atLeastOneUppercaseLetter: true,
 	                    atLeastOneNumber: true,
 	                    atLeastOneSymbol: true,
-	                    minlength: 8,
-	                    maxlength: 40
+	                    minlength: 8
 	                },
 	                "repassword": {
 	                    required: true, equalTo : '[name="password"]'
 	                },
 	            	"emailAddressDatas[0].email": {
-	                    required: true, email: true
+	                    required: true, 
+	                    email: true,
+	                    remote : {
+	                    	url : usermodify.isEmailAvailableUrl,
+	                    	type : "get",
+	                    	data : {
+	                    		userId : function() {
+	                    			return $('#val-userId').val();
+	                    		},
+	                    		email : function() {
+	                    			return $('#val-email').val();
+	                    		}
+	                    	}
+	                    }
 	                },
 	                "phoneNumberDatas[0].code": {
-	                    required: true
+	                    required: true,
+	                    remote : {
+	                    	url : usermodify.isPhoneNumberAvailableUrl,
+	                    	type : "get",
+	                    	data : {
+	                    		userId : function() {
+	                    			return $('#val-userId').val();
+	                    		},
+	                    		code : function() {
+	                    			return $('#val-code').val();
+	                    		},
+	                    		number : function() {
+	                    			return $('#val-number').val();
+	                    		}
+	                    	}
+	                    }
 	                },
 	            	"phoneNumberDatas[0].number": {
-	                    required: true, digits : true
+	                    required: true, 
+	                    digits : true,
+	                    remote : {
+	                    	url : usermodify.isPhoneNumberAvailableUrl,
+	                    	type : "get",
+	                    	data : {
+	                    		userId : function() {
+	                    			return $('#val-userId').val();
+	                    		},
+	                    		code : function() {
+	                    			return $('#val-code').val();
+	                    		},
+	                    		number : function() {
+	                    			return $('#val-number').val();
+	                    		}
+	                    	}
+	                    }
 	                },
 	            	"postalAddressDatas[0].countryId": {
 	            		min : 1
@@ -161,13 +207,16 @@ var usermodify = {
 	                    equalTo : "Password does not match the confirm password"
 	                },
 	                "emailAddressDatas[0].email": {
-	                	required: "Email is required"
+	                	required: "Email is required",
+	                	remote : "This email is already used."
 	                },
 	                "phoneNumberDatas[0].code": {
-	                	required: "Country code is required"
+	                	required: "Country code is required",
+	                	remote : "This phone number is already used."
 	                },
 	                "phoneNumberDatas[0].number": {
-	                    required: "Phone number is required"
+	                    required: "Phone number is required",
+	                	remote : "This phone number is already used."
 	                },
 	            }
 			});

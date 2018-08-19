@@ -17,6 +17,10 @@ import com.bms.service.data.user.UserData;
 
 public interface IUserService {
 
+	public void createAdminUser(UserData userData, long loginUserId) throws BmsException, BmsSqlException;
+	
+	public void updateAdminUser(UserData userData, long loginUserId) throws BmsException, BmsSqlException;
+	
 	public List<UserData> getAllUserDatas() throws BmsException, BmsSqlException;
 	
 	public UserData getUserDetailInfo(long userId) throws BmsException, BmsSqlException;
@@ -27,7 +31,7 @@ public interface IUserService {
 	
 	public boolean isPhoneNumberAvailableForUser(long userId, String code, String number) throws BmsException, BmsSqlException;
 	
-	public boolean isEmailAvailableForUser(long userId, String username) throws BmsException, BmsSqlException;
+	public boolean isEmailAvailableForUser(long userId, String email) throws BmsException, BmsSqlException;
 	
 	public IUserDao getUserDao();
 

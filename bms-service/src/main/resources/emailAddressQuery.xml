@@ -103,7 +103,7 @@
 				EmailAddress.Id = UserEmailAddress.EmailAddressId
 			WHERE
 				(? > 0 AND UserEmailAddress.UserId != ? AND EmailAddress.Email = ?)
-			    OR (? <= 0 AND EmailAddress.Email = ?); 
+			    OR (? <= 0 AND EmailAddress.Email = ?)
 	    ]]>
 	</entry>   
 </properties>

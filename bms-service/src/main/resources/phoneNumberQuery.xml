@@ -97,8 +97,8 @@
 			LEFT OUTER JOIN PhoneNumber ON 
 				PhoneNumber.Id = UserPhoneNumber.PhoneNumberId
 			WHERE
-				(? > 0 AND UserPhoneNumber.UserId != ? AND PhoneNumber.Number = ? AND PhoneNumber.Code = ?)
-			    OR (? <= 0 AND PhoneNumber.Number = ? AND PhoneNumber.Code = ?); 
+				(? > 0 AND UserPhoneNumber.UserId != ? AND PhoneNumber.Code = ? AND PhoneNumber.Number = ?)
+			    OR (? <= 0 AND PhoneNumber.Code = ? AND PhoneNumber.Number = ?) 
 	    ]]>
 	</entry> 
 </properties>

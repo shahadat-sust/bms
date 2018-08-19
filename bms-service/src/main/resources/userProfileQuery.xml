@@ -22,8 +22,7 @@
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
 			WHERE 
-				Id = ? AND
-				UserId = ?
+				Id = ?
 	    ]]>
 	</entry>
 	<entry key="userProfile.delete">

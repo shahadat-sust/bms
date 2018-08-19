@@ -5,17 +5,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.bms.common.Constants;
+
 public class EmailValidator {
 
 	private Pattern pattern;
 	private Matcher matcher;
 
-	private static final String EMAIL_PATTERN =
-		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
 	public EmailValidator() {
-		pattern = Pattern.compile(EMAIL_PATTERN);
+		pattern = Pattern.compile(CommonValidator.EMAIL_PATTERN);
 	}
 
 	public boolean validate(final String email) {
@@ -28,7 +26,8 @@ public class EmailValidator {
 		EmailValidator validator = new EmailValidator();
 		List<String> list = new ArrayList<>();
 		list.add("sourceengines@gmail.com");
-		list.add("sa.gg@yopmail");
+		list.add("sa.gg@yopmail.c.c");
+		list.add("sa_yop@yopmail");
 		
 		for(String email : list) {
 			System.out.println(email + " => " + validator.validate(email));

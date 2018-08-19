@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 import java.util.Properties;
 
@@ -37,8 +38,16 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "Id" });
 					ps.setString(1, postalAddressData.getLine1());
 					ps.setString(2, postalAddressData.getLine2());
-					ps.setLong(3, postalAddressData.getCityId());
-					ps.setLong(4, postalAddressData.getStateId());
+					if(postalAddressData.getCityId() > 0) {
+						ps.setLong(3, postalAddressData.getCityId());
+					} else {
+						ps.setNull(3, Types.BIGINT);
+					}
+					if(postalAddressData.getStateId() > 0) {
+						ps.setLong(4, postalAddressData.getStateId());
+					} else {
+						ps.setNull(4, Types.BIGINT);
+					}
 					ps.setLong(5, postalAddressData.getCountryId());
 					ps.setString(6, postalAddressData.getPostCode());
 					ps.setLong(7, postalAddressData.getCreatedBy());
@@ -97,8 +106,8 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 			return this.getTemplete().update(sql, 
 					postalAddressData.getLine1(), 
 					postalAddressData.getLine2(),
-					postalAddressData.getCityId(),
-					postalAddressData.getStateId(),
+					postalAddressData.getCityId() > 0 ? postalAddressData.getCityId() : null,
+					postalAddressData.getStateId() > 0 ? postalAddressData.getStateId() : null,
 					postalAddressData.getCountryId(),
 					postalAddressData.getPostCode(),
 					postalAddressData.getUpdatedBy(),
