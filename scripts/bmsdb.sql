@@ -575,7 +575,7 @@ CREATE TABLE `PostalAddress` (
   `Line2` varchar(150) DEFAULT NULL,
   `CityId` bigint(20) DEFAULT NULL COMMENT 'City/Town/Village',
   `StateId` bigint(20) DEFAULT NULL COMMENT 'State/Province',
-  `CountryId` bigint(20) DEFAULT NOT NULL,
+  `CountryId` bigint(20) NOT NULL,
   `PostCode` varchar(10) DEFAULT NULL COMMENT 'Post/Zip-code',
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
