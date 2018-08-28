@@ -54,8 +54,8 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "viewuser/{userId}", method = RequestMethod.GET)
 	public String viewUser(@PathVariable long userId, Model model) throws BmsSqlException, BmsException {
-		List<UserData> userList = userService.getAllUserDatas();
-		model.addAttribute("userList", userList);
+		UserData userData = userService.getUserDetailInfo(userId);
+		model.addAttribute("userData", userData);
 		return "user/userinfo";
 	}
 	

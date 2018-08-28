@@ -21,7 +21,12 @@
         <%@include file="../includes/header.jsp" %>
         <%@include file="../includes/sidebarleft.jsp" %>
 		<%@include file="../includes/sidebarright.jsp" %>
-
+		
+		<c:choose>
+			<c:when test="${isEditMode}"><c:set var="pageTitle" value="Edit User"/></c:when>
+			<c:otherwise><c:set var="pageTitle" value="Create User"/></c:otherwise>
+		</c:choose>
+		
         <!-- Main Container -->
         <main id="main-container">
 
@@ -29,11 +34,14 @@
              <div class="bg-body-light">
                  <div class="content content-full">
                      <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                         <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Create User</h1>
+                         <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">${pageTitle}</h1>
                          <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                              <ol class="breadcrumb">
                                  <li class="breadcrumb-item">User Management</li>
-                                 <li class="breadcrumb-item active" aria-current="page">Create User</li>
+                                 <c:if test="${isEditMode}">
+                                 	<li class="breadcrumb-item"><a href="<c:url value="/listusers"/>">User List</a></li>
+                                 </c:if>
+                                 <li class="breadcrumb-item active" aria-current="page">${pageTitle}</li>
                              </ol>
                          </nav>
                      </div>
@@ -48,7 +56,7 @@
                  <form:form id="formUserModify" action="${saveuser}" method="post" modelAttribute="userForm">
                      <div class="block block-rounded block-bordered">
                          <div class="block-header block-header-default">
-                             <h3 class="block-title">User Create - Form</h3>
+                             <h3 class="block-title">User - Form</h3>
                              <div class="block-options">
                              	 <form:hidden id="val-userId" path="id"/>
                              	 <form:hidden id="val-userProfileId" path="userProfileData.id"/>
@@ -86,7 +94,7 @@
                                      <div class="col-lg-8 col-xl-5">
                                          <div class="form-group">
                                              <label for="val-firstName">First Name <span class="text-danger">*</span></label>
-                                             <form:input id="val-firstName" path="userProfileData.firstName" placeholder="Enter a first name.."
+                                             <form:input id="val-firstName" path="userProfileData.firstName" placeholder="Enter a first name.." maxlength="45"
                                               	cssClass="form-control ${not empty firstNameError ? 'is-invalid' :''}"
                                               	aria-describedby="${not empty countryIdError ? 'val-firstName-error' :''}"/>
                                              <c:if test="${not empty firstNameError}">
@@ -95,7 +103,7 @@
                                          </div>
                                          <div class="form-group">
                                              <label for="val-lastName">Last Name <span class="text-danger">*</span></label>
-                                             <form:input id="val-lastName" path="userProfileData.lastName" placeholder="Enter a last name.."
+                                             <form:input id="val-lastName" path="userProfileData.lastName" placeholder="Enter a last name.." maxlength="45"
                                              	cssClass="form-control ${not empty lastNameError ? 'is-invalid' :''}"
                                              	aria-describedby="${not empty countryIdError ? 'val-lastName-error' :''}"/>
                                              <c:if test="${not empty lastNameError}">
@@ -122,19 +130,19 @@
                                          </div>
                                          <div class="form-group">
                                              <label for="val-securityNumber">Security Number </label>
-                                             <form:input cssClass="form-control" id="val-securityNumber" path="userProfileData.securityNumber" placeholder="Enter a security number.."/>
+                                             <form:input cssClass="form-control" id="val-securityNumber" path="userProfileData.securityNumber" maxlength="45" placeholder="Enter a security number.."/>
                                          </div>
                                          <div class="form-group">
                                              <label for="val-passportNumber">Passport Number </label>
-                                             <form:input cssClass="form-control" id="val-passportNumber" path="userProfileData.passportNumber" placeholder="Enter a passport number.."/>
+                                             <form:input cssClass="form-control" id="val-passportNumber" path="userProfileData.passportNumber" maxlength="45" placeholder="Enter a passport number.."/>
                                          </div>
                                          <div class="form-group">
-                                             <label for="val-drivingLicenceNumber">Passport Number </label>
-                                             <form:input cssClass="form-control" id="val-drivingLicenceNumber" path="userProfileData.drivingLicenceNumber" placeholder="Enter a driving licence number.."/>
+                                             <label for="val-drivingLicenceNumber">Driving Licence Number </label>
+                                             <form:input cssClass="form-control" id="val-drivingLicenceNumber" path="userProfileData.drivingLicenceNumber" maxlength="45" placeholder="Enter a driving licence number.."/>
                                          </div>
                                          <div class="form-group">
                                               <label for="val-caption">Caption </label>
-                                              <form:textarea cssClass="form-control" id="val-caption" path="userProfileData.caption" rows="3" placeholder="What would you like to write somthing about user?"/>
+                                              <form:textarea cssClass="form-control" id="val-caption" path="userProfileData.caption" rows="3" maxlength="300" placeholder="What would you like to write somthing about user?"/>
                                           </div>
                                      </div>
                                  </div>
@@ -152,7 +160,7 @@
 	                                     <div class="col-lg-8 col-xl-5">
 	                                         <div class="form-group">
 	                                             <label for="val-username">Username <span class="text-danger">*</span></label>
-	                                             <form:input id="val-username" path="username" placeholder="Enter a username.."
+	                                             <form:input id="val-username" path="username" placeholder="Enter a username.." maxlength="127"
 	                                             	cssClass="form-control ${not empty usernameError ? 'is-invalid' :''}"
 	                                             	aria-describedby="${not empty countryIdError ? 'val-username-error' :''}"/>
 	                                             <c:if test="${not empty usernameError}">
@@ -161,7 +169,7 @@
 	                                         </div>
 	                                         <div class="form-group">
 	                                             <label for="val-password">Password <span class="text-danger">*</span></label>
-	                                             <form:password id="val-password" path="password" placeholder="Choose a safe one.."
+	                                             <form:password id="val-password" path="password" placeholder="Choose a safe one.." maxlength="45"
 	                                             	cssClass="form-control ${not empty passwordError ? 'is-invalid' :''}"
 	                                             	aria-describedby="${not empty countryIdError ? 'val-password-error' :''}"/>
 	                                             <c:if test="${not empty passwordError}">
@@ -170,7 +178,7 @@
 	                                         </div>
 	                                         <div class="form-group">
 	                                             <label for="val-repassword">Confirm Password <span class="text-danger">*</span></label>
-	                                             <form:password id="val-repassword" path="repassword" placeholder="..and confirm it!"
+	                                             <form:password id="val-repassword" path="repassword" placeholder="..and confirm it!" maxlength="45"
 	                                             	cssClass="form-control ${not empty repasswordError ? 'is-invalid' :''}"
 	                                             	aria-describedby="${not empty countryIdError ? 'val-repassword-error' :''}"/>
 	                                             <c:if test="${not empty repasswordError}">
@@ -183,7 +191,7 @@
                                  </c:if>
 
 								 <!-- Contact Info -->
-                                 <h2 class="content-heading">Basic Info</h2>
+                                 <h2 class="content-heading">Contact Info</h2>
                                  <div class="row items-push">
                                      <div class="col-lg-4">
                                          <p class="text-muted">
@@ -193,7 +201,7 @@
                                      <div class="col-lg-8 col-xl-5">
                                          <div class="form-group">
                                              <label for="val-email">Email <span class="text-danger">*</span></label>
-                                             <form:input id="val-email" path="emailAddressDatas[0].email" placeholder="Your valid email.."
+                                             <form:input id="val-email" path="emailAddressDatas[0].email" placeholder="Your valid email.." maxlength="127"
                                              	cssClass="form-control ${not empty emailError ? 'is-invalid' :''}"
                                              	aria-describedby="${not empty countryIdError ? 'val-email-error' :''}"/>
                                              <c:if test="${not empty emailError}">
@@ -229,7 +237,7 @@
 												<form:hidden id="val-code" path="phoneNumberDatas[0].code"
 													cssClass="form-control ${not empty countryCodeError ? 'is-invalid' :''}"
 													aria-describedby="${not empty countryIdError ? 'val-code-error' :''}"/>
-												<form:input id="val-number" path="phoneNumberDatas[0].number" placeholder="Your valid phone number.." 
+												<form:input id="val-number" path="phoneNumberDatas[0].number" placeholder="Your valid phone number.." maxlength="20" 
 													cssClass="form-control ${not empty phoneNumberError ? 'is-invalid' :''}"
 													aria-describedby="${not empty countryIdError ? 'val-number-error' :''}"/>
 												<c:if test="${not empty countryCodeError}">
@@ -242,7 +250,7 @@
 										</div>
                                          <div class="form-group">
                                               <label for="val-caption">Address </label>
-                                              <form:textarea cssClass="form-control" id="val-line1" path="postalAddressDatas[0].line1" rows="3" placeholder="Enter address"/>
+                                              <form:textarea cssClass="form-control" id="val-line1" path="postalAddressDatas[0].line1" rows="3"  maxlength="150" placeholder="Enter address"/>
                                           </div>
                                          <div class="form-group">
                                               <label for="val-countryId">Country <span class="text-danger">*</span></label>

@@ -43,14 +43,23 @@
 	<entry key="postalAddress.getPostalAddressById">
 	    <![CDATA[
 			SELECT 
-				Id, 
-				Line1, 
-				Line2, 
-				CityId, 
-				StateId, 
-				CountryId, 
-				PostCode 
+				PostalAddress.Id, 
+				PostalAddress.Line1, 
+				PostalAddress.Line2, 
+				PostalAddress.CityId, 
+				PostalAddress.StateId, 
+				PostalAddress.CountryId, 
+				PostalAddress.PostCode,
+				City.Name, 
+				State.Name,
+				Country.Name
 			FROM PostalAddress 
+			LEFT OUTER JOIN City ON 
+				City.Id = PostalAddress.CityId 
+			LEFT OUTER JOIN State ON 
+				State.Id = PostalAddress.StateId 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = PostalAddress.CountryId 
 			WHERE 
 				Id = ?
 	    ]]>
@@ -59,15 +68,24 @@
 	    <![CDATA[
 			SELECT 
 				PostalAddress.Id, 
-				Line1, 
-				Line2, 
-				CityId, 
-				StateId, 
-				CountryId, 
-				PostCode 
+				PostalAddress.Line1, 
+				PostalAddress.Line2, 
+				PostalAddress.CityId, 
+				PostalAddress.StateId, 
+				PostalAddress.CountryId, 
+				PostalAddress.PostCode,
+				City.Name, 
+				State.Name,
+				Country.Name 
 			FROM PostalAddress 
 			LEFT OUTER JOIN UserPostalAddress ON 
 				UserPostalAddress.PostalAddressId = PostalAddress.Id 
+			LEFT OUTER JOIN City ON 
+				City.Id = PostalAddress.CityId 
+			LEFT OUTER JOIN State ON 
+				State.Id = PostalAddress.StateId 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = PostalAddress.CountryId 
 			WHERE 
 				UserPostalAddress.UserId = ?
 	    ]]>
@@ -76,15 +94,24 @@
 	    <![CDATA[
 			SELECT 
 				PostalAddress.Id, 
-				Line1, 
-				Line2, 
-				CityId, 
-				StateId, 
-				CountryId, 
-				PostCode 
+				PostalAddress.Line1, 
+				PostalAddress.Line2, 
+				PostalAddress.CityId, 
+				PostalAddress.StateId, 
+				PostalAddress.CountryId, 
+				PostalAddress.PostCode,
+				City.Name, 
+				State.Name,
+				Country.Name 
 			FROM PostalAddress 
 			LEFT OUTER JOIN ProviderPostalAddress ON 
 				ProviderPostalAddress.PostalAddressId = PostalAddress.Id 
+			LEFT OUTER JOIN City ON 
+				City.Id = PostalAddress.CityId 
+			LEFT OUTER JOIN State ON 
+				State.Id = PostalAddress.StateId 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = PostalAddress.CountryId 
 			WHERE 
 				ProviderPostalAddress.ProviderId = ?
 	    ]]>
