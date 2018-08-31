@@ -3,12 +3,11 @@ package com.bms.admin.controller.user;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.validation.Valid;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
-import org.hibernate.validator.util.privilegedactions.GetClassLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.CountryCodeModel;
-import com.bms.admin.model.LabelValueModel;
 import com.bms.admin.validator.UserValidator;
 import com.bms.common.BmsException;
 import com.bms.common.Constants;
@@ -48,6 +46,15 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "listusers", method = RequestMethod.GET)
 	public String listUsers(Model model) throws BmsSqlException, BmsException {
 		List<UserData> userList = userService.getAllUserDatas();
+		if(userList != null) {
+			Iterator<UserData> itr = userList.iterator();
+			while(itr.hasNext()) {
+				UserData userData = itr.next();
+				if(userData.getStatus() == Constants.STATUS_NOT_EXIST) {
+					itr.remove();
+				}
+			}
+		}
 		model.addAttribute("userList", userList);
 		return "user/userlist";
 	}
@@ -81,7 +88,58 @@ public class UserController extends BaseController {
 
 		return "user/usermodify";
 	}
-	
+
+	@RequestMapping(value = "saveuser", method = RequestMethod.POST)
+	public String saveUser(@ModelAttribute("userForm") UserData userForm, BindingResult result, Model model) throws BmsSqlException, BmsException {
+		userValidator.validate(userForm, result);
+		boolean isEditMode = userForm.getId() > 0;
+		
+		model.addAttribute("userForm", userForm);
+		this.populateSelectOptions(model);
+
+		if(result.hasErrors()) {
+			userForm.setPassword("");
+			userForm.setRepassword("");
+			model.addAttribute("isEditMode", isEditMode);
+			return "user/usermodify";
+		}
+		
+		try {
+			if(isEditMode) {
+				userService.updateAdminUser(userForm, getLoginUserData().getId());
+				model.addAttribute("successMsg", getMessageSource().getMessage("confirm.update.success", new Object[] {"User"}, Locale.getDefault()));
+			} else {
+				userService.createAdminUser(userForm, getLoginUserData().getId());
+				model.addAttribute("successMsg", getMessageSource().getMessage("confirm.create.failed", new Object[] {"User"}, Locale.getDefault()));
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			if(isEditMode) {
+				model.addAttribute("failedMsg", getMessageSource().getMessage("confirm.update.success", new Object[] {"user"}, Locale.getDefault()));
+			} else {
+				model.addAttribute("failedMsg", getMessageSource().getMessage("confirm.update.failed", new Object[] {"user"}, Locale.getDefault()));
+			}
+		}
+		
+		userForm.setPassword("");
+		userForm.setRepassword("");
+		model.addAttribute("isEditMode", true);
+		
+		return "user/usermodify";
+	}
+		
+	@RequestMapping(value = "deleteuser", method = RequestMethod.POST)
+	public String deleteUser(@RequestParam("userId") long userId, Model model) throws BmsSqlException, BmsException {
+		try {
+			userService.deleteUser(userId, getLoginUserData().getId());
+		} catch (Exception e) {
+			logger.error(e);
+			model.addAttribute("failedMsg", getMessageSource().getMessage("confirm.delete.failed", new Object[] {"user"}, Locale.getDefault()));
+			return listUsers(model);
+		}
+		return "redirect:/listusers";
+	}
+		
 	@RequestMapping(value = "isUsernameAvailable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody boolean isUsernameAvailable(
 			@RequestParam("userId") long userId, 
@@ -122,31 +180,6 @@ public class UserController extends BaseController {
 		return status;
 	}
 	
-	@RequestMapping(value = "saveuser", method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("userForm") UserData userForm, BindingResult result, Model model) throws BmsSqlException, BmsException {
-		userValidator.validate(userForm, result);
-		model.addAttribute("userForm", userForm);
-		this.populateSelectOptions(model);
-
-		if(result.hasErrors()) {
-			userForm.setPassword("");
-			userForm.setRepassword("");
-			model.addAttribute("isEditMode", userForm.getId() > 0);
-			return "user/usermodify";
-		}
-		
-		if(userForm.getId() == 0) {
-			userService.createAdminUser(userForm, getLoginUserData().getId());
-		} else {
-			userService.updateAdminUser(userForm, getLoginUserData().getId());
-		}
-		userForm.setPassword("");
-		userForm.setRepassword("");
-		model.addAttribute("isEditMode", true);
-		
-		return "user/usermodify";
-	}
-	
 	private void populateSelectOptions(Model model) throws BmsSqlException, BmsException {
 		List<CountryData> countryList = countryService.getAllCountries();
 		if(countryList != null && countryList.size() > 0) {
@@ -165,12 +198,7 @@ public class UserController extends BaseController {
 		}
 		model.addAttribute("countryCodeList", countryCodeList);
 	}
-	
-	@RequestMapping(value = "deleteuser", method = RequestMethod.POST)
-	public String deleteUser(@RequestParam("userId") long userId, Model model) throws BmsSqlException, BmsException {
-		return "redirect:/listusers";
-	}
-	
+
 	@Autowired
 	@Qualifier("userValidator")
 	public void setUserValidator(UserValidator userValidator) {

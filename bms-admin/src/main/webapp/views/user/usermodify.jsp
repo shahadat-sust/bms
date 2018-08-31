@@ -83,7 +83,8 @@
                          <c:set var="countryIdError"><form:errors path="postalAddressDatas[0].countryId"/></c:set>
                          <div class="block-content block-content-full">
                              <div class="">
-                             	<!-- Security Info -->
+                             	<%@include file="../includes/formStatus.jsp" %>
+                             	 <!-- Security Info -->
                                  <h2 class="content-heading">Basic Info</h2>
                                  <div class="row items-push">
                                      <div class="col-lg-4">

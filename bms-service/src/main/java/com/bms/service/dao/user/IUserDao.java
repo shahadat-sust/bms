@@ -11,7 +11,7 @@ public interface IUserDao {
 	
 	boolean update(UserData userData) throws BmsSqlException;
 	
-	boolean delete(long userId) throws BmsSqlException;
+	boolean delete(UserData userData) throws BmsSqlException;
 	
 	UserData getUserDataById(long userId) throws BmsSqlException;
 	

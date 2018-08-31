@@ -21,6 +21,8 @@ public interface IUserService {
 	
 	public void updateAdminUser(UserData userData, long loginUserId) throws BmsException, BmsSqlException;
 	
+	public boolean deleteUser(long userId, long loginUserId) throws BmsException, BmsSqlException;
+	
 	public List<UserData> getAllUserDatas() throws BmsException, BmsSqlException;
 	
 	public UserData getUserDetailInfo(long userId) throws BmsException, BmsSqlException;

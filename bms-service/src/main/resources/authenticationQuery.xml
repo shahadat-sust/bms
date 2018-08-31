@@ -9,7 +9,8 @@
 			FROM User 
 			WHERE 
 				Username = ? AND 
-				Password = ? 
+				Password = ? AND
+				Status = 1
 	    ]]>
 	</entry>   
 </properties>

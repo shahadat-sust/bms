@@ -259,6 +259,22 @@ public class UserService extends BaseService implements IUserService {
 	}
 	
 	@Override
+	public boolean deleteUser(long userId, long loginUserId) throws BmsException, BmsSqlException {
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			UserData userData = new UserData();
+			userData.setId(userId);
+			userData.setUpdatedBy(loginUserId);
+			userData.setUpdatedOn(currDate);
+			return userDao.delete(userData);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
+	}
+	
+	@Override
 	public List<UserData> getAllUserDatas() throws BmsException, BmsSqlException {
 		return userDao.getAllUserDatas();
 	}

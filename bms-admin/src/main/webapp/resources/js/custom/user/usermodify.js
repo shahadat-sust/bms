@@ -6,6 +6,7 @@ var usermodify = {
 		countryCode : "",
 		
 		init : function () {
+			$(this).scrollTop(0);
 			Dashmix.helpers(['datepicker']);
 			usermodify.initValidation();
 

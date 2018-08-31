@@ -45,6 +45,7 @@
                             <i class="fa fa-fw fa-plus mr-1"></i> Create User
                         </a>
                   	  </div>
+                  	  <%@include file="../includes/formStatus.jsp" %>
                       <div class="block-content">
                            <table id="dataTable" class="table table-bordered table-striped table-vcenter">
                                <thead>

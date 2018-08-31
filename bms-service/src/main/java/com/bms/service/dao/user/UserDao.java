@@ -18,6 +18,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.dao.BaseDao;
 import com.bms.service.data.user.UserData;
@@ -74,10 +75,14 @@ public class UserDao extends BaseDao implements IUserDao {
 	}
 
 	@Override
-	public boolean delete(long userId) throws BmsSqlException {
+	public boolean delete(UserData userData) throws BmsSqlException {
 		try {
 			String sql = userQuery.getProperty("user.delete");
-			return this.getTemplete().update(sql, userId) == 1;
+			return this.getTemplete().update(sql, 
+					Constants.STATUS_NOT_EXIST,
+					userData.getUpdatedBy(),
+					new java.sql.Timestamp(userData.getUpdatedOn().getTime()),
+					userData.getId()) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}

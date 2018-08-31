@@ -23,7 +23,12 @@
 	</entry>
 	<entry key="user.delete">
 	    <![CDATA[
-			DELETE FROM User WHERE Id = ?
+			UPDATE User SET 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
 	    ]]>
 	</entry>
 	<entry key="user.getUserDataById">
