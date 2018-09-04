@@ -62,6 +62,11 @@ public class BookingTypeService extends BaseService implements IBookingTypeServi
 	public List<BookingTypeData> getAllBookingTypes() throws BmsException, BmsSqlException {
 		return bookingTypeDao.getAllBookingTypes();
 	}
+	
+	@Override
+	public boolean isAvailable(long id, String name) throws BmsSqlException {
+		return bookingTypeDao.isAvailable(id, name);
+	}
 
 	@Override
 	public IBookingTypeDao getBookingTypeDao() {

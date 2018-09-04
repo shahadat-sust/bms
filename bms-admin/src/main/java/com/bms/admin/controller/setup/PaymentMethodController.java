@@ -1,6 +1,7 @@
 package com.bms.admin.controller.setup;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class PaymentMethodController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -61,6 +62,13 @@ public class PaymentMethodController extends BaseController {
 	public @ResponseBody ResponseModel<PaymentMethodData> createGroup(@RequestBody PaymentMethodData paymentMethodData) {
 		ResponseModel<PaymentMethodData> responseModel = new ResponseModel<PaymentMethodData>();
 		try {
+			boolean isAvailable = paymentMethodService.isAvailable(paymentMethodData.getId(), paymentMethodData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = paymentMethodService.create(paymentMethodData, getLoginUserData().getId());
 			if(status) {
 				PaymentMethodData data = paymentMethodService.getPaymentMethodById(paymentMethodData.getId());
@@ -71,7 +79,7 @@ public class PaymentMethodController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -80,6 +88,13 @@ public class PaymentMethodController extends BaseController {
 	public @ResponseBody ResponseModel<PaymentMethodData> updateGroup(@RequestBody PaymentMethodData paymentMethodData) {
 		ResponseModel<PaymentMethodData> responseModel = new ResponseModel<PaymentMethodData>();
 		try {
+			boolean isAvailable = paymentMethodService.isAvailable(paymentMethodData.getId(), paymentMethodData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = paymentMethodService.update(paymentMethodData, getLoginUserData().getId());
 			if(status) {
 				PaymentMethodData data = paymentMethodService.getPaymentMethodById(paymentMethodData.getId());
@@ -90,7 +105,7 @@ public class PaymentMethodController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -102,7 +117,7 @@ public class PaymentMethodController extends BaseController {
 			responseModel.setStatus(paymentMethodService.delete(paymentMethodId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

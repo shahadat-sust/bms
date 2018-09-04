@@ -19,4 +19,6 @@ public interface IAmenityDao {
 	
 	List<AmenityData> getAllAmenities() throws BmsSqlException;
 	
+	boolean isAvailable(long id, String name, long providerTypeId, int type) throws BmsSqlException;
+	
 }

@@ -36,6 +36,9 @@ public class Constants {
 	public static final int VALUE_ROLE_CONSUMER = 4;
 	public static final int VALUE_ROLE_VISITOR = 5;
 	
+	public static final int AMENITY_COMMON = 0;
+	public static final int AMENITY_ADITIONAL = 1;
+	
 	public static final String DIR_UPLOADED_FILES = "uploadDirectory";
 	public static final String FOLDER_PROFILE_IMAGE = "ProfileImage";
 	public static final String FOLDER_COVER_IMAGE = "CoverImage";

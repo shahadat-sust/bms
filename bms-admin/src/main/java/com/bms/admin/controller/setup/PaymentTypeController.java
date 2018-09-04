@@ -1,6 +1,7 @@
 package com.bms.admin.controller.setup;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
-import com.bms.service.data.booking.PaymentMethodData;
 import com.bms.service.data.booking.PaymentTypeData;
 import com.bms.service.soa.booking.IPaymentTypeService;
 
@@ -52,7 +52,7 @@ public class PaymentTypeController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -61,6 +61,13 @@ public class PaymentTypeController extends BaseController {
 	public @ResponseBody ResponseModel<PaymentTypeData> createGroup(@RequestBody PaymentTypeData paymentTypeData) {
 		ResponseModel<PaymentTypeData> responseModel = new ResponseModel<PaymentTypeData>();
 		try {
+			boolean isAvailable = paymentTypeService.isAvailable(paymentTypeData.getId(), paymentTypeData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = paymentTypeService.create(paymentTypeData, getLoginUserData().getId());
 			if(status) {
 				PaymentTypeData data = paymentTypeService.getPaymentTypeById(paymentTypeData.getId());
@@ -71,7 +78,7 @@ public class PaymentTypeController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -80,6 +87,13 @@ public class PaymentTypeController extends BaseController {
 	public @ResponseBody ResponseModel<PaymentTypeData> updateGroup(@RequestBody PaymentTypeData paymentTypeData) {
 		ResponseModel<PaymentTypeData> responseModel = new ResponseModel<PaymentTypeData>();
 		try {
+			boolean isAvailable = paymentTypeService.isAvailable(paymentTypeData.getId(), paymentTypeData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = paymentTypeService.update(paymentTypeData, getLoginUserData().getId());
 			if(status) {
 				PaymentTypeData data = paymentTypeService.getPaymentTypeById(paymentTypeData.getId());
@@ -90,7 +104,7 @@ public class PaymentTypeController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -102,7 +116,7 @@ public class PaymentTypeController extends BaseController {
 			responseModel.setStatus(paymentTypeService.delete(paymentTypeId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

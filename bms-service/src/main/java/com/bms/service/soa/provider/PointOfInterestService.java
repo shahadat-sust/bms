@@ -47,7 +47,7 @@ public class PointOfInterestService extends BaseService implements IPointOfInter
 			throw new BmsException(e);
 		}
 	}
-
+	
 	@Override
 	public boolean delete(long pointOfInterestId) throws BmsException, BmsSqlException {
 		return pointOfInterestDao.delete(pointOfInterestId);
@@ -66,6 +66,11 @@ public class PointOfInterestService extends BaseService implements IPointOfInter
 	@Override
 	public List<PointOfInterestData> getAllPointOfInterests() throws BmsException, BmsSqlException {
 		return pointOfInterestDao.getAllPointOfInterests();
+	}
+
+	@Override
+	public boolean isAvailable(long id, String name, long providerTypeId) throws BmsSqlException {
+		return pointOfInterestDao.isAvailable(id, name, providerTypeId);
 	}
 
 	@Override

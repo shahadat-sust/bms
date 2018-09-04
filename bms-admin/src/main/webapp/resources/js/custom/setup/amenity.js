@@ -176,7 +176,7 @@ var amenitySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create amenity, please try again!'
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create amenity, please try again!'
         			});
             	}
             },
@@ -237,7 +237,7 @@ var amenitySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update amenity, please try again!'
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update amenity, please try again!'
         			});
             	}
             },
@@ -278,7 +278,7 @@ var amenitySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete amenity, please try again!'
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete amenity, please try again!'
         			});
             	}
             },

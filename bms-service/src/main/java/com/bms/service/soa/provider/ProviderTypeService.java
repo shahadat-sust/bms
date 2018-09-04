@@ -47,7 +47,7 @@ public class ProviderTypeService extends BaseService implements IProviderTypeSer
 			throw new BmsException(e);
 		}
 	}
-
+	
 	@Override
 	public boolean delete(long providerTypeId) throws BmsException, BmsSqlException {
 		return providerTypeDao.delete(providerTypeId);
@@ -61,6 +61,11 @@ public class ProviderTypeService extends BaseService implements IProviderTypeSer
 	@Override
 	public List<ProviderTypeData> getAllProviderTypes() throws BmsException, BmsSqlException {
 		return providerTypeDao.getAllProviderTypes();
+	}
+
+	@Override
+	public boolean isAvailable(long id, String name) throws BmsSqlException {
+		return providerTypeDao.isAvailable(id, name);
 	}
 
 	@Override

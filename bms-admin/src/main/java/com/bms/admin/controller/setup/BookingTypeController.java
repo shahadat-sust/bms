@@ -1,6 +1,7 @@
 package com.bms.admin.controller.setup;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
-import com.bms.service.data.booking.BookingStatusData;
 import com.bms.service.data.booking.BookingTypeData;
 import com.bms.service.soa.booking.IBookingTypeService;
 
@@ -52,7 +52,7 @@ public class BookingTypeController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -61,6 +61,13 @@ public class BookingTypeController extends BaseController {
 	public @ResponseBody ResponseModel<BookingTypeData> createGroup(@RequestBody BookingTypeData bookingTypeData) {
 		ResponseModel<BookingTypeData> responseModel = new ResponseModel<BookingTypeData>();
 		try {
+			boolean isAvailable = bookingTypeService.isAvailable(bookingTypeData.getId(), bookingTypeData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = bookingTypeService.create(bookingTypeData, getLoginUserData().getId());
 			if(status) {
 				BookingTypeData data = bookingTypeService.getBookingTypeById(bookingTypeData.getId());
@@ -71,7 +78,7 @@ public class BookingTypeController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -80,6 +87,13 @@ public class BookingTypeController extends BaseController {
 	public @ResponseBody ResponseModel<BookingTypeData> updateGroup(@RequestBody BookingTypeData bookingTypeData) {
 		ResponseModel<BookingTypeData> responseModel = new ResponseModel<BookingTypeData>();
 		try {
+			boolean isAvailable = bookingTypeService.isAvailable(bookingTypeData.getId(), bookingTypeData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = bookingTypeService.update(bookingTypeData, getLoginUserData().getId());
 			if(status) {
 				BookingTypeData data = bookingTypeService.getBookingTypeById(bookingTypeData.getId());
@@ -90,7 +104,7 @@ public class BookingTypeController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -102,7 +116,7 @@ public class BookingTypeController extends BaseController {
 			responseModel.setStatus(bookingTypeService.delete(bookingTypeId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

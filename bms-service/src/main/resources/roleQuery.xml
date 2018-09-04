@@ -47,5 +47,15 @@
 			FROM Role 
 			ORDER BY Id DESC
 	    ]]>
-	</entry>   
+	</entry> 
+	<entry key="role.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM Role
+			WHERE
+				(? > 0 AND Id != ? AND Name = ?)
+			    OR (? <= 0 AND Name = ?) 
+	    ]]>
+	</entry>  
 </properties>

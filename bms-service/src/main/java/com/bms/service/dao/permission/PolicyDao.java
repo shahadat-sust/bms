@@ -134,5 +134,29 @@ public class PolicyDao extends BaseDao implements IPolicyDao {
 			throw new BmsSqlException(e);
 		}
 	}
+	
+	@Override
+	public boolean isAvailable(long id, String code) throws BmsSqlException {
+		try {
+			String sql = policyQuery.getProperty("policy.isAvailable");
+			Object[] params = new Object[] {id, id, code, id, code};
+			List<Long> userIDs = getTemplete().query(sql, params, new RowMapper<Long> () {
+				@Override
+				public Long mapRow(ResultSet rs, int index) throws SQLException {
+					return rs.getLong(1);
+				}
+			});
+			
+			if (userIDs.isEmpty()) {
+			  return true;
+			} else if (userIDs.size() == 1) {
+			  return false;
+			} else {
+			  throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");   
+			}
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
+	}
 
 }

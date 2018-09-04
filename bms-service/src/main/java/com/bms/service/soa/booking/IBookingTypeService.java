@@ -19,6 +19,8 @@ public interface IBookingTypeService {
 	
 	List<BookingTypeData> getAllBookingTypes() throws BmsException, BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 	IBookingTypeDao getBookingTypeDao();
 
 	void setBookingTypeDao(IBookingTypeDao bookingTypeDao);

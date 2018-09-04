@@ -64,6 +64,11 @@ public class BookingStatusService extends BaseService implements IBookingStatusS
 	}
 
 	@Override
+	public boolean isAvailable(long id, String name) throws BmsSqlException {
+		return bookingStatusDao.isAvailable(id, name);
+	}
+	
+	@Override
 	public IBookingStatusDao getBookingStatusDao() {
 		return bookingStatusDao;
 	}

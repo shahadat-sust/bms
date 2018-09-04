@@ -174,7 +174,7 @@ var bookingStatusSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create booking status, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create booking status, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -235,7 +235,7 @@ var bookingStatusSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update booking status, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update booking status, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -279,7 +279,7 @@ var bookingStatusSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete booking status, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete booking status, please try again!',
                 		delay: 1e3
         			});
             	}

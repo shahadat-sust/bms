@@ -69,4 +69,14 @@
 			ORDER BY State.Id DESC 
 	    ]]>
 	</entry>   
+	<entry key="state.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM State
+			WHERE
+				(? > 0 AND Id != ? AND Name = ? AND CountryId = ?)
+			    OR (? <= 0 AND Name = ? AND CountryId = ?) 
+	    ]]>
+	</entry>
 </properties>

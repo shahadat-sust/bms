@@ -72,5 +72,15 @@
 				ProviderType.Id = Amenity.ProviderTypeId 
 			ORDER BY Amenity.Id DESC 
 	    ]]>
-	</entry>   
+	</entry>  
+	<entry key="amenity.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM Amenity
+			WHERE
+				(? > 0 AND Id != ? AND Name = ? AND ProviderTypeId = ? AND Type = ?)
+			    OR (? <= 0 AND Name = ? AND ProviderTypeId = ? AND Type = ?) 
+	    ]]>
+	</entry> 
 </properties>

@@ -1,6 +1,7 @@
 package com.bms.admin.controller.setup;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class ProviderTypeController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -60,6 +61,13 @@ public class ProviderTypeController extends BaseController {
 	public @ResponseBody ResponseModel<ProviderTypeData> createGroup(@RequestBody ProviderTypeData providerTypeData) {
 		ResponseModel<ProviderTypeData> responseModel = new ResponseModel<ProviderTypeData>();
 		try {
+			boolean isAvailable = providerTypeService.isAvailable(providerTypeData.getId(), providerTypeData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = providerTypeService.create(providerTypeData, getLoginUserData().getId());
 			if(status) {
 				ProviderTypeData data = providerTypeService.getProviderTypeById(providerTypeData.getId());
@@ -70,7 +78,7 @@ public class ProviderTypeController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -79,6 +87,13 @@ public class ProviderTypeController extends BaseController {
 	public @ResponseBody ResponseModel<ProviderTypeData> updateGroup(@RequestBody ProviderTypeData providerTypeData) {
 		ResponseModel<ProviderTypeData> responseModel = new ResponseModel<ProviderTypeData>();
 		try {
+			boolean isAvailable = providerTypeService.isAvailable(providerTypeData.getId(), providerTypeData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = providerTypeService.update(providerTypeData, getLoginUserData().getId());
 			if(status) {
 				ProviderTypeData data = providerTypeService.getProviderTypeById(providerTypeData.getId());
@@ -89,7 +104,7 @@ public class ProviderTypeController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -101,7 +116,7 @@ public class ProviderTypeController extends BaseController {
 			responseModel.setStatus(providerTypeService.delete(providerTypeId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

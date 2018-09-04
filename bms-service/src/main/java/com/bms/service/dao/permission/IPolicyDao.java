@@ -17,4 +17,6 @@ public interface IPolicyDao {
 	
 	List<PolicyData> getAllPolicies() throws BmsSqlException;
 	
+	boolean isAvailable(long id, String code) throws BmsSqlException;
+	
 }

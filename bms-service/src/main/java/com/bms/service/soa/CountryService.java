@@ -61,6 +61,11 @@ public class CountryService extends BaseService implements ICountryService {
 	public List<CountryData> getAllCountries() throws BmsException, BmsSqlException {
 		return countryDao.getAllCountries();
 	}
+	
+	@Override
+	public boolean isAvailable(long id, String name) throws BmsSqlException {
+		return countryDao.isAvailable(id, name);
+	}
 
 	@Override
 	public ICountryDao getCountryDao() {

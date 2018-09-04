@@ -19,6 +19,8 @@ public interface ICountryService {
 	
 	List<CountryData> getAllCountries() throws BmsException, BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 	ICountryDao getCountryDao();
 
 	void setCountryDao(ICountryDao countryDao);

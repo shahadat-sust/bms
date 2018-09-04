@@ -174,7 +174,7 @@ var paymentMethodSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create payment method, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create payment method, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -235,7 +235,7 @@ var paymentMethodSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update payment method, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update payment method, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -279,7 +279,7 @@ var paymentMethodSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete payment method, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete payment method, please try again!',
                 		delay: 1e3
         			});
             	}

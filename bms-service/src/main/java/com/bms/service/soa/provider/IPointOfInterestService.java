@@ -21,6 +21,8 @@ public interface IPointOfInterestService {
 	
 	List<PointOfInterestData> getAllPointOfInterests() throws BmsException, BmsSqlException;
 	
+	boolean isAvailable(long id, String name, long providerTypeId) throws BmsSqlException;
+	
 	IPointOfInterestDao getPointOfInterestDao();
 
 	void setPointOfInterestDao(IPointOfInterestDao pointOfInterestDao);

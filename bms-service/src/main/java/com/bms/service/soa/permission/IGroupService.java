@@ -19,6 +19,8 @@ public interface IGroupService {
 	
 	List<GroupData> getAllGroups() throws BmsException, BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 	IGroupDao getGroupDao();
 
 	void setGroupDao(IGroupDao groupDao);

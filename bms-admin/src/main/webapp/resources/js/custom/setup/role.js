@@ -183,7 +183,7 @@ var roleSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create role, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create role, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -247,7 +247,7 @@ var roleSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update role, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update role, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -291,7 +291,7 @@ var roleSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete role, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete role, please try again!',
                 		delay: 1e3
         			});
             	}

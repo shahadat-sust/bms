@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.LabelValueModel;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
+import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.provider.AmenityData;
 import com.bms.service.data.provider.ProviderTypeData;
@@ -82,7 +84,7 @@ public class AmenityController extends BaseController {
 			responseModel.setStatus(true);
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -91,6 +93,13 @@ public class AmenityController extends BaseController {
 	public @ResponseBody ResponseModel<AmenityData> createGroup(@RequestBody AmenityData amenityData) {
 		ResponseModel<AmenityData> responseModel = new ResponseModel<AmenityData>();
 		try {
+			boolean isAvailable = amenityService.isAvailable(amenityData.getId(), amenityData.getName(), amenityData.getProviderTypeId(), amenityData.getType());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name and provider type" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			long amenityId = amenityService.create(amenityData, getLoginUserData().getId());
 			if(amenityId > 0) {
 				AmenityData data = amenityService.getAmenityById(amenityId);
@@ -101,7 +110,7 @@ public class AmenityController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -110,6 +119,13 @@ public class AmenityController extends BaseController {
 	public @ResponseBody ResponseModel<AmenityData> updateGroup(@RequestBody AmenityData amenityData) {
 		ResponseModel<AmenityData> responseModel = new ResponseModel<AmenityData>();
 		try {
+			boolean isAvailable = amenityService.isAvailable(amenityData.getId(), amenityData.getName(), amenityData.getProviderTypeId(), amenityData.getType());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name and provider type" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = amenityService.update(amenityData, getLoginUserData().getId());
 			if(status) {
 				AmenityData data = amenityService.getAmenityById(amenityData.getId());
@@ -120,7 +136,7 @@ public class AmenityController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -132,7 +148,7 @@ public class AmenityController extends BaseController {
 			responseModel.setStatus(amenityService.delete(amenityId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

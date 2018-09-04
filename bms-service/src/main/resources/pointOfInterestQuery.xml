@@ -69,4 +69,15 @@
 			ORDER BY PointOfInterest.Id DESC 
 	    ]]>
 	</entry>   
+	
+	<entry key="pointOfInterest.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM PointOfInterest
+			WHERE
+				(? > 0 AND Id != ? AND Name = ? AND ProviderTypeId = ?)
+			    OR (? <= 0 AND Name = ? AND ProviderTypeId = ?) 
+	    ]]>
+	</entry>
 </properties>

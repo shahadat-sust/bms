@@ -1,6 +1,7 @@
 package com.bms.admin.controller.setup;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class CountryController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -60,6 +61,13 @@ public class CountryController extends BaseController {
 	public @ResponseBody ResponseModel<CountryData> createGroup(@RequestBody CountryData countryData) {
 		ResponseModel<CountryData> responseModel = new ResponseModel<CountryData>();
 		try {
+			boolean isAvailable = countryService.isAvailable(countryData.getId(), countryData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			long countryId = countryService.create(countryData, getLoginUserData().getId());
 			if(countryId > 0) {
 				countryData.setId(countryId);
@@ -70,7 +78,7 @@ public class CountryController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -79,6 +87,13 @@ public class CountryController extends BaseController {
 	public @ResponseBody ResponseModel<CountryData> updateGroup(@RequestBody CountryData countryData) {
 		ResponseModel<CountryData> responseModel = new ResponseModel<CountryData>();
 		try {
+			boolean isAvailable = countryService.isAvailable(countryData.getId(), countryData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = countryService.update(countryData, getLoginUserData().getId());
 			if(status) {
 				CountryData data = countryService.getCountryById(countryData.getId());
@@ -89,7 +104,7 @@ public class CountryController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -101,7 +116,7 @@ public class CountryController extends BaseController {
 			responseModel.setStatus(countryService.delete(countryId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

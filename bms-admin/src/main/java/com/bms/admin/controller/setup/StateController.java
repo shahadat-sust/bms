@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ public class StateController extends BaseController {
 			responseModel.setStatus(true);
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -91,6 +92,13 @@ public class StateController extends BaseController {
 	public @ResponseBody ResponseModel<StateData> createGroup(@RequestBody StateData stateData) {
 		ResponseModel<StateData> responseModel = new ResponseModel<StateData>();
 		try {
+			boolean isAvailable = stateService.isAvailable(stateData.getId(), stateData.getName(), stateData.getCountryId());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name and country" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			long stateId = stateService.create(stateData, getLoginUserData().getId());
 			if(stateId > 0) {
 				StateData data = stateService.getStateById(stateId);
@@ -101,7 +109,7 @@ public class StateController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -110,6 +118,13 @@ public class StateController extends BaseController {
 	public @ResponseBody ResponseModel<StateData> updateGroup(@RequestBody StateData stateData) {
 		ResponseModel<StateData> responseModel = new ResponseModel<StateData>();
 		try {
+			boolean isAvailable = stateService.isAvailable(stateData.getId(), stateData.getName(), stateData.getCountryId());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name and country" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = stateService.update(stateData, getLoginUserData().getId());
 			if(status) {
 				StateData data = stateService.getStateById(stateData.getId());
@@ -120,7 +135,7 @@ public class StateController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -132,7 +147,7 @@ public class StateController extends BaseController {
 			responseModel.setStatus(stateService.delete(stateId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

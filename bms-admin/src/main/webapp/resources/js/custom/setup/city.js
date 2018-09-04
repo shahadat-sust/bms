@@ -205,7 +205,7 @@ var citySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create city, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create city, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -274,7 +274,7 @@ var citySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update city, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update city, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -318,7 +318,7 @@ var citySetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete city, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete city, please try again!',
                 		delay: 1e3
         			});
             	}

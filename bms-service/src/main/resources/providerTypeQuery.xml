@@ -44,5 +44,15 @@
 			FROM ProviderType 
 			ORDER BY Id DESC 
 	    ]]>
-	</entry>   
+	</entry> 
+	<entry key="providerType.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM ProviderType
+			WHERE
+				(? > 0 AND Id != ? AND Name = ?)
+			    OR (? <= 0 AND Name = ?) 
+	    ]]>
+	</entry>  
 </properties>

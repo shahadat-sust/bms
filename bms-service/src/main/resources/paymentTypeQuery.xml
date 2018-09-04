@@ -45,4 +45,15 @@
 			ORDER BY Id DESC
 	    ]]>
 	</entry>   
+	<entry key="paymentType.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM PaymentType
+			WHERE
+				(? > 0 AND Id != ? AND Name = ?)
+			    OR (? <= 0 AND Name = ?) 
+	    ]]>
+	</entry> 
+	
 </properties>

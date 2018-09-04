@@ -19,6 +19,8 @@ public interface IRoleService {
 	
 	List<RoleData> getAllRoles() throws BmsException, BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 	public IRoleDao getRoleDao();
 
 	public void setRoleDao(IRoleDao roleDao);

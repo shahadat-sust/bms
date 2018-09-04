@@ -17,4 +17,6 @@ public interface IBookingStatusDao {
 	
 	List<BookingStatusData> getAllBookingStatuses() throws BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 }

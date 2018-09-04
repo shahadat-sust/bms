@@ -64,6 +64,11 @@ public class PolicyService extends BaseService implements IPolicyService {
 	}
 
 	@Override
+	public boolean isAvailable(long id, String code) throws BmsSqlException {
+		return policyDao.isAvailable(id, code);
+	}
+	
+	@Override
 	public IPolicyDao getPolicyDao() {
 		return policyDao;
 	}

@@ -17,4 +17,6 @@ public interface IRoleDao {
 	
 	List<RoleData> getAllRoles() throws BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 }

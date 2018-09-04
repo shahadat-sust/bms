@@ -17,4 +17,6 @@ public interface IProviderTypeDao {
 	
 	List<ProviderTypeData> getAllProviderTypes() throws BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 }

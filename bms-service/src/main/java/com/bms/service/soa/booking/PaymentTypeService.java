@@ -64,6 +64,11 @@ public class PaymentTypeService extends BaseService implements IPaymentTypeServi
 	}
 
 	@Override
+	public boolean isAvailable(long id, String name) throws BmsSqlException {
+		return paymentTypeDao.isAvailable(id, name);
+	}
+	
+	@Override
 	public IPaymentTypeDao getPaymentTypeDao() {
 		return paymentTypeDao;
 	}

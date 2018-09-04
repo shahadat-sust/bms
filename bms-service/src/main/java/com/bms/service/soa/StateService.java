@@ -68,6 +68,11 @@ public class StateService extends BaseService implements IStateService {
 	}
 
 	@Override
+	public boolean isAvailable(long id, String name, long countryId) throws BmsSqlException {
+		return stateDao.isAvailable(id, name, countryId);
+	}
+	
+	@Override
 	public IStateDao getStateDao() {
 		return stateDao;
 	}

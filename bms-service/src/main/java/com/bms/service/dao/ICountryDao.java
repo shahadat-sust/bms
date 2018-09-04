@@ -17,4 +17,6 @@ public interface ICountryDao {
 	
 	List<CountryData> getAllCountries() throws BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 }

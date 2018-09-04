@@ -17,4 +17,6 @@ public interface IPaymentTypeDao {
 	
 	List<PaymentTypeData> getAllPaymentTypes() throws BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 }

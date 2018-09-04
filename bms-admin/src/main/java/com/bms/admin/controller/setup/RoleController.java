@@ -1,6 +1,7 @@
 package com.bms.admin.controller.setup;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class RoleController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -60,6 +61,13 @@ public class RoleController extends BaseController {
 	public @ResponseBody ResponseModel<RoleData> createRole(@RequestBody RoleData roleData) {
 		ResponseModel<RoleData> responseModel = new ResponseModel<RoleData>();
 		try {
+			boolean isAvailable = roleService.isAvailable(roleData.getId(), roleData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = roleService.create(roleData, getLoginUserData().getId());
 			if(status) {
 				responseModel.setStatus(true);
@@ -69,7 +77,7 @@ public class RoleController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -78,6 +86,13 @@ public class RoleController extends BaseController {
 	public @ResponseBody ResponseModel<RoleData> updateRole(@RequestBody RoleData roleData) {
 		ResponseModel<RoleData> responseModel = new ResponseModel<RoleData>();
 		try {
+			boolean isAvailable = roleService.isAvailable(roleData.getId(), roleData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = roleService.update(roleData, getLoginUserData().getId());
 			if(status) {
 				RoleData data = roleService.getRoleById(roleData.getId());
@@ -88,7 +103,7 @@ public class RoleController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -100,7 +115,7 @@ public class RoleController extends BaseController {
 			responseModel.setStatus(roleService.delete(roleId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

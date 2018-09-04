@@ -69,6 +69,11 @@ public class AmenityService extends BaseService implements IAmenityService {
 	}
 
 	@Override
+	public boolean isAvailable(long id, String name, long providerTypeId, int type) throws BmsSqlException {
+		return amenityDao.isAvailable(id, name, providerTypeId, type);
+	}
+	
+	@Override
 	public IAmenityDao getAmenityDao() {
 		return amenityDao;
 	}

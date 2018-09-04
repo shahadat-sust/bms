@@ -52,5 +52,15 @@
 				Remarks 
 			FROM Policy
 	    ]]>
+	</entry>
+	<entry key="policy.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM Policy
+			WHERE
+				(? > 0 AND Id != ? AND Code = ?)
+			    OR (? <= 0 AND Code = ?) 
+	    ]]>
 	</entry>   
 </properties>

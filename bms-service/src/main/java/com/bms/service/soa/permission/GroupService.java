@@ -62,6 +62,11 @@ public class GroupService extends BaseService implements IGroupService {
 	public List<GroupData> getAllGroups() throws BmsException, BmsSqlException {
 		return groupDao.getAllGroups();
 	}
+	
+	@Override
+	public boolean isAvailable(long id, String name) throws BmsSqlException {
+		return groupDao.isAvailable(id, name);
+	}
 
 	@Override
 	public IGroupDao getGroupDao() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ public class PointOfInterestController extends BaseController {
 			responseModel.setStatus(true);
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -91,6 +92,13 @@ public class PointOfInterestController extends BaseController {
 	public @ResponseBody ResponseModel<PointOfInterestData> createGroup(@RequestBody PointOfInterestData pointOfInterestData) {
 		ResponseModel<PointOfInterestData> responseModel = new ResponseModel<PointOfInterestData>();
 		try {
+			boolean isAvailable = pointOfInterestService.isAvailable(pointOfInterestData.getId(), pointOfInterestData.getName(), pointOfInterestData.getProviderTypeId());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name and provider type" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			long pointOfInterestId = pointOfInterestService.create(pointOfInterestData, getLoginUserData().getId());
 			if(pointOfInterestId > 0) {
 				PointOfInterestData data = pointOfInterestService.getPointOfInterestById(pointOfInterestId);
@@ -101,7 +109,7 @@ public class PointOfInterestController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -110,6 +118,13 @@ public class PointOfInterestController extends BaseController {
 	public @ResponseBody ResponseModel<PointOfInterestData> updateGroup(@RequestBody PointOfInterestData pointOfInterestData) {
 		ResponseModel<PointOfInterestData> responseModel = new ResponseModel<PointOfInterestData>();
 		try {
+			boolean isAvailable = pointOfInterestService.isAvailable(pointOfInterestData.getId(), pointOfInterestData.getName(), pointOfInterestData.getProviderTypeId());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name and provider type" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = pointOfInterestService.update(pointOfInterestData, getLoginUserData().getId());
 			if(status) {
 				PointOfInterestData data = pointOfInterestService.getPointOfInterestById(pointOfInterestData.getId());
@@ -120,7 +135,7 @@ public class PointOfInterestController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -132,7 +147,7 @@ public class PointOfInterestController extends BaseController {
 			responseModel.setStatus(pointOfInterestService.delete(pointOfInterestId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

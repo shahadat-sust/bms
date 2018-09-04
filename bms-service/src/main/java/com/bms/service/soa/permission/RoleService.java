@@ -64,6 +64,11 @@ public class RoleService extends BaseService implements IRoleService {
 	}
 
 	@Override
+	public boolean isAvailable(long id, String name) throws BmsSqlException {
+		return roleDao.isAvailable(id, name);
+	}
+	
+	@Override
 	public IRoleDao getRoleDao() {
 		return roleDao;
 	}

@@ -1,6 +1,7 @@
 package com.bms.admin.controller.setup;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class GroupController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -60,6 +61,13 @@ public class GroupController extends BaseController {
 	public @ResponseBody ResponseModel<GroupData> createGroup(@RequestBody GroupData groupData) {
 		ResponseModel<GroupData> responseModel = new ResponseModel<GroupData>();
 		try {
+			boolean isAvailable = groupService.isAvailable(groupData.getId(), groupData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = groupService.create(groupData, getLoginUserData().getId());
 			if(status) {
 				responseModel.setStatus(true);
@@ -69,7 +77,7 @@ public class GroupController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -78,6 +86,13 @@ public class GroupController extends BaseController {
 	public @ResponseBody ResponseModel<GroupData> updateGroup(@RequestBody GroupData groupData) {
 		ResponseModel<GroupData> responseModel = new ResponseModel<GroupData>();
 		try {
+			boolean isAvailable = groupService.isAvailable(groupData.getId(), groupData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = groupService.update(groupData, getLoginUserData().getId());
 			if(status) {
 				GroupData data = groupService.getGroupById(groupData.getId());
@@ -88,7 +103,7 @@ public class GroupController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -100,7 +115,7 @@ public class GroupController extends BaseController {
 			responseModel.setStatus(groupService.delete(groupId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

@@ -18,6 +18,8 @@ public interface IProviderTypeService {
 	
 	List<ProviderTypeData> getAllProviderTypes() throws BmsException, BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 	IProviderTypeDao getProviderTypeDao();
 
 	void setProviderTypeDao(IProviderTypeDao providerTypeDao);

@@ -1,6 +1,7 @@
 package com.bms.admin.controller.setup;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,6 @@ import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.booking.BookingStatusData;
-import com.bms.service.data.provider.ProviderTypeData;
 import com.bms.service.soa.booking.IBookingStatusService;
 
 @Controller
@@ -52,7 +52,7 @@ public class BookingStatusController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -61,6 +61,13 @@ public class BookingStatusController extends BaseController {
 	public @ResponseBody ResponseModel<BookingStatusData> createGroup(@RequestBody BookingStatusData bookingStatusData) {
 		ResponseModel<BookingStatusData> responseModel = new ResponseModel<BookingStatusData>();
 		try {
+			boolean isAvailable = bookingStatusService.isAvailable(bookingStatusData.getId(), bookingStatusData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = bookingStatusService.create(bookingStatusData, getLoginUserData().getId());
 			if(status) {
 				BookingStatusData data = bookingStatusService.getBookingStatusById(bookingStatusData.getId());
@@ -71,7 +78,7 @@ public class BookingStatusController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -80,6 +87,13 @@ public class BookingStatusController extends BaseController {
 	public @ResponseBody ResponseModel<BookingStatusData> updateGroup(@RequestBody BookingStatusData bookingStatusData) {
 		ResponseModel<BookingStatusData> responseModel = new ResponseModel<BookingStatusData>();
 		try {
+			boolean isAvailable = bookingStatusService.isAvailable(bookingStatusData.getId(), bookingStatusData.getName());
+			if(!isAvailable) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "name" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean status = bookingStatusService.update(bookingStatusData, getLoginUserData().getId());
 			if(status) {
 				BookingStatusData data = bookingStatusService.getBookingStatusById(bookingStatusData.getId());
@@ -90,7 +104,7 @@ public class BookingStatusController extends BaseController {
 			}
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}
@@ -102,7 +116,7 @@ public class BookingStatusController extends BaseController {
 			responseModel.setStatus(bookingStatusService.delete(bookingStatusId));
 		} catch (Exception e) {
 			responseModel.setStatus(false);
-			responseModel.addError(e.getMessage());
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
 	    return responseModel;
 	}

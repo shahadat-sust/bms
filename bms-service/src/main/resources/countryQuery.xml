@@ -44,5 +44,15 @@
 			FROM Country 
 			ORDER BY Id DESC
 	    ]]>
+	</entry> 
+	<entry key="country.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM Country
+			WHERE
+				(? > 0 AND Id != ? AND Name = ?)
+			    OR (? <= 0 AND Name = ?) 
+	    ]]>
 	</entry>   
 </properties>

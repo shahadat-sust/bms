@@ -19,4 +19,6 @@ public interface IStateDao {
 	
 	List<StateData> getAllStates() throws BmsSqlException;
 	
+	boolean isAvailable(long id, String name, long countryId) throws BmsSqlException;
+	
 }

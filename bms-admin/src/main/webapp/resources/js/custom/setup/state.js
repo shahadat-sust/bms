@@ -177,7 +177,7 @@ var stateSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to create state, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create state, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -241,7 +241,7 @@ var stateSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to update state, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update state, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -285,7 +285,7 @@ var stateSetup = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: 'Failed to delete state, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete state, please try again!',
                 		delay: 1e3
         			});
             	}

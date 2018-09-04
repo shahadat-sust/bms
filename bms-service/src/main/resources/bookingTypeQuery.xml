@@ -44,5 +44,16 @@
 			FROM BookingType 
 			ORDER BY Id DESC
 	    ]]>
-	</entry>   
+	</entry>
+	
+	<entry key="bookingType.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM BookingType
+			WHERE
+				(? > 0 AND Id != ? AND Name = ?)
+			    OR (? <= 0 AND Name = ?) 
+	    ]]>
+	</entry>    
 </properties>

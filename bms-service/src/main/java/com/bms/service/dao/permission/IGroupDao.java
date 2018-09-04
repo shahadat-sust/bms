@@ -17,4 +17,6 @@ public interface IGroupDao {
 	
 	List<GroupData> getAllGroups() throws BmsSqlException;
 	
+	boolean isAvailable(long id, String name) throws BmsSqlException;
+	
 }
