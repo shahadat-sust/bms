@@ -67,7 +67,7 @@ public class StateController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/fetch/{stateId}/{countryId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<StateData> getGroupList(@PathVariable long stateId, @PathVariable long countryId) {
+	public @ResponseBody ResponseModel<StateData> getStateList(@PathVariable long stateId, @PathVariable long countryId) {
 		ResponseModel<StateData> responseModel = new ResponseModel<StateData>();
 		try {
 			if(stateId > 0) {
@@ -89,7 +89,7 @@ public class StateController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<StateData> createGroup(@RequestBody StateData stateData) {
+	public @ResponseBody ResponseModel<StateData> createState(@RequestBody StateData stateData) {
 		ResponseModel<StateData> responseModel = new ResponseModel<StateData>();
 		try {
 			boolean isAvailable = stateService.isAvailable(stateData.getId(), stateData.getName(), stateData.getCountryId());
@@ -115,7 +115,7 @@ public class StateController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<StateData> updateGroup(@RequestBody StateData stateData) {
+	public @ResponseBody ResponseModel<StateData> updateState(@RequestBody StateData stateData) {
 		ResponseModel<StateData> responseModel = new ResponseModel<StateData>();
 		try {
 			boolean isAvailable = stateService.isAvailable(stateData.getId(), stateData.getName(), stateData.getCountryId());
@@ -141,7 +141,7 @@ public class StateController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/delete/{stateId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<StateData> deleteGroup(@PathVariable long stateId) {
+	public @ResponseBody ResponseModel<StateData> deleteState(@PathVariable long stateId) {
 		ResponseModel<StateData> responseModel = new ResponseModel<StateData>();
 		try {
 			responseModel.setStatus(stateService.delete(stateId));

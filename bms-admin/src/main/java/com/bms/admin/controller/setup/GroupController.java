@@ -61,6 +61,12 @@ public class GroupController extends BaseController {
 	public @ResponseBody ResponseModel<GroupData> createGroup(@RequestBody GroupData groupData) {
 		ResponseModel<GroupData> responseModel = new ResponseModel<GroupData>();
 		try {
+			if(groupService.getGroupById(groupData.getId()) != null) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "id" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean isAvailable = groupService.isAvailable(groupData.getId(), groupData.getName());
 			if(!isAvailable) {
 				responseModel.setStatus(false);

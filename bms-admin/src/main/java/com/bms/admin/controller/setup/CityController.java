@@ -67,7 +67,7 @@ public class CityController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/fetch/{cityId}/{countryId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CityData> getGroupList(@PathVariable long cityId, @PathVariable long countryId) {
+	public @ResponseBody ResponseModel<CityData> getCityList(@PathVariable long cityId, @PathVariable long countryId) {
 		ResponseModel<CityData> responseModel = new ResponseModel<CityData>();
 		try {
 			if(cityId > 0) {
@@ -88,7 +88,7 @@ public class CityController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CityData> createGroup(@RequestBody CityData cityData) {
+	public @ResponseBody ResponseModel<CityData> createCity(@RequestBody CityData cityData) {
 		ResponseModel<CityData> responseModel = new ResponseModel<CityData>();
 		try {
 			long cityId = cityService.create(cityData, getLoginUserData().getId());
@@ -107,7 +107,7 @@ public class CityController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CityData> updateGroup(@RequestBody CityData cityData) {
+	public @ResponseBody ResponseModel<CityData> updateCity(@RequestBody CityData cityData) {
 		ResponseModel<CityData> responseModel = new ResponseModel<CityData>();
 		try {
 			boolean status = cityService.update(cityData, getLoginUserData().getId());
@@ -126,7 +126,7 @@ public class CityController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/delete/{cityId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CityData> deleteGroup(@PathVariable long cityId) {
+	public @ResponseBody ResponseModel<CityData> deleteCity(@PathVariable long cityId) {
 		ResponseModel<CityData> responseModel = new ResponseModel<CityData>();
 		try {
 			responseModel.setStatus(cityService.delete(cityId));

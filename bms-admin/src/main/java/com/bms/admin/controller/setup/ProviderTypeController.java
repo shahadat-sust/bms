@@ -40,7 +40,7 @@ public class ProviderTypeController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/fetch/{providerTypeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ProviderTypeData> getGroupList(@PathVariable long providerTypeId) {
+	public @ResponseBody ResponseModel<ProviderTypeData> getProviderTypeList(@PathVariable long providerTypeId) {
 		ResponseModel<ProviderTypeData> responseModel = new ResponseModel<ProviderTypeData>();
 		try {
 			if(providerTypeId > 0) {
@@ -58,9 +58,15 @@ public class ProviderTypeController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ProviderTypeData> createGroup(@RequestBody ProviderTypeData providerTypeData) {
+	public @ResponseBody ResponseModel<ProviderTypeData> createProviderType(@RequestBody ProviderTypeData providerTypeData) {
 		ResponseModel<ProviderTypeData> responseModel = new ResponseModel<ProviderTypeData>();
 		try {
+			if(providerTypeService.getProviderTypeById(providerTypeData.getId()) != null) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "id" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean isAvailable = providerTypeService.isAvailable(providerTypeData.getId(), providerTypeData.getName());
 			if(!isAvailable) {
 				responseModel.setStatus(false);
@@ -84,7 +90,7 @@ public class ProviderTypeController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ProviderTypeData> updateGroup(@RequestBody ProviderTypeData providerTypeData) {
+	public @ResponseBody ResponseModel<ProviderTypeData> updateProviderType(@RequestBody ProviderTypeData providerTypeData) {
 		ResponseModel<ProviderTypeData> responseModel = new ResponseModel<ProviderTypeData>();
 		try {
 			boolean isAvailable = providerTypeService.isAvailable(providerTypeData.getId(), providerTypeData.getName());
@@ -110,7 +116,7 @@ public class ProviderTypeController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/delete/{providerTypeId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ProviderTypeData> deleteGroup(@PathVariable long providerTypeId) {
+	public @ResponseBody ResponseModel<ProviderTypeData> deleteProviderType(@PathVariable long providerTypeId) {
 		ResponseModel<ProviderTypeData> responseModel = new ResponseModel<ProviderTypeData>();
 		try {
 			responseModel.setStatus(providerTypeService.delete(providerTypeId));

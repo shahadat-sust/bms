@@ -67,7 +67,7 @@ public class PointOfInterestController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/fetch/{pointOfInterestId}/{providerTypeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<PointOfInterestData> getGroupList(@PathVariable long pointOfInterestId, @PathVariable long providerTypeId) {
+	public @ResponseBody ResponseModel<PointOfInterestData> getPointOfInterestList(@PathVariable long pointOfInterestId, @PathVariable long providerTypeId) {
 		ResponseModel<PointOfInterestData> responseModel = new ResponseModel<PointOfInterestData>();
 		try {
 			if(pointOfInterestId > 0) {
@@ -89,7 +89,7 @@ public class PointOfInterestController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<PointOfInterestData> createGroup(@RequestBody PointOfInterestData pointOfInterestData) {
+	public @ResponseBody ResponseModel<PointOfInterestData> createPointOfInterest(@RequestBody PointOfInterestData pointOfInterestData) {
 		ResponseModel<PointOfInterestData> responseModel = new ResponseModel<PointOfInterestData>();
 		try {
 			boolean isAvailable = pointOfInterestService.isAvailable(pointOfInterestData.getId(), pointOfInterestData.getName(), pointOfInterestData.getProviderTypeId());
@@ -115,7 +115,7 @@ public class PointOfInterestController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<PointOfInterestData> updateGroup(@RequestBody PointOfInterestData pointOfInterestData) {
+	public @ResponseBody ResponseModel<PointOfInterestData> updatePointOfInterest(@RequestBody PointOfInterestData pointOfInterestData) {
 		ResponseModel<PointOfInterestData> responseModel = new ResponseModel<PointOfInterestData>();
 		try {
 			boolean isAvailable = pointOfInterestService.isAvailable(pointOfInterestData.getId(), pointOfInterestData.getName(), pointOfInterestData.getProviderTypeId());
@@ -141,7 +141,7 @@ public class PointOfInterestController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/delete/{pointOfInterestId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<PointOfInterestData> deleteGroup(@PathVariable long pointOfInterestId) {
+	public @ResponseBody ResponseModel<PointOfInterestData> deletePointOfInterest(@PathVariable long pointOfInterestId) {
 		ResponseModel<PointOfInterestData> responseModel = new ResponseModel<PointOfInterestData>();
 		try {
 			responseModel.setStatus(pointOfInterestService.delete(pointOfInterestId));

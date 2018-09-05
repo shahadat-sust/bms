@@ -68,7 +68,7 @@ public class AmenityController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/fetch/{amenityId}/{providerTypeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<AmenityData> getGroupList(@PathVariable long amenityId, @PathVariable long providerTypeId) {
+	public @ResponseBody ResponseModel<AmenityData> getAmenityList(@PathVariable long amenityId, @PathVariable long providerTypeId) {
 		ResponseModel<AmenityData> responseModel = new ResponseModel<AmenityData>();
 		try {
 			if(amenityId > 0) {
@@ -90,7 +90,7 @@ public class AmenityController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<AmenityData> createGroup(@RequestBody AmenityData amenityData) {
+	public @ResponseBody ResponseModel<AmenityData> createAmenity(@RequestBody AmenityData amenityData) {
 		ResponseModel<AmenityData> responseModel = new ResponseModel<AmenityData>();
 		try {
 			boolean isAvailable = amenityService.isAvailable(amenityData.getId(), amenityData.getName(), amenityData.getProviderTypeId(), amenityData.getType());
@@ -116,7 +116,7 @@ public class AmenityController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<AmenityData> updateGroup(@RequestBody AmenityData amenityData) {
+	public @ResponseBody ResponseModel<AmenityData> updateAmenity(@RequestBody AmenityData amenityData) {
 		ResponseModel<AmenityData> responseModel = new ResponseModel<AmenityData>();
 		try {
 			boolean isAvailable = amenityService.isAvailable(amenityData.getId(), amenityData.getName(), amenityData.getProviderTypeId(), amenityData.getType());
@@ -142,7 +142,7 @@ public class AmenityController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/delete/{amenityId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<AmenityData> deleteGroup(@PathVariable long amenityId) {
+	public @ResponseBody ResponseModel<AmenityData> deleteAmenity(@PathVariable long amenityId) {
 		ResponseModel<AmenityData> responseModel = new ResponseModel<AmenityData>();
 		try {
 			responseModel.setStatus(amenityService.delete(amenityId));

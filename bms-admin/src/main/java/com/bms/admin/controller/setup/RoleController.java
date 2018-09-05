@@ -61,6 +61,12 @@ public class RoleController extends BaseController {
 	public @ResponseBody ResponseModel<RoleData> createRole(@RequestBody RoleData roleData) {
 		ResponseModel<RoleData> responseModel = new ResponseModel<RoleData>();
 		try {
+			if(roleService.getRoleById(roleData.getId()) != null) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "id" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean isAvailable = roleService.isAvailable(roleData.getId(), roleData.getName());
 			if(!isAvailable) {
 				responseModel.setStatus(false);

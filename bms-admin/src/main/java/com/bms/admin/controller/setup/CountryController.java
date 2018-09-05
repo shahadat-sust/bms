@@ -40,7 +40,7 @@ public class CountryController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/fetch/{countryId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CountryData> getGroupList(@PathVariable long countryId) {
+	public @ResponseBody ResponseModel<CountryData> getCountryList(@PathVariable long countryId) {
 		ResponseModel<CountryData> responseModel = new ResponseModel<CountryData>();
 		try {
 			if(countryId > 0) {
@@ -58,7 +58,7 @@ public class CountryController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CountryData> createGroup(@RequestBody CountryData countryData) {
+	public @ResponseBody ResponseModel<CountryData> createCountry(@RequestBody CountryData countryData) {
 		ResponseModel<CountryData> responseModel = new ResponseModel<CountryData>();
 		try {
 			boolean isAvailable = countryService.isAvailable(countryData.getId(), countryData.getName());
@@ -84,7 +84,7 @@ public class CountryController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CountryData> updateGroup(@RequestBody CountryData countryData) {
+	public @ResponseBody ResponseModel<CountryData> updateCountry(@RequestBody CountryData countryData) {
 		ResponseModel<CountryData> responseModel = new ResponseModel<CountryData>();
 		try {
 			boolean isAvailable = countryService.isAvailable(countryData.getId(), countryData.getName());
@@ -110,7 +110,7 @@ public class CountryController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/delete/{countryId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CountryData> deleteGroup(@PathVariable long countryId) {
+	public @ResponseBody ResponseModel<CountryData> deleteCountry(@PathVariable long countryId) {
 		ResponseModel<CountryData> responseModel = new ResponseModel<CountryData>();
 		try {
 			responseModel.setStatus(countryService.delete(countryId));

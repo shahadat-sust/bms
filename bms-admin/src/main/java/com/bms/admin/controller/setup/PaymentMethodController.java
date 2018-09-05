@@ -41,7 +41,7 @@ public class PaymentMethodController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/fetch/{paymentMethodId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<PaymentMethodData> getGroupList(@PathVariable long paymentMethodId) {
+	public @ResponseBody ResponseModel<PaymentMethodData> getPaymentMethodList(@PathVariable long paymentMethodId) {
 		ResponseModel<PaymentMethodData> responseModel = new ResponseModel<PaymentMethodData>();
 		try {
 			if(paymentMethodId > 0) {
@@ -59,9 +59,15 @@ public class PaymentMethodController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<PaymentMethodData> createGroup(@RequestBody PaymentMethodData paymentMethodData) {
+	public @ResponseBody ResponseModel<PaymentMethodData> createPaymentMethod(@RequestBody PaymentMethodData paymentMethodData) {
 		ResponseModel<PaymentMethodData> responseModel = new ResponseModel<PaymentMethodData>();
 		try {
+			if(paymentMethodService.getPaymentMethodById(paymentMethodData.getId()) != null) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "id" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean isAvailable = paymentMethodService.isAvailable(paymentMethodData.getId(), paymentMethodData.getName());
 			if(!isAvailable) {
 				responseModel.setStatus(false);
@@ -85,7 +91,7 @@ public class PaymentMethodController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<PaymentMethodData> updateGroup(@RequestBody PaymentMethodData paymentMethodData) {
+	public @ResponseBody ResponseModel<PaymentMethodData> updatePaymentMethod(@RequestBody PaymentMethodData paymentMethodData) {
 		ResponseModel<PaymentMethodData> responseModel = new ResponseModel<PaymentMethodData>();
 		try {
 			boolean isAvailable = paymentMethodService.isAvailable(paymentMethodData.getId(), paymentMethodData.getName());
@@ -111,7 +117,7 @@ public class PaymentMethodController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/delete/{paymentMethodId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<PaymentMethodData> deleteGroup(@PathVariable long paymentMethodId) {
+	public @ResponseBody ResponseModel<PaymentMethodData> deletePaymentMethod(@PathVariable long paymentMethodId) {
 		ResponseModel<PaymentMethodData> responseModel = new ResponseModel<PaymentMethodData>();
 		try {
 			responseModel.setStatus(paymentMethodService.delete(paymentMethodId));

@@ -40,7 +40,7 @@ public class BookingStatusController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/fetch/{bookingStatusId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<BookingStatusData> getGroupList(@PathVariable long bookingStatusId) {
+	public @ResponseBody ResponseModel<BookingStatusData> getBookingStatusList(@PathVariable long bookingStatusId) {
 		ResponseModel<BookingStatusData> responseModel = new ResponseModel<BookingStatusData>();
 		try {
 			if(bookingStatusId > 0) {
@@ -58,9 +58,15 @@ public class BookingStatusController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<BookingStatusData> createGroup(@RequestBody BookingStatusData bookingStatusData) {
+	public @ResponseBody ResponseModel<BookingStatusData> createBookingStatus(@RequestBody BookingStatusData bookingStatusData) {
 		ResponseModel<BookingStatusData> responseModel = new ResponseModel<BookingStatusData>();
 		try {
+			if(bookingStatusService.getBookingStatusById(bookingStatusData.getId()) != null) {
+				responseModel.setStatus(false);
+				responseModel.addError(getMessageSource().getMessage("error.duplicate.entry", new Object[] { "id" }, Locale.getDefault()));
+				return responseModel;
+			}
+			
 			boolean isAvailable = bookingStatusService.isAvailable(bookingStatusData.getId(), bookingStatusData.getName());
 			if(!isAvailable) {
 				responseModel.setStatus(false);
@@ -84,7 +90,7 @@ public class BookingStatusController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<BookingStatusData> updateGroup(@RequestBody BookingStatusData bookingStatusData) {
+	public @ResponseBody ResponseModel<BookingStatusData> updateBookingStatus(@RequestBody BookingStatusData bookingStatusData) {
 		ResponseModel<BookingStatusData> responseModel = new ResponseModel<BookingStatusData>();
 		try {
 			boolean isAvailable = bookingStatusService.isAvailable(bookingStatusData.getId(), bookingStatusData.getName());
@@ -110,7 +116,7 @@ public class BookingStatusController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/delete/{bookingStatusId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<BookingStatusData> deleteGroup(@PathVariable long bookingStatusId) {
+	public @ResponseBody ResponseModel<BookingStatusData> deleteBookingStatus(@PathVariable long bookingStatusId) {
 		ResponseModel<BookingStatusData> responseModel = new ResponseModel<BookingStatusData>();
 		try {
 			responseModel.setStatus(bookingStatusService.delete(bookingStatusId));
