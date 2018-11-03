@@ -81,6 +81,7 @@ public class CityController extends BaseController {
 				responseModel.addDatas(cityList);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -100,6 +101,7 @@ public class CityController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -119,6 +121,7 @@ public class CityController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -131,6 +134,7 @@ public class CityController extends BaseController {
 		try {
 			responseModel.setStatus(cityService.delete(cityId));
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}

@@ -51,6 +51,7 @@ public class BookingTypeController extends BaseController {
 				responseModel.addDatas(bookingTypeList);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -83,6 +84,7 @@ public class BookingTypeController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -109,6 +111,7 @@ public class BookingTypeController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -121,6 +124,7 @@ public class BookingTypeController extends BaseController {
 		try {
 			responseModel.setStatus(bookingTypeService.delete(bookingTypeId));
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}

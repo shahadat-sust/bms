@@ -69,7 +69,6 @@ public class UserValidator implements Validator {
 							"Username is not available");
 				}
 			} catch (BmsSqlException | BmsException e) {
-				e.printStackTrace();
 				logger.error(e.getMessage(), e);
 			}
 		}
@@ -85,7 +84,6 @@ public class UserValidator implements Validator {
 								"Email is not available");
 					}
 				} catch (BmsSqlException | BmsException e) {
-					e.printStackTrace();
 					logger.error(e.getMessage(), e);
 				}
 			} else {
@@ -110,7 +108,6 @@ public class UserValidator implements Validator {
 								"Phone number is not available");
 					}
 				} catch (BmsSqlException | BmsException e) {
-					e.printStackTrace();
 					logger.error(e.getMessage(), e);
 				}
 			} else {

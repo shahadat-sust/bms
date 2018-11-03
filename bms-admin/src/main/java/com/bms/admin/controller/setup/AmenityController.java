@@ -24,7 +24,6 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.LabelValueModel;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
-import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.provider.AmenityData;
 import com.bms.service.data.provider.ProviderTypeData;
@@ -83,6 +82,7 @@ public class AmenityController extends BaseController {
 			}
 			responseModel.setStatus(true);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -109,6 +109,7 @@ public class AmenityController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -135,6 +136,7 @@ public class AmenityController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -147,6 +149,7 @@ public class AmenityController extends BaseController {
 		try {
 			responseModel.setStatus(amenityService.delete(amenityId));
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}

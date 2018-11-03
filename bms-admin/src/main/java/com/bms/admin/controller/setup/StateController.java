@@ -82,6 +82,7 @@ public class StateController extends BaseController {
 			}
 			responseModel.setStatus(true);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -108,6 +109,7 @@ public class StateController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -134,6 +136,7 @@ public class StateController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -146,6 +149,7 @@ public class StateController extends BaseController {
 		try {
 			responseModel.setStatus(stateService.delete(stateId));
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}

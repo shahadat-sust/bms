@@ -51,6 +51,7 @@ public class GroupController extends BaseController {
 				responseModel.addDatas(groupList);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -82,6 +83,7 @@ public class GroupController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -108,6 +110,7 @@ public class GroupController extends BaseController {
 				responseModel.setStatus(false);
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
@@ -120,6 +123,7 @@ public class GroupController extends BaseController {
 		try {
 			responseModel.setStatus(groupService.delete(groupId));
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
 			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}

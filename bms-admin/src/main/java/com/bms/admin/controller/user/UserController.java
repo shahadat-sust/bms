@@ -113,7 +113,7 @@ public class UserController extends BaseController {
 				model.addAttribute("successMsg", getMessageSource().getMessage("confirm.create.failed", new Object[] {"User"}, Locale.getDefault()));
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(), e);
 			if(isEditMode) {
 				model.addAttribute("failedMsg", getMessageSource().getMessage("confirm.update.success", new Object[] {"user"}, Locale.getDefault()));
 			} else {
@@ -133,7 +133,7 @@ public class UserController extends BaseController {
 		try {
 			userService.deleteUser(userId, getLoginUserData().getId());
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(), e);
 			model.addAttribute("failedMsg", getMessageSource().getMessage("confirm.delete.failed", new Object[] {"user"}, Locale.getDefault()));
 			return listUsers(model);
 		}
