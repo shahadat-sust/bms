@@ -153,6 +153,83 @@
                     <span class="nav-main-link-name">User List</span>
                 </a>
             </li>
+            <li class="nav-main-heading">Hotel Management</li>
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">Hotel Info</span>
+                </a>
+                <ul class="nav-main-submenu">
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/createhotel"/>">
+                            <span class="nav-main-link-name">Create Hotel</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/hotellist"/>">
+                            <span class="nav-main-link-name">Hotel List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">Room Info</span>
+                </a>
+                <ul class="nav-main-submenu">
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/roomtype"/>">
+                            <span class="nav-main-link-name">Room Type</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/roomcategory"/>">
+                            <span class="nav-main-link-name">Room Category</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/roomlist"/>">
+                            <span class="nav-main-link-name">Room List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-main-heading">Booking Management</li>
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">Onsite Booking</span>
+                </a>
+                <ul class="nav-main-submenu">
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/bookroom"/>">
+                            <span class="nav-main-link-name">Book Room</span>
+                        </a>
+                        <a class="nav-main-link" href="<c:url value="/updatebooking"/>">
+                            <span class="nav-main-link-name">Update Booking</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon si si-grid"></i>
+                    <span class="nav-main-link-name">Manage Booking</span>
+                </a>
+                <ul class="nav-main-submenu">
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/searchbooking"/>">
+                            <span class="nav-main-link-name">Search Booking</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/bookiglist"/>">
+                            <span class="nav-main-link-name">Booking List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-main-heading">Base</li>
             <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="<c:url value="user/createuser"/>">
