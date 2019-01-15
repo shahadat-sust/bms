@@ -13,7 +13,7 @@ public interface IUserProfileDao {
 	
 	boolean delete(long userProfileId) throws BmsSqlException;
 	
-	UserProfileData getUserProfileByUserId(long userId) throws BmsSqlException;
+	UserProfileData getUserProfileDataByUserId(long userId) throws BmsSqlException;
 	
 	List<UserProfileData> getAllUserProfileDatas() throws BmsSqlException;
 

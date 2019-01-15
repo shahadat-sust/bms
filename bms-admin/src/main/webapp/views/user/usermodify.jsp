@@ -60,9 +60,19 @@
                              <div class="block-options">
                              	 <form:hidden id="val-userId" path="id"/>
                              	 <form:hidden id="val-userProfileId" path="userProfileData.id"/>
+                             	 <form:hidden id="val-userProfile-userId" path="userProfileData.userId"/>
                              	 <form:hidden id="val-emailAddressId" path="emailAddressDatas[0].id"/>
+                             	 <form:hidden id="val-emailAddress-userId" path="emailAddressDatas[0].userId"/>
+                             	 <form:hidden id="val-emailAddress-verified" path="emailAddressDatas[0].verified"/>
+                             	 <form:hidden id="val-emailAddress-status" path="emailAddressDatas[0].status"/>
+                             	 <form:hidden id="val-emailAddress-primary" path="emailAddressDatas[0].primary"/>
                              	 <form:hidden id="val-phoneNumberId" path="phoneNumberDatas[0].id"/>
+                             	 <form:hidden id="val-phoneNumber-userId" path="phoneNumberDatas[0].userId"/>
+                             	 <form:hidden id="val-phoneNumber-verified" path="phoneNumberDatas[0].verified"/>
+                             	 <form:hidden id="val-phoneNumber-status" path="phoneNumberDatas[0].status"/>
+                             	 <form:hidden id="val-phoneNumber-primary" path="phoneNumberDatas[0].primary"/>
                              	 <form:hidden id="val-postalAddressId" path="postalAddressDatas[0].id"/>
+                             	 <form:hidden id="val-postalAddress-userId" path="postalAddressDatas[0].userId"/>
                                  <button type="submit" class="btn btn-sm btn-light" onclick="return false;">
                                      <i class="fa fa-fw fa-check"></i> Submit
                                  </button>
@@ -126,7 +136,7 @@
                                          </div>
                                          <div class="form-group">
                                              <label for="val-birthDay">Birthday </label>
-                                             <form:input cssClass="js-datepicker form-control" id="val-birthDay" path="userProfileData.birthDay" placeholder="dd-mm-yyyy"
+                                             <form:input cssClass="datepicker form-control" id="val-birthDay" path="userProfileData.birthDay" placeholder="dd-mm-yyyy"
                                               		data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-mm-yyyy"/>
                                          </div>
                                          <div class="form-group">
@@ -204,7 +214,7 @@
                                              <label for="val-email">Email <span class="text-danger">*</span></label>
                                              <form:input id="val-email" path="emailAddressDatas[0].email" placeholder="Your valid email.." maxlength="127"
                                              	cssClass="form-control ${not empty emailError ? 'is-invalid' :''}"
-                                             	aria-describedby="${not empty countryIdError ? 'val-email-error' :''}"/>
+                                             	aria-describedby="${not empty emailError ? 'val-email-error' :''}"/>
                                              <c:if test="${not empty emailError}">
                                              	<div id="val-email-error" class="invalid-feedback animated fadeIn">${emailError}</div>
                                              </c:if>
@@ -240,7 +250,7 @@
 													aria-describedby="${not empty countryIdError ? 'val-code-error' :''}"/>
 												<form:input id="val-number" path="phoneNumberDatas[0].number" placeholder="Your valid phone number.." maxlength="20" 
 													cssClass="form-control ${not empty phoneNumberError ? 'is-invalid' :''}"
-													aria-describedby="${not empty countryIdError ? 'val-number-error' :''}"/>
+													aria-describedby="${not empty phoneNumberError ? 'val-number-error' :''}"/>
 												<c:if test="${not empty countryCodeError}">
 	                                             	<div id="val-code-error" class="invalid-feedback animated fadeIn">${countryCodeError}</div>
 	                                            </c:if>
@@ -294,9 +304,9 @@
         <script src="<c:url value="/resources/js/custom/user/usermodify.js"/>"></script>
         <script>
         	usermodify.isEditMode = ${isEditMode};
-        	usermodify.isUsernameAvailableUrl = '<c:url value="/isUsernameAvailable" />';
-        	usermodify.isEmailAvailableUrl = '<c:url value="/isEmailAvailable" />';
-        	usermodify.isPhoneNumberAvailableUrl = '<c:url value="/isPhoneNumberAvailable" />';
+        	usermodify.isUsernameAvailableUrlForUser = '<c:url value="/isUsernameAvailableForUser" />';
+        	usermodify.isEmailAvailableUrlForUser = '<c:url value="/isEmailAvailableForUser" />';
+        	usermodify.isPhoneNumberAvailableUrlForUser = '<c:url value="/isPhoneNumberAvailableForUser" />';
         	usermodify.countryCode = "${phoneNumberDatas[0].code}";
 		</script>
         

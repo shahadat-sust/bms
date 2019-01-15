@@ -182,6 +182,7 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 					postalAddressData.setCityName(rs.getString(8));
 					postalAddressData.setStateName(rs.getString(9));
 					postalAddressData.setCountryName(rs.getString(10));
+					postalAddressData.setUserId(rs.getLong(11));
 					return postalAddressData;
 				}
 			});
@@ -210,6 +211,7 @@ public class PostalAddressDao extends BaseDao implements IPostalAddressDao {
 					postalAddressData.setCityName(rs.getString(8));
 					postalAddressData.setStateName(rs.getString(9));
 					postalAddressData.setCountryName(rs.getString(10));
+					postalAddressData.setProviderId(rs.getLong(11));
 					return postalAddressData;
 				}
 			});

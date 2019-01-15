@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="provider.create">
+		<![CDATA[
+			INSERT INTO Provider (Title, ProviderTypeId, Specification, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+		]]>
+	</entry>
+	
+	<entry key="provider.update">
+		<![CDATA[
+			UPDATE Provider SET 
+				Title = ?, 
+				ProviderTypeId = ?, 
+				Specification = ?
+				IsActive = ?, 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+		]]>
+	</entry>
+	
+	<entry key="provider.delete">
+		<![CDATA[
+			UPDATE Provider SET 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+		]]>
+	</entry>
+	
+	<entry key="provider.getProviderDataById">
+		<![CDATA[
+			SELECT 
+				Id, 
+				Title, 
+				ProviderTypeId, 
+				Specification,
+				IsActive, 
+				Status 
+			FROM Provider 
+			WHERE 
+				Id = ?
+		]]>
+	</entry>
+
+	<entry key="provider.getProviderDatasByProviderTypeId">
+		<![CDATA[
+			SELECT 
+				Provider.Id, 
+				Provider.Title, 
+				Provider.ProviderTypeId, 
+				Provider.Specification,
+				Provider.IsActive, 
+				Provider.Status,
+				Hotel.Id, 
+				Hotel.StarRating, 
+				Hotel.NumberOfFloor, 
+				Hotel.Latitude, 
+				Hotel.Longitude, 
+				Hotel.CheckInTime,  
+				Hotel.CheckOutTime,
+				Hotel.Website
+			FROM Provider 
+			LEFT OUTER JOIN Hotel ON
+				Hotel.ProviderId = Provider.Id
+			WHERE 
+				Provider.ProviderTypeId = ?
+		]]>
+	</entry>
+	
+	<entry key="provider.getAllProviderDatas">
+		<![CDATA[
+			SELECT 
+				Provider.Id, 
+				Provider.Title, 
+				Provider.ProviderTypeId, 
+				Provider.Specification,
+				Provider.IsActive, 
+				Provider.Status,
+				Hotel.Id, 
+				Hotel.StarRating, 
+				Hotel.NumberOfFloor, 
+				Hotel.Latitude, 
+				Hotel.Longitude, 
+				Hotel.CheckInTime,  
+				Hotel.CheckOutTime,
+				Hotel.Website
+			FROM Provider 
+			LEFT OUTER JOIN Hotel ON
+				Hotel.ProviderId = Provider.Id
+		]]>
+	</entry>
+
+</properties>

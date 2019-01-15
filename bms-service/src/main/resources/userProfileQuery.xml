@@ -30,7 +30,7 @@
 			DELETE FROM UserProfile WHERE Id = ?
 	    ]]>
 	</entry>
-	<entry key="userProfile.getUserProfileByUserId">
+	<entry key="userProfile.getUserProfileDataByUserId">
 	    <![CDATA[
 			SELECT 
 				Id, 

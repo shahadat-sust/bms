@@ -166,7 +166,7 @@
                         </a>
                     </li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="<c:url value="/hotellist"/>">
+                        <a class="nav-main-link" href="<c:url value="/listhotels"/>">
                             <span class="nav-main-link-name">Hotel List</span>
                         </a>
                     </li>

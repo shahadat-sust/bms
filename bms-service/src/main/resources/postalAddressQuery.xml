@@ -76,7 +76,8 @@
 				PostalAddress.PostCode,
 				City.Name, 
 				State.Name,
-				Country.Name 
+				Country.Name,
+				UserPostalAddress.UserId 
 			FROM PostalAddress 
 			LEFT OUTER JOIN UserPostalAddress ON 
 				UserPostalAddress.PostalAddressId = PostalAddress.Id 
@@ -102,7 +103,8 @@
 				PostalAddress.PostCode,
 				City.Name, 
 				State.Name,
-				Country.Name 
+				Country.Name,
+				ProviderPostalAddress.ProviderId  
 			FROM PostalAddress 
 			LEFT OUTER JOIN ProviderPostalAddress ON 
 				ProviderPostalAddress.PostalAddressId = PostalAddress.Id 

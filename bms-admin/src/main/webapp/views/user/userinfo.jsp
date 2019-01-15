@@ -10,8 +10,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
     <head>
-        <title>BMS - Create User</title>
-        <meta name="description" content="BMS - User List">
+        <title>BMS - User Info</title>
+        <meta name="description" content="BMS - User Info">
         <%@include file="../includes/metadata.jsp" %>
         <%@include file="../includes/appicons.jsp" %>
         <%@include file="../includes/styles.jsp" %>
@@ -26,7 +26,7 @@
         <main id="main-container">
 
 			<!-- Hero -->
-             <div class="bg-body-light">
+            <div class="bg-body-light">
                  <div class="content content-full">
                      <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                          <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">User Information</h1>

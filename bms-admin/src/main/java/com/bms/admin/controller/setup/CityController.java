@@ -66,13 +66,16 @@ public class CityController extends BaseController {
 		return "setup/city";
 	}
 	
-	@RequestMapping(value = "/fetch/{cityId}/{countryId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CityData> getCityList(@PathVariable long cityId, @PathVariable long countryId) {
+	@RequestMapping(value = "/fetch/{cityId}/{stateId}/{countryId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<CityData> getCityList(@PathVariable long cityId, @PathVariable long stateId, @PathVariable long countryId) {
 		ResponseModel<CityData> responseModel = new ResponseModel<CityData>();
 		try {
 			if(cityId > 0) {
 				CityData cityData = cityService.getCityById(cityId);
 				responseModel.addData(cityData);
+			} else if(stateId > 0) {
+				List<CityData> cityList = cityService.getCitiesByStateId(stateId);
+				responseModel.addDatas(cityList);
 			} else if(countryId > 0) {
 				List<CityData> cityList = cityService.getCitiesByCountryId(countryId);
 				responseModel.addDatas(cityList);
@@ -80,6 +83,7 @@ public class CityController extends BaseController {
 				List<CityData> cityList = cityService.getAllCities();
 				responseModel.addDatas(cityList);
 			}
+			responseModel.setStatus(true);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);

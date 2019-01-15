@@ -62,6 +62,21 @@
 			ORDER BY City.Name ASC
 	    ]]>
 	</entry> 
+	<entry key="city.getCitiesByStateId">
+	    <![CDATA[
+			SELECT 
+				City.Id, 
+				City.StateId, 
+				City.Name, 
+				City.Remarks, 
+				State.Name AS StateName
+			FROM City 
+			LEFT OUTER JOIN State ON 
+				State.Id = City.StateId 
+			WHERE State.Id = ? 
+			ORDER BY City.Name ASC
+	    ]]>
+	</entry> 
 	<entry key="city.getAllCities">
 	    <![CDATA[
 			SELECT 

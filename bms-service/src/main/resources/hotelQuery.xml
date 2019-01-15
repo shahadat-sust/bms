@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="hotel.create">
+		<![CDATA[
+			INSERT INTO Hotel (ProviderId, StarRating, NumberOfFloor, Latitude, Longitude, CheckInTime, CheckOutTime, Website, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		]]>
+	</entry>
+	
+	<entry key="hotel.update">
+		<![CDATA[
+			UPDATE Hotel SET 
+				ProviderId = ?, 
+				StarRating = ?, 
+				NumberOfFloor = ?, 
+				Latitude = ?,
+				Longitude = ?, 
+				CheckInTime = ?, 
+				CheckOutTime = ?, 
+				Website = ?,
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+		]]>
+	</entry>
+	
+	<entry key="hotel.delete">
+		<![CDATA[
+			DELETE FROM Hotel WHERE Id = ?
+		]]>
+	</entry>
+	
+	<entry key="hotel.getHotelDataByProviderId">
+		<![CDATA[
+			SELECT 
+				Id, 
+				ProviderId, 
+				StarRating, 
+				NumberOfFloor,
+				Latitude,
+				Longitude,
+				CheckInTime,
+				CheckOutTime,
+				Website
+			FROM Hotel 
+			WHERE 
+				ProviderId = ?
+		]]>
+	</entry>
+	
+	<entry key="hotel.getAllHotelDatas">
+		<![CDATA[
+			SELECT 
+				Id, 
+				ProviderId, 
+				StarRating, 
+				NumberOfFloor,
+				Latitude,
+				Longitude,
+				CheckInTime,
+				CheckOutTime,
+				Website
+			FROM Hotel 
+		]]>
+	</entry>
+
+</properties>
