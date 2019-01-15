@@ -145,6 +145,10 @@ public class HotelProviderService extends BaseService implements IHotelProviderS
 			txStatus = getTxManager().getTransaction(new DefaultTransactionDefinition());
 			Date currDate = new Date(System.currentTimeMillis());
 			
+			providerData.setUpdatedBy(loginUserId);
+			providerData.setUpdatedOn(currDate);
+			providerDao.update(providerData);
+			
 			if (existingHotelId == 0) {
 				hotelData.setProviderId(providerData.getId());
 				hotelData.setCreatedBy(loginUserId);
