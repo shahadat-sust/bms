@@ -166,6 +166,7 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 					phoneNumberData.setVerified(rs.getBoolean(5));
 					phoneNumberData.setPrimary(rs.getBoolean(6));
 					phoneNumberData.setStatus(rs.getInt(7));
+					phoneNumberData.setUserId(rs.getLong(8));
 					return phoneNumberData;
 				}
 			});
@@ -191,6 +192,7 @@ public class PhoneNumberDao extends BaseDao implements IPhoneNumberDao {
 					phoneNumberData.setVerified(rs.getBoolean(5));
 					phoneNumberData.setPrimary(rs.getBoolean(6));
 					phoneNumberData.setStatus(rs.getInt(7));
+					phoneNumberData.setProviderId(rs.getLong(8));
 					return phoneNumberData;
 				}
 			});

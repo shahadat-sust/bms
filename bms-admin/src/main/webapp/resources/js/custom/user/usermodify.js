@@ -1,14 +1,20 @@
 var usermodify = {
 		isEditMode : false,
-		isUsernameAvailableUrl : "",
-		isEmailAvailableUrl : "",
-    	isPhoneNumberAvailableUrl : "",
+		isUsernameAvailableUrlForUser : "",
+		isEmailAvailableUrlForUser : "",
+    	isPhoneNumberAvailableUrlForUser : "",
 		countryCode : "",
 		
 		init : function () {
 			$(this).scrollTop(0);
-			Dashmix.helpers(['datepicker']);
 			usermodify.initValidation();
+			
+			$(".datepicker").datepicker({
+                weekStart: $(this).data("week-start") || 0,
+                autoclose: $(this).data("autoclose") || 1,
+                todayHighlight: $(this).data("today-highlight") || 1,
+                orientation: "bottom"
+            });
 
 			$("button[type='submit']").on("click", function() {
 				if($("#formUserModify").valid()) {
@@ -97,10 +103,12 @@ var usermodify = {
 	            }, 
 	            rules : {
 	            	"userProfileData.firstName": {
-	                    required: true
+	                    required: true,
+	                    maxlength : 45
 	                },
 	                "userProfileData.lastName": {
-	                    required: true
+	                    required: true,
+	                    maxlength : 45
 	                },
 	                "userProfileData.gender": {
 	                    min : 1
@@ -113,7 +121,7 @@ var usermodify = {
 	                    minlength: 8,
 	                    usernamecheck: true,
 	                    remote : {
-	                    	url : usermodify.isUsernameAvailableUrl,
+	                    	url : usermodify.isUsernameAvailableUrlForUser,
 	                    	type : "get",
 	                    	data : {
 	                    		userId : function() {
@@ -141,7 +149,7 @@ var usermodify = {
 	                    required: true, 
 	                    email: true,
 	                    remote : {
-	                    	url : usermodify.isEmailAvailableUrl,
+	                    	url : usermodify.isEmailAvailableUrlForUser,
 	                    	type : "get",
 	                    	data : {
 	                    		userId : function() {
@@ -156,7 +164,7 @@ var usermodify = {
 	                "phoneNumberDatas[0].code": {
 	                    required: true,
 	                    remote : {
-	                    	url : usermodify.isPhoneNumberAvailableUrl,
+	                    	url : usermodify.isPhoneNumberAvailableUrlForUser,
 	                    	type : "get",
 	                    	data : {
 	                    		userId : function() {
@@ -175,7 +183,7 @@ var usermodify = {
 	                    required: true, 
 	                    digits : true,
 	                    remote : {
-	                    	url : usermodify.isPhoneNumberAvailableUrl,
+	                    	url : usermodify.isPhoneNumberAvailableUrlForUser,
 	                    	type : "get",
 	                    	data : {
 	                    		userId : function() {
@@ -218,7 +226,7 @@ var usermodify = {
 	                "phoneNumberDatas[0].number": {
 	                    required: "Phone number is required",
 	                	remote : "This phone number is already used."
-	                },
+	                }
 	            }
 			});
 		}

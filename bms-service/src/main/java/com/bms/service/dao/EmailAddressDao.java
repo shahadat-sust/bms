@@ -188,6 +188,7 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 					emailAddressData.setVerified(rs.getBoolean(3));
 					emailAddressData.setPrimary(rs.getBoolean(4));
 					emailAddressData.setStatus(rs.getInt(5));
+					emailAddressData.setUserId(rs.getLong(6));
 					return emailAddressData;
 				}
 			});
@@ -211,6 +212,7 @@ public class EmailAddressDao extends BaseDao implements IEmailAddressDao {
 					emailAddressData.setVerified(rs.getBoolean(3));
 					emailAddressData.setPrimary(rs.getBoolean(4));
 					emailAddressData.setStatus(rs.getInt(5));
+					emailAddressData.setProviderId(rs.getLong(6));
 					return emailAddressData;
 				}
 			});

@@ -89,9 +89,9 @@ public class UserProfileDao extends BaseDao implements IUserProfileDao {
 	}
 
 	@Override
-	public UserProfileData getUserProfileByUserId(long userId) throws BmsSqlException {
+	public UserProfileData getUserProfileDataByUserId(long userId) throws BmsSqlException {
 		try {
-			String sql = userProfileQuery.getProperty("userProfile.getUserProfileByUserId");
+			String sql = userProfileQuery.getProperty("userProfile.getUserProfileDataByUserId");
 			Object[] params = new Object[] {userId};
 			List<UserProfileData> userProfileList = this.getTemplete().query(sql, params, new RowMapper<UserProfileData>() {
 				@Override

@@ -10,7 +10,6 @@ import org.springframework.validation.Validator;
 
 import com.bms.common.BmsException;
 import com.bms.common.util.CommonValidator;
-import com.bms.common.util.EmailValidator;
 import com.bms.common.util.StringUtils;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.user.UserData;

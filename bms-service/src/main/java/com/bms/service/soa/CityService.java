@@ -61,6 +61,11 @@ public class CityService extends BaseService implements ICityService {
 	public List<CityData> getCitiesByCountryId(long countryId) throws BmsException, BmsSqlException {
 		return cityDao.getCitiesByCountryId(countryId);
 	}
+	
+	@Override
+	public List<CityData> getCitiesByStateId(long stateId) throws BmsException, BmsSqlException {
+		return cityDao.getCitiesByStateId(stateId);
+	}
 
 	@Override
 	public List<CityData> getAllCities() throws BmsException, BmsSqlException {

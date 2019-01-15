@@ -59,12 +59,13 @@
 	    <![CDATA[
 			SELECT 
 				PhoneNumber.Id, 
-				Type, 
-				Number, 
-				Code, 
-				IsVerified, 
-				IsPrimary, 
-				Status 
+				PhoneNumber.Type, 
+				PhoneNumber.Number, 
+				PhoneNumber.Code, 
+				PhoneNumber.IsVerified, 
+				PhoneNumber.IsPrimary, 
+				PhoneNumber.Status,
+				UserPhoneNumber.UserId 
 			FROM PhoneNumber 
 			LEFT OUTER JOIN UserPhoneNumber ON 
 				UserPhoneNumber.PhoneNumberId = PhoneNumber.Id 
@@ -76,12 +77,13 @@
 	    <![CDATA[
 			SELECT 
 				PhoneNumber.Id, 
-				Type, 
-				Number, 
-				Code, 
-				IsVerified, 
-				IsPrimary, 
-				Status 
+				PhoneNumber.Type, 
+				PhoneNumber.Number, 
+				PhoneNumber.Code, 
+				PhoneNumber.IsVerified, 
+				PhoneNumber.IsPrimary, 
+				PhoneNumber.Status,
+				ProviderPhoneNumber.ProviderId 
 			FROM PhoneNumber 
 			LEFT OUTER JOIN ProviderPhoneNumber ON 
 				ProviderPhoneNumber.PhoneNumberId = PhoneNumber.Id 

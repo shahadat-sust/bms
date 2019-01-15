@@ -19,6 +19,8 @@ public interface ICityService {
 	
 	List<CityData> getCitiesByCountryId(long countryId) throws BmsException, BmsSqlException;
 	
+	List<CityData> getCitiesByStateId(long stateId) throws BmsException, BmsSqlException;
+	
 	List<CityData> getAllCities() throws BmsException, BmsSqlException;
 	
 	ICityDao getCityDao();

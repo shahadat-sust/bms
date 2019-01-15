@@ -133,6 +133,29 @@ public class CityDao extends BaseDao implements ICityDao {
 			throw new BmsSqlException(e);
 		}
 	}
+	
+	public List<CityData> getCitiesByStateId(long stateId) throws BmsSqlException {
+		try {
+			String sql = cityQuery.getProperty("city.getCitiesByStateId");
+			Object[] params = new Object[] {stateId};
+			List<CityData> cityList = this.getTemplete().query(sql, params, new RowMapper<CityData>() {
+				@Override
+				public CityData mapRow(ResultSet rs, int index) throws SQLException {
+					CityData cityData = new CityData();
+					cityData.setId(rs.getLong(1));
+					cityData.setStateId(rs.getLong(2));
+					cityData.setName(rs.getString(3));
+					cityData.setRemarks(rs.getString(4));
+					cityData.setStateName(rs.getString(5));
+					return cityData;
+				}
+			});
+			
+			return cityList;
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
+	}
 
 	@Override
 	public List<CityData> getAllCities() throws BmsSqlException {

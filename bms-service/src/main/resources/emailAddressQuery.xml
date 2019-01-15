@@ -68,10 +68,11 @@
 	    <![CDATA[
 			SELECT 
 				EmailAddress.Id, 
-				Email, 
-				IsVerified, 
-				IsPrimary, 
-				Status 
+				EmailAddress.Email, 
+				EmailAddress.IsVerified, 
+				EmailAddress.IsPrimary, 
+				EmailAddress.Status, 
+				UserEmailAddress.UserId 
 			FROM EmailAddress 
 			LEFT OUTER JOIN UserEmailAddress ON 
 				UserEmailAddress.EmailAddressId = EmailAddress.Id 
@@ -83,10 +84,11 @@
 	    <![CDATA[
 			SELECT 
 				EmailAddress.Id, 
-				Email, 
-				IsVerified, 
-				IsPrimary, 
-				Status 
+				EmailAddress.Email, 
+				EmailAddress.IsVerified, 
+				EmailAddress.IsPrimary, 
+				EmailAddress.Status, 
+				ProviderEmailAddress.ProviderId
 			FROM EmailAddress 
 			LEFT OUTER JOIN ProviderEmailAddress ON 
 				ProviderEmailAddress.EmailAddressId = EmailAddress.Id 

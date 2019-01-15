@@ -71,9 +71,7 @@ public class UserController extends BaseController {
 		UserData userForm = new UserData();
 		model.addAttribute("userForm", userForm);
 		model.addAttribute("isEditMode", false);
-		
 		this.populateSelectOptions(model);
-		
 		return "user/usermodify";
 	}
 	
@@ -83,9 +81,7 @@ public class UserController extends BaseController {
 		userForm.setPassword("");
 		model.addAttribute("userForm", userForm);
 		model.addAttribute("isEditMode", true);
-		
 		this.populateSelectOptions(model);
-
 		return "user/usermodify";
 	}
 
@@ -114,10 +110,11 @@ public class UserController extends BaseController {
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+			
 			if(isEditMode) {
-				model.addAttribute("failedMsg", getMessageSource().getMessage("confirm.update.success", new Object[] {"user"}, Locale.getDefault()));
-			} else {
 				model.addAttribute("failedMsg", getMessageSource().getMessage("confirm.update.failed", new Object[] {"user"}, Locale.getDefault()));
+			} else {
+				model.addAttribute("failedMsg", getMessageSource().getMessage("confirm.create.failed", new Object[] {"user"}, Locale.getDefault()));
 			}
 		}
 		
@@ -140,7 +137,7 @@ public class UserController extends BaseController {
 		return "redirect:/listusers";
 	}
 		
-	@RequestMapping(value = "isUsernameAvailable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "isUsernameAvailableForUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody boolean isUsernameAvailable(
 			@RequestParam("userId") long userId, 
 			@RequestParam("username") String username) throws BmsSqlException, BmsException {
@@ -153,7 +150,7 @@ public class UserController extends BaseController {
 		return status;
 	}
 	
-	@RequestMapping(value = "isEmailAvailable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "isEmailAvailableForUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody boolean isEmailAvailable(
 			@RequestParam("userId") long userId, 
 			@RequestParam("email") String email) throws BmsSqlException, BmsException {
@@ -166,7 +163,7 @@ public class UserController extends BaseController {
 		return status;
 	}
 	
-	@RequestMapping(value = "isPhoneNumberAvailable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "isPhoneNumberAvailableForUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody boolean isPhoneNumberAvailable(
 			@RequestParam("userId") long userId, 
 			@RequestParam("code") String code, 

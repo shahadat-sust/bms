@@ -52,10 +52,15 @@
 				User.Password,
 				User.IsActive,
 				User.Status,
-				UserProfile.Id AS UserProfileId,
+				UserProfile.Id,
 				UserProfile.FirstName,
-				UserProfile.LastName,
-				UserProfile.Gender
+				UserProfile.LastName, 
+				UserProfile.BirthDay, 
+				UserProfile.Gender, 
+				UserProfile.SecurityNumber, 
+				UserProfile.PassportNumber, 
+				UserProfile.DrivingLicenceNumber, 
+				UserProfile.Caption
 			FROM User
 			LEFT OUTER JOIN UserProfile ON
 				UserProfile.UserId = User.Id 

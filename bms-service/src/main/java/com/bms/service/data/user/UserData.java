@@ -18,14 +18,14 @@ public class UserData extends BaseData {
 	private boolean isActive;
 	private int status;
 	
-	UserProfileData userProfileData;
-	List<EmailAddressData> emailAddressDatas;
-	List<PhoneNumberData> phoneNumberDatas;
-	List<PostalAddressData> postalAddressDatas;
-	List<UserCardData> userCardDatas;
-	List<UserDeviceData> userDeviceDatas;
-	List<UserSocialAccountData> userSocialAccountDatas;
-	List<ImageData> imageDatas;
+	private UserProfileData userProfileData;
+	private List<EmailAddressData> emailAddressDatas;
+	private List<PhoneNumberData> phoneNumberDatas;
+	private List<PostalAddressData> postalAddressDatas;
+	private List<UserCardData> userCardDatas;
+	private List<UserDeviceData> userDeviceDatas;
+	private List<UserSocialAccountData> userSocialAccountDatas;
+	private List<ImageData> imageDatas;
 
 	public String getUsername() {
 		return username;

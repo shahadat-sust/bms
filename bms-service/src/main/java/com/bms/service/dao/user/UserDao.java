@@ -5,13 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -136,8 +133,15 @@ public class UserDao extends BaseDao implements IUserDao {
 					long userProfileId = rs.getLong(6);
 					if(userProfileId > 0) {
 						userData.getUserProfileData().setId(userProfileId);
+						userData.getUserProfileData().setUserId(userData.getId());
 						userData.getUserProfileData().setFirstName(rs.getString(7));
 						userData.getUserProfileData().setLastName(rs.getString(8));
+						userData.getUserProfileData().setBirthDay(rs.getTimestamp(9));
+						userData.getUserProfileData().setGender(rs.getInt(10));
+						userData.getUserProfileData().setSecurityNumber(rs.getString(11));
+						userData.getUserProfileData().setPassportNumber(rs.getString(12));
+						userData.getUserProfileData().setDrivingLicenceNumber(rs.getString(13));
+						userData.getUserProfileData().setCaption(rs.getString(14));
 					}
 					return userData;
 				}

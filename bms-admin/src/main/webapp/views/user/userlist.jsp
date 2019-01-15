@@ -38,7 +38,7 @@
 			<!-- Page Content -->
             <div class="content">
 
-          	    <!-- Full Table -->
+          	      <!-- Full Table -->
                   <div class="block block-rounded block-bordered">
                   	  <div class="block-content text-right">
 						<a id="btnCreateNew" class="btn btn-success text-white mr-1" href='<c:url value="/createuser"/>'>

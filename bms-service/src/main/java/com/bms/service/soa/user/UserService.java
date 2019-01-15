@@ -13,7 +13,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.bms.common.BmsException;
 import com.bms.common.Constants;
 import com.bms.common.util.CryptoChiper;
-import com.bms.common.util.StringUtils;
 import com.bms.service.BmsSqlException;
 import com.bms.service.dao.IEmailAddressDao;
 import com.bms.service.dao.IImageDao;
@@ -75,6 +74,7 @@ public class UserService extends BaseService implements IUserService {
 			userProfileData.setId(userProfileId);
 
 			EmailAddressData emailAddressData = userData.getEmailAddressDatas().get(0);
+			emailAddressData.setUserId(userId);
 			emailAddressData.setVerified(true);
 			emailAddressData.setPrimary(true);
 			emailAddressData.setStatus(Constants.STATUS_EXIST);
@@ -86,6 +86,7 @@ public class UserService extends BaseService implements IUserService {
 			emailAddressData.setId(emailAddressId);
 			
 			PhoneNumberData phoneNumberData = userData.getPhoneNumberDatas().get(0);
+			phoneNumberData.setUserId(userId);
 			phoneNumberData.setVerified(true);
 			phoneNumberData.setPrimary(true);
 			phoneNumberData.setStatus(Constants.STATUS_EXIST);
@@ -97,6 +98,7 @@ public class UserService extends BaseService implements IUserService {
 			phoneNumberData.setId(phoneNumberId);
 
 			PostalAddressData postalAddressData = userData.getPostalAddressDatas().get(0);
+			postalAddressData.setUserId(userId);
 			postalAddressData.setCreatedBy(loginUserId);
 			postalAddressData.setCreatedOn(currDate);
 			postalAddressData.setUpdatedBy(loginUserId);
@@ -113,8 +115,11 @@ public class UserService extends BaseService implements IUserService {
 			userData.getUserProfileData().setId(0);
 			userData.getUserProfileData().setUserId(0);
 			userData.getEmailAddressDatas().get(0).setId(0);
+			userData.getEmailAddressDatas().get(0).setUserId(0);
 			userData.getPhoneNumberDatas().get(0).setId(0);
+			userData.getPhoneNumberDatas().get(0).setUserId(0);
 			userData.getPostalAddressDatas().get(0).setId(0);
+			userData.getPostalAddressDatas().get(0).setUserId(0);
 			throw e;
 		} catch (Exception e) {
 			if(txStatus != null) {
@@ -124,8 +129,11 @@ public class UserService extends BaseService implements IUserService {
 			userData.getUserProfileData().setId(0);
 			userData.getUserProfileData().setUserId(0);
 			userData.getEmailAddressDatas().get(0).setId(0);
+			userData.getEmailAddressDatas().get(0).setUserId(0);
 			userData.getPhoneNumberDatas().get(0).setId(0);
+			userData.getPhoneNumberDatas().get(0).setUserId(0);
 			userData.getPostalAddressDatas().get(0).setId(0);
+			userData.getPostalAddressDatas().get(0).setUserId(0);
 			throw new BmsException(e);
 		}
 	}
@@ -166,6 +174,7 @@ public class UserService extends BaseService implements IUserService {
 			}
 
 			if(existingEmailAddressId == 0) { 
+				emailAddressData.setUserId(userData.getId());
 				emailAddressData.setVerified(true);
 				emailAddressData.setPrimary(true);
 				emailAddressData.setStatus(Constants.STATUS_EXIST);
@@ -186,6 +195,7 @@ public class UserService extends BaseService implements IUserService {
 			}
 
 			if(existingPhoneNumberId == 0) { 
+				phoneNumberData.setUserId(userData.getId());
 				phoneNumberData.setVerified(true);
 				phoneNumberData.setPrimary(true);
 				phoneNumberData.setStatus(Constants.STATUS_EXIST);
@@ -206,6 +216,7 @@ public class UserService extends BaseService implements IUserService {
 			}
 			
 			if(existingPostalAddressId == 0) { 
+				postalAddressData.setUserId(userData.getId());
 				postalAddressData.setCreatedBy(loginUserId);
 				postalAddressData.setCreatedOn(currDate);
 				postalAddressData.setUpdatedBy(loginUserId);
@@ -229,12 +240,15 @@ public class UserService extends BaseService implements IUserService {
 			}
 			if (existingEmailAddressId == 0) {
 				userData.getEmailAddressDatas().get(0).setId(0);
+				userData.getEmailAddressDatas().get(0).setUserId(0);
 			}
 			if (existingPhoneNumberId == 0) {
 				userData.getPhoneNumberDatas().get(0).setId(0);
+				userData.getEmailAddressDatas().get(0).setUserId(0);
 			}
 			if (existingPostalAddressId == 0) {
 				userData.getPostalAddressDatas().get(0).setId(0);
+				userData.getEmailAddressDatas().get(0).setUserId(0);
 			}
 			throw e;
 		} catch (Exception e) {
@@ -247,12 +261,15 @@ public class UserService extends BaseService implements IUserService {
 			}
 			if (existingEmailAddressId == 0) {
 				userData.getEmailAddressDatas().get(0).setId(0);
+				userData.getEmailAddressDatas().get(0).setUserId(0);
 			}
 			if (existingPhoneNumberId == 0) {
 				userData.getPhoneNumberDatas().get(0).setId(0);
+				userData.getEmailAddressDatas().get(0).setUserId(0);
 			}
 			if (existingPostalAddressId == 0) {
 				userData.getPostalAddressDatas().get(0).setId(0);
+				userData.getEmailAddressDatas().get(0).setUserId(0);
 			}
 			throw new BmsException(e);
 		}
@@ -283,7 +300,7 @@ public class UserService extends BaseService implements IUserService {
 	public UserData getUserDetailInfo(long userId) throws BmsException, BmsSqlException {
 		UserData userData = userDao.getUserDataById(userId);
 		if(userData != null) {
-			UserProfileData userProfileData = userProfileDao.getUserProfileByUserId(userId);
+			UserProfileData userProfileData = userProfileDao.getUserProfileDataByUserId(userId);
 			if(userProfileData != null) {
 				userData.setUserProfileData(userProfileData);
 			} else {
