@@ -14,7 +14,7 @@
 			UPDATE Provider SET 
 				Title = ?, 
 				ProviderTypeId = ?, 
-				Specification = ?
+				Specification = ?,
 				IsActive = ?, 
 				Status = ?, 
 				UpdatedBy = ?, 
