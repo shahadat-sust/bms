@@ -19,7 +19,7 @@ public interface IRoleService {
 	
 	List<RoleData> getAllRoles() throws BmsException, BmsSqlException;
 	
-	boolean isAvailable(long id, String name) throws BmsSqlException;
+	boolean isAvailable(long id, String name) throws BmsException, BmsSqlException;
 	
 	public IRoleDao getRoleDao();
 

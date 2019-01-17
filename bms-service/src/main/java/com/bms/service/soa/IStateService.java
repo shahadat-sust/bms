@@ -21,7 +21,7 @@ public interface IStateService {
 	
 	List<StateData> getAllStates() throws BmsException, BmsSqlException;
 	
-	boolean isAvailable(long id, String name, long countryId) throws BmsSqlException;
+	boolean isAvailable(long id, String name, long countryId) throws  BmsException, BmsSqlException;
 	
 	IStateDao getStateDao();
 

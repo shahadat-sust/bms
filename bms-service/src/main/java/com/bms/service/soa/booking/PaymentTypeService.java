@@ -50,22 +50,46 @@ public class PaymentTypeService extends BaseService implements IPaymentTypeServi
 
 	@Override
 	public boolean delete(long paymentTypeId) throws BmsException, BmsSqlException {
-		return paymentTypeDao.delete(paymentTypeId);
+		try {
+			return paymentTypeDao.delete(paymentTypeId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public PaymentTypeData getPaymentTypeById(long paymentTypeId) throws BmsException, BmsSqlException {
-		return paymentTypeDao.getPaymentTypeById(paymentTypeId);
+		try {
+			return paymentTypeDao.getPaymentTypeById(paymentTypeId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<PaymentTypeData> getAllPaymentTypes() throws BmsException, BmsSqlException {
-		return paymentTypeDao.getAllPaymentTypes();
+		try {
+			return paymentTypeDao.getAllPaymentTypes();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean isAvailable(long id, String name) throws BmsSqlException {
-		return paymentTypeDao.isAvailable(id, name);
+	public boolean isAvailable(long id, String name) throws BmsException, BmsSqlException {
+		try {
+			return paymentTypeDao.isAvailable(id, name);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override

@@ -19,7 +19,7 @@ public interface IBookingTypeService {
 	
 	List<BookingTypeData> getAllBookingTypes() throws BmsException, BmsSqlException;
 	
-	boolean isAvailable(long id, String name) throws BmsSqlException;
+	boolean isAvailable(long id, String name) throws BmsException, BmsSqlException;
 	
 	IBookingTypeDao getBookingTypeDao();
 

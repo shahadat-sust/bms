@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+	<entry key="userDefaultProvider.create">
+		<![CDATA[
+			INSERT INTO UserDefaultProvider (ProviderId, UserId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+		]]>
+	</entry>
+	
+	<entry key="userDefaultProvider.update">
+		<![CDATA[
+			UPDATE UserDefaultProvider SET 
+				ProviderId = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				UserId = ?
+		]]>
+	</entry>
+	
+	<entry key="userDefaultProvider.isDefaultProviderAssignedForAdmin">
+		<![CDATA[
+			SELECT 
+				Id 
+			FROM UserDefaultProvider
+			WHERE 
+				ProviderId = ? 
+				AND UserId = ?
+		]]>
+	</entry>
+
+	<entry key="userDefaultProvider.getDefaultProviderByUserId">
+		<![CDATA[
+			SELECT 
+				UserDefaultProvider.Id, 
+				UserDefaultProvider.ProviderId, 
+				UserDefaultProvider.UserId,
+				Provider.Title,
+				User.Username,
+				UserProfile.FirstName,
+				UserProfile.LastName,
+				City.Name,
+				State.Name,
+				Country.Name
+			FROM UserDefaultProvider 
+			LEFT OUTER JOIN User ON
+				User.Id = UserDefaultProvider.UserId
+			LEFT OUTER JOIN UserProfile ON
+				UserProfile.UserId = UserDefaultProvider.UserId
+			LEFT OUTER JOIN Provider ON
+				Provider.Id = UserDefaultProvider.ProviderId
+			LEFT OUTER JOIN ProviderPostalAddress ON 
+				ProviderPostalAddress.ProviderId = UserDefaultProvider.ProviderId
+			LEFT OUTER JOIN PostalAddress ON 
+				PostalAddress.Id = ProviderPostalAddress.PostalAddressId 
+			LEFT OUTER JOIN State ON 
+				State.Id = PostalAddress.StateId 
+			LEFT OUTER JOIN City ON 
+				City.Id = PostalAddress.CityId 
+			LEFT OUTER JOIN Country ON 
+				Country.Id = PostalAddress.CountryId
+			WHERE 
+				UserDefaultProvider.UserId = ?
+		]]>
+	</entry>
+	
+</properties>

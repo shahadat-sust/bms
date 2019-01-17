@@ -50,22 +50,46 @@ public class ProviderTypeService extends BaseService implements IProviderTypeSer
 	
 	@Override
 	public boolean delete(long providerTypeId) throws BmsException, BmsSqlException {
-		return providerTypeDao.delete(providerTypeId);
+		try {
+			return providerTypeDao.delete(providerTypeId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public ProviderTypeData getProviderTypeById(long providerTypeId) throws BmsException, BmsSqlException {
-		return providerTypeDao.getProviderTypeById(providerTypeId);
+		try {
+			return providerTypeDao.getProviderTypeById(providerTypeId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<ProviderTypeData> getAllProviderTypes() throws BmsException, BmsSqlException {
-		return providerTypeDao.getAllProviderTypes();
+		try {
+			return providerTypeDao.getAllProviderTypes();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean isAvailable(long id, String name) throws BmsSqlException {
-		return providerTypeDao.isAvailable(id, name);
+	public boolean isAvailable(long id, String name) throws BmsException, BmsSqlException {
+		try {
+			return providerTypeDao.isAvailable(id, name);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

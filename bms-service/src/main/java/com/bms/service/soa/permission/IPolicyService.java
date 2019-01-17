@@ -19,7 +19,7 @@ public interface IPolicyService {
 	
 	List<PolicyData> getAllPolicies() throws BmsException, BmsSqlException;
 	
-	boolean isAvailable(long id, String code) throws BmsSqlException;
+	boolean isAvailable(long id, String code) throws BmsException, BmsSqlException;
 
 	public IPolicyDao getPolicyDao();
 

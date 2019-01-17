@@ -49,22 +49,46 @@ public class CountryService extends BaseService implements ICountryService {
 
 	@Override
 	public boolean delete(long countryId) throws BmsException, BmsSqlException {
-		return countryDao.delete(countryId);
+		try {
+			return countryDao.delete(countryId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public CountryData getCountryById(long countryId) throws BmsException, BmsSqlException {
-		return countryDao.getCountryById(countryId);
+		try {
+			return countryDao.getCountryById(countryId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<CountryData> getAllCountries() throws BmsException, BmsSqlException {
-		return countryDao.getAllCountries();
+		try {
+			return countryDao.getAllCountries();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
-	public boolean isAvailable(long id, String name) throws BmsSqlException {
-		return countryDao.isAvailable(id, name);
+	public boolean isAvailable(long id, String name) throws BmsException, BmsSqlException {
+		try {
+			return countryDao.isAvailable(id, name);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

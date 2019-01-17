@@ -50,27 +50,57 @@ public class AmenityService extends BaseService implements IAmenityService {
 
 	@Override
 	public boolean delete(long amenityId) throws BmsException, BmsSqlException {
-		return amenityDao.delete(amenityId);
+		try {
+			return amenityDao.delete(amenityId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public AmenityData getAmenityById(long amenityId) throws BmsException, BmsSqlException {
-		return amenityDao.getAmenityById(amenityId);
+		try {
+			return amenityDao.getAmenityById(amenityId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
 	public List<AmenityData> getAmenitiesByProviderTypeId(long providerTypeId) throws BmsException, BmsSqlException {
-		return amenityDao.getAmenitiesByProviderTypeId(providerTypeId);
+		try {
+			return amenityDao.getAmenitiesByProviderTypeId(providerTypeId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<AmenityData> getAllAmenities() throws BmsException, BmsSqlException {
-		return amenityDao.getAllAmenities();
+		try {
+			return amenityDao.getAllAmenities();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean isAvailable(long id, String name, long providerTypeId, int type) throws BmsSqlException {
-		return amenityDao.isAvailable(id, name, providerTypeId, type);
+	public boolean isAvailable(long id, String name, long providerTypeId, int type) throws BmsException, BmsSqlException {
+		try {
+			return amenityDao.isAvailable(id, name, providerTypeId, type);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override

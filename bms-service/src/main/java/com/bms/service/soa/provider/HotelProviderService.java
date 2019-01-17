@@ -277,42 +277,54 @@ public class HotelProviderService extends BaseService implements IHotelProviderS
 
 	@Override
 	public List<ProviderData> getAllHotelDatas() throws BmsException, BmsSqlException {	
-		return providerDao.getProviderDatasByProviderTypeId(SetupConstants.PROVIDER_TYPE_HOTEL);
+		try {
+			return providerDao.getProviderDatasByProviderTypeId(SetupConstants.PROVIDER_TYPE_HOTEL);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public ProviderData getHotelDetailInfo(long providerId) throws BmsException, BmsSqlException {
-		ProviderData providerData = providerDao.getProviderDataById(providerId);
-		if (providerData != null) {
-			HotelData hotelData = hotelDao.getHotelDataByProviderId(providerId);
-			if (hotelData != null) {
-				providerData.setHotelData(hotelData);
-			} else {
-				providerData.setHotelData(new HotelData());
+		try {
+			ProviderData providerData = providerDao.getProviderDataById(providerId);
+			if (providerData != null) {
+				HotelData hotelData = hotelDao.getHotelDataByProviderId(providerId);
+				if (hotelData != null) {
+					providerData.setHotelData(hotelData);
+				} else {
+					providerData.setHotelData(new HotelData());
+				}
+				
+				List<EmailAddressData> emailAddressDatas = emailAddressDao.getAllEmailAddressesByProviderId(providerId);
+				if (emailAddressDatas != null && emailAddressDatas.size() > 0) {
+					providerData.setEmailAddressDatas(emailAddressDatas);
+				} else {
+					providerData.setEmailAddressDatas(new ArrayList<>());
+				}
+				
+				List<PhoneNumberData> phoneNumberDatas = phoneNumberDao.getAllPhoneNumbersByProviderId(providerId);
+				if(phoneNumberDatas != null && phoneNumberDatas.size() > 0) {
+					providerData.setPhoneNumberDatas(phoneNumberDatas);
+				} else {
+					providerData.setPhoneNumberDatas(new ArrayList<>());
+				}
+				
+				List<PostalAddressData> postalAddressDatas = postalAddressDao.getAllPostalAddressesByProviderId(providerId);
+				if(postalAddressDatas != null && postalAddressDatas.size() > 0) {
+					providerData.setPostalAddressDatas(postalAddressDatas);
+				} else {
+					providerData.setPostalAddressDatas(new ArrayList<>());
+				}
 			}
-			
-			List<EmailAddressData> emailAddressDatas = emailAddressDao.getAllEmailAddressesByProviderId(providerId);
-			if (emailAddressDatas != null && emailAddressDatas.size() > 0) {
-				providerData.setEmailAddressDatas(emailAddressDatas);
-			} else {
-				providerData.setEmailAddressDatas(new ArrayList<>());
-			}
-			
-			List<PhoneNumberData> phoneNumberDatas = phoneNumberDao.getAllPhoneNumbersByProviderId(providerId);
-			if(phoneNumberDatas != null && phoneNumberDatas.size() > 0) {
-				providerData.setPhoneNumberDatas(phoneNumberDatas);
-			} else {
-				providerData.setPhoneNumberDatas(new ArrayList<>());
-			}
-			
-			List<PostalAddressData> postalAddressDatas = postalAddressDao.getAllPostalAddressesByProviderId(providerId);
-			if(postalAddressDatas != null && postalAddressDatas.size() > 0) {
-				providerData.setPostalAddressDatas(postalAddressDatas);
-			} else {
-				providerData.setPostalAddressDatas(new ArrayList<>());
-			}
+			return providerData;
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
 		}
-		return providerData;
 	}
 
 	@Override

@@ -50,27 +50,57 @@ public class PointOfInterestService extends BaseService implements IPointOfInter
 	
 	@Override
 	public boolean delete(long pointOfInterestId) throws BmsException, BmsSqlException {
-		return pointOfInterestDao.delete(pointOfInterestId);
+		try {
+			return pointOfInterestDao.delete(pointOfInterestId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public PointOfInterestData getPointOfInterestById(long pointOfInterestId) throws BmsException, BmsSqlException {
-		return pointOfInterestDao.getPointOfInterestById(pointOfInterestId);
+		try {
+			return pointOfInterestDao.getPointOfInterestById(pointOfInterestId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
 	public List<PointOfInterestData> getPointOfInterestsByProviderTypeId(long providerTypeId) throws BmsException, BmsSqlException {
-		return pointOfInterestDao.getPointOfInterestsByProviderTypeId(providerTypeId);
+		try {
+			return pointOfInterestDao.getPointOfInterestsByProviderTypeId(providerTypeId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<PointOfInterestData> getAllPointOfInterests() throws BmsException, BmsSqlException {
-		return pointOfInterestDao.getAllPointOfInterests();
+		try {
+			return pointOfInterestDao.getAllPointOfInterests();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean isAvailable(long id, String name, long providerTypeId) throws BmsSqlException {
-		return pointOfInterestDao.isAvailable(id, name, providerTypeId);
+	public boolean isAvailable(long id, String name, long providerTypeId) throws BmsException, BmsSqlException {
+		try {
+			return pointOfInterestDao.isAvailable(id, name, providerTypeId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

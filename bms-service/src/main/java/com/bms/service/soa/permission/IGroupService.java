@@ -19,7 +19,7 @@ public interface IGroupService {
 	
 	List<GroupData> getAllGroups() throws BmsException, BmsSqlException;
 	
-	boolean isAvailable(long id, String name) throws BmsSqlException;
+	boolean isAvailable(long id, String name) throws BmsException, BmsSqlException;
 	
 	IGroupDao getGroupDao();
 

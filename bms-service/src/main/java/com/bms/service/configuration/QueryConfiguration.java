@@ -184,6 +184,20 @@ public class QueryConfiguration {
 		return factoryBean;
 	}
 	
+	@Bean(name = "providerAdminQuery")
+	public PropertiesFactoryBean providerAdminQuery() {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(providerAdminQueryResource);
+		return factoryBean;
+	}
+	
+	@Bean(name = "userDefaultProviderQuery")
+	public PropertiesFactoryBean userDefaultProviderQuery() {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(userDefaultProviderQueryResource);
+		return factoryBean;
+	}
+	
 	@Value("classpath:authenticationQuery.xml")
     private Resource authenticationQueryResource;
 	
@@ -258,5 +272,11 @@ public class QueryConfiguration {
 	
 	@Value("classpath:hotelQuery.xml")
 	private Resource hotelQueryResource;
+	
+	@Value("classpath:providerAdminQuery.xml")
+	private Resource providerAdminQueryResource;
+	
+	@Value("classpath:userDefaultProviderQuery.xml")
+	private Resource userDefaultProviderQueryResource;
 	
 }

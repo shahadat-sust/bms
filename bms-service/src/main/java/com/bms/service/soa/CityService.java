@@ -49,27 +49,57 @@ public class CityService extends BaseService implements ICityService {
 
 	@Override
 	public boolean delete(long cityId) throws BmsException, BmsSqlException {
-		return cityDao.delete(cityId);
+		try {
+			return cityDao.delete(cityId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public CityData getCityById(long cityId) throws BmsException, BmsSqlException {
-		return cityDao.getCityById(cityId);
+		try {
+			return cityDao.getCityById(cityId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
 	public List<CityData> getCitiesByCountryId(long countryId) throws BmsException, BmsSqlException {
-		return cityDao.getCitiesByCountryId(countryId);
+		try {
+			return cityDao.getCitiesByCountryId(countryId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
 	public List<CityData> getCitiesByStateId(long stateId) throws BmsException, BmsSqlException {
-		return cityDao.getCitiesByStateId(stateId);
+		try {
+			return cityDao.getCitiesByStateId(stateId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<CityData> getAllCities() throws BmsException, BmsSqlException {
-		return cityDao.getAllCities();
+		try {
+			return cityDao.getAllCities();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

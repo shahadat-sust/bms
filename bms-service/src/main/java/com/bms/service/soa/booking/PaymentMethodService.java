@@ -50,22 +50,46 @@ public class PaymentMethodService extends BaseService implements IPaymentMethodS
 
 	@Override
 	public boolean delete(long paymentMethodId) throws BmsException, BmsSqlException {
-		return paymentMethodDao.delete(paymentMethodId);
+		try {
+			return paymentMethodDao.delete(paymentMethodId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public PaymentMethodData getPaymentMethodById(long paymentMethodId) throws BmsException, BmsSqlException {
-		return paymentMethodDao.getPaymentMethodById(paymentMethodId);
+		try {
+			return paymentMethodDao.getPaymentMethodById(paymentMethodId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<PaymentMethodData> getAllPaymentMethods() throws BmsException, BmsSqlException {
-		return paymentMethodDao.getAllPaymentMethods();
+		try {
+			return paymentMethodDao.getAllPaymentMethods();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean isAvailable(long id, String name) throws BmsSqlException {
-		return paymentMethodDao.isAvailable(id, name);
+	public boolean isAvailable(long id, String name) throws BmsException, BmsSqlException {
+		try {
+			return paymentMethodDao.isAvailable(id, name);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override

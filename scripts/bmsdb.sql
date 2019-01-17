@@ -114,7 +114,7 @@ CREATE TABLE `UserDevice` (
   KEY `FK_UserDevice_UpdatedBy_idx` (`UpdatedBy`),
   CONSTRAINT `FK_UserDevice_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `UserDevice` (`Id`),
   CONSTRAINT `FK_UserDevice_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `UserDevice` (`Id`),
-  CONSTRAINT `FK_UserDevice_UserID` FOREIGN KEY (`UserId`) REFERENCES `user` (`ID`)
+  CONSTRAINT `FK_UserDevice_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ---------------------------------------------------------------------------------------------------------------
@@ -201,15 +201,15 @@ CREATE TABLE `UserGroup` (
   `UpdatedBy` bigint(20) NOT NULL,
   `UpdatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `UK_UserGroup_UserID_GroupID` (`UserId`,`GroupId`),
+  UNIQUE KEY `UK_UserGroup_UserId_GroupId` (`UserId`,`GroupId`),
   KEY `FK_UserGroup_UserId` (`UserId`),
   KEY `FK_UserGroup_GroupId_idx` (`GroupId`),
   KEY `FK_UserGroup_CreatedBy_idx` (`CreatedBy`),
   KEY `FK_UserGroup_UpdatedBy_idx` (`UpdatedBy`),
   CONSTRAINT `FK_UserGroup_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `UserGroup` (`Id`),
-  CONSTRAINT `FK_UserGroup_GroupID` FOREIGN KEY (`GroupId`) REFERENCES `group` (`ID`),
+  CONSTRAINT `FK_UserGroup_GroupId` FOREIGN KEY (`GroupId`) REFERENCES `group` (`Id`),
   CONSTRAINT `FK_UserGroup_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `UserGroup` (`Id`),
-  CONSTRAINT `FK_UserGroup_UserID` FOREIGN KEY (`UserId`) REFERENCES `user` (`ID`)
+  CONSTRAINT `FK_UserGroup_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ---------------------------------------------------------------------------------------------------------------
@@ -233,9 +233,9 @@ CREATE TABLE `UserRole` (
   KEY `FK_UserRole_CreatedBy_idx` (`CreatedBy`),
   KEY `FK_UserRole_UpdatedBy_idx` (`UpdatedBy`),
   CONSTRAINT `FK_UserRole_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `UserRole` (`Id`),
-  CONSTRAINT `FK_UserRole_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `role` (`ID`),
+  CONSTRAINT `FK_UserRole_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `role` (`Id`),
   CONSTRAINT `FK_UserRole_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `UserRole` (`Id`),
-  CONSTRAINT `FK_UserRole_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`ID`)
+  CONSTRAINT `FK_UserRole_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ---------------------------------------------------------------------------------------------------------------
@@ -254,15 +254,15 @@ CREATE TABLE `UserPolicy` (
   `UpdatedBy` bigint(20) NOT NULL,
   `UpdatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `UK_UserPolicy_UserID_PolicyID` (`UserId`,`PolicyId`),
+  UNIQUE KEY `UK_UserPolicy_UserId_PolicyId` (`UserId`,`PolicyId`),
   KEY `FK_UserPolicy_UserId_idx` (`UserId`),
   KEY `FK_UserPolicy_PolicyId_idx` (`PolicyId`),
   KEY `FK_UserPolicy_CreatedBy_idx` (`CreatedBy`),
   KEY `FK_UserPolicy_UpdatedBy_idx` (`UpdatedBy`),
   CONSTRAINT `FK_UserPolicy_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `UserPolicy` (`Id`),
-  CONSTRAINT `FK_UserPolicy_PolicyID` FOREIGN KEY (`PolicyId`) REFERENCES `policy` (`ID`),
+  CONSTRAINT `FK_UserPolicy_PolicyId` FOREIGN KEY (`PolicyId`) REFERENCES `policy` (`Id`),
   CONSTRAINT `FK_UserPolicy_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `UserPolicy` (`Id`),
-  CONSTRAINT `FK_UserPolicy_UserID` FOREIGN KEY (`UserId`) REFERENCES `user` (`ID`)
+  CONSTRAINT `FK_UserPolicy_UserId` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ---------------------------------------------------------------------------------------------------------------
@@ -281,14 +281,14 @@ CREATE TABLE `GroupPolicy` (
   `UpdatedBy` bigint(20) NOT NULL,
   `UpdatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `UK_GroupPolicy_GroupID_PolicyID` (`GroupId`,`PolicyId`),
-  KEY `FK_GroupPolicy_GroupID_idx` (`GroupId`),
-  KEY `FK_GroupPolicy_PolicyID_idx` (`PolicyId`),
+  UNIQUE KEY `UK_GroupPolicy_GroupId_PolicyId` (`GroupId`,`PolicyId`),
+  KEY `FK_GroupPolicy_GroupId_idx` (`GroupId`),
+  KEY `FK_GroupPolicy_PolicyId_idx` (`PolicyId`),
   KEY `FK_GroupPolicy_CreatedBy_idx` (`CreatedBy`),
   KEY `FK_GroupPolicy_UpdatedBy_idx` (`UpdatedBy`),
   CONSTRAINT `FK_GroupPolicy_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
-  CONSTRAINT `FK_GroupPolicy_GroupID` FOREIGN KEY (`GroupId`) REFERENCES `group` (`ID`),
-  CONSTRAINT `FK_GroupPolicy_PolicyID` FOREIGN KEY (`PolicyId`) REFERENCES `policy` (`ID`),
+  CONSTRAINT `FK_GroupPolicy_GroupId` FOREIGN KEY (`GroupId`) REFERENCES `group` (`Id`),
+  CONSTRAINT `FK_GroupPolicy_PolicyId` FOREIGN KEY (`PolicyId`) REFERENCES `policy` (`Id`),
   CONSTRAINT `FK_GroupPolicy_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -308,14 +308,14 @@ CREATE TABLE `RolePolicy` (
   `UpdatedBy` bigint(20) NOT NULL,
   `UpdatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `UK_RolePolicy_RoleID_PolicyID` (`RoleId`,`PolicyId`),
-  KEY `FK_RolePolicy_RoleID_idx` (`RoleId`),
-  KEY `FK_RolePolicy_PolicyID_idx` (`PolicyId`),
+  UNIQUE KEY `UK_RolePolicy_RoleId_PolicyId` (`RoleId`,`PolicyId`),
+  KEY `FK_RolePolicy_RoleId_idx` (`RoleId`),
+  KEY `FK_RolePolicy_PolicyId_idx` (`PolicyId`),
   KEY `FK_RolePolicy_CreatedBy_idx` (`CreatedBy`),
   KEY `FK_RolePolicy_UpdatedBy_idx` (`UpdatedBy`),
   CONSTRAINT `FK_RolePolicy_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
-  CONSTRAINT `FK_RolePolicy_PolicyID` FOREIGN KEY (`PolicyId`) REFERENCES `policy` (`ID`),
-  CONSTRAINT `FK_RolePolicy_RoleID` FOREIGN KEY (`RoleId`) REFERENCES `role` (`ID`),
+  CONSTRAINT `FK_RolePolicy_PolicyId` FOREIGN KEY (`PolicyId`) REFERENCES `policy` (`Id`),
+  CONSTRAINT `FK_RolePolicy_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `role` (`Id`),
   CONSTRAINT `FK_RolePolicy_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -605,8 +605,8 @@ CREATE TABLE `Provider` (
   `Title` varchar(100) CHARACTER SET latin1 NOT NULL,
   `ProviderTypeId` bigint(20) NOT NULL,
   `Specification` varchar(250) DEFAULT NULL,
-  `IsActive` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0 = Inactive, 1 = Active',
-  `Status` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '0 = Not Exist, 1 = Exist',
+  `IsActive` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0 = Inactive, 1 = Active',
+  `Status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0 = Not Exist, 1 = Exist',
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
   `CreatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
@@ -630,6 +630,7 @@ CREATE TABLE `ProviderAdmin` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `ProviderId` bigint(20) NOT NULL,
   `UserId` bigint(20) NOT NULL,
+  `IsAssigned` tinyint(1) NOT NULL DEFAULT 1,
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
   `CreatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
@@ -644,7 +645,33 @@ CREATE TABLE `ProviderAdmin` (
   CONSTRAINT `FK_ProviderAdmin_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
   CONSTRAINT `FK_ProviderAdmin_ProviderId` FOREIGN KEY (`ProviderId`) REFERENCES `Provider` (`Id`),
   CONSTRAINT `FK_ProviderAdmin_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`),
-  CONSTRAINT `FK_ProviderAdmin_UserId` FOREIGN KEY (`UserId`) REFERENCES `User` (`ID`)
+  CONSTRAINT `FK_ProviderAdmin_UserId` FOREIGN KEY (`UserId`) REFERENCES `User` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ---------------------------------------------------------------------------------------------------------------
+-- Create table `ProviderAdmin`
+-- ---------------------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `UserDefaultProvider`;
+CREATE TABLE `UserDefaultProvider` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `UserId` bigint(20) NOT NULL,
+  `ProviderId` bigint(20) NOT NULL,
+  `Remarks` varchar(150) NULL,
+  `CreatedBy` bigint(20) NOT NULL,
+  `CreatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
+  `UpdatedBy` bigint(20) NOT NULL,
+  `UpdatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `UK_UserDefaultProvider_UserId` (`UserId`),
+  KEY `FK_UserDefaultProvider_ProviderId_idx` (`ProviderId`),
+  KEY `FK_UserDefaultProvider_CreatedBy_idx` (`CreatedBy`),
+  KEY `FK_UserDefaultProvider_UpdatedBy_idx` (`UpdatedBy`),
+  KEY `FK_UserDefaultProvider_UserId_idx` (`UserId`),
+  CONSTRAINT `FK_UserDefaultProvider_UserId` FOREIGN KEY (`UserId`) REFERENCES `User` (`Id`) ,
+  CONSTRAINT `FK_UserDefaultProvider_ProviderId` FOREIGN KEY (`ProviderId`) REFERENCES `Provider` (`Id`) ,
+  CONSTRAINT `FK_UserDefaultProvider_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
+  CONSTRAINT `FK_UserDefaultProvider_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ---------------------------------------------------------------------------------------------------------------
@@ -678,7 +705,7 @@ CREATE TABLE `ProviderPointOfInterest` (
 
 DROP TABLE IF EXISTS `ItemType`;
 CREATE TABLE `ItemType` (
-  `Id` bigint(20) NOT NULL,
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) CHARACTER SET latin1 NOT NULL,
   `ProviderId` bigint(20) NOT NULL,
   `IsActive` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0 = Inactive, 1 = Active',
@@ -989,11 +1016,11 @@ CREATE TABLE `ItemBooking` (
   KEY `FK_ItemBooking_BookingStatusId_idx` (`BookingStatusId`),
   KEY `FK_ItemBooking_CreatedBy_idx` (`CreatedBy`),
   KEY `FK_ItemBooking_UpdatedBy_idx` (`UpdatedBy`),
-  CONSTRAINT `FK_ItemBooking_BookedBy` FOREIGN KEY (`BookedBy`) REFERENCES `User` (`ID`),
+  CONSTRAINT `FK_ItemBooking_BookedBy` FOREIGN KEY (`BookedBy`) REFERENCES `User` (`Id`),
   CONSTRAINT `FK_ItemBooking_BookingStatusId` FOREIGN KEY (`BookingStatusId`) REFERENCES `BookingStatus` (`Id`),
   CONSTRAINT `FK_ItemBooking_BookingTypeId` FOREIGN KEY (`BookingTypeId`) REFERENCES `BookingType` (`Id`),
   CONSTRAINT `FK_ItemBooking_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
-  CONSTRAINT `FK_ItemBooking_CustomerId` FOREIGN KEY (`CustomerId`) REFERENCES `User` (`ID`),
+  CONSTRAINT `FK_ItemBooking_CustomerId` FOREIGN KEY (`CustomerId`) REFERENCES `User` (`Id`),
   CONSTRAINT `FK_ItemBooking_ProviderId` FOREIGN KEY (`ProviderId`) REFERENCES `Provider` (`Id`),
   CONSTRAINT `FK_ItemBooking_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -50,22 +50,46 @@ public class PolicyService extends BaseService implements IPolicyService {
 
 	@Override
 	public boolean delete(long policyId) throws BmsException, BmsSqlException {
-		return policyDao.delete(policyId);
+		try {
+			return policyDao.delete(policyId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public PolicyData getPolicyById(long policyId) throws BmsException, BmsSqlException {
-		return policyDao.getPolicyById(policyId);
+		try {
+			return policyDao.getPolicyById(policyId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<PolicyData> getAllPolicies() throws BmsException, BmsSqlException {
-		return policyDao.getAllPolicies();
+		try {
+			return policyDao.getAllPolicies();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean isAvailable(long id, String code) throws BmsSqlException {
-		return policyDao.isAvailable(id, code);
+	public boolean isAvailable(long id, String code) throws BmsException, BmsSqlException {
+		try {
+			return policyDao.isAvailable(id, code);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override

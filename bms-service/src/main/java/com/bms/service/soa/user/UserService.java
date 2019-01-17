@@ -293,98 +293,134 @@ public class UserService extends BaseService implements IUserService {
 	
 	@Override
 	public List<UserData> getAllUserDatas() throws BmsException, BmsSqlException {
-		return userDao.getAllUserDatas();
+		try {
+			return userDao.getAllUserDatas();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
 	public UserData getUserDetailInfo(long userId) throws BmsException, BmsSqlException {
-		UserData userData = userDao.getUserDataById(userId);
-		if(userData != null) {
-			UserProfileData userProfileData = userProfileDao.getUserProfileDataByUserId(userId);
-			if(userProfileData != null) {
-				userData.setUserProfileData(userProfileData);
-			} else {
-				userData.setUserProfileData(new UserProfileData());
+		try {
+			UserData userData = userDao.getUserDataById(userId);
+			if(userData != null) {
+				UserProfileData userProfileData = userProfileDao.getUserProfileDataByUserId(userId);
+				if(userProfileData != null) {
+					userData.setUserProfileData(userProfileData);
+				} else {
+					userData.setUserProfileData(new UserProfileData());
+				}
+				
+				List<UserSocialAccountData> userSocialAccountDatas = userSocialAccountDao.getAllUserSocialAccountsByUserId(userId);
+				if(userSocialAccountDatas != null && userSocialAccountDatas.size() > 0) {
+					userData.setUserSocialAccountDatas(userSocialAccountDatas);
+				} else {
+					userData.setUserSocialAccountDatas(new ArrayList<>());
+				}
+				
+				List<UserCardData> userCardDatas = userCardDao.getAllUserCardsByUserId(userId);
+				if(userCardDatas != null && userCardDatas.size() > 0) {
+					userData.setUserCardDatas(userCardDatas);
+				} else {
+					userData.setUserCardDatas(new ArrayList<>());
+				}
+				
+				List<EmailAddressData> emailAddressDatas = emailAddressDao.getAllEmailAddressesByUserId(userId);
+				if(emailAddressDatas != null && emailAddressDatas.size() > 0) {
+					userData.setEmailAddressDatas(emailAddressDatas);
+				} else {
+					userData.setEmailAddressDatas(new ArrayList<>());
+				}
+				
+				List<PhoneNumberData> phoneNumberDatas = phoneNumberDao.getAllPhoneNumbersByUserId(userId);
+				if(phoneNumberDatas != null && phoneNumberDatas.size() > 0) {
+					userData.setPhoneNumberDatas(phoneNumberDatas);
+				} else {
+					userData.setPhoneNumberDatas(new ArrayList<>());
+				}
+				
+				List<PostalAddressData> postalAddressDatas = postalAddressDao.getAllPostalAddressesByUserId(userId);
+				if(postalAddressDatas != null && postalAddressDatas.size() > 0) {
+					userData.setPostalAddressDatas(postalAddressDatas);
+				} else {
+					userData.setPostalAddressDatas(new ArrayList<>());
+				}
 			}
-			
-			List<UserSocialAccountData> userSocialAccountDatas = userSocialAccountDao.getAllUserSocialAccountsByUserId(userId);
-			if(userSocialAccountDatas != null && userSocialAccountDatas.size() > 0) {
-				userData.setUserSocialAccountDatas(userSocialAccountDatas);
-			} else {
-				userData.setUserSocialAccountDatas(new ArrayList<>());
-			}
-			
-			List<UserCardData> userCardDatas = userCardDao.getAllUserCardsByUserId(userId);
-			if(userCardDatas != null && userCardDatas.size() > 0) {
-				userData.setUserCardDatas(userCardDatas);
-			} else {
-				userData.setUserCardDatas(new ArrayList<>());
-			}
-			
-			List<EmailAddressData> emailAddressDatas = emailAddressDao.getAllEmailAddressesByUserId(userId);
-			if(emailAddressDatas != null && emailAddressDatas.size() > 0) {
-				userData.setEmailAddressDatas(emailAddressDatas);
-			} else {
-				userData.setEmailAddressDatas(new ArrayList<>());
-			}
-			
-			List<PhoneNumberData> phoneNumberDatas = phoneNumberDao.getAllPhoneNumbersByUserId(userId);
-			if(phoneNumberDatas != null && phoneNumberDatas.size() > 0) {
-				userData.setPhoneNumberDatas(phoneNumberDatas);
-			} else {
-				userData.setPhoneNumberDatas(new ArrayList<>());
-			}
-			
-			List<PostalAddressData> postalAddressDatas = postalAddressDao.getAllPostalAddressesByUserId(userId);
-			if(postalAddressDatas != null && postalAddressDatas.size() > 0) {
-				userData.setPostalAddressDatas(postalAddressDatas);
-			} else {
-				userData.setPostalAddressDatas(new ArrayList<>());
-			}
+			return userData;
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
 		}
-		return userData;
 	}
 	
 	@Override
 	public void updateUserDeviceLastUsedTime(long userID, String deviceToken, int platform, String deviceName, String imeiNumber, long loginUserId) throws BmsException, BmsSqlException {
-		Date currDate = new Date(System.currentTimeMillis());
-		UserDeviceData userDeviceData = userDeviceDao.getUserDevice(userID, deviceToken, platform);
-		if(userDeviceData != null) {
-			userDeviceData.setName(deviceName);
-			userDeviceData.setImeiNumber(imeiNumber);
-			userDeviceData.setLastUsedTime(currDate);
-			userDeviceData.setUpdatedBy(loginUserId);
-			userDeviceData.setUpdatedOn(currDate);
-			userDeviceDao.update(userDeviceData);
-		} else {
-			userDeviceData = new UserDeviceData();
-			userDeviceData.setUserId(userID);
-			userDeviceData.setName(deviceName);
-			userDeviceData.setToken(deviceToken);
-			userDeviceData.setPlatform(platform);
-			userDeviceData.setImeiNumber(imeiNumber);
-			userDeviceData.setFirstUsedTime(currDate);
-			userDeviceData.setLastUsedTime(currDate);
-			userDeviceData.setCreatedBy(loginUserId);
-			userDeviceData.setCreatedOn(currDate);
-			userDeviceData.setUpdatedBy(loginUserId);
-			userDeviceData.setUpdatedOn(currDate);
-			userDeviceDao.create(userDeviceData);
+		try {
+			Date currDate = new Date(System.currentTimeMillis());
+			UserDeviceData userDeviceData = userDeviceDao.getUserDevice(userID, deviceToken, platform);
+			if(userDeviceData != null) {
+				userDeviceData.setName(deviceName);
+				userDeviceData.setImeiNumber(imeiNumber);
+				userDeviceData.setLastUsedTime(currDate);
+				userDeviceData.setUpdatedBy(loginUserId);
+				userDeviceData.setUpdatedOn(currDate);
+				userDeviceDao.update(userDeviceData);
+			} else {
+				userDeviceData = new UserDeviceData();
+				userDeviceData.setUserId(userID);
+				userDeviceData.setName(deviceName);
+				userDeviceData.setToken(deviceToken);
+				userDeviceData.setPlatform(platform);
+				userDeviceData.setImeiNumber(imeiNumber);
+				userDeviceData.setFirstUsedTime(currDate);
+				userDeviceData.setLastUsedTime(currDate);
+				userDeviceData.setCreatedBy(loginUserId);
+				userDeviceData.setCreatedOn(currDate);
+				userDeviceData.setUpdatedBy(loginUserId);
+				userDeviceData.setUpdatedOn(currDate);
+				userDeviceDao.create(userDeviceData);
+			}
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
 		}
 	}
 
 	public boolean isUsernameAvailable(long userId, String username) throws BmsException, BmsSqlException {
-		return userDao.isUsernameAvailable(userId, username);
+		try {
+			return userDao.isUsernameAvailable(userId, username);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
 	public boolean isPhoneNumberAvailableForUser(long userId, String code, String number) throws BmsException, BmsSqlException {
-		return phoneNumberDao.isPhoneNumberAvailableForUser(userId, code, number);
+		try {
+			return phoneNumberDao.isPhoneNumberAvailableForUser(userId, code, number);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public boolean isEmailAvailableForUser(long userId, String email) throws BmsException, BmsSqlException {
-		return emailAddressDao.isEmailAvailableForUser(userId, email);
+		try {
+			return emailAddressDao.isEmailAvailableForUser(userId, email);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override

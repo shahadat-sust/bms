@@ -19,7 +19,7 @@ public interface IPaymentTypeService {
 	
 	List<PaymentTypeData> getAllPaymentTypes() throws BmsException, BmsSqlException;
 	
-	boolean isAvailable(long id, String name) throws BmsSqlException;
+	boolean isAvailable(long id, String name) throws BmsException, BmsSqlException;
 	
 	IPaymentTypeDao getPaymentTypeDao();
 

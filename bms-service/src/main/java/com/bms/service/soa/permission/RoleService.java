@@ -50,22 +50,46 @@ public class RoleService extends BaseService implements IRoleService {
 
 	@Override
 	public boolean delete(long roleId) throws BmsException, BmsSqlException {
-		return roleDao.delete(roleId);
+		try {
+			return roleDao.delete(roleId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public RoleData getRoleById(long roleId) throws BmsException, BmsSqlException {
-		return roleDao.getRoleById(roleId);
+		try {
+			return roleDao.getRoleById(roleId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<RoleData> getAllRoles() throws BmsException, BmsSqlException {
-		return roleDao.getAllRoles();
+		try {
+			return roleDao.getAllRoles();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean isAvailable(long id, String name) throws BmsSqlException {
-		return roleDao.isAvailable(id, name);
+	public boolean isAvailable(long id, String name) throws BmsException, BmsSqlException {
+		try {
+			return roleDao.isAvailable(id, name);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override

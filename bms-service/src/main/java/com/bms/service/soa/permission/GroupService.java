@@ -50,22 +50,46 @@ public class GroupService extends BaseService implements IGroupService {
 
 	@Override
 	public boolean delete(long groupId) throws BmsException, BmsSqlException {
-		return groupDao.delete(groupId);
+		try {
+			return groupDao.delete(groupId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public GroupData getGroupById(long groupId) throws BmsException, BmsSqlException {
-		return groupDao.getGroupById(groupId);
+		try {
+			return groupDao.getGroupById(groupId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<GroupData> getAllGroups() throws BmsException, BmsSqlException {
-		return groupDao.getAllGroups();
+		try {
+			return groupDao.getAllGroups();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
-	public boolean isAvailable(long id, String name) throws BmsSqlException {
-		return groupDao.isAvailable(id, name);
+	public boolean isAvailable(long id, String name) throws BmsException, BmsSqlException {
+		try {
+			return groupDao.isAvailable(id, name);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override

@@ -50,22 +50,46 @@ public class BookingStatusService extends BaseService implements IBookingStatusS
 
 	@Override
 	public boolean delete(long bookingStatusId) throws BmsException, BmsSqlException {
-		return bookingStatusDao.delete(bookingStatusId);
+		try {
+			return bookingStatusDao.delete(bookingStatusId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public BookingStatusData getBookingStatusById(long bookingStatusId) throws BmsException, BmsSqlException {
-		return bookingStatusDao.getBookingStatusById(bookingStatusId);
+		try {
+			return bookingStatusDao.getBookingStatusById(bookingStatusId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<BookingStatusData> getAllBookingStatuses() throws BmsException, BmsSqlException {
-		return bookingStatusDao.getAllBookingStatuses();
+		try {
+			return bookingStatusDao.getAllBookingStatuses();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean isAvailable(long id, String name) throws BmsSqlException {
-		return bookingStatusDao.isAvailable(id, name);
+	public boolean isAvailable(long id, String name) throws BmsException, BmsSqlException {
+		try {
+			return bookingStatusDao.isAvailable(id, name);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override

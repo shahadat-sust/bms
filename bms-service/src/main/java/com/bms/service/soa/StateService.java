@@ -49,27 +49,57 @@ public class StateService extends BaseService implements IStateService {
 
 	@Override
 	public boolean delete(long stateId) throws BmsException, BmsSqlException {
-		return stateDao.delete(stateId);
+		try {
+			return stateDao.delete(stateId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public StateData getStateById(long stateId) throws BmsException, BmsSqlException {
-		return stateDao.getStateById(stateId);
+		try {
+			return stateDao.getStateById(stateId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
 	public List<StateData> getStatesByCountryId(long countryId) throws BmsException, BmsSqlException {
-		return stateDao.getStatesByCountryId(countryId);
+		try {
+			return stateDao.getStatesByCountryId(countryId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
 	public List<StateData> getAllStates() throws BmsException, BmsSqlException {
-		return stateDao.getAllStates();
+		try {
+			return stateDao.getAllStates();
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 
 	@Override
-	public boolean isAvailable(long id, String name, long countryId) throws BmsSqlException {
-		return stateDao.isAvailable(id, name, countryId);
+	public boolean isAvailable(long id, String name, long countryId) throws  BmsException, BmsSqlException {
+		try {
+			return stateDao.isAvailable(id, name, countryId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
 	}
 	
 	@Override
