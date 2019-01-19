@@ -1,5 +1,7 @@
 package com.bms.admin.controller.setup;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
+import com.bms.common.Constants;
+import com.bms.common.util.StringUtils;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.CountryData;
 import com.bms.service.soa.ICountryService;
@@ -39,15 +43,35 @@ public class CountryController extends BaseController {
 		return "setup/country";
 	}
 	
-	@RequestMapping(value = "/fetch/{countryId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CountryData> getCountryList(@PathVariable long countryId) {
+	@RequestMapping(value = "/fetch/{countryId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<CountryData> getCountryList(@PathVariable long countryId, @PathVariable int sortOrder) {
 		ResponseModel<CountryData> responseModel = new ResponseModel<CountryData>();
 		try {
 			if(countryId > 0) {
 				CountryData countryData = countryService.getCountryById(countryId);
+				responseModel.setStatus(true);
 				responseModel.addData(countryData);
 			} else {
 				List<CountryData> countryList = countryService.getAllCountries();
+				if (countryList != null && countryList.size() > 0) {
+					if (sortOrder == Constants.SORT_ORDER_ASC) {
+						Collections.sort(countryList, new Comparator<CountryData>() {
+							@Override
+							public int compare(CountryData o1, CountryData o2) {
+								return o1.getName().compareTo(o2.getName());
+							}
+						});
+					} else if (sortOrder == Constants.SORT_ORDER_DESC) {
+						Collections.sort(countryList, new Comparator<CountryData>() {
+							@Override
+							public int compare(CountryData o1, CountryData o2) {
+								return o2.getName().compareTo(o1.getName());
+							}
+						});
+					}
+				}
+				
+				responseModel.setStatus(true);
 				responseModel.addDatas(countryList);
 			}
 		} catch (Exception e) {

@@ -39,6 +39,9 @@ public class Constants {
 	public static final int AMENITY_COMMON = 0;
 	public static final int AMENITY_ADITIONAL = 1;
 	
+	public static final int SORT_ORDER_ASC = 1;
+	public static final int SORT_ORDER_DESC = 2;
+	
 	public static final String DIR_UPLOADED_FILES = "uploadDirectory";
 	public static final String FOLDER_PROFILE_IMAGE = "ProfileImage";
 	public static final String FOLDER_COVER_IMAGE = "CoverImage";

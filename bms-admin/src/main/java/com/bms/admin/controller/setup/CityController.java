@@ -24,8 +24,10 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.LabelValueModel;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
+import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.CountryData;
+import com.bms.service.data.StateData;
 import com.bms.service.data.CityData;
 import com.bms.service.soa.ICityService;
 import com.bms.service.soa.ICountryService;
@@ -66,21 +68,42 @@ public class CityController extends BaseController {
 		return "setup/city";
 	}
 	
-	@RequestMapping(value = "/fetch/{cityId}/{stateId}/{countryId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<CityData> getCityList(@PathVariable long cityId, @PathVariable long stateId, @PathVariable long countryId) {
+	@RequestMapping(value = "/fetch/{cityId}/{stateId}/{countryId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<CityData> getCityList(@PathVariable long cityId, @PathVariable long stateId, @PathVariable long countryId, @PathVariable int sortOrder) {
 		ResponseModel<CityData> responseModel = new ResponseModel<CityData>();
 		try {
 			if(cityId > 0) {
 				CityData cityData = cityService.getCityById(cityId);
 				responseModel.addData(cityData);
-			} else if(stateId > 0) {
-				List<CityData> cityList = cityService.getCitiesByStateId(stateId);
-				responseModel.addDatas(cityList);
-			} else if(countryId > 0) {
-				List<CityData> cityList = cityService.getCitiesByCountryId(countryId);
-				responseModel.addDatas(cityList);
-			} else {
-				List<CityData> cityList = cityService.getAllCities();
+			} else { 
+				List<CityData> cityList = null;
+				if(stateId > 0) {
+					cityList = cityService.getCitiesByStateId(stateId);
+				} else if(countryId > 0) {
+					cityList = cityService.getCitiesByCountryId(countryId);
+				} else {
+					cityList = cityService.getAllCities();
+					
+				}
+				
+				if (cityList != null && cityList.size() > 0) {
+					if (sortOrder == Constants.SORT_ORDER_ASC) {
+						Collections.sort(cityList, new Comparator<CityData>() {
+							@Override
+							public int compare(CityData o1, CityData o2) {
+								return o1.getName().compareTo(o2.getName());
+							}
+						});
+					} else if (sortOrder == Constants.SORT_ORDER_DESC) {
+						Collections.sort(cityList, new Comparator<CityData>() {
+							@Override
+							public int compare(CityData o1, CityData o2) {
+								return o2.getName().compareTo(o1.getName());
+							}
+						});
+					}
+				}
+				
 				responseModel.addDatas(cityList);
 			}
 			responseModel.setStatus(true);

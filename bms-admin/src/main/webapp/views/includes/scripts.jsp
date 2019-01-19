@@ -32,5 +32,6 @@
 <script src="<c:url value="/resources/js/plugins/jquery-validation/jquery.validate.min.js"/>"></script> 
 <script src="<c:url value="/resources/js/plugins/jquery-loader/jquery.loader.js"/>"></script> 
 <script src="<c:url value="/resources/js/plugins/sweetalert2/sweetalert2.min.js"/>"></script>
+<script src="<c:url value="/resources/js/plugins/raty-js/jquery.raty.js"/>"></script>
 <script src="<c:url value="/resources/js/plugins/bootstrap-notify/bootstrap-notify.min.js"/>"></script>
 <script src="<c:url value="/resources/js/custom/utils.js"/>"></script>

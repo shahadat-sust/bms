@@ -24,6 +24,7 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.LabelValueModel;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
+import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.CountryData;
 import com.bms.service.data.StateData;
@@ -66,18 +67,39 @@ public class StateController extends BaseController {
 		return "setup/state";
 	}
 	
-	@RequestMapping(value = "/fetch/{stateId}/{countryId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<StateData> getStateList(@PathVariable long stateId, @PathVariable long countryId) {
+	@RequestMapping(value = "/fetch/{stateId}/{countryId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<StateData> getStateList(@PathVariable long stateId, @PathVariable long countryId, @PathVariable int sortOrder) {
 		ResponseModel<StateData> responseModel = new ResponseModel<StateData>();
 		try {
 			if(stateId > 0) {
 				StateData stateData = stateService.getStateById(stateId);
 				responseModel.addData(stateData);
-			} else if(countryId > 0) {
-				List<StateData> stateList = stateService.getStatesByCountryId(countryId);
-				responseModel.addDatas(stateList);
-			} else {
-				List<StateData> stateList = stateService.getAllStates();
+			} else { 
+				List<StateData> stateList = null;
+				if(countryId > 0) {
+					stateList = stateService.getStatesByCountryId(countryId);
+				} else {
+					stateList = stateService.getAllStates();
+				}
+				
+				if (stateList != null && stateList.size() > 0) {
+					if (sortOrder == Constants.SORT_ORDER_ASC) {
+						Collections.sort(stateList, new Comparator<StateData>() {
+							@Override
+							public int compare(StateData o1, StateData o2) {
+								return o1.getName().compareTo(o2.getName());
+							}
+						});
+					} else if (sortOrder == Constants.SORT_ORDER_DESC) {
+						Collections.sort(stateList, new Comparator<StateData>() {
+							@Override
+							public int compare(StateData o1, StateData o2) {
+								return o2.getName().compareTo(o1.getName());
+							}
+						});
+					}
+				}
+				
 				responseModel.addDatas(stateList);
 			}
 			responseModel.setStatus(true);

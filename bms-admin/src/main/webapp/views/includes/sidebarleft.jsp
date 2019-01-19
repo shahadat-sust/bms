@@ -170,6 +170,11 @@
                             <span class="nav-main-link-name">Hotel List</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/hoteladmin"/>">
+                            <span class="nav-main-link-name">Hotel Admin</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-main-item">

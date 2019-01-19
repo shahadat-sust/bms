@@ -13,4 +13,6 @@
 <!-- Page JS Plugins CSS -->
 <link rel="stylesheet" href="<c:url value="/resources/js/plugins/sweetalert2/sweetalert2.min.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/js/plugins/jquery-loader/jquery.loader.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/js/plugins/raty-js/jquery.raty.css"/>" />
+<link rel="stylesheet" href="<c:url value="/resources/css/intlTelInput.css"/>"></link>
 <!-- END Stylesheets -->

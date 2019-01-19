@@ -16,8 +16,6 @@
         
         <link rel="stylesheet" href="<c:url value="/resources/js/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css"/>" />
         <link rel="stylesheet" href="<c:url value="/resources/js/plugins/bootstrap-clockpicker/bootstrap-clockpicker.min.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/resources/js/plugins/raty-js/jquery.raty.css"/>" />
-        <link rel="stylesheet" href="<c:url value="/resources/css/intlTelInput.css"/>"></link>
     </head>
     <body> 
         <%@include file="../includes/header.jsp" %>
@@ -158,9 +156,9 @@
                                          <!-- <div class="form-group clockpicker">
 										    <input type="text" class="form-control" value="09:30">
 										 </div> -->
-                                          <div class="form-starRating">
+                                          <div class="form-group">
                                               <label for="val-starRating">Star Rating </label>
-                                              <div class="rating" data-score="${hotelForm.hotelData.starRating}"></div>
+                                              <div class="rating form-control" data-score="${hotelForm.hotelData.starRating}"></div>
                                           </div>
                                      </div>
                                  </div>
@@ -185,7 +183,7 @@
                                              </c:if>
                                          </div>
                                          <div class="form-group">
-											<label for="val-email">Phone Number <span class="text-danger">*</span></label>
+											<label for="val-phoneNumber">Phone Number <span class="text-danger">*</span></label>
 											<div class="input-group">
 												<span class="input-group-btn">
 													<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -313,13 +311,12 @@
         
         <script src="<c:url value="/resources/js/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"/>"></script>
         <script src="<c:url value="/resources/js/plugins/bootstrap-clockpicker/bootstrap-clockpicker.min.js"/>"></script>
-        <script src="<c:url value="/resources/js/plugins/raty-js/jquery.raty.js"/>"></script>
         <script src="<c:url value="/resources/js/custom/hotel/hotelmodify.js"/>"></script>
         <script>
 	        hotelmodify.isEditMode = ${isEditMode};
 	        hotelmodify.countryCode = "${phoneNumberDatas[0].code}";
-	        hotelmodify.fetchStateListUrl = '<c:url value="/state/fetch/0/{#countryId}" />'
-        	hotelmodify.fetchCityListUrl = '<c:url value="/city/fetch/0/{#stateId}/0" />'
+	        hotelmodify.fetchStateListUrl = '<c:url value="/state/fetch/0/{#countryId}/1" />'
+        	hotelmodify.fetchCityListUrl = '<c:url value="/city/fetch/0/{#stateId}/0/1" />'
 		</script>
         
     </body>

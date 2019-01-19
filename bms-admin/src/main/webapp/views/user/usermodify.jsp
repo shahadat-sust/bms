@@ -220,7 +220,7 @@
                                              </c:if>
                                          </div>
                                          <div class="form-group">
-											<label for="val-email">Phone Number <span class="text-danger">*</span></label>
+											<label for="val-phoneNumber">Phone Number <span class="text-danger">*</span></label>
 											<div class="input-group">
 												<span class="input-group-btn">
 													<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
