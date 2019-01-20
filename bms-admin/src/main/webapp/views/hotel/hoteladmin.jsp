@@ -65,7 +65,7 @@
                                 </div>
                              	<div class="form-group row">
                                   	<div class="col-sm-12 text-right">
-                                  		<a id="btnHotelSearch" class="btn btn-success text-white mr-1" data-toggle="modal" data-target="#hotel-search-modal">
+                                  		<a id="btnHotelSearch" class="btn btn-sm btn-success text-white mr-1" data-toggle="modal" data-target="#hotel-search-modal">
 			                           		<i class="fa fa-fw fa-search mr-1"></i> Search
 			                       		</a>
                                   	</div>
@@ -100,7 +100,7 @@
                                 </div>
                              	<div class="form-group row">
                                   	<div class="col-sm-12 text-right">
-                                  		<a id="btnUserSearch" class="btn btn-success text-white mr-1" data-toggle="modal" data-target="#user-search-modal">
+                                  		<a id="btnUserSearch" class="btn btn-sm btn-success text-white mr-1" data-toggle="modal" data-target="#user-search-modal">
 			                           		<i class="fa fa-fw fa-search mr-1"></i> Search
 			                       		</a>
                                   	</div>

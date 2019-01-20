@@ -3,6 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
 <!-- START Stylesheets -->
+
+<!-- Page JS Plugins CSS -->
+<link rel="stylesheet" href="<c:url value="/resources/js/plugins/sweetalert2/sweetalert2.min.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/js/plugins/jquery-loader/jquery.loader.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/js/plugins/raty-js/jquery.raty.css"/>" />
+<link rel="stylesheet" href="<c:url value="/resources/js/plugins/datatables/dataTables.bootstrap4.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/intlTelInput.css"/>"></link>
+
 <!-- Fonts and Dashmix framework -->
 <link rel="stylesheet" id="css-main" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
 <link rel="stylesheet" id="css-main" href="<c:url value="/resources/css/dashmix.min.css"/>">
@@ -10,9 +19,4 @@
 <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
 <!-- <link rel="stylesheet" id="css-theme" href="resources/css/themes/xwork.min.css"> -->
 
-<!-- Page JS Plugins CSS -->
-<link rel="stylesheet" href="<c:url value="/resources/js/plugins/sweetalert2/sweetalert2.min.css"/>">
-<link rel="stylesheet" href="<c:url value="/resources/js/plugins/jquery-loader/jquery.loader.css"/>">
-<link rel="stylesheet" href="<c:url value="/resources/js/plugins/raty-js/jquery.raty.css"/>" />
-<link rel="stylesheet" href="<c:url value="/resources/css/intlTelInput.css"/>"></link>
 <!-- END Stylesheets -->

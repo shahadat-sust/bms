@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 
 <div class="modal fade" id="user-search-modal" tabindex="-1" role="dialog" aria-labelledby="user-search-modal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-popout modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-popout modal-xl" role="document">
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-dark">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="block-content">
         			<div class="row items-push">
-        				<div class="col-sm-4">
+        				<div class="col-lg-3">
         					<form id="frm-user-search">
 	       						<div class="form-group">
 	                                <label for="val-user-search-name">Name </label>
@@ -51,31 +51,63 @@
 										<input id="val-user-search-number" placeholder="Enter number.." maxlength="20" class="form-control"/>
 									</div>
 	                            </div>
-	                            <div class="form-group">
-	                                <label for="val-user-search-countryId">Country </label>
-	                                <select id="val-user-search-countryId" class="form-control">
-	                                	 <option value="0" label="Please select"></option>
-	                                </select>
-	                           	</div>
 	                           	<div class="form-group">
 			                     	<div class="row items-push">
 			                     		<div class="col-sm-6 text-left">
-			                     			<button id="btn-user-search-reset" type="reset" class="btn btn-primary">Reset</button>
+			                     			<button id="btn-user-search-reset" type="reset" class="btn btn-sm btn-success">
+			                     				<i class="fa fa-fw fa-undo mr-1"></i> Reset
+		                     				</button>
 			                     		</div>
 			                     		<div class="col-sm-6 text-right">
-			                     			<button id="btn-user-search-search" type="button" class="btn btn-primary">Search</button>
+			                     			<button id="btn-user-search-search" type="button" class="btn btn-sm btn-success">
+			                     				<i class="fa fa-fw fa-search mr-1"></i> Search
+		                     				</button>
 			                     		</div>
 			                     	</div>
 			                     </div>
                            	</form>
         				</div>
-        				<div class="col-sm-8">
+        				<div class="col-lg-9">
+        					<div class="block-content block-content-full">
+        					<table id="user-search-table" class="table table-bordered table-striped table-vcenter">
+                                <thead>
+                                    <tr>
+                                    	<th class="text-center"></th>
+                                        <th>Name</th>
+                                        <th class="d-none d-md-table-cell" style="width: 15%;">Username</th>
+                                        <th class="d-none d-lg-table-cell" style="width: 20%;">Email</th>
+                                        <th class="d-none d-xl-table-cell" style="width: 25%;">Phone Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    	<td class="text-center"> 
+                                    		<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">
+                                                <input type="radio" class="custom-control-input" name="search-user-id-group" id="var-search-user-id-1">
+                                                <label class="custom-control-label" for="var-search-user-id-1"></label>
+                                            </div>
+                                        </td>
+                                        <td class="font-w600">
+                                            Shahadat Hossain
+                                        </td>
+                                        <td class="d-none d-md-table-cell">
+                                            shahadat.hossain
+                                        </td>
+                                        <td class="d-none d-lg-table-cell">
+                                            shahadat.hossain@gmail.com
+                                        </td>
+                                        <td class="d-none d-xl-table-cell">
+                                            +880-01834904918
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+        					</div>
         				</div>
         			</div>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
+                    <button type="button" class="btn btn-primary btn-disabled" disabled="disabled" data-dismiss="modal">Done</button>
                 </div>
             </div>
         </div>
@@ -83,9 +115,7 @@
     <script type="text/javascript">
 		var usersearchmodal = {
 			fetchCountryCodeListUrl : '<c:url value="/common/countrycodes" />',
-			fetchCountryListUrl : '<c:url value="/country/fetch/0/1" />',
 			fetchCountryCodeListAjax: undefined,
-			fetchCountryListAjax : undefined,
 
 			init : function() {
 				$("#user-search-modal").on('click', ".hotel-search-country", function(){
@@ -95,6 +125,11 @@
 				});
 				
 				$("#btn-user-search-reset").on('click', function() {
+					var datatable = $("#user-search-table").DataTable();
+					if (datatable) {
+						datatable.clear();
+						datatable.draw();
+					}
 					$('.hotel-search-type-text').text("Code");
 					$("#val-user-search-code").val("");
 				});
@@ -102,19 +137,32 @@
 				usersearchmodal.getCountryCodeList();
 			},
 			beforeOpen : function name() {
-				usersearchmodal.getCountryList();
+
 			},
 			open : function() {
-				
+				$("#user-search-table").dataTable({
+					order: [[ 1, "asc" ]],
+					paging: false,
+			        info:  false,
+			        scrollY: '50vh',
+			        scrollCollapse: true
+                });
+				$(window).resize(usersearchmodal.onWindowResize);
 	   		},
 			beforeClose : function name() {
 				
 			},
 			close : function() {
+				$(window).off("resize", usersearchmodal.onWindowResize);
+				var datatable = $("#user-search-table").DataTable();
+				if (datatable) {
+					datatable.clear();
+					datatable.draw();
+					datatable.destroy();
+				}
 				$("#frm-user-search")[0].reset();
 				$('.hotel-search-type-text').text("Code");
 				$("#val-user-search-code").val("");
-				$("#val-user-search-countryId").html('<option value="">Please select</option>');
 			},
 			getCountryCodeList : function() {
 				var url = usersearchmodal.fetchCountryCodeListUrl;
@@ -145,31 +193,11 @@
 		            }
 				});
 			},
-			getCountryList : function() {
-				var url = usersearchmodal.fetchCountryListUrl;
-				usersearchmodal.fetchCountryListAjax = $.ajax({
-					type: "GET",
-		            contentType: "application/json",
-		            url: url,
-		            dataType: 'json',
-		            timeout: 600000,
-		            success: function (data) {
-		            	if(data.status) {
-		            		usersearchmodal.fetchCountryListAjax = undefined;
-		            		var html = '<option value="">Please select</option>';
-		            		$.each(data.datas, function(index, data) {
-		            			html += '<option value="' + data.id + '">' + data.name + '</option>';
-		            		});
-		            		$('#val-user-search-countryId').html(html);
-		            	} else {
-		            		console.log(data.errors);
-		            		usersearchmodal.fetchCountryListAjax = undefined;
-		            	}
-		            },
-		            error: function (e) {
-		            	usersearchmodal.fetchCountryListAjax = undefined;
-		            }
-				});
+			onWindowResize : function () {
+				var datatable = $("#user-search-table").DataTable();
+				if (datatable) {
+					datatable.columns.adjust().draw();
+				}
 			}
 	    };
 	    

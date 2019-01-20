@@ -3754,21 +3754,21 @@ input[type=submit].btn-block {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E")
 }
 
-.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
+/* .custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     background-color: #0665d0
-}
+} */
 
-.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::after {
+/* .custom-checkbox .custom-control-input:indeterminate~.custom-control-label::after {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3E%3Cpath stroke='%23fff' d='M0 2h4'/%3E%3C/svg%3E")
 }
-
+ */
 .custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before {
     background-color: rgba(6, 101, 208, .5)
 }
 
-.custom-checkbox .custom-control-input:disabled:indeterminate~.custom-control-label::before {
+/* .custom-checkbox .custom-control-input:disabled:indeterminate~.custom-control-label::before {
     background-color: rgba(6, 101, 208, .5)
-}
+} */
 
 .custom-radio .custom-control-label::before {
     border-radius: 50%
@@ -5001,7 +5001,19 @@ button.close {
 
 @media (min-width:992px) {
     .modal-lg {
-        max-width: 800px
+        max-width: 800px;
+        max-hight: 500px
+    }
+    .modal-xl {
+        max-width: 992px;
+        max-hight: 500px
+    }
+}
+
+@media (min-width:1280px) {
+    .modal-xl {
+        max-width: 1250px;
+        max-hight: 500px
     }
 }
 
@@ -10351,9 +10363,9 @@ small {
     background-color: #0665d0
 }
 
-.custom-control-primary.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
+/* .custom-control-primary.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     background-color: #0665d0
-}
+} */
 
 .custom-control-primary.custom-radio .custom-control-input:checked~.custom-control-label::before {
     background-color: #0665d0
@@ -10379,9 +10391,9 @@ small {
     background-color: #82b54b
 }
 
-.custom-control-success.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
+/* .custom-control-success.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     background-color: #82b54b
-}
+} */
 
 .custom-control-success.custom-radio .custom-control-input:checked~.custom-control-label::before {
     background-color: #82b54b
@@ -10407,9 +10419,9 @@ small {
     background-color: #3c90df
 }
 
-.custom-control-info.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
+/* .custom-control-info.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     background-color: #3c90df
-}
+} */
 
 .custom-control-info.custom-radio .custom-control-input:checked~.custom-control-label::before {
     background-color: #3c90df
@@ -10435,9 +10447,9 @@ small {
     background-color: #ffb119
 }
 
-.custom-control-warning.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
+/* .custom-control-warning.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     background-color: #ffb119
-}
+} */
 
 .custom-control-warning.custom-radio .custom-control-input:checked~.custom-control-label::before {
     background-color: #ffb119
@@ -10463,9 +10475,9 @@ small {
     background-color: #e04f1a
 }
 
-.custom-control-danger.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
+/* .custom-control-danger.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     background-color: #e04f1a
-}
+} */
 
 .custom-control-danger.custom-radio .custom-control-input:checked~.custom-control-label::before {
     background-color: #e04f1a
@@ -10491,9 +10503,9 @@ small {
     background-color: #adb5bd
 }
 
-.custom-control-light.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
+/* .custom-control-light.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     background-color: #adb5bd
-}
+} */
 
 .custom-control-light.custom-radio .custom-control-input:checked~.custom-control-label::before {
     background-color: #adb5bd
@@ -10519,9 +10531,9 @@ small {
     background-color: #343a40
 }
 
-.custom-control-dark.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
+/* .custom-control-dark.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     background-color: #343a40
-}
+} */
 
 .custom-control-dark.custom-radio .custom-control-input:checked~.custom-control-label::before {
     background-color: #343a40
