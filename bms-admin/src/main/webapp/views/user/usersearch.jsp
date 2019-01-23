@@ -67,7 +67,7 @@
 			                     </div>
                            	</form>
         				</div>
-        				<div class="col-lg-9">
+        				<div class="col-lg-9" style="max-height: 400px; overflow-y: auto;">
         					<div class="block-content block-content-full">
         					<table id="user-search-table" class="table table-bordered table-striped table-vcenter">
                                 <thead>
@@ -79,27 +79,7 @@
                                         <th class="d-none d-xl-table-cell" style="width: 25%;">Phone Number</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                    	<td class="text-center"> 
-                                    		<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">
-                                                <input type="radio" class="custom-control-input" name="search-user-id-group" id="var-search-user-id-1">
-                                                <label class="custom-control-label" for="var-search-user-id-1"></label>
-                                            </div>
-                                        </td>
-                                        <td class="font-w600">
-                                            Shahadat Hossain
-                                        </td>
-                                        <td class="d-none d-md-table-cell">
-                                            shahadat.hossain
-                                        </td>
-                                        <td class="d-none d-lg-table-cell">
-                                            shahadat.hossain@gmail.com
-                                        </td>
-                                        <td class="d-none d-xl-table-cell">
-                                            +880-01834904918
-                                        </td>
-                                    </tr>
+                                <tbody style="overflow-y: auto;">
                                 </tbody>
                             </table>
         					</div>
@@ -107,62 +87,144 @@
         			</div>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <button type="button" class="btn btn-primary btn-disabled" disabled="disabled" data-dismiss="modal">Done</button>
+                    <button type="button" id="btn-user-search-done" class="btn btn-primary btn-disabled" disabled="disabled" data-dismiss="modal">Done</button>
                 </div>
             </div>
         </div>
     </div>
     <script type="text/javascript">
 		var usersearchmodal = {
+			callback: null,
 			fetchCountryCodeListUrl : '<c:url value="/common/countrycodes" />',
 			fetchCountryCodeListAjax: undefined,
+			searchUserUrl : '<c:url value="/searchuser" />',
+			searchUserAjax: undefined,
+			userList: {},
 
-			init : function() {
+			init : function(e) {
+				usersearchmodal.callback = e;
+				
+				$("#user-search-modal").on('show.bs.modal', function(e){
+		    		usersearchmodal.beforeOpen(e);
+			    });
+		    	
+		    	$("#user-search-modal").on('shown.bs.modal', function(e){
+		    		usersearchmodal.open(e);
+			    });
+		    	
+		    	$("#user-search-modal").on('hide.bs.modal', function(e){
+		    		usersearchmodal.beforeClose(e);
+			    });
+		    	
+		    	$("#user-search-modal").on('hidden.bs.modal', function(e){
+		    		usersearchmodal.close(e);
+			    });
+				
 				$("#user-search-modal").on('click', ".hotel-search-country", function(){
 					var selectedCode = $(this).data('dial-code');
 					$('.hotel-search-type-text').text("+" + selectedCode);
 					$('#val-user-search-code').val(selectedCode).valid();
 				});
 				
-				$("#btn-user-search-reset").on('click', function() {
-					var datatable = $("#user-search-table").DataTable();
-					if (datatable) {
-						datatable.clear();
-						datatable.draw();
-					}
-					$('.hotel-search-type-text').text("Code");
-					$("#val-user-search-code").val("");
+				$("#btn-user-search-reset").on('click', function(e) {
+					usersearchmodal.close();
+				});
+
+				$(document).on('change', 'input[type=radio][name=search-user-id-group]', function() {
+					$("#btn-user-search-done").removeAttr("disabled");
 				});
 				
+				$("#btn-user-search-search").on("click", function() {
+					var name = $("#val-user-search-name").val();
+					var username = $("#val-user-search-username").val();
+					var email = $("#val-user-search-email").val();
+					var code = $("#val-user-search-code").val();
+					var number = $("#val-user-search-number").val();
+					usersearchmodal.searchUser(name, username, email, code, number);
+				});
+
 				usersearchmodal.getCountryCodeList();
 			},
-			beforeOpen : function name() {
+			beforeOpen : function(e) {
 
 			},
-			open : function() {
-				$("#user-search-table").dataTable({
-					order: [[ 1, "asc" ]],
-					paging: false,
-			        info:  false,
-			        scrollY: '50vh',
-			        scrollCollapse: true
-                });
-				$(window).resize(usersearchmodal.onWindowResize);
-	   		},
-			beforeClose : function name() {
+			open : function(e) {
 				
+	   		},
+			beforeClose : function(e) {
+				var oWhich = $(document.activeElement);
+			  	if (oWhich[0].tagName == 'BUTTON') {
+			    	if (oWhich.text() == "Done") {
+			    		var userId = $("input[name='search-user-id-group']:checked"). val()
+						usersearchmodal.callback(usersearchmodal.userList[userId]);
+			    	}
+		  		}
 			},
-			close : function() {
-				$(window).off("resize", usersearchmodal.onWindowResize);
-				var datatable = $("#user-search-table").DataTable();
-				if (datatable) {
-					datatable.clear();
-					datatable.draw();
-					datatable.destroy();
-				}
+			close : function(e) {
+				usersearchmodal.userList = [];
 				$("#frm-user-search")[0].reset();
 				$('.hotel-search-type-text').text("Code");
 				$("#val-user-search-code").val("");
+				$("#btn-user-search-done").attr("disabled", "disabled");
+				$('#user-search-table').find('tbody').html('');
+			},
+			searchUser : function(name, username, email, code, number) {
+				var url = usersearchmodal.searchUserUrl + "?name=" + encodeURIComponent(name) 
+						+ "&username=" + encodeURIComponent(username) + "&email=" + encodeURIComponent(email) 
+						+ "&code=" + encodeURIComponent(code) + "&number=" + encodeURIComponent(number);
+				usersearchmodal.searchUserAjax = $.ajax({
+					type: "GET",
+		            contentType: "application/json",
+		            url: url,
+		            dataType: 'json',
+		            timeout: 600000,
+		            success: function (r) {
+		            	if(r.status) {
+		            		usersearchmodal.searchUserAjax = undefined;
+		            		usersearchmodal.userList = {};
+		            		$("#btn-user-search-done").attr("disabled", "disabled");
+
+		            		if (r.datas.length > 0) {
+		            			var html = "";
+		            			
+		            			$.each(r.datas, function (index, data) {
+			            			html += '<tr>';
+			            			html += '	<td class="text-center">'; 
+		            				html += '		<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">';
+		            				html += '            <input type="radio" class="custom-control-input" name="search-user-id-group" value="' + data.userId + '" id="var-search-user-id-' + data.userId + '">';
+		            				html += '            <label class="custom-control-label" for="var-search-user-id-' + data.userId + '"></label>';
+		            				html += '        </div>';
+		            				html += '    </td>';
+		            				html += '    <td class="font-w600">';
+		            				html += '        ' + data.name;
+	            					html += '    </td>';
+	           						html += '     <td class="d-none d-md-table-cell">';
+	        						html += '        ' + data.username;
+		            				html += '     </td>';
+		            				html += '    <td class="d-none d-lg-table-cell">';
+		            				html += '        ' + data.email;
+		            				html += '    </td>';
+		            				html += '    <td class="d-none d-xl-table-cell">';
+		            				html += '        ' + data.phoneNumber;
+		            				html += '    </td>';
+		            				html += '</tr>';
+		            				
+		            				usersearchmodal.userList[data.userId] = data;
+		            			});
+		            			
+	            				$('#user-search-table').find('tbody').html(html);
+	            			} else {
+	            				$('#user-search-table').find('tbody').html('');
+	            			}
+		            	} else {
+		            		console.log(r.errors);
+		            		usersearchmodal.searchUserAjax = undefined;
+		            	}
+		            },
+		            error: function (e) {
+		            	usersearchmodal.searchUserAjax = undefined;
+		            }
+				});
 			},
 			getCountryCodeList : function() {
 				var url = usersearchmodal.fetchCountryCodeListUrl;
@@ -192,34 +254,9 @@
 		            	usersearchmodal.fetchCountryCodeListUrl = undefined;
 		            }
 				});
-			},
-			onWindowResize : function () {
-				var datatable = $("#user-search-table").DataTable();
-				if (datatable) {
-					datatable.columns.adjust().draw();
-				}
 			}
+
 	    };
-	    
-	    $("#user-search-modal").ready(function() {
-	    	usersearchmodal.init();
-	    	
-	    	$("#user-search-modal").on('show.bs.modal', function(){
-	    		usersearchmodal.beforeOpen();
-		    });
-	    	
-	    	$("#user-search-modal").on('shown.bs.modal', function(){
-	    		usersearchmodal.open();
-		    });
-	    	
-	    	$("#user-search-modal").on('hide.bs.modal', function(){
-	    		usersearchmodal.beforeClose();
-		    });
-	    	
-	    	$("#user-search-modal").on('hidden.bs.modal', function(){
-	    		usersearchmodal.close();
-		    });
-	    });
 	</script>
 </div>
 

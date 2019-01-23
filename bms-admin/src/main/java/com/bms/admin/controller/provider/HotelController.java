@@ -10,16 +10,22 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.CountryCodeModel;
+import com.bms.admin.model.ResponseModel;
+import com.bms.admin.model.SearchModel;
 import com.bms.admin.validator.HotelValidator;
 import com.bms.common.BmsException;
 import com.bms.common.Constants;
@@ -30,6 +36,7 @@ import com.bms.service.data.CountryData;
 import com.bms.service.data.PostalAddressData;
 import com.bms.service.data.StateData;
 import com.bms.service.data.provider.ProviderData;
+import com.bms.service.data.user.UserData;
 import com.bms.service.soa.ICityService;
 import com.bms.service.soa.ICountryService;
 import com.bms.service.soa.IStateService;
@@ -53,7 +60,7 @@ public class HotelController extends BaseController {
 		model.addAttribute("hotelList", hotelList);
 		return "hotel/hotellist";
 	}
-	
+
 	@RequestMapping(value = "viewhotel/{providerId}", method = RequestMethod.GET)
 	public String viewHotel(@PathVariable long providerId, Model model) throws BmsSqlException, BmsException {
 		ProviderData providerData = hotelProviderService.getHotelDetailInfo(providerId);
@@ -126,6 +133,43 @@ public class HotelController extends BaseController {
 			return listHotels(model);
 		}
 		return "redirect:/listhotels";
+	}
+	
+	@RequestMapping(value = "searchhotel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<SearchModel> searchHotel(@RequestParam("title") String title, @RequestParam("starRating") int starRating, 
+			@RequestParam("countryId") long countryId, @RequestParam("cityId") int cityId) {
+		ResponseModel<SearchModel> responseModel = new ResponseModel<>();
+		try {
+			List<ProviderData> providerDatas = hotelProviderService.getSearchHotel(title, starRating, countryId, cityId);
+			List<SearchModel> searchDatas = new ArrayList<>();
+			if (providerDatas != null && providerDatas.size() > 0) {
+				for (ProviderData providerData : providerDatas) {
+					SearchModel searchData = new SearchModel();
+					searchData.setProviderId(providerData.getId());
+					searchData.setTitle(providerData.getTitle());
+					searchData.setStarRating(providerData.getHotelData().getStarRating());
+					
+					if (providerData.getPostalAddressDatas() != null && providerData.getPostalAddressDatas().size() > 0) {
+						searchData.setAddress(providerData.getPostalAddressDatas().get(0).getLine1() 
+								+ ", " + providerData.getPostalAddressDatas().get(0).getCityName()
+								+ ", " + providerData.getPostalAddressDatas().get(0).getCountryName());
+						searchData.setCountryId(providerData.getPostalAddressDatas().get(0).getCountryId());
+						searchData.setCountryName(providerData.getPostalAddressDatas().get(0).getCountryName());
+						searchData.setCityId(providerData.getPostalAddressDatas().get(0).getCityId());
+						searchData.setCityName(providerData.getPostalAddressDatas().get(0).getCityName());
+					}
+					
+					searchDatas.add(searchData);
+				}
+			}
+			responseModel.addDatas(searchDatas);
+			responseModel.setStatus(true);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			responseModel.setStatus(false);
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
+		}
+		return responseModel;
 	}
 	
 	private void populateSelectOptions(Model model, ProviderData hotelForm) throws BmsSqlException, BmsException {

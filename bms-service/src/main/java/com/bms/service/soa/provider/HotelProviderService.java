@@ -326,6 +326,17 @@ public class HotelProviderService extends BaseService implements IHotelProviderS
 			throw new BmsException(e);
 		}
 	}
+	
+	@Override
+	public List<ProviderData> getSearchHotel(String title, int starRating, long countryId, long cityId) throws BmsException, BmsSqlException {
+		try {
+			return providerDao.getSearchHotel(title, starRating, countryId, cityId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
+	}
 
 	@Override
 	public IProviderDao getProviderDao() {

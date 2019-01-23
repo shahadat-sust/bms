@@ -19,4 +19,6 @@ public interface IProviderDao {
 	
 	List<ProviderData> getAllProviderDatas() throws BmsSqlException;
 	
+	List<ProviderData> getSearchHotel(String title, int starRating, long countryId, long cityId) throws BmsSqlException;
+	
 }

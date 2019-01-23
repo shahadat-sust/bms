@@ -26,6 +26,7 @@ import com.bms.service.dao.user.IUserSocialAccountDao;
 import com.bms.service.data.EmailAddressData;
 import com.bms.service.data.PhoneNumberData;
 import com.bms.service.data.PostalAddressData;
+import com.bms.service.data.provider.ProviderData;
 import com.bms.service.data.user.UserCardData;
 import com.bms.service.data.user.UserData;
 import com.bms.service.data.user.UserDeviceData;
@@ -416,6 +417,17 @@ public class UserService extends BaseService implements IUserService {
 	public boolean isEmailAvailableForUser(long userId, String email) throws BmsException, BmsSqlException {
 		try {
 			return emailAddressDao.isEmailAvailableForUser(userId, email);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
+	}
+	
+	@Override
+	public List<UserData> getSearchUser(String name, String username, String email, String code, String number) throws BmsException, BmsSqlException {
+		try {
+			return userDao.getSearchUser(name, username, email, code, number);
 		} catch (BmsSqlException e) {
 			throw e;
 		} catch (Exception e) {

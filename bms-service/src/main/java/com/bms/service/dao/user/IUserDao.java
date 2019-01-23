@@ -3,6 +3,7 @@ package com.bms.service.dao.user;
 import java.util.List;
 
 import com.bms.service.BmsSqlException;
+import com.bms.service.data.provider.ProviderData;
 import com.bms.service.data.user.UserData;
 
 public interface IUserDao {
@@ -18,5 +19,7 @@ public interface IUserDao {
 	List<UserData> getAllUserDatas() throws BmsSqlException;
 
 	boolean isUsernameAvailable(long userId, String username) throws BmsSqlException;
+	
+	public List<UserData> getSearchUser(String name, String username, String email, String code, String number) throws BmsSqlException;
 
 }

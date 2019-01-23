@@ -35,6 +35,8 @@ public interface IUserService {
 	
 	public boolean isEmailAvailableForUser(long userId, String email) throws BmsException, BmsSqlException;
 	
+	public List<UserData> getSearchUser(String name, String username, String email, String code, String number) throws BmsException, BmsSqlException;
+	
 	public IUserDao getUserDao();
 
 	public void setUserDao(IUserDao userDao);

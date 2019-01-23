@@ -35,7 +35,7 @@
 	                           	</div>
 	                           	<div class="form-group">
 	                                 <label>Star Rating </label>
-	                                 <input type="hidden" class="form-control" id="var-hotel-search-starRating"/>
+	                                 <input type="hidden" class="form-control" id="var-hotel-search-starRating" value="0"/>
 	                                 <div class="hotel-search-starRating form-control" data-score="0"></div>
 	                             </div>
 	                             <div class="form-group">
@@ -54,7 +54,7 @@
 			                     </div>
                              </form>
         				</div>
-        				<div class="col-lg-9" >
+        				<div class="col-lg-9" style="max-height: 400px; overflow-y: auto;">
     						<table id="hotel-search-table" class="table table-bordered table-striped table-vcenter">
                                 <thead>
                                     <tr>
@@ -66,45 +66,47 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <tr>
-                                    	<td class="text-center"> 
-                                    		<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">
-                                                <input type="radio" class="custom-control-input" name="search-hotel-id-group" id="var-search-hotel-id-1">
-                                                <label class="custom-control-label" for="var-search-hotel-id-1"></label>
-                                            </div>
-                                        </td>
-                                        <td class="font-w600">
-                                            <a href="be_pages_generic_blank.html">The Westin</a>
-                                        </td>
-                                        <td class="d-none d-lg-table-cell">
-                                            Bangladesh
-                                        </td>
-                                        <td class="d-none d-md-table-cell">
-                                            Dhaka
-                                        </td>
-                                        <td class="d-none d-xl-table-cell">
-                                            <div class="hotel-search-list-starRating" data-score="3"></div>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
         				</div>
         			</div>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <button type="button" class="btn btn-primary" disabled="disabled" data-dismiss="modal">Done</button>
+                    <button type="button" id="btn-hotel-search-done" class="btn btn-primary" disabled="disabled" data-dismiss="modal">Done</button>
                 </div>
             </div>
         </div>
     </div>
     <script type="text/javascript">
 		var hotelsearchmodal = {
+			callback: null,
 			fetchCountryListUrl : '<c:url value="/country/fetch/0/1" />',
 			fetchCityListUrl : '<c:url value="/city/fetch/0/0/{#countryId}/1" />',
+			searchHotelUrl : '<c:url value="/searchhotel" />',
 			fetchCountryListAjax : undefined,
 			fetchCityListAjax: undefined,
-			
-			init : function() {
+			searchHotelAjax: undefined,
+			hotelList: {},
+
+			init : function(e) {
+				hotelsearchmodal.callback = e;
+				
+				$("#hotel-search-modal").on('show.bs.modal', function(e) {
+			    	hotelsearchmodal.beforeOpen(e);
+			    });
+		    	
+		    	$("#hotel-search-modal").on('shown.bs.modal', function(e) {
+			    	hotelsearchmodal.open(e);
+			    });
+		    	
+		    	$("#hotel-search-modal").on('hide.bs.modal', function(e) {
+			    	hotelsearchmodal.beforeClose(e);
+			    });
+		    	
+		    	$("#hotel-search-modal").on('hidden.bs.modal', function(e) {
+			    	hotelsearchmodal.close(e);
+			    });
+				
 				$(".hotel-search-starRating").raty({
 	        		starType: "i",
 	        		hints: ["One Star", "Two Stars", "Three Stars", "Four Stars", "Five Stars"],
@@ -114,71 +116,128 @@
 	                	$("#var-hotel-search-starRating").val(t);
 	                }
 	            });
-				
-				$(".hotel-search-list-starRating").raty({
-					starType: "i",
-	        		hints: ["One Star", "Two Stars", "Three Stars", "Four Stars", "Five Stars"],
-	                starOff: $(this).data("star-off-small") || "fa fa-fw fa-star text-muted",
-	                starOn: $(this).data("star-on-small") || "fa fa-fw fa-star text-warning",
-	                starHalf: 'star-half-small.png',
-	                starOff: 'star-off-small.png',
-	                starOn: 'star-on-small.png',
-	                cancelOff: 'cancel-off-small.png',
-	                cancelOn:  'cancel-on-small.png',
-                    readOnly: true
-	            });
-				
+
 				$("#val-hotel-search-countryId").on("change", function(e) {
 					var countryId = $("#val-hotel-search-countryId").val();
 					if(countryId != "") {
 						hotelsearchmodal.getCityList(countryId);
 					} else {
-						$("#val-hotel-search-cityId").html('<option value="">Please select</option>');
+						$("#val-hotel-search-cityId").html('<option value="0">Please select</option>');
 					}
-					$("#val-hotel-search-cityId").html('<option value="">Please select</option>');
+					$("#val-hotel-search-cityId").html('<option value="0">Please select</option>');
 		       	});
 				
 				$("#btn-hotel-search-reset").on('click', function() {
-					var datatable = $("#hotel-search-table").DataTable();
-					if (datatable) {
-						datatable.clear();
-						datatable.draw();
-					}
-					$(".hotel-search-starRating").raty('set', { score: 0 });
-					$("#var-hotel-search-starRating").val("");
-					$("#val-hotel-search-cityId").html('<option value="">Please select</option>');
+					hotelsearchmodal.close();
+				});
+
+				$(document).on('change', 'input[type=radio][name=search-hotel-id-group]', function() {
+					$("#btn-hotel-search-done").removeAttr("disabled");
+				});
+				
+				$("#btn-hotel-search-search").on("click", function() {
+					var title = $("#val-hotel-search-title").val();
+					var starRating = $("#var-hotel-search-starRating").val();
+					var countryId = $("#val-hotel-search-countryId").val();
+					var cityId = $("#val-hotel-search-cityId").val();
+					hotelsearchmodal.searchHotel(title, starRating, countryId, cityId);
 				});
 
 				hotelsearchmodal.getCountryList();
 			},
-			beforeOpen : function name() {
+			beforeOpen : function(e) {
 				
 			},
-			open : function() {
-				$("#hotel-search-table").dataTable({
-					order: [[ 1, "asc" ]],
-					paging: false,
-			        info:  false,
-			        scrollY: '50vh',
-			        scrollCollapse: true
-                });
-				$(window).resize(hotelsearchmodal.onWindowResize);
+			open : function(e) {
+				
 	   		},
-	   		beforeClose : function name() {
-	   			
+	   		beforeClose : function(e) {
+				var oWhich = $(document.activeElement);
+			  	if (oWhich[0].tagName == 'BUTTON') {
+			    	if (oWhich.text() == "Done") {
+			    		var providerId = $("input[name='search-hotel-id-group']:checked"). val()
+						hotelsearchmodal.callback(hotelsearchmodal.hotelList[providerId]);
+			    	}
+		  		}
 			},
-			close : function() {
-				$(window).off("resize", hotelsearchmodal.onWindowResize);
-				var datatable = $("#hotel-search-table").DataTable();
-				if (datatable) {
-					datatable.clear();
-					datatable.draw();
-					datatable.destroy();
-				}
+			close : function(e) {
+				hotelsearchmodal.hotelList = [];
 				$("#frm-hotel-search")[0].reset();
 				$(".hotel-search-starRating").raty('set', { score: 0 });
-				$("#var-hotel-search-starRating").val("");
-				$("#val-hotel-search-cityId").html('<option value="">Please select</option>');
+				$("#var-hotel-search-starRating").val("0");
+				$("#val-hotel-search-cityId").html('<option value="0">Please select</option>');
+				$("#btn-hotel-search-done").attr("disabled", "disabled");
+				$('#hotel-search-table').find('tbody').html('');
+			},
+			searchHotel : function(title, starRating, countryId, cityId) {
+				var url = hotelsearchmodal.searchHotelUrl + "?title=" + encodeURIComponent(title) 
+						+ "&starRating=" + starRating + "&countryId=" + countryId + "&cityId=" + cityId;
+				hotelsearchmodal.searchHotelAjax = $.ajax({
+					type: "GET",
+		            contentType: "application/json",
+		            url: url,
+		            dataType: 'json',
+		            timeout: 600000,
+		            success: function (r) {
+		            	if(r.status) {
+		            		hotelsearchmodal.searchHotelAjax = undefined;
+		            		hotelsearchmodal.hotelList = {};
+		            		$("#btn-hotel-search-done").attr("disabled", "disabled");
+		            		
+		    				if (r.datas.length > 0) {
+		            			var html = "";
+
+		            			$.each(r.datas, function (index, data) {
+			            			html += '<tr>';
+			            			html += '	<td class="text-center">'; 
+		            				html += '		<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">';
+		            				html += '            <input type="radio" class="custom-control-input" name="search-hotel-id-group" value="' + data.providerId + '" id="var-search-hotel-id-' + data.providerId + '">';
+		            				html += '            <label class="custom-control-label" for="var-search-hotel-id-' + data.providerId + '"></label>';
+		            				html += '        </div>';
+		            				html += '    </td>';
+		            				html += '    <td class="font-w600">';
+		            				html += '        <a href="#">' + data.title + '</a>';
+	            					html += '    </td>';
+	           						html += '    <td class="d-none d-lg-table-cell">';
+	        						html += '        ' + data.countryName;
+		            				html += '    </td>';
+		            				html += '    <td class="d-none d-md-table-cell">';
+		            				html += '        ' + data.cityName;
+		            				html += '    </td>';
+		            				html += '    <td class="d-none d-xl-table-cell">';
+		            				html += '        <div class="hotel-search-list-starRating" data-score="'  + data.starRating + '"></div>';
+		            				html += '    </td>';
+		            				html += '</tr>';
+		            				
+		            				hotelsearchmodal.hotelList[data.providerId] = data;
+		            			});
+		            			
+		            			$('#hotel-search-table').find('tbody').html(html);
+		            			
+		            			$(".hotel-search-list-starRating").raty({
+		        					starType: "i",
+		        	        		hints: ["One Star", "Two Stars", "Three Stars", "Four Stars", "Five Stars"],
+		        	                starOff: $(this).data("star-off-small") || "fa fa-fw fa-star text-muted",
+		        	                starOn: $(this).data("star-on-small") || "fa fa-fw fa-star text-warning",
+		        	                starHalf: 'star-half-small.png',
+		        	                starOff: 'star-off-small.png',
+		        	                starOn: 'star-on-small.png',
+		        	                cancelOff: 'cancel-off-small.png',
+		        	                cancelOn:  'cancel-on-small.png',
+		                            readOnly: true
+		        	            });
+		    				} else {
+		    					$('#hotel-search-table').find('tbody').html('');
+		    				}
+		            	} else {
+		            		console.log(r.errors);
+		            		hotelsearchmodal.searchHotelAjax = undefined;
+		            	}
+		            },
+		            error: function (e) {
+		            	hotelsearchmodal.searchHotelAjax = undefined;
+		            }
+				});
 			},
 			getCountryList : function() {
 				var url = hotelsearchmodal.fetchCountryListUrl;
@@ -191,7 +250,7 @@
 		            success: function (data) {
 		            	if(data.status) {
 		            		hotelsearchmodal.fetchCountryListAjax = undefined;
-		            		var html = '<option value="">Please select</option>';
+		            		var html = '<option value="0">Please select</option>';
 		            		$.each(data.datas, function(index, data) {
 		            			html += '<option value="' + data.id + '">' + data.name + '</option>';
 		            		});
@@ -217,7 +276,7 @@
 		            success: function (data) {
 		            	if(data.status) {
 		            		hotelsearchmodal.fetchCityListAjax = undefined;
-		            		var html = '<option value="">Please select</option>';
+		            		var html = '<option value="0">Please select</option>';
 		            		$.each(data.datas, function(index, data) {
 		            			html += '<option value="' + data.id + '">' + data.name + '</option>';
 		            		});
@@ -231,34 +290,9 @@
 		            	hotelsearchmodal.fetchCityListAjax = undefined;
 		            }
 				});
-			},
-			onWindowResize : function () {
-				var datatable = $("#hotel-search-table").DataTable();
-				if (datatable) {
-					datatable.columns.adjust().draw();
-				}
 			}
+
 	    };
-	    
-	    $("#hotel-search-modal").ready(function() {
-	    	hotelsearchmodal.init();
-	    	
-	    	$("#hotel-search-modal").on('show.bs.modal', function(){
-		    	hotelsearchmodal.beforeOpen();
-		    });
-	    	
-	    	$("#hotel-search-modal").on('shown.bs.modal', function(){
-		    	hotelsearchmodal.open();
-		    });
-	    	
-	    	$("#hotel-search-modal").on('hide.bs.modal', function(){
-		    	hotelsearchmodal.beforeClose();
-		    });
-	    	
-	    	$("#hotel-search-modal").on('hidden.bs.modal', function(){
-		    	hotelsearchmodal.close();
-		    });
-	    });
 	</script>
 </div>
 

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,11 +25,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.CountryCodeModel;
+import com.bms.admin.model.ResponseModel;
+import com.bms.admin.model.SearchModel;
 import com.bms.admin.validator.UserValidator;
 import com.bms.common.BmsException;
 import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.CountryData;
+import com.bms.service.data.provider.ProviderData;
 import com.bms.service.data.user.UserData;
 import com.bms.service.soa.ICountryService;
 import com.bms.service.soa.user.IUserService;
@@ -136,7 +140,7 @@ public class UserController extends BaseController {
 		}
 		return "redirect:/listusers";
 	}
-		
+	
 	@RequestMapping(value = "isUsernameAvailableForUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody boolean isUsernameAvailable(
 			@RequestParam("userId") long userId, 
@@ -176,7 +180,42 @@ public class UserController extends BaseController {
 		}
 		return status;
 	}
-	
+
+	@RequestMapping(value = "searchuser", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<SearchModel> searchHotel(@RequestParam("name") String name, @RequestParam("username") String username,
+			@RequestParam("email") String email, @RequestParam("code") String code, @RequestParam("number") String number) {
+		ResponseModel<SearchModel> responseModel = new ResponseModel<>();
+		try {
+			List<UserData> userDatas = userService.getSearchUser(name, username, email, code, number);
+			List<SearchModel> searchDatas = new ArrayList<>();
+			if (userDatas != null && userDatas.size() > 0) {
+				for (UserData userData : userDatas) {
+					SearchModel searchData = new SearchModel();
+					searchData.setUserId(userData.getId());
+					searchData.setUsername(userData.getUsername());
+					searchData.setName(userData.getUserProfileData().getFirstName() + " " + userData.getUserProfileData().getFirstName());
+					
+					if (userData.getEmailAddressDatas() != null && userData.getEmailAddressDatas().size() > 0) {
+						searchData.setEmail(userData.getEmailAddressDatas().get(0).getEmail());
+					}
+					
+					if (userData.getPhoneNumberDatas() != null && userData.getPhoneNumberDatas().size() > 0) {
+						searchData.setPhoneNumber("+" + userData.getPhoneNumberDatas().get(0).getCode() + "-" + userData.getPhoneNumberDatas().get(0).getNumber());
+					}
+					
+					searchDatas.add(searchData);
+				}
+			}
+			responseModel.addDatas(searchDatas);
+			responseModel.setStatus(true);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			responseModel.setStatus(false);
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
+		}
+		return responseModel;
+	}
+		
 	private void populateSelectOptions(Model model) throws BmsSqlException, BmsException {
 		List<CountryData> countryList = countryService.getAllCountries();
 		if(countryList != null && countryList.size() > 0) {

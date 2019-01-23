@@ -2,15 +2,33 @@ package com.bms.admin.model;
 
 public class SearchModel {
 
+	private long providerId;
+	private long userId;
 	private String name;
 	private String username;
 	private String email;
 	private String phoneNumber;
 	private String title;
 	private int starRating;
+	private String address;
 	private long countryId;
+	private String countryName;
 	private long cityId;
+	private String cityName;
+
 	
+	public long getProviderId() {
+		return providerId;
+	}
+	public void setProviderId(long providerId) {
+		this.providerId = providerId;
+	}
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 	public String getName() {
 		return name;
 	}
@@ -47,11 +65,23 @@ public class SearchModel {
 	public void setStarRating(int starRating) {
 		this.starRating = starRating;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	public long getCountryId() {
 		return countryId;
 	}
 	public void setCountryId(long countryId) {
 		this.countryId = countryId;
+	}
+	public String getCountryName() {
+		return countryName;
+	}
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
 	}
 	public long getCityId() {
 		return cityId;
@@ -59,7 +89,11 @@ public class SearchModel {
 	public void setCityId(long cityId) {
 		this.cityId = cityId;
 	}
-	
-	
-	
+	public String getCityName() {
+		return cityName;
+	}
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
 }

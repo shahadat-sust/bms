@@ -24,6 +24,8 @@ public interface IHotelProviderService {
 	
 	public ProviderData getHotelDetailInfo(long providerId) throws BmsException, BmsSqlException;
 	
+	public List<ProviderData> getSearchHotel(String title, int starRating, long countryId, long cityId) throws BmsException, BmsSqlException;
+	
 	public IProviderDao getProviderDao();
 
 	public void setProviderDao(IProviderDao providerDao);

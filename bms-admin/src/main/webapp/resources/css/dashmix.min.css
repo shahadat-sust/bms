@@ -10898,7 +10898,7 @@ small {
     .content {
         width: 100%;
         margin: 0 auto;
-        padding: 1.75rem 1.75rem 1px;
+        /* padding: 1.75rem 1.75rem 1px; */
         overflow-x: visible
     }
     .content>.pull-t,
@@ -10921,7 +10921,7 @@ small {
         margin: -1.75rem -1.75rem -1px
     }
     .content.content-full {
-        padding-bottom: 1.75rem
+        /* padding-bottom: 1.75rem */
     }
     .content.content-full>.pull,
     .content.content-full>.pull-b,

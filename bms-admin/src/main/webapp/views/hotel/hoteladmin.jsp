@@ -133,6 +133,15 @@
 	                    starOn: $(this).data("star-on") || "fa fa-fw fa-star text-warning",
 	                    readOnly: true
 	                });
+	       			
+	       			hotelsearchmodal.init(hotelinfo.onHotelSelect);
+	       			usersearchmodal.init(hotelinfo.onUserSelect);
+	       		},
+	       		onHotelSelect : function(o) {
+	       			
+	       		},
+	       		onUserSelect : function(o) {
+	       			
 	       		}
 	        };
 	        

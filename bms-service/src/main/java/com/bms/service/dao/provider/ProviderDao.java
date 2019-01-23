@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -17,8 +18,10 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import com.bms.common.Constants;
+import com.bms.common.util.StringUtils;
 import com.bms.service.BmsSqlException;
 import com.bms.service.dao.BaseDao;
+import com.bms.service.data.PostalAddressData;
 import com.bms.service.data.provider.HotelData;
 import com.bms.service.data.provider.ProviderData;
 
@@ -183,6 +186,52 @@ public class ProviderDao extends BaseDao implements IProviderDao {
 						providerData.getHotelData().setCheckOutTime(rs.getTime(13).toLocalTime());
 						providerData.getHotelData().setWebsite(rs.getString(14));
 					}
+					return providerData;
+				}	
+			});
+			
+			return providerList;
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
+	}
+	
+
+	@Override
+	public List<ProviderData> getSearchHotel(String title, int starRating, long countryId, long cityId) throws BmsSqlException {
+		try {
+			String sql = providerQuery.getProperty("provider.getSearchHotel");
+			Object[] params = new Object[] {
+					"%" + (StringUtils.isNullEmptyOrWhiteSpace(title) ? "" : title.trim()) + "%", 
+					starRating, 
+					starRating,
+					starRating,
+					countryId, 
+					countryId,
+					countryId,
+					cityId,
+					cityId,
+					cityId};
+			List<ProviderData> providerList = this.getTemplete().query(sql, params, new RowMapper<ProviderData> () {
+				@Override
+				public ProviderData mapRow(ResultSet rs, int rowNum) throws SQLException {
+					ProviderData providerData = new ProviderData();
+					providerData.setId(rs.getLong(1));
+					providerData.setTitle(rs.getString(2));
+					providerData.setHotelData(new HotelData());
+					
+					HotelData hotelData = new HotelData();
+					hotelData.setStarRating(rs.getInt(3));
+					providerData.setHotelData(hotelData);
+					
+					PostalAddressData postalAddressData = new PostalAddressData();
+					postalAddressData.setLine1(rs.getString(4));
+					postalAddressData.setCityId(rs.getLong(5));
+					postalAddressData.setCityName(rs.getString(6));
+					postalAddressData.setCountryId(rs.getLong(7));
+					postalAddressData.setCountryName(rs.getString(8));
+					providerData.setPostalAddressDatas(new ArrayList<>());
+					providerData.getPostalAddressDatas().add(postalAddressData);
 					return providerData;
 				}	
 			});

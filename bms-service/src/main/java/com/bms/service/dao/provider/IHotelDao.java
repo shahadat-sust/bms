@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.provider.HotelData;
+import com.bms.service.data.provider.ProviderData;
 
 public interface IHotelDao {
 
@@ -14,5 +15,5 @@ public interface IHotelDao {
 	HotelData getHotelDataByProviderId(long hotelId) throws BmsSqlException;
 	
 	List<HotelData> getAllHotelDatas() throws BmsSqlException;
-	
+
 }

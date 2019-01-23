@@ -97,5 +97,36 @@
 				Hotel.ProviderId = Provider.Id
 		]]>
 	</entry>
+	
+	<entry key="provider.getSearchHotel">
+		<![CDATA[
+			SELECT 
+				Provider.Id, 
+				Provider.Title, 
+				Hotel.StarRating, 
+				PostalAddress.Line1,
+				PostalAddress.CityId,
+				City.Name,
+				PostalAddress.CountryId,
+				Country.Name
+			FROM Provider 
+			LEFT OUTER JOIN Hotel ON
+				Hotel.ProviderId = Provider.Id
+			LEFT OUTER JOIN ProviderPostalAddress ON 
+				ProviderPostalAddress.ProviderId = Provider.Id 
+			LEFT OUTER JOIN PostalAddress ON 
+				PostalAddress.Id = ProviderPostalAddress.PostalAddressId 
+			LEFT OUTER JOIN City ON 
+				City.Id = PostalAddress.CityId
+			LEFT OUTER JOIN Country ON 
+				Country.Id = PostalAddress.CountryId
+			WHERE 
+				Provider.Status = 1
+				AND Provider.Title LIKE ?
+				AND ((? > 0 AND Hotel.StarRating = ?) OR (? = 0))
+				AND ((? > 0 AND PostalAddress.CountryId = ?) OR (? = 0))
+				AND ((? > 0 AND PostalAddress.CityId = ?) OR (? = 0))	
+		]]>
+	</entry>
 
 </properties>

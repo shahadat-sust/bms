@@ -75,5 +75,35 @@
 				(? > 0 AND Id != ? AND Username = ?)
 			    OR (? <= 0 AND Username = ?) 
 	    ]]>
-	</entry>      
+	</entry>   
+	<entry key="user.getSearchUser">
+	    <![CDATA[
+			SELECT
+				User.Id,
+				User.Username,
+				UserProfile.FirstName,
+				UserProfile.LastName, 
+				EmailAddress.Email,
+				PhoneNumber.Code,
+				PhoneNumber.Number
+			FROM User
+			LEFT OUTER JOIN UserProfile ON
+				UserProfile.UserId = User.Id 
+			LEFT OUTER JOIN UserEmailAddress ON 
+				UserEmailAddress.UserId = User.Id 
+			LEFT OUTER JOIN EmailAddress ON 
+				EmailAddress.Id = UserEmailAddress.EmailAddressId 
+			LEFT OUTER JOIN UserPhoneNumber ON 
+				UserPhoneNumber.UserId = User.Id 
+			LEFT OUTER JOIN PhoneNumber ON 
+				PhoneNumber.Id = UserPhoneNumber.PhoneNumberId 
+			WHERE 
+				User.Status = 1
+				AND (UserProfile.FirstName LIKE ? OR UserProfile.LastName LIKE ?)
+				AND User.Username LIKE ?
+				AND EmailAddress.Email LIKE ?
+				AND PhoneNumber.Code LIKE ?
+				AND PhoneNumber.Number LIKE ?
+	    ]]>
+	</entry>   
 </properties>
