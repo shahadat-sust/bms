@@ -21,7 +21,9 @@ import com.bms.service.dao.IPostalAddressDao;
 import com.bms.service.dao.user.IUserCardDao;
 import com.bms.service.dao.user.IUserDao;
 import com.bms.service.dao.user.IUserDeviceDao;
+import com.bms.service.dao.user.IUserGroupDao;
 import com.bms.service.dao.user.IUserProfileDao;
+import com.bms.service.dao.user.IUserRoleDao;
 import com.bms.service.dao.user.IUserSocialAccountDao;
 import com.bms.service.data.EmailAddressData;
 import com.bms.service.data.PhoneNumberData;
@@ -30,7 +32,9 @@ import com.bms.service.data.provider.ProviderData;
 import com.bms.service.data.user.UserCardData;
 import com.bms.service.data.user.UserData;
 import com.bms.service.data.user.UserDeviceData;
+import com.bms.service.data.user.UserGroupData;
 import com.bms.service.data.user.UserProfileData;
+import com.bms.service.data.user.UserRoleData;
 import com.bms.service.data.user.UserSocialAccountData;
 import com.bms.service.soa.BaseService;
 
@@ -46,6 +50,8 @@ public class UserService extends BaseService implements IUserService {
 	private IPhoneNumberDao phoneNumberDao;
 	private IPostalAddressDao postalAddressDao;
 	private IImageDao imageDao;
+	private IUserGroupDao userGroupDao;
+	private IUserRoleDao userRoleDao;
 	
 	@Override
 	public void createAdminUser(UserData userData, long loginUserId) throws BmsException, BmsSqlException {
@@ -107,6 +113,24 @@ public class UserService extends BaseService implements IUserService {
 			long postalAddressId = postalAddressDao.create(userId, 0, postalAddressData);
 			postalAddressData.setId(postalAddressId);
 			
+			UserRoleData userRoleData = userData.getUserRoleData();
+			userRoleData.setUserId(userId);
+			userRoleData.setCreatedBy(loginUserId);
+			userRoleData.setCreatedOn(currDate);
+			userRoleData.setUpdatedBy(loginUserId);
+			userRoleData.setUpdatedOn(currDate);
+			long userRoleId = userRoleDao.create(userRoleData);
+			userRoleData.setId(userRoleId);
+			
+			UserGroupData userGroupData = userData.getUserGroupData();
+			userGroupData.setUserId(userId);
+			userGroupData.setCreatedBy(loginUserId);
+			userGroupData.setCreatedOn(currDate);
+			userGroupData.setUpdatedBy(loginUserId);
+			userGroupData.setUpdatedOn(currDate);
+			long userGroupId = userGroupDao.create(userGroupData);
+			userGroupData.setId(userGroupId);
+			
 			getTxManager().commit(txStatus);
 		} catch (BmsSqlException e) {
 			if(txStatus != null) {
@@ -121,6 +145,8 @@ public class UserService extends BaseService implements IUserService {
 			userData.getPhoneNumberDatas().get(0).setUserId(0);
 			userData.getPostalAddressDatas().get(0).setId(0);
 			userData.getPostalAddressDatas().get(0).setUserId(0);
+			userData.getUserRoleData().setId(0);
+			userData.getUserGroupData().setId(0);
 			throw e;
 		} catch (Exception e) {
 			if(txStatus != null) {
@@ -135,6 +161,8 @@ public class UserService extends BaseService implements IUserService {
 			userData.getPhoneNumberDatas().get(0).setUserId(0);
 			userData.getPostalAddressDatas().get(0).setId(0);
 			userData.getPostalAddressDatas().get(0).setUserId(0);
+			userData.getUserRoleData().setId(0);
+			userData.getUserGroupData().setId(0);
 			throw new BmsException(e);
 		}
 	}
@@ -146,6 +174,8 @@ public class UserService extends BaseService implements IUserService {
 		long existingEmailAddressId = 0;
 		long existingPhoneNumberId = 0;
 		long existingPostalAddressId = 0;
+		long existingUserRoleId = 0;
+		long existingUserGroupId = 0;
 		
 		try {
 			UserProfileData userProfileData = userData.getUserProfileData();
@@ -156,6 +186,10 @@ public class UserService extends BaseService implements IUserService {
 			existingPhoneNumberId = phoneNumberData.getId();
 			PostalAddressData postalAddressData = userData.getPostalAddressDatas().get(0);
 			existingPostalAddressId = postalAddressData.getId();
+			UserRoleData userRoleData = userData.getUserRoleData();
+			existingUserRoleId = userRoleData.getId();
+			UserGroupData userGroupData = userData.getUserGroupData();
+			existingUserGroupId = userGroupData.getId();
 			
 			txStatus = getTxManager().getTransaction(new DefaultTransactionDefinition());
 			Date currDate = new Date(System.currentTimeMillis());
@@ -230,6 +264,34 @@ public class UserService extends BaseService implements IUserService {
 				postalAddressDao.update(postalAddressData);
 			}
 			
+			if(existingUserRoleId == 0) { 
+				userRoleData.setUserId(userData.getId());
+				userRoleData.setCreatedBy(loginUserId);
+				userRoleData.setCreatedOn(currDate);
+				userRoleData.setUpdatedBy(loginUserId);
+				userRoleData.setUpdatedOn(currDate);
+				long userRoleId = userRoleDao.create(userRoleData);
+				userRoleData.setId(userRoleId);
+			} else {
+				userRoleData.setUpdatedBy(loginUserId);
+				userRoleData.setUpdatedOn(currDate);
+				userRoleDao.update(userRoleData);
+			}
+			
+			if(existingUserGroupId == 0) { 
+				userGroupData.setUserId(userData.getId());
+				userGroupData.setCreatedBy(loginUserId);
+				userGroupData.setCreatedOn(currDate);
+				userGroupData.setUpdatedBy(loginUserId);
+				userGroupData.setUpdatedOn(currDate);
+				long userGroupId = userGroupDao.create(userGroupData);
+				userGroupData.setId(userGroupId);
+			} else {
+				userGroupData.setUpdatedBy(loginUserId);
+				userGroupData.setUpdatedOn(currDate);
+				userGroupDao.update(userGroupData);
+			}
+			
 			getTxManager().commit(txStatus);
 		} catch (BmsSqlException e) {
 			if (txStatus != null) {
@@ -251,6 +313,14 @@ public class UserService extends BaseService implements IUserService {
 				userData.getPostalAddressDatas().get(0).setId(0);
 				userData.getEmailAddressDatas().get(0).setUserId(0);
 			}
+			if (existingUserRoleId == 0) {
+				userData.getUserRoleData().setId(0);
+				userData.getUserRoleData().setUserId(0);
+			}
+			if (existingUserGroupId == 0) {
+				userData.getUserGroupData().setId(0);
+				userData.getUserGroupData().setUserId(0);
+			}
 			throw e;
 		} catch (Exception e) {
 			if(txStatus != null) {
@@ -271,6 +341,14 @@ public class UserService extends BaseService implements IUserService {
 			if (existingPostalAddressId == 0) {
 				userData.getPostalAddressDatas().get(0).setId(0);
 				userData.getEmailAddressDatas().get(0).setUserId(0);
+			}
+			if (existingUserRoleId == 0) {
+				userData.getUserRoleData().setId(0);
+				userData.getUserRoleData().setUserId(0);
+			}
+			if (existingUserGroupId == 0) {
+				userData.getUserGroupData().setId(0);
+				userData.getUserGroupData().setUserId(0);
 			}
 			throw new BmsException(e);
 		}
@@ -348,6 +426,20 @@ public class UserService extends BaseService implements IUserService {
 					userData.setPostalAddressDatas(postalAddressDatas);
 				} else {
 					userData.setPostalAddressDatas(new ArrayList<>());
+				}
+				
+				UserGroupData userGroupData = userGroupDao.getUserGroupByUserId(userId);
+				if(userGroupData != null) {
+					userData.setUserGroupData(userGroupData);
+				} else {
+					userData.setUserGroupData(new UserGroupData());
+				}
+				
+				UserRoleData userRoleData = userRoleDao.getUserRoleByUserId(userId);
+				if(userRoleData != null) {
+					userData.setUserRoleData(userRoleData);
+				} else {
+					userData.setUserRoleData(new UserRoleData());
 				}
 			}
 			return userData;
@@ -543,4 +635,31 @@ public class UserService extends BaseService implements IUserService {
 		this.imageDao = imageDao;
 	}
 
+	
+	@Override
+	public IUserGroupDao getUserGroupDao() {
+		return userGroupDao;
+	}
+	
+	@Autowired
+	@Qualifier("userGroupDao")
+	@Override
+	public void setUserGroupDao(IUserGroupDao userGroupDao) {
+		this.userGroupDao = userGroupDao;
+	}
+	
+	@Override
+	public IUserRoleDao getUserRoleDao() {
+		return userRoleDao;
+	}
+	
+	@Autowired
+	@Qualifier("userRoleDao")
+	@Override
+	public void setUserRoleDao(IUserRoleDao userRoleDao) {
+		this.userRoleDao = userRoleDao;
+	}
+
+	
+	
 }

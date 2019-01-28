@@ -26,16 +26,7 @@ public class Constants {
 	
 	public static final int MALE = 1;
 	public static final int FEMALE = 2;
-	
-	public static final int VALUE_GROUP_ADMIN = 1;
-	public static final int VALUE_GROUP_CLIENT = 2;
-	
-	public static final int VALUE_ROLE_SUPER_ADMIN = 1;
-	public static final int VALUE_ROLE_MASTER_ADMIN = 2;
-	public static final int VALUE_ROLE_ADMIN = 3;
-	public static final int VALUE_ROLE_CONSUMER = 4;
-	public static final int VALUE_ROLE_VISITOR = 5;
-	
+
 	public static final int AMENITY_COMMON = 0;
 	public static final int AMENITY_ADITIONAL = 1;
 	

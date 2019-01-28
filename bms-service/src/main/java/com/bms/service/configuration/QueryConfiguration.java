@@ -198,6 +198,20 @@ public class QueryConfiguration {
 		return factoryBean;
 	}
 	
+	@Bean(name = "userRoleQuery")
+	public PropertiesFactoryBean userRoleQuery() {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(userRoleQueryResource);
+		return factoryBean;
+	}
+	
+	@Bean(name = "userGroupQuery")
+	public PropertiesFactoryBean userGroupQuery() {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(userGroupQueryResource);
+		return factoryBean;
+	}
+	
 	@Value("classpath:authenticationQuery.xml")
     private Resource authenticationQueryResource;
 	
@@ -278,5 +292,11 @@ public class QueryConfiguration {
 	
 	@Value("classpath:userDefaultProviderQuery.xml")
 	private Resource userDefaultProviderQueryResource;
+	
+	@Value("classpath:userRoleQuery.xml")
+	private Resource userRoleQueryResource;
+	
+	@Value("classpath:userGroupQuery.xml")
+	private Resource userGroupQueryResource;
 	
 }

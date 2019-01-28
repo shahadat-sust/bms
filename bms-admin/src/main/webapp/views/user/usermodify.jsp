@@ -73,6 +73,10 @@
                              	 <form:hidden id="val-phoneNumber-primary" path="phoneNumberDatas[0].primary"/>
                              	 <form:hidden id="val-postalAddressId" path="postalAddressDatas[0].id"/>
                              	 <form:hidden id="val-postalAddress-userId" path="postalAddressDatas[0].userId"/>
+                             	 <form:hidden id="val-userGroupId" path="userGroupData.id"/>
+                             	 <form:hidden id="val-userGroup-userId" path="userGroupData.userId"/>
+                             	 <form:hidden id="val-userRoleId" path="userRoleData.id"/>
+                             	 <form:hidden id="val-userGroup-userId" path="userRoleData.userId"/>
                                  <button type="submit" class="btn btn-sm btn-light" onclick="return false;">
                                      <i class="fa fa-fw fa-check"></i> Submit
                                  </button>
@@ -91,6 +95,8 @@
                          <c:set var="countryCodeError"><form:errors path="phoneNumberDatas[0].code"/></c:set>
                          <c:set var="phoneNumberError"><form:errors path="phoneNumberDatas[0].number"/></c:set>
                          <c:set var="countryIdError"><form:errors path="postalAddressDatas[0].countryId"/></c:set>
+                         <c:set var="groupIdError"><form:errors path="userGroupData.groupId"/></c:set>
+                         <c:set var="roleIdError"><form:errors path="userRoleData.roleId"/></c:set>
                          <div class="block-content block-content-full">
                              <div class="">
                              	<%@include file="../includes/formStatus.jsp" %>
@@ -273,6 +279,43 @@
                                               </form:select>
                                               <c:if test="${not empty countryIdError}">
                                              	<div id="val-countryId-error" class="invalid-feedback animated fadeIn">${countryIdError}</div>
+                                             </c:if>
+                                         </div> 
+                                     </div>
+                                 </div>
+                                 <!-- END Contact Info -->
+                                 
+                                 <!-- Contact Info -->
+                                 <h2 class="content-heading">Permission Info</h2>
+                                 <div class="row items-push">
+                                     <div class="col-lg-4">
+                                         <p class="text-muted">
+                                             Enter user permission related information like group, role etc.
+                                         </p>
+                                     </div>
+                                     <div class="col-lg-8 col-xl-5">
+                                         <div class="form-group">
+                                              <label for="val-groupId">Group <span class="text-danger">*</span></label>
+                                              <form:select id="val-groupId" path="userGroupData.groupId"
+                                              	 cssClass="form-control ${not empty groupIdError ? 'is-invalid' :''}"
+                                              	 aria-describedby="${not empty groupIdError ? 'val-groupId-error' :''}">
+                                              	 <form:option value="0" label="Please select"></form:option>
+                                              	 <form:options items="${groupList}" itemValue="id" itemLabel="name"/>
+                                              </form:select>
+                                              <c:if test="${not empty groupIdError}">
+                                             	<div id="val-groupId-error" class="invalid-feedback animated fadeIn">${groupIdError}</div>
+                                             </c:if>
+                                         </div> 
+                                         <div class="form-group">
+                                              <label for="val-roleId">Role <span class="text-danger">*</span></label>
+                                              <form:select id="val-roleId" path="userRoleData.roleId"
+                                              	 cssClass="form-control ${not empty roleIdError ? 'is-invalid' :''}"
+                                              	 aria-describedby="${not empty roleIdError ? 'val-groupId-error' :''}">
+                                              	 <form:option value="0" label="Please select"></form:option>
+                                              	 <form:options items="${roleList}" itemValue="id" itemLabel="name"/>
+                                              </form:select>
+                                              <c:if test="${not empty roleIdError}">
+                                             	<div id="val-roleId-error" class="invalid-feedback animated fadeIn">${roleIdError}</div>
                                              </c:if>
                                          </div> 
                                      </div>

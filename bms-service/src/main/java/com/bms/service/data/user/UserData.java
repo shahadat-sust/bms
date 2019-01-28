@@ -26,6 +26,8 @@ public class UserData extends BaseData {
 	private List<UserDeviceData> userDeviceDatas;
 	private List<UserSocialAccountData> userSocialAccountDatas;
 	private List<ImageData> imageDatas;
+	private UserGroupData userGroupData;
+	private UserRoleData userRoleData;
 
 	public String getUsername() {
 		return username;
@@ -106,6 +108,17 @@ public class UserData extends BaseData {
 	public void setImageDatas(List<ImageData> imageDatas) {
 		this.imageDatas = imageDatas;
 	}
-	
+	public UserGroupData getUserGroupData() {
+		return userGroupData;
+	}
+	public void setUserGroupData(UserGroupData userGroupData) {
+		this.userGroupData = userGroupData;
+	}
+	public UserRoleData getUserRoleData() {
+		return userRoleData;
+	}
+	public void setUserRoleData(UserRoleData userRoleData) {
+		this.userRoleData = userRoleData;
+	}
 	
 }

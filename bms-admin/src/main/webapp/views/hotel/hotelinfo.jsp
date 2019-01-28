@@ -94,7 +94,7 @@
                                        	<label class="col-sm-4"><strong class="text-muted">Email</strong></label>
                                        	<div class="col-sm-8 text-dark">
                                            <c:choose>
-												<c:when test="${not empty providerData.emailAddressDatas[0].email}">${providerData.emailAddressDatas[0].email}</c:when>
+												<c:when test="${not empty providerData.emailAddressDatas && not empty providerData.emailAddressDatas[0].email}">${providerData.emailAddressDatas[0].email}</c:when>
 												<c:otherwise>--</c:otherwise>
 										   </c:choose>
                                        	</div>
@@ -103,7 +103,7 @@
 	                                       <label class="col-sm-4"><strong class="text-muted">Phone Number</strong></label>
 	                                       <div class="col-sm-8 text-dark">
 	                                           <c:choose>
-													<c:when test="${not empty providerData.phoneNumberDatas[0].code && not empty providerData.phoneNumberDatas[0].number}">
+													<c:when test="${not empty providerData.phoneNumberDatas && not empty providerData.phoneNumberDatas[0].code && not empty providerData.phoneNumberDatas[0].number}">
 														+${providerData.phoneNumberDatas[0].code} - ${providerData.phoneNumberDatas[0].number}
 													</c:when>
 													<c:otherwise>--</c:otherwise>
@@ -114,7 +114,7 @@
 	                                       <label class="col-sm-4"><strong class="text-muted">Address</strong></label>
 	                                       <div class="col-sm-8 text-dark">
 	                                           <c:choose>
-													<c:when test="${not empty providerData.postalAddressDatas[0].line1}">${providerData.postalAddressDatas[0].line1}</c:when>
+													<c:when test="${not empty providerData.postalAddressDatas && not empty providerData.postalAddressDatas[0].line1}">${providerData.postalAddressDatas[0].line1}</c:when>
 													<c:otherwise>--</c:otherwise>
 												</c:choose>
 	                                       </div>
@@ -123,7 +123,7 @@
 	                                       <label class="col-sm-4"><strong class="text-muted">City</strong></label>
 	                                       <div class="col-sm-8 text-dark">
 	                                           <c:choose>
-													<c:when test="${not empty providerData.postalAddressDatas[0].cityName}">${providerData.postalAddressDatas[0].cityName}</c:when>
+													<c:when test="${not empty providerData.postalAddressDatas && not empty providerData.postalAddressDatas[0].cityName}">${providerData.postalAddressDatas[0].cityName}</c:when>
 													<c:otherwise>--</c:otherwise>
 												</c:choose>
 	                                       </div>
@@ -132,7 +132,7 @@
 	                                       <label class="col-sm-4"><strong class="text-muted">State</strong></label>
 	                                       <div class="col-sm-8 text-dark">
 	                                           <c:choose>
-													<c:when test="${not empty providerData.postalAddressDatas[0].stateName}">${providerData.postalAddressDatas[0].stateName}</c:when>
+													<c:when test="${not empty providerData.postalAddressDatas && not empty providerData.postalAddressDatas[0].stateName}">${providerData.postalAddressDatas[0].stateName}</c:when>
 													<c:otherwise>--</c:otherwise>
 												</c:choose>
 	                                       </div>
@@ -141,7 +141,7 @@
 	                                       <label class="col-sm-4"><strong class="text-muted">Country</strong></label>
 	                                       <div class="col-sm-8 text-dark">
 	                                           <c:choose>
-													<c:when test="${not empty providerData.postalAddressDatas[0].countryName}">${providerData.postalAddressDatas[0].countryName}</c:when>
+													<c:when test="${not empty providerData.postalAddressDatas && not empty providerData.postalAddressDatas[0].countryName}">${providerData.postalAddressDatas[0].countryName}</c:when>
 													<c:otherwise>--</c:otherwise>
 												</c:choose>
 	                                       </div>

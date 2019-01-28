@@ -91,7 +91,19 @@
                               </div>
                               <div class="col-md-6">
                                   <!-- Success -->
-                                  <h2 class="content-heading pt-md-0">Security Info</h2>
+                                  <h2 class="content-heading pt-md-0">Permission & Security Info</h2>
+                                  <div class="form-group row">
+                                       <label class="col-sm-4"><strong class="text-muted">Group</strong></label>
+                                       <div class="col-sm-8 text-dark">
+                                           ${userData.userGroupData.groupName}
+                                       </div>
+                                  </div>
+                                  <div class="form-group row">
+                                       <label class="col-sm-4"><strong class="text-muted">Role</strong></label>
+                                       <div class="col-sm-8 text-dark">
+                                           ${userData.userRoleData.roleName}
+                                       </div>
+                                  </div>
                                   <div class="form-group row">
                                        <label class="col-sm-4"><strong class="text-muted">Username</strong></label>
                                        <div class="col-sm-8 text-dark">
@@ -115,7 +127,7 @@
                                        <label class="col-sm-4"><strong class="text-muted">Email</strong></label>
                                        <div class="col-sm-8 text-dark">
                                            <c:choose>
-												<c:when test="${not empty userData.emailAddressDatas[0].email}">${userData.emailAddressDatas[0].email}</c:when>
+												<c:when test="${not empty userData.emailAddressDatas && not empty userData.emailAddressDatas[0].email}">${userData.emailAddressDatas[0].email}</c:when>
 												<c:otherwise>--</c:otherwise>
 										   </c:choose>
                                        </div>
@@ -124,7 +136,7 @@
                                        <label class="col-sm-4"><strong class="text-muted">Phone Number</strong></label>
                                        <div class="col-sm-8 text-dark">
                                            <c:choose>
-												<c:when test="${not empty userData.phoneNumberDatas[0].code && not empty userData.phoneNumberDatas[0].number}">
+												<c:when test="${not empty userData.phoneNumberDatas && not empty userData.phoneNumberDatas[0].code && not empty userData.phoneNumberDatas[0].number}">
 													+${userData.phoneNumberDatas[0].code} - ${userData.phoneNumberDatas[0].number}
 												</c:when>
 												<c:otherwise>--</c:otherwise>
@@ -135,7 +147,7 @@
                                        <label class="col-sm-4"><strong class="text-muted">Address</strong></label>
                                        <div class="col-sm-8 text-dark">
                                            <c:choose>
-												<c:when test="${not empty userData.postalAddressDatas[0].line1}">${userData.postalAddressDatas[0].line1}</c:when>
+												<c:when test="${not empty userData.postalAddressDatas && not empty userData.postalAddressDatas[0].line1}">${userData.postalAddressDatas[0].line1}</c:when>
 												<c:otherwise>--</c:otherwise>
 											</c:choose>
                                        </div>
@@ -144,7 +156,7 @@
                                        <label class="col-sm-4"><strong class="text-muted">Country</strong></label>
                                        <div class="col-sm-8 text-dark">
                                            <c:choose>
-												<c:when test="${not empty userData.postalAddressDatas[0].countryName}">${userData.postalAddressDatas[0].countryName}</c:when>
+												<c:when test="${not empty userData.postalAddressDatas && not empty userData.postalAddressDatas[0].countryName}">${userData.postalAddressDatas[0].countryName}</c:when>
 												<c:otherwise>--</c:otherwise>
 											</c:choose>
                                        </div>

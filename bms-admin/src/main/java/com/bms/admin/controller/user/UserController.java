@@ -32,9 +32,13 @@ import com.bms.common.BmsException;
 import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.CountryData;
+import com.bms.service.data.permission.GroupData;
+import com.bms.service.data.permission.RoleData;
 import com.bms.service.data.provider.ProviderData;
 import com.bms.service.data.user.UserData;
 import com.bms.service.soa.ICountryService;
+import com.bms.service.soa.permission.IGroupService;
+import com.bms.service.soa.permission.IRoleService;
 import com.bms.service.soa.user.IUserService;
 
 @Controller
@@ -46,6 +50,8 @@ public class UserController extends BaseController {
 	private UserValidator userValidator;
 	private IUserService userService;
 	private ICountryService countryService;
+	private IGroupService groupService;
+	private IRoleService roleService;
 	
 	@RequestMapping(value = "listusers", method = RequestMethod.GET)
 	public String listUsers(Model model) throws BmsSqlException, BmsException {
@@ -110,7 +116,7 @@ public class UserController extends BaseController {
 				model.addAttribute("successMsg", getMessageSource().getMessage("confirm.update.success", new Object[] {"User"}, Locale.getDefault()));
 			} else {
 				userService.createAdminUser(userForm, getLoginUserData().getId());
-				model.addAttribute("successMsg", getMessageSource().getMessage("confirm.create.failed", new Object[] {"User"}, Locale.getDefault()));
+				model.addAttribute("successMsg", getMessageSource().getMessage("confirm.create.success", new Object[] {"User"}, Locale.getDefault()));
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -228,6 +234,20 @@ public class UserController extends BaseController {
 		}
 		model.addAttribute("countryList", countryList);
 		
+		List<RoleData> roleList = roleService.getAllRoles();
+		if(roleList != null && roleList.size() > 0) {
+			Collections.sort(roleList, new Comparator<RoleData>() {
+				@Override
+				public int compare(RoleData o1, RoleData o2) {
+					return o1.getPriority() - o2.getPriority();
+				}
+			});
+		}
+		model.addAttribute("roleList", roleList);
+		
+		List<GroupData> groupList = groupService.getAllGroups();
+		model.addAttribute("groupList", groupList);
+		
 		List<CountryCodeModel> countryCodeList = new ArrayList<>();
 		for(String[] countryCode : Constants.COUNTRY_CODES) {
 			countryCodeList.add(new CountryCodeModel(countryCode[0], countryCode[1], countryCode[2], countryCode[3]));
@@ -251,6 +271,18 @@ public class UserController extends BaseController {
 	@Qualifier("countryService")
 	public void setCountryService(ICountryService countryService) {
 		this.countryService = countryService;
+	}
+	
+	@Autowired
+	@Qualifier("roleService")
+	public void setRoleService(IRoleService roleService) {
+		this.roleService = roleService;
+	}
+	
+	@Autowired
+	@Qualifier("groupService")
+	public void setGroupService(IGroupService groupService) {
+		this.groupService = groupService;
 	}
 
 }

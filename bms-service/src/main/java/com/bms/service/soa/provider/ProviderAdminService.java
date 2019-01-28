@@ -19,13 +19,13 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 	private ProviderAdminDao providerAdminDao;
 	
 	@Override
-	public boolean setProviderForAdmin(long providerId, long userId, long loginUserId, boolean isAssign) throws BmsSqlException, BmsException {
+	public boolean setProviderForAdmin(long userId, long providerId, long loginUserId, boolean isAssign) throws BmsSqlException, BmsException {
 		try {
-			if (providerAdminDao.isProviderAssignedForAdmin(providerId, userId)) {
+			if (providerAdminDao.isProviderAssignedForAdmin(userId, providerId)) {
 				if (isAssign) {
 					return true;
 				} else {
-					return providerAdminDao.deleteProviderAdmin(providerId, userId);
+					return providerAdminDao.deleteProviderAdmin(userId, providerId);
 				}
 			} else {
 				if (isAssign) {
@@ -61,7 +61,7 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 	}
 
 	@Override
-	public boolean setDefaultProviderForAdmin(long providerId, long userId, long loginUserId) throws BmsSqlException, BmsException {
+	public boolean setDefaultProviderForAdmin(long userId, long providerId, long loginUserId) throws BmsSqlException, BmsException {
 		try {
 			Date currDate = new Date(System.currentTimeMillis());
 			ProviderAdminData providerAdminData = new ProviderAdminData();
@@ -72,7 +72,9 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 			providerAdminData.setUpdatedBy(loginUserId);
 			providerAdminData.setUpdatedOn(currDate);
 			
-			if (providerAdminDao.isDefaultProviderAssignedForAdmin(providerId, userId)) {
+			if (providerId == 0) {
+				return providerAdminDao.deleteDefaultProvider(userId);
+			} else if (providerAdminDao.isDefaultProviderAssignedForAdmin(userId, providerId)) {
 				return providerAdminDao.updateDefaultProvider(providerAdminData);
 			} else {
 				return providerAdminDao.createDefaultProvider(providerAdminData) > 0;

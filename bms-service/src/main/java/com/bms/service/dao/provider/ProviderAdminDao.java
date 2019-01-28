@@ -56,7 +56,7 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 	}
 
 	@Override
-	public boolean deleteProviderAdmin(long providerId, long userId) throws BmsSqlException {
+	public boolean deleteProviderAdmin(long userId, long providerId) throws BmsSqlException {
 		try {
 			String sql = providerAdminQuery.getProperty("providerAdmin.delete"); 
 			return this.getTemplete().update(sql, 
@@ -68,7 +68,7 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 	}
 
 	@Override
-	public boolean isProviderAssignedForAdmin(long providerId, long userId) throws BmsSqlException {
+	public boolean isProviderAssignedForAdmin(long userId, long providerId) throws BmsSqlException {
 		try {
 			String sql = providerAdminQuery.getProperty("providerAdmin.isProviderAssignedForAdmin");
 			Object[] params = new Object[] {providerId, userId};
@@ -153,6 +153,16 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 					providerAdminData.getUpdatedBy(),
 					new Timestamp(providerAdminData.getUpdatedOn().getTime()),
 					providerAdminData.getUserId()) == 1;
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
+	}
+
+	public boolean deleteDefaultProvider(long userId) throws BmsSqlException  {
+		try {
+			String sql = providerAdminQuery.getProperty("userDefaultProvider.delete"); 
+			return this.getTemplete().update(sql, 
+					userId) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}

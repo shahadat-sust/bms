@@ -11,7 +11,9 @@ import com.bms.service.dao.IPostalAddressDao;
 import com.bms.service.dao.user.IUserCardDao;
 import com.bms.service.dao.user.IUserDao;
 import com.bms.service.dao.user.IUserDeviceDao;
+import com.bms.service.dao.user.IUserGroupDao;
 import com.bms.service.dao.user.IUserProfileDao;
+import com.bms.service.dao.user.IUserRoleDao;
 import com.bms.service.dao.user.IUserSocialAccountDao;
 import com.bms.service.data.user.UserData;
 
@@ -72,5 +74,13 @@ public interface IUserService {
 	public IImageDao getImageDao();
 
 	public void setImageDao(IImageDao imageDao);
-
+	
+	public IUserGroupDao getUserGroupDao();
+	
+	public void setUserGroupDao(IUserGroupDao userGroupDao);
+	
+	public IUserRoleDao getUserRoleDao();
+	
+	public void setUserRoleDao(IUserRoleDao userRoleDao);
+	
 }

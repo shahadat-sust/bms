@@ -2,6 +2,16 @@ package com.bms.common;
 
 public class SetupConstants {
 
+	
+	public static final int VALUE_GROUP_ADMIN = 1;
+	public static final int VALUE_GROUP_PROVIDER = 2;
+	public static final int VALUE_GROUP_CONSUMER = 3;
+	
+	public static final int VALUE_ROLE_SUPER_USER = 1;
+	public static final int VALUE_ROLE_MASTER_USER = 2;
+	public static final int VALUE_ROLE_ADMININSTRATOR = 3;
+	public static final int VALUE_ROLE_CONSUMER = 4;
+	
 	public static final int PROVIDER_TYPE_HOTEL = 1;
 	public static final int PROVIDER_TYPE_RENT_A_CAR = 2;
 	

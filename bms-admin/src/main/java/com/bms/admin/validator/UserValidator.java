@@ -117,6 +117,14 @@ public class UserValidator implements Validator {
 		if(userData.getPostalAddressDatas().get(0).getCountryId() == 0) {
 			errors.rejectValue("postalAddressDatas[0].countryId", "error.country.required");
 		}
+		
+		if(userData.getUserGroupData().getGroupId() == 0) {
+			errors.rejectValue("userGroupData.groupId", "error.group.required");
+		}
+		
+		if(userData.getUserRoleData().getRoleId() == 0) {
+			errors.rejectValue("userRoleData.roleId", "error.role.required");
+		}
 	}
 	
 	@Autowired

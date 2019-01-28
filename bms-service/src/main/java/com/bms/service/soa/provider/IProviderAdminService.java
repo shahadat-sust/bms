@@ -9,11 +9,11 @@ import com.bms.service.data.provider.ProviderAdminData;
 
 public interface IProviderAdminService {
 
-	boolean setProviderForAdmin(long providerId, long userId, long loginUserId, boolean isAssign) throws BmsSqlException, BmsException;
+	boolean setProviderForAdmin(long userId, long providerId, long loginUserId, boolean isAssign) throws BmsSqlException, BmsException;
 
 	List<ProviderAdminData> getAllProviderAdminDatasByUserId(long userId) throws BmsSqlException, BmsException;
 	
-	boolean setDefaultProviderForAdmin(long providerId, long userId, long loginUserId) throws BmsSqlException, BmsException;
+	boolean setDefaultProviderForAdmin(long userId, long providerId, long loginUserId) throws BmsSqlException, BmsException;
 
 	ProviderAdminData getDefaultProviderByUserId(long userId) throws BmsSqlException, BmsException;
 	

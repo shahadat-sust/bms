@@ -20,8 +20,21 @@ INSERT INTO `Group` (Id, Name, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUE
 -- -----------------------------------------------------------------------------------------------------------------
 INSERT INTO Role (Id, Name, Priority, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES 
 (1, 'Super User', 1, 1, CURDATE(), 1, CURDATE()),
-(2, 'Master User', 1, 1, CURDATE(), 1, CURDATE()),
-(3, 'Administrator', 1, 1, CURDATE(), 1, CURDATE());
+(2, 'Master User', 2, 1, CURDATE(), 1, CURDATE()),
+(3, 'Administrator', 3, 1, CURDATE(), 1, CURDATE()),
+(4, 'Consumer', 999, 1, CURDATE(), 1, CURDATE());
+
+-- -----------------------------------------------------------------------------------------------------------------
+-- Create UserGroup
+-- -----------------------------------------------------------------------------------------------------------------
+INSERT INTO UserGroup (UserId, GroupId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES 
+(1, 1, 1, CURDATE(), 1, CURDATE());
+
+-- -----------------------------------------------------------------------------------------------------------------
+-- Create UserRole
+-- -----------------------------------------------------------------------------------------------------------------
+INSERT INTO UserRole (UserId, RoleId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) VALUES 
+(1, 1, 1, CURDATE(), 1, CURDATE());
 
 -- -----------------------------------------------------------------------------------------------------------------
 -- Create Country

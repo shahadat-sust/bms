@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="userGroup.create">
+	    <![CDATA[
+			INSERT INTO UserGroup (UserId, GroupId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>  
+	<entry key="userGroup.update">
+	    <![CDATA[
+			UPDATE UserGroup SET 
+				UserId = ?,
+				GroupId = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	<entry key="userGroup.delete">
+	    <![CDATA[
+			DELETE FROM UserGroup WHERE Id = ?
+	    ]]>
+	</entry>
+	<entry key="userGroup.getUserGroupByUserId">
+	    <![CDATA[
+			SELECT 
+				UserGroup.Id, 
+				UserGroup.UserId, 
+				UserGroup.GroupId,
+				`Group`.Name
+			FROM UserGroup 
+			LEFT OUTER JOIN `Group` ON
+				`Group`.Id = UserGroup.GroupId 
+			WHERE 
+				UserId = ?
+	    ]]>
+	</entry> 
+</properties>

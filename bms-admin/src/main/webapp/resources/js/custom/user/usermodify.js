@@ -200,13 +200,16 @@ var usermodify = {
 	                },
 	            	"postalAddressDatas[0].countryId": {
 	            		min : 1
-	                }
+	                },
+	            	"userGroupData.groupId": {
+	            		min : 1
+	                },
+	            	"userRoleData.roleId": {
+	            		min : 1
+	                } 
 	            }, 
 	            messages : {
 	            	"userProfileData.gender": {
-	                    min: "This field is required."
-	                },
-	                "postalAddressDatas[0].countryId": {
 	                    min: "This field is required."
 	                },
 	                "username": {
@@ -226,6 +229,15 @@ var usermodify = {
 	                "phoneNumberDatas[0].number": {
 	                    required: "Phone number is required",
 	                	remote : "This phone number is already used."
+	                },
+	                "postalAddressDatas[0].countryId": {
+	                    min: "This field is required."
+	                },
+	                "userGroupData.groupId": {
+	                    min: "This field is required."
+	                },
+	                "userRoleData.roleId": {
+	                    min: "This field is required."
 	                }
 	            }
 			});

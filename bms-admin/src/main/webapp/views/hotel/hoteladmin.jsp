@@ -42,7 +42,7 @@
             	<div class="block block-rounded block-bordered">
            			<div class="block-content">
                     	<div class="row items-push">
-                    		<div class="col-md-6">
+                    		<!-- <div class="col-md-6">
                     			<h2 class="content-heading pt-0">Select Hotel</h2>
                     			<div class="form-group row">
                                     <label class="col-sm-4 col-form-label" for="var-title"><strong class="text-muted">Title</strong></label>
@@ -60,7 +60,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label"><strong class="text-muted">Rating</strong></label>
                                     <div class="col-sm-8">
-                                        <div id="var-startRating" class="rating form-control" data-score=""></div>
+                                        <div id="var-starRating" class="rating form-control" data-score=""></div>
                                     </div>
                                 </div>
                              	<div class="form-group row">
@@ -70,13 +70,13 @@
 			                       		</a>
                                   	</div>
                              	</div>
-                    		</div>
-                    		<div class="col-md-6">
+                    		</div> -->
+                    		<div class="col-md-4">
                     			<h2 class="content-heading pt-0">Select Admin User</h2>
                     			<div class="form-group row">
                                     <label class="col-sm-4 col-form-label" for="var-name"><strong class="text-muted">Name</strong></label>
                                     <div class="col-sm-8">
-                                    	<input type="hidden" class="form-control" id="var-userId" name="var-providerId"/>
+                                    	<input type="hidden" class="form-control" id="var-userId" name="var-userId"/>
                                         <input type="text" class="form-control" readonly="readonly" id="var-name" name="var-name" value="Name.."/>
                                     </div>
                                 </div>
@@ -106,6 +106,9 @@
                                   	</div>
                              	</div>
                     		</div>
+                    	 	<div class="col-md-8">
+                    	 		<h2 class="content-heading pt-0">Hotel List</h2>
+                    	 	</div>
                     	 </div>
                      </div>
             	</div>
@@ -119,14 +122,14 @@
         <%@include file="../includes/scripts.jsp" %>
         
         <!-- Modal Pop Up -->
-        <%@include file="hotelsearch.jsp" %>
+        <%-- <%@include file="hotelsearch.jsp" %> --%>
         <%@include file="../user/usersearch.jsp" %>
         <!-- END Modal Pop Up -->
 
 		<script type="text/javascript">
 			var hotelinfo = {
 	       		init : function() {
-	       			$(".rating").raty({
+	       			/* $(".rating").raty({
 	            		starType: "i",
 	            		hints: ["One Star", "Two Stars", "Three Stars", "Four Stars", "Five Stars"],
 	                    starOff: $(this).data("star-off") || "fa fa-fw fa-star text-muted",
@@ -134,14 +137,29 @@
 	                    readOnly: true
 	                });
 	       			
-	       			hotelsearchmodal.init(hotelinfo.onHotelSelect);
+	       			hotelsearchmodal.init(hotelinfo.onHotelSelect); */
 	       			usersearchmodal.init(hotelinfo.onUserSelect);
 	       		},
-	       		onHotelSelect : function(o) {
+	       		/* onHotelSelect : function(o) {
+	       			$('#var-providerId').val(o.providerId);
+	       			$('#var-title').val(o.title);
+	       			$('#var-address').val(o.address);
+	       			$('#var-starRating').data("score", o.starRating);
 	       			
-	       		},
+	       			$(".rating").raty({
+	            		starType: "i",
+	            		hints: ["One Star", "Two Stars", "Three Stars", "Four Stars", "Five Stars"],
+	                    starOff: $(this).data("star-off") || "fa fa-fw fa-star text-muted",
+	                    starOn: $(this).data("star-on") || "fa fa-fw fa-star text-warning",
+	                    readOnly: true
+	                });
+	       		}, */
 	       		onUserSelect : function(o) {
-	       			
+	       			$('#var-userId').val(o.userId);
+	       			$('#var-name').val(o.name);
+	       			$('#var-username').val(o.username);
+	       			$('#var-email').val(o.email);
+	       			$('#var-phoneNumber').val(o.phoneNumber);
 	       		}
 	        };
 	        

@@ -21,6 +21,12 @@
 		]]>
 	</entry>
 	
+	<entry key="providerAdmin.delete">
+		<![CDATA[
+			DELETE FROM UserDefaultProvider WHERE UserId = ?
+		]]>
+	</entry>
+	
 	<entry key="userDefaultProvider.isDefaultProviderAssignedForAdmin">
 		<![CDATA[
 			SELECT 
