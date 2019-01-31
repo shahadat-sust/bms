@@ -1,25 +1,32 @@
 package com.bms.service.soa.provider;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.bms.common.BmsException;
+import com.bms.common.SetupConstants;
 import com.bms.service.BmsSqlException;
-import com.bms.service.dao.provider.ProviderAdminDao;
+import com.bms.service.dao.provider.IProviderAdminDao;
+import com.bms.service.dao.provider.IProviderDao;
 import com.bms.service.data.provider.ProviderAdminData;
+import com.bms.service.data.provider.ProviderData;
 import com.bms.service.soa.BaseService;
 
 @Service("providerAdminService")
 public class ProviderAdminService extends BaseService implements IProviderAdminService {
 
-	private ProviderAdminDao providerAdminDao;
+	private IProviderAdminDao providerAdminDao;
+	private IProviderDao providerDao;
 	
 	@Override
-	public boolean setProviderForAdmin(long userId, long providerId, long loginUserId, boolean isAssign) throws BmsSqlException, BmsException {
+	public boolean setProviderForAdmin(long userId, long providerId, boolean isAssign, long loginUserId) throws BmsSqlException, BmsException {
 		try {
 			if (providerAdminDao.isProviderAssignedForAdmin(userId, providerId)) {
 				if (isAssign) {
@@ -42,17 +49,6 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 					return true;
 				}
 			}
-		} catch (BmsSqlException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new BmsException(e);
-		}
-	}
-
-	@Override
-	public List<ProviderAdminData> getAllProviderAdminDatasByUserId(long userId) throws BmsSqlException, BmsException {
-		try {
-			return providerAdminDao.getAllProviderAdminDatasByUserId(userId);
 		} catch (BmsSqlException e) {
 			throw e;
 		} catch (Exception e) {
@@ -96,19 +92,119 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 			throw new BmsException(e);
 		}
 	}
+	
+	@Override
+	public List<ProviderAdminData> getAssignedProviders(long userId, long groupId, long roleId) throws BmsSqlException, BmsException {
+		try {
+			List<ProviderAdminData> assignedProviders = new ArrayList<>();
+			Map<Long, ProviderAdminData> providerIdVsProviderAdminMap = new HashMap<>();
+
+			List<ProviderAdminData> providerAdminDatas = providerAdminDao.getAllProviderAdminDatasByUserId(userId);
+			for (ProviderAdminData providerAdminData : providerAdminDatas) {
+				providerIdVsProviderAdminMap.put(providerAdminData.getProviderId(), providerAdminData);
+			}
+			
+			List<ProviderData> providerDatas = providerDao.getAllProviderDatas();
+			for (ProviderData providerData : providerDatas) {
+				if (!(providerIdVsProviderAdminMap.containsKey(providerData.getProviderTypeId())
+						|| (groupId == SetupConstants.GROUP_ADMIN 
+								&& roleId == SetupConstants.ROLE_SUPER_USER))) {
+					continue;
+				}
+				
+				ProviderAdminData providerAdminData = providerIdVsProviderAdminMap.get(providerData.getId());
+				if (providerAdminData == null) {
+					providerAdminData = new ProviderAdminData();
+					providerAdminData.setProviderId(providerData.getId());
+					providerAdminData.setUserId(userId);
+					providerAdminData.setTitle(providerData.getTitle());
+					providerAdminData.setStarRating(providerData.getHotelData().getStarRating());
+					providerAdminData.setCityName(providerData.getPostalAddressDatas().get(0).getCityName());
+					providerAdminData.setStateName(providerData.getPostalAddressDatas().get(0).getStateName());
+					providerAdminData.setCountryName(providerData.getPostalAddressDatas().get(0).getCountryName());
+				}
+				
+				assignedProviders.add(providerAdminData);
+			}
+			
+			return assignedProviders;
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
+	}
+	
+	@Override
+	public List<ProviderAdminData> getAssignableProviders(long assigneeUserId, long assignerUserId, long assignerUserGroupId, long assignerUserRoleId) throws BmsSqlException, BmsException {
+		try {
+			List<ProviderAdminData> assignableProviders = new ArrayList<>();
+			Map<Long, ProviderAdminData> providerIdVsProviderAdminForAssigneeMap = new HashMap<>();
+			Map<Long, ProviderAdminData> providerIdVsProviderAdminForAssignerMap = new HashMap<>();
+			
+			List<ProviderAdminData> assigneeProviderAdminDatas = providerAdminDao.getAllProviderAdminDatasByUserId(assigneeUserId);
+			for (ProviderAdminData providerAdminData : assigneeProviderAdminDatas) {
+				providerIdVsProviderAdminForAssigneeMap.put(providerAdminData.getProviderId(), providerAdminData);
+			}
+			
+			List<ProviderAdminData> assignerProviderAdminDatas = providerAdminDao.getAllProviderAdminDatasByUserId(assignerUserId);
+			for (ProviderAdminData providerAdminData : assignerProviderAdminDatas) {
+				providerIdVsProviderAdminForAssignerMap.put(providerAdminData.getProviderId(), providerAdminData);
+			}
+			
+			List<ProviderData> providerDatas = providerDao.getAllProviderDatas();
+			for (ProviderData providerData : providerDatas) {
+				if (!(providerIdVsProviderAdminForAssignerMap.containsKey(providerData.getId())
+						|| (assignerUserGroupId == SetupConstants.GROUP_ADMIN 
+								&& assignerUserRoleId == SetupConstants.ROLE_SUPER_USER))) {
+					continue;
+				}
+				
+				ProviderAdminData providerAdminData = providerIdVsProviderAdminForAssigneeMap.get(providerData.getId());
+				if (providerAdminData == null) {
+					providerAdminData = new ProviderAdminData();
+					providerAdminData.setProviderId(providerData.getId());
+					providerAdminData.setUserId(assigneeUserId);
+					providerAdminData.setTitle(providerData.getTitle());
+					providerAdminData.setStarRating(providerData.getHotelData().getStarRating());
+					providerAdminData.setCityName(providerData.getPostalAddressDatas().get(0).getCityName());
+					providerAdminData.setStateName(providerData.getPostalAddressDatas().get(0).getStateName());
+					providerAdminData.setCountryName(providerData.getPostalAddressDatas().get(0).getCountryName());
+				}
+				
+				assignableProviders.add(providerAdminData);
+			}
+			
+			return assignableProviders;
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
+	}
 
 	@Override
-	public ProviderAdminDao getProviderAdminDao() {
+	public IProviderAdminDao getProviderAdminDao() {
 		return providerAdminDao;
 	}
 
 	@Autowired
 	@Qualifier("providerAdminDao")
 	@Override
-	public void setProviderAdminDao(ProviderAdminDao providerAdminDao) {
+	public void setProviderAdminDao(IProviderAdminDao providerAdminDao) {
 		this.providerAdminDao = providerAdminDao;
 	}
-
 	
+	@Override
+	public IProviderDao getProviderDao() {
+		return providerDao;
+	}
+
+	@Autowired
+	@Qualifier("providerDao")
+	@Override
+	public void setProviderDao(IProviderDao providerDao) {
+		this.providerDao = providerDao;
+	}
 
 }

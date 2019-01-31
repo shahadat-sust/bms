@@ -35,6 +35,7 @@ import com.bms.service.data.CityData;
 import com.bms.service.data.CountryData;
 import com.bms.service.data.PostalAddressData;
 import com.bms.service.data.StateData;
+import com.bms.service.data.provider.ProviderAdminData;
 import com.bms.service.data.provider.ProviderData;
 import com.bms.service.data.user.UserData;
 import com.bms.service.soa.ICityService;
@@ -148,19 +149,24 @@ public class HotelController extends BaseController {
 					searchData.setProviderId(providerData.getId());
 					searchData.setTitle(providerData.getTitle());
 					searchData.setStarRating(providerData.getHotelData().getStarRating());
-					
-					if (providerData.getPostalAddressDatas() != null && providerData.getPostalAddressDatas().size() > 0) {
-						searchData.setAddress(providerData.getPostalAddressDatas().get(0).getLine1() 
-								+ ", " + providerData.getPostalAddressDatas().get(0).getCityName()
-								+ ", " + providerData.getPostalAddressDatas().get(0).getCountryName());
-						searchData.setCountryId(providerData.getPostalAddressDatas().get(0).getCountryId());
-						searchData.setCountryName(providerData.getPostalAddressDatas().get(0).getCountryName());
-						searchData.setCityId(providerData.getPostalAddressDatas().get(0).getCityId());
-						searchData.setCityName(providerData.getPostalAddressDatas().get(0).getCityName());
-					}
-					
+
+					searchData.setAddress(providerData.getPostalAddressDatas().get(0).getLine1() 
+							+ ", " + providerData.getPostalAddressDatas().get(0).getCityName()
+							+ ", " + providerData.getPostalAddressDatas().get(0).getCountryName());
+					searchData.setCountryId(providerData.getPostalAddressDatas().get(0).getCountryId());
+					searchData.setCountryName(providerData.getPostalAddressDatas().get(0).getCountryName());
+					searchData.setCityId(providerData.getPostalAddressDatas().get(0).getCityId());
+					searchData.setCityName(providerData.getPostalAddressDatas().get(0).getCityName());
+
 					searchDatas.add(searchData);
 				}
+
+				Collections.sort(searchDatas, new Comparator<SearchModel>() {
+					@Override
+					public int compare(SearchModel o1, SearchModel o2) {
+						return o1.getTitle().compareTo(o2.getTitle());
+					}
+				});
 			}
 			responseModel.addDatas(searchDatas);
 			responseModel.setStatus(true);

@@ -66,10 +66,29 @@
 				Hotel.Longitude, 
 				Hotel.CheckInTime,  
 				Hotel.CheckOutTime,
-				Hotel.Website
+				Hotel.Website,
+				PostalAddress.Id,
+				ProviderPostalAddress.Id,
+				PostalAddress.Line1,
+				PostalAddress.CityId,
+				City.Name,
+				PostalAddress.StateId,
+				State.Name
+				PostalAddress.CountryId,
+				Country.Name
 			FROM Provider 
 			LEFT OUTER JOIN Hotel ON
 				Hotel.ProviderId = Provider.Id
+			LEFT OUTER JOIN ProviderPostalAddress ON 
+				ProviderPostalAddress.ProviderId = Provider.Id 
+			LEFT OUTER JOIN PostalAddress ON 
+				PostalAddress.Id = ProviderPostalAddress.PostalAddressId 
+			LEFT OUTER JOIN City ON 
+				City.Id = PostalAddress.CityId
+			LEFT OUTER JOIN Country ON 
+				Country.Id = PostalAddress.CountryId
+			LEFT OUTER JOIN State ON 
+				State.Id = PostalAddress.StateId
 			WHERE 
 				Provider.ProviderTypeId = ?
 		]]>
@@ -91,10 +110,28 @@
 				Hotel.Longitude, 
 				Hotel.CheckInTime,  
 				Hotel.CheckOutTime,
-				Hotel.Website
+				Hotel.Website,
+				PostalAddress.Id,
+				PostalAddress.Line1,
+				PostalAddress.CityId,
+				City.Name,
+				PostalAddress.StateId,
+				State.Name,
+				PostalAddress.CountryId,
+				Country.Name
 			FROM Provider 
 			LEFT OUTER JOIN Hotel ON
 				Hotel.ProviderId = Provider.Id
+			LEFT OUTER JOIN ProviderPostalAddress ON 
+				ProviderPostalAddress.ProviderId = Provider.Id 
+			LEFT OUTER JOIN PostalAddress ON 
+				PostalAddress.Id = ProviderPostalAddress.PostalAddressId 
+			LEFT OUTER JOIN City ON 
+				City.Id = PostalAddress.CityId
+			LEFT OUTER JOIN State ON 
+				State.Id = PostalAddress.StateId
+			LEFT OUTER JOIN Country ON 
+				Country.Id = PostalAddress.CountryId
 		]]>
 	</entry>
 	

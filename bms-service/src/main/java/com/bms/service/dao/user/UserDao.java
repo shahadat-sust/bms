@@ -136,19 +136,16 @@ public class UserDao extends BaseDao implements IUserDao {
 					userData.setActive(rs.getBoolean(4));
 					userData.setStatus(rs.getInt(5));
 					userData.setUserProfileData(new UserProfileData());
-					long userProfileId = rs.getLong(6);
-					if(userProfileId > 0) {
-						userData.getUserProfileData().setId(userProfileId);
-						userData.getUserProfileData().setUserId(userData.getId());
-						userData.getUserProfileData().setFirstName(rs.getString(7));
-						userData.getUserProfileData().setLastName(rs.getString(8));
-						userData.getUserProfileData().setBirthDay(rs.getTimestamp(9));
-						userData.getUserProfileData().setGender(rs.getInt(10));
-						userData.getUserProfileData().setSecurityNumber(rs.getString(11));
-						userData.getUserProfileData().setPassportNumber(rs.getString(12));
-						userData.getUserProfileData().setDrivingLicenceNumber(rs.getString(13));
-						userData.getUserProfileData().setCaption(rs.getString(14));
-					}
+					userData.getUserProfileData().setId(rs.getLong(6));
+					userData.getUserProfileData().setUserId(userData.getId());
+					userData.getUserProfileData().setFirstName(rs.getString(7));
+					userData.getUserProfileData().setLastName(rs.getString(8));
+					userData.getUserProfileData().setBirthDay(rs.getTimestamp(9));
+					userData.getUserProfileData().setGender(rs.getInt(10));
+					userData.getUserProfileData().setSecurityNumber(rs.getString(11));
+					userData.getUserProfileData().setPassportNumber(rs.getString(12));
+					userData.getUserProfileData().setDrivingLicenceNumber(rs.getString(13));
+					userData.getUserProfileData().setCaption(rs.getString(14));
 					return userData;
 				}
 			});

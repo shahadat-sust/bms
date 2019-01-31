@@ -137,18 +137,25 @@ public class ProviderDao extends BaseDao implements IProviderDao {
 					providerData.setActive(rs.getBoolean(5));
 					providerData.setStatus(rs.getInt(6));
 					providerData.setHotelData(new HotelData());
-					long hotelId = rs.getLong(7);
-					if (hotelId > 0) {
-						providerData.getHotelData().setId(hotelId);
-						providerData.getHotelData().setProviderId(providerData.getId());
-						providerData.getHotelData().setStarRating(rs.getInt(8));
-						providerData.getHotelData().setNumberOfFloor(rs.getInt(9));
-						providerData.getHotelData().setLatitude(rs.getDouble(10));
-						providerData.getHotelData().setLongitude(rs.getDouble(11));
-						providerData.getHotelData().setCheckInTime(rs.getTime(12).toLocalTime());
-						providerData.getHotelData().setCheckOutTime(rs.getTime(13).toLocalTime());
-						providerData.getHotelData().setWebsite(rs.getString(14));
-					}
+					providerData.getHotelData().setId(rs.getLong(7));
+					providerData.getHotelData().setProviderId(providerData.getId());
+					providerData.getHotelData().setStarRating(rs.getInt(8));
+					providerData.getHotelData().setNumberOfFloor(rs.getInt(9));
+					providerData.getHotelData().setLatitude(rs.getDouble(10));
+					providerData.getHotelData().setLongitude(rs.getDouble(11));
+					providerData.getHotelData().setCheckInTime(rs.getTime(12).toLocalTime());
+					providerData.getHotelData().setCheckOutTime(rs.getTime(13).toLocalTime());
+					providerData.getHotelData().setWebsite(rs.getString(14));
+					providerData.setPostalAddressDatas(new ArrayList<>());
+					providerData.getPostalAddressDatas().get(0).setId(rs.getLong(15));
+					providerData.getPostalAddressDatas().get(0).setProviderId(providerData.getId());
+					providerData.getPostalAddressDatas().get(0).setLine1(rs.getString(16));
+					providerData.getPostalAddressDatas().get(0).setCityId(rs.getLong(17));
+					providerData.getPostalAddressDatas().get(0).setCityName(rs.getString(18));
+					providerData.getPostalAddressDatas().get(0).setStateId(rs.getLong(19));
+					providerData.getPostalAddressDatas().get(0).setStateName(rs.getString(20));
+					providerData.getPostalAddressDatas().get(0).setCountryId(rs.getLong(21));
+					providerData.getPostalAddressDatas().get(0).setCountryName(rs.getString(22));
 					return providerData;
 				}	
 			});
@@ -174,18 +181,26 @@ public class ProviderDao extends BaseDao implements IProviderDao {
 					providerData.setActive(rs.getBoolean(5));
 					providerData.setStatus(rs.getInt(6));
 					providerData.setHotelData(new HotelData());
-					long hotelId = rs.getLong(7);
-					if (hotelId > 0) {
-						providerData.getHotelData().setId(hotelId);
-						providerData.getHotelData().setProviderId(providerData.getId());
-						providerData.getHotelData().setStarRating(rs.getInt(8));
-						providerData.getHotelData().setNumberOfFloor(rs.getInt(9));
-						providerData.getHotelData().setLatitude(rs.getDouble(10));
-						providerData.getHotelData().setLongitude(rs.getDouble(11));
-						providerData.getHotelData().setCheckInTime(rs.getTime(12).toLocalTime());
-						providerData.getHotelData().setCheckOutTime(rs.getTime(13).toLocalTime());
-						providerData.getHotelData().setWebsite(rs.getString(14));
-					}
+					providerData.getHotelData().setId(rs.getLong(7));
+					providerData.getHotelData().setProviderId(providerData.getId());
+					providerData.getHotelData().setStarRating(rs.getInt(8));
+					providerData.getHotelData().setNumberOfFloor(rs.getInt(9));
+					providerData.getHotelData().setLatitude(rs.getDouble(10));
+					providerData.getHotelData().setLongitude(rs.getDouble(11));
+					providerData.getHotelData().setCheckInTime(rs.getTime(12).toLocalTime());
+					providerData.getHotelData().setCheckOutTime(rs.getTime(13).toLocalTime());
+					providerData.getHotelData().setWebsite(rs.getString(14));
+					providerData.setPostalAddressDatas(new ArrayList<>());
+					providerData.getPostalAddressDatas().add(new PostalAddressData());
+					providerData.getPostalAddressDatas().get(0).setId(rs.getLong(15));
+					providerData.getPostalAddressDatas().get(0).setProviderId(providerData.getId());
+					providerData.getPostalAddressDatas().get(0).setLine1(rs.getString(16));
+					providerData.getPostalAddressDatas().get(0).setCityId(rs.getLong(17));
+					providerData.getPostalAddressDatas().get(0).setCityName(rs.getString(18));
+					providerData.getPostalAddressDatas().get(0).setStateId(rs.getLong(19));
+					providerData.getPostalAddressDatas().get(0).setStateName(rs.getString(20));
+					providerData.getPostalAddressDatas().get(0).setCountryId(rs.getLong(21));
+					providerData.getPostalAddressDatas().get(0).setCountryName(rs.getString(22));
 					return providerData;
 				}	
 			});

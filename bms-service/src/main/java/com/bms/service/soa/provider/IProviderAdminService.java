@@ -4,21 +4,28 @@ import java.util.List;
 
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
-import com.bms.service.dao.provider.ProviderAdminDao;
+import com.bms.service.dao.provider.IProviderAdminDao;
+import com.bms.service.dao.provider.IProviderDao;
 import com.bms.service.data.provider.ProviderAdminData;
 
 public interface IProviderAdminService {
 
-	boolean setProviderForAdmin(long userId, long providerId, long loginUserId, boolean isAssign) throws BmsSqlException, BmsException;
+	boolean setProviderForAdmin(long userId, long providerId, boolean isAssign, long loginUserId) throws BmsSqlException, BmsException;
 
-	List<ProviderAdminData> getAllProviderAdminDatasByUserId(long userId) throws BmsSqlException, BmsException;
-	
 	boolean setDefaultProviderForAdmin(long userId, long providerId, long loginUserId) throws BmsSqlException, BmsException;
 
 	ProviderAdminData getDefaultProviderByUserId(long userId) throws BmsSqlException, BmsException;
 	
-	public ProviderAdminDao getProviderAdminDao();
+	public List<ProviderAdminData> getAssignedProviders(long userId, long userGroupId, long userRoleId) throws BmsSqlException, BmsException;
+	
+	public List<ProviderAdminData> getAssignableProviders(long userId, long loginUserId, long loginUserGroupId, long loginUserRoleId) throws BmsSqlException, BmsException;
 
-	public void setProviderAdminDao(ProviderAdminDao providerAdminDao);
+	public IProviderAdminDao getProviderAdminDao();
+
+	public void setProviderAdminDao(IProviderAdminDao providerAdminDao);
+	
+	public IProviderDao getProviderDao();
+
+	public void setProviderDao(IProviderDao providerDao);
 	
 }

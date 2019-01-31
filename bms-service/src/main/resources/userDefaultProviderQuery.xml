@@ -45,6 +45,7 @@
 				UserDefaultProvider.ProviderId, 
 				UserDefaultProvider.UserId,
 				Provider.Title,
+				Hotel.StarRating,
 				User.Username,
 				UserProfile.FirstName,
 				UserProfile.LastName,
@@ -58,14 +59,16 @@
 				UserProfile.UserId = UserDefaultProvider.UserId
 			LEFT OUTER JOIN Provider ON
 				Provider.Id = UserDefaultProvider.ProviderId
+			LEFT OUTER JOIN Hotel ON
+				Hotel.ProviderId = UserDefaultProvider.ProviderId
 			LEFT OUTER JOIN ProviderPostalAddress ON 
 				ProviderPostalAddress.ProviderId = UserDefaultProvider.ProviderId
 			LEFT OUTER JOIN PostalAddress ON 
 				PostalAddress.Id = ProviderPostalAddress.PostalAddressId 
-			LEFT OUTER JOIN State ON 
-				State.Id = PostalAddress.StateId 
 			LEFT OUTER JOIN City ON 
 				City.Id = PostalAddress.CityId 
+			LEFT OUTER JOIN State ON 
+				State.Id = PostalAddress.StateId 
 			LEFT OUTER JOIN Country ON 
 				Country.Id = PostalAddress.CountryId
 			WHERE 

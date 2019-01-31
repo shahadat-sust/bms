@@ -9,6 +9,7 @@ public class ProviderAdminData extends BaseData {
 	private long providerId;
 	private long userId;
 	private String title;
+	private int starRating;
 	private String username;
 	private String firstName;
 	private String lastName;
@@ -33,6 +34,12 @@ public class ProviderAdminData extends BaseData {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public int getStarRating() {
+		return starRating;
+	}
+	public void setStarRating(int starRating) {
+		this.starRating = starRating;
 	}
 	public String getUsername() {
 		return username;
@@ -71,5 +78,4 @@ public class ProviderAdminData extends BaseData {
 		this.countryName = countryName;
 	}
 	
-
 }

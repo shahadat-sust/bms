@@ -199,7 +199,7 @@ public class UserController extends BaseController {
 					SearchModel searchData = new SearchModel();
 					searchData.setUserId(userData.getId());
 					searchData.setUsername(userData.getUsername());
-					searchData.setName(userData.getUserProfileData().getFirstName() + " " + userData.getUserProfileData().getFirstName());
+					searchData.setName(userData.getUserProfileData().getFirstName() + " " + userData.getUserProfileData().getLastName());
 					
 					if (userData.getEmailAddressDatas() != null && userData.getEmailAddressDatas().size() > 0) {
 						searchData.setEmail(userData.getEmailAddressDatas().get(0).getEmail());
@@ -211,6 +211,13 @@ public class UserController extends BaseController {
 					
 					searchDatas.add(searchData);
 				}
+				
+				Collections.sort(searchDatas, new Comparator<SearchModel>() {
+					@Override
+					public int compare(SearchModel o1, SearchModel o2) {
+						return o1.getName().compareTo(o2.getName());
+					}
+				});
 			}
 			responseModel.addDatas(searchDatas);
 			responseModel.setStatus(true);

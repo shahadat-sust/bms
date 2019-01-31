@@ -33,12 +33,13 @@
 				ProviderAdmin.Id, 
 				ProviderAdmin.ProviderId, 
 				ProviderAdmin.UserId, 
-				ProviderAdmin.IsAssigned,
 				Provider.Title,
+				Hotel.StarRating,
 				User.Username,
 				UserProfile.FirstName,
 				UserProfile.LastName,
 				City.Name,
+				State.Name,
 				Country.Name
 			FROM ProviderAdmin 
 			LEFT OUTER JOIN User ON
@@ -47,6 +48,8 @@
 				UserProfile.UserId = ProviderAdmin.UserId
 			LEFT OUTER JOIN Provider ON
 				Provider.Id = ProviderAdmin.ProviderId
+			LEFT OUTER JOIN Hotel ON
+				Hotel.ProviderId = ProviderAdmin.ProviderId
 			LEFT OUTER JOIN ProviderPostalAddress ON 
 				ProviderPostalAddress.ProviderId = ProviderAdmin.ProviderId
 			LEFT OUTER JOIN PostalAddress ON 

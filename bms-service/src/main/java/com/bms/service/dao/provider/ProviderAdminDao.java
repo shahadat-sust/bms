@@ -104,12 +104,13 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 					providerAdminData.setProviderId(rs.getLong(2));
 					providerAdminData.setUserId(rs.getLong(3));
 					providerAdminData.setTitle(rs.getString(4));
-					providerAdminData.setUsername(rs.getString(5));
-					providerAdminData.setFirstName(rs.getString(6));
-					providerAdminData.setLastName(rs.getString(7));
-					providerAdminData.setCityName(rs.getString(8));
-					providerAdminData.setStateName(rs.getString(9));
-					providerAdminData.setCountryName(rs.getString(10));
+					providerAdminData.setStarRating(rs.getInt(5));
+					providerAdminData.setUsername(rs.getString(6));
+					providerAdminData.setFirstName(rs.getString(7));
+					providerAdminData.setLastName(rs.getString(8));
+					providerAdminData.setCityName(rs.getString(9));
+					providerAdminData.setStateName(rs.getString(10));
+					providerAdminData.setCountryName(rs.getString(11));
 					return providerAdminData;
 				}	
 			});
@@ -204,12 +205,13 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 					providerAdminData.setProviderId(rs.getLong(2));
 					providerAdminData.setUserId(rs.getLong(3));
 					providerAdminData.setTitle(rs.getString(4));
-					providerAdminData.setUsername(rs.getString(5));
-					providerAdminData.setFirstName(rs.getString(6));
-					providerAdminData.setLastName(rs.getString(7));
-					providerAdminData.setCityName(rs.getString(8));
-					providerAdminData.setStateName(rs.getString(9));
-					providerAdminData.setCountryName(rs.getString(10));
+					providerAdminData.setStarRating(rs.getInt(5));
+					providerAdminData.setUsername(rs.getString(6));
+					providerAdminData.setFirstName(rs.getString(7));
+					providerAdminData.setLastName(rs.getString(8));
+					providerAdminData.setCityName(rs.getString(9));
+					providerAdminData.setStateName(rs.getString(10));
+					providerAdminData.setCountryName(rs.getString(11));
 					return providerAdminData;
 				}	
 			});
