@@ -71,7 +71,7 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 	public boolean isProviderAssignedForAdmin(long userId, long providerId) throws BmsSqlException {
 		try {
 			String sql = providerAdminQuery.getProperty("providerAdmin.isProviderAssignedForAdmin");
-			Object[] params = new Object[] {providerId, userId};
+			Object[] params = new Object[] {providerId, providerId, providerId, userId};
 			List<Long> countList = this.getTemplete().query(sql, params, new RowMapper<Long> () {
 				@Override
 				public Long mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -81,10 +81,14 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 			
 			if (countList.isEmpty()) {
 				return false;
-			} else if (countList.size() == 1) {
-				return countList.get(0) > 0;
+			} else if (providerId > 0) {
+				if (countList.size() == 1) {
+					return countList.get(0) > 0;
+				} else {
+					throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");
+				}
 			} else {
-				throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");
+				return countList.get(0) > 0;
 			}
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
@@ -161,7 +165,7 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 
 	public boolean deleteDefaultProvider(long userId) throws BmsSqlException  {
 		try {
-			String sql = providerAdminQuery.getProperty("userDefaultProvider.delete"); 
+			String sql = userDefaultProviderQuery.getProperty("userDefaultProvider.delete"); 
 			return this.getTemplete().update(sql, 
 					userId) == 1;
 		} catch (Exception e) {
@@ -169,10 +173,10 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 		}
 	}
 	
-	public boolean isDefaultProviderAssignedForAdmin(long providerId, long userId) throws BmsSqlException {
+	public boolean isDefaultProviderAssignedForAdmin(long userId) throws BmsSqlException {
 		try {
 			String sql = userDefaultProviderQuery.getProperty("userDefaultProvider.isDefaultProviderAssignedForAdmin");
-			Object[] params = new Object[] {providerId, userId};
+			Object[] params = new Object[] {userId};
 			List<Long> countList = this.getTemplete().query(sql, params, new RowMapper<Long> () {
 				@Override
 				public Long mapRow(ResultSet rs, int rowNum) throws SQLException {

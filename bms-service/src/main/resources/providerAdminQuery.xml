@@ -22,7 +22,8 @@
 				Id 
 			FROM ProviderAdmin
 			WHERE 
-				ProviderId = ? 
+				((? = 0 AND 1 = 1)
+				OR (? > 0 AND ProviderId = ?)) 
 				AND UserId = ?
 		]]>
 	</entry>

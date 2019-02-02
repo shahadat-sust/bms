@@ -37,3 +37,8 @@
 <script src="<c:url value="/resources/js/plugins/datatables/jquery.dataTables.min.js"/>"></script>
 <script src="<c:url value="/resources/js/plugins/datatables/dataTables.bootstrap4.min.js"/>"></script>
 <script src="<c:url value="/resources/js/custom/utils.js"/>"></script>
+
+<script type="text/javascript">
+    assignDefaultHotel.appHomeUrl = '<c:url value="/" />';
+    assignDefaultHotel.assignDefaultHotelUrl = '<c:url value="/assignDefaultHotel" />';
+</script>

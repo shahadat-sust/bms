@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bms.admin.AppConstants;
 import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
@@ -100,6 +103,23 @@ public class HotelAdminController extends BaseController {
 					Long.parseLong(params.get("providerId")), 
 					Boolean.parseBoolean(params.get("isAssign")), 
 					getLoginUserData().getId()));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			responseModel.setStatus(false);
+			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
+		}
+		return responseModel;
+	}
+	
+	@RequestMapping(value = "assignDefaultHotel", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<?> assignDefaultHotel(@RequestBody Map<String, String> params, HttpServletRequest request) throws BmsSqlException, BmsException {
+		ResponseModel<?> responseModel = new ResponseModel<Object>();
+		try {
+			responseModel.setStatus(providerAdminService.setDefaultProviderForAdmin(getLoginUserData().getId(), 
+					Long.parseLong(params.get("providerId")), 
+					getLoginUserData().getId()));
+			ProviderAdminData userDefaultHotel = providerAdminService.getDefaultProviderByUserId(getLoginUserData().getId());
+			request.getSession().setAttribute(AppConstants.KEY_DEFAULT_HOTEL, userDefaultHotel);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);

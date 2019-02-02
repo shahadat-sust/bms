@@ -9,6 +9,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.bms.common.BmsException;
 import com.bms.common.SetupConstants;
@@ -27,15 +29,24 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 	
 	@Override
 	public boolean setProviderForAdmin(long userId, long providerId, boolean isAssign, long loginUserId) throws BmsSqlException, BmsException {
+		boolean status = false;
+		TransactionStatus txStatus= null;
 		try {
+			txStatus = getTxManager().getTransaction(new DefaultTransactionDefinition());
 			if (providerAdminDao.isProviderAssignedForAdmin(userId, providerId)) {
 				if (isAssign) {
-					return true;
+					status = true;
 				} else {
-					return providerAdminDao.deleteProviderAdmin(userId, providerId);
+					status = providerAdminDao.deleteProviderAdmin(userId, providerId);
+					boolean isProviderAssignedForAdmin = providerAdminDao.isProviderAssignedForAdmin(userId, 0);
+					
+					if (status && !isProviderAssignedForAdmin) {
+						providerAdminDao.deleteDefaultProvider(userId);
+					}
 				}
 			} else {
 				if (isAssign) {
+					boolean isProviderAssignedForAdmin = providerAdminDao.isProviderAssignedForAdmin(userId, 0);
 					Date currDate = new Date(System.currentTimeMillis());
 					ProviderAdminData providerAdminData = new ProviderAdminData();
 					providerAdminData.setProviderId(providerId);
@@ -44,16 +55,28 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 					providerAdminData.setCreatedOn(currDate);
 					providerAdminData.setUpdatedBy(loginUserId);
 					providerAdminData.setUpdatedOn(currDate);
-					return providerAdminDao.createProviderAdmin(providerAdminData) > 0;
+					status = providerAdminDao.createProviderAdmin(providerAdminData) > 0;
+					
+					if (status && !isProviderAssignedForAdmin) {
+						providerAdminDao.createDefaultProvider(providerAdminData);
+					}
 				} else {
-					return true;
+					status = true;
 				}
 			}
+			getTxManager().commit(txStatus);
 		} catch (BmsSqlException e) {
+			if (txStatus != null) {
+				getTxManager().rollback(txStatus);
+			}
 			throw e;
 		} catch (Exception e) {
+			if (txStatus != null) {
+				getTxManager().rollback(txStatus);
+			}
 			throw new BmsException(e);
 		}
+		return status;
 	}
 
 	@Override
@@ -70,7 +93,7 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 			
 			if (providerId == 0) {
 				return providerAdminDao.deleteDefaultProvider(userId);
-			} else if (providerAdminDao.isDefaultProviderAssignedForAdmin(userId, providerId)) {
+			} else if (providerAdminDao.isDefaultProviderAssignedForAdmin(userId)) {
 				return providerAdminDao.updateDefaultProvider(providerAdminData);
 			} else {
 				return providerAdminDao.createDefaultProvider(providerAdminData) > 0;
@@ -106,7 +129,7 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 			
 			List<ProviderData> providerDatas = providerDao.getAllProviderDatas();
 			for (ProviderData providerData : providerDatas) {
-				if (!(providerIdVsProviderAdminMap.containsKey(providerData.getProviderTypeId())
+				if (!(providerIdVsProviderAdminMap.containsKey(providerData.getId())
 						|| (groupId == SetupConstants.GROUP_ADMIN 
 								&& roleId == SetupConstants.ROLE_SUPER_USER))) {
 					continue;

@@ -1,5 +1,8 @@
 package com.bms.admin.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -15,8 +18,10 @@ import com.bms.admin.AppConstants;
 import com.bms.common.BmsException;
 import com.bms.common.util.StringUtils;
 import com.bms.service.BmsSqlException;
+import com.bms.service.data.provider.ProviderAdminData;
 import com.bms.service.data.user.UserData;
 import com.bms.service.soa.auth.IAuthenticationService;
+import com.bms.service.soa.provider.IProviderAdminService;
 import com.bms.service.soa.user.IUserService;
 
 @Controller
@@ -27,6 +32,7 @@ public class LoginController extends BaseController {
 	
 	private IAuthenticationService authenticationService;
 	private IUserService userService;
+	private IProviderAdminService providerAdminService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpSession session) {
@@ -65,7 +71,18 @@ public class LoginController extends BaseController {
 			return "login";
 		}
 		
+		List<ProviderAdminData> assignedHotels = providerAdminService.getAssignedProviders(userId, 
+				userData.getUserGroupData().getGroupId(), 
+				userData.getUserRoleData().getRoleId());
+		
+		ProviderAdminData defaultHotel = providerAdminService.getDefaultProviderByUserId(userId);
+		if (defaultHotel == null) {
+			defaultHotel = new ProviderAdminData();
+		}
+		
 		session.setAttribute(AppConstants.KEY_USER, userData);
+		session.setAttribute(AppConstants.KEY_ASSIGNED_HOTELS, assignedHotels);
+		session.setAttribute(AppConstants.KEY_DEFAULT_HOTEL, defaultHotel);
 		return "redirect:/";
 	}
 	
@@ -93,6 +110,16 @@ public class LoginController extends BaseController {
 	@Qualifier("userService")
 	public void setUserService(IUserService userService) {
 		this.userService = userService;
+	}
+	
+	public IProviderAdminService getProviderAdminService() {
+		return providerAdminService;
+	}
+
+	@Autowired
+	@Qualifier("providerAdminService")
+	public void setProviderAdminService(IProviderAdminService providerAdminService) {
+		this.providerAdminService = providerAdminService;
 	}
 
 }

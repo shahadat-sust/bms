@@ -192,7 +192,7 @@
 	       			hoteladmin.getAssignableHotels(o.userId);
 	       		},
 	       		doAssignHotel : function(_chk, userId, providerId, isAssign) {
-	       			$.ajax({
+	       			hoteladmin.getAssignHotelAjax = $.ajax({
 	       				type: "POST",
 	       	            contentType: "application/json",
 	       	            url: hoteladmin.getAssignHotelsUrl,
@@ -200,6 +200,7 @@
 	       	            dataType: 'json',
 	       	            timeout: 600000,
 	       	            success: function (data) {
+	       	            	hoteladmin.getAssignHotelAjax = undefined;
 	       	            	if(!data.status) {
 	       	            		console.log(data.errors);
 	       	            		$(_chk).attr('checked', !isAssign);
@@ -213,6 +214,7 @@
 	       	            	}
 	       	            },
 	       	            error: function (e) {
+	       	            	hoteladmin.getAssignHotelAjax = undefined;
 	       	            	$(_chk).attr('checked', !isAssign);
 	       	            	Dashmix.helpers('notify', {
 	       	            		align: 'center',

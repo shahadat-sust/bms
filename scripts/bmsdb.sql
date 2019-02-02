@@ -628,9 +628,8 @@ CREATE TABLE `Provider` (
 DROP TABLE IF EXISTS `ProviderAdmin`;
 CREATE TABLE `ProviderAdmin` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `ProviderId` bigint(20) NOT NULL,
   `UserId` bigint(20) NOT NULL,
-  `IsAssigned` tinyint(1) NOT NULL DEFAULT 1,
+  `ProviderId` bigint(20) NOT NULL,
   `Remarks` varchar(150) DEFAULT NULL,
   `CreatedBy` bigint(20) NOT NULL,
   `CreatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',

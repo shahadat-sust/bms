@@ -9,9 +9,9 @@ public interface IProviderAdminDao {
 
 	long createProviderAdmin(ProviderAdminData providerAdminData) throws BmsSqlException;
 
-	boolean deleteProviderAdmin(long providerId, long userId) throws BmsSqlException;
+	boolean deleteProviderAdmin(long userId, long providerId) throws BmsSqlException;
 	
-	boolean isProviderAssignedForAdmin(long providerId, long userId) throws BmsSqlException;
+	boolean isProviderAssignedForAdmin(long userId, long providerId) throws BmsSqlException;
 	
 	List<ProviderAdminData> getAllProviderAdminDatasByUserId(long userId) throws BmsSqlException;
 	
@@ -19,7 +19,7 @@ public interface IProviderAdminDao {
 	
 	boolean updateDefaultProvider(ProviderAdminData providerAdminData) throws BmsSqlException;
 	
-	boolean isDefaultProviderAssignedForAdmin(long providerId, long userId) throws BmsSqlException;
+	boolean isDefaultProviderAssignedForAdmin(long userId) throws BmsSqlException;
 	
 	ProviderAdminData getDefaultProviderByUserId(long userId) throws BmsSqlException;
 	

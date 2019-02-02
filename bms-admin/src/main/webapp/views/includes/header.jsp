@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!-- Page Container -->
 <!--
     Available classes for #page-container:
@@ -62,12 +63,49 @@ MAIN CONTENT LAYOUT
                 </button>
                 <!-- END Toggle Sidebar -->
 
-                <!-- Open Search Section -->
-                <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <button type="button" class="btn btn-dual" data-toggle="layout" data-action="header_search_on">
-                    <i class="fa fa-fw fa-search"></i> <span class="ml-1 d-none d-sm-inline-block">Search</span>
-                </button>
-                <!-- END Open Search Section -->
+                <!-- Hotel Dropdown -->
+                <div class="dropdown d-inline-block">
+                    <button type="button" class="btn btn-dual" id="page-header-hotel-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-fw fa-user d-sm-none"></i>
+                        <i class="fa fa-fw fa-angle-down ml-1 d-none d-sm-inline-block"></i>
+                        <span class="d-none d-sm-inline-block">
+                        	<c:choose>
+                        		<c:when test="${sessionScope.defaultHotel.providerId == 0}">
+                        			Select Default Hotel
+                        		</c:when>
+                        		<c:otherwise>
+                        			${sessionScope.defaultHotel.title} [${sessionScope.defaultHotel.cityName}, ${sessionScope.defaultHotel.countryName}]
+                        		</c:otherwise>
+                      		</c:choose>
+                        	
+                       	</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-left p-0" aria-labelledby="page-header-hotel-dropdown">
+                        <div class="p-2">
+                        	<c:forEach items="${sessionScope.assignedHotels}" var="providerAdminData" varStatus="i">
+                        		<div>
+                        			<input type="hidden" value="${providerAdminData.providerId}"/>
+	                        		<c:if test="${i.index != 0}">
+	                        			<div role="separator" class="dropdown-divider"></div>
+	                        		</c:if>
+	                        		<c:choose>
+		                        		<c:when test="${providerAdminData.providerId == sessionScope.defaultHotel.providerId}">
+		                        			<a class="dropdown-item assign-default-hotel active" href="#">
+			                                	<i class="far fa-fw fa-building mr-1"></i> ${providerAdminData.title} [${providerAdminData.cityName}, ${providerAdminData.countryName}]
+			                            	</a>
+		                        		</c:when>
+		                        		<c:otherwise>
+		                        			<a class="dropdown-item assign-default-hotel" href="#">
+			                                	<i class="far fa-fw fa-building mr-1"></i> ${providerAdminData.title} [${providerAdminData.cityName}, ${providerAdminData.countryName}]
+			                            	</a>
+		                        		</c:otherwise>
+		                      		</c:choose>
+	                      		</div>
+                        	</c:forEach>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Hotel Dropdown -->
             </div>
             <!-- END Left Section -->
 
@@ -200,24 +238,6 @@ MAIN CONTENT LAYOUT
         </div>
         <!-- END Header Content -->
 
-        <!-- Header Search -->
-        <div id="page-header-search" class="overlay-header bg-primary">
-            <div class="content-header">
-                <form class="w-100" action="be_pages_generic_search.html" method="post">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                            <button type="button" class="btn btn-primary" data-toggle="layout" data-action="header_search_off">
-                                <i class="fa fa-fw fa-times-circle"></i>
-                            </button>
-                        </div>
-                        <input type="text" class="form-control border-0" placeholder="Search or hit ESC.." id="page-header-search-input" name="page-header-search-input">
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!-- END Header Search -->
-
         <!-- Header Loader -->
         <!-- Please check out the Loaders page under Components category to see examples of showing/hiding it -->
         <div id="page-header-loader" class="overlay-header bg-primary-darker">
@@ -230,5 +250,4 @@ MAIN CONTENT LAYOUT
         <!-- END Header Loader -->
     </header>
     <!-- END Header -->
-            
-            
+    
