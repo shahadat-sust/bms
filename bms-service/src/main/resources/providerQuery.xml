@@ -68,12 +68,11 @@
 				Hotel.CheckOutTime,
 				Hotel.Website,
 				PostalAddress.Id,
-				ProviderPostalAddress.Id,
 				PostalAddress.Line1,
 				PostalAddress.CityId,
 				City.Name,
 				PostalAddress.StateId,
-				State.Name
+				State.Name,
 				PostalAddress.CountryId,
 				Country.Name
 			FROM Provider 

@@ -194,8 +194,8 @@
                         </a>
                     </li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="<c:url value="/roomlist"/>">
-                            <span class="nav-main-link-name">Room List</span>
+                        <a class="nav-main-link" href="<c:url value="/room"/>">
+                            <span class="nav-main-link-name">Room</span>
                         </a>
                     </li>
                 </ul>

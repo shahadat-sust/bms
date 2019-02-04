@@ -13,6 +13,7 @@ public class ProviderAdminData extends BaseData {
 	private String username;
 	private String firstName;
 	private String lastName;
+	private String address;
 	private String cityName;
 	private String stateName;
 	private String countryName;
@@ -58,6 +59,12 @@ public class ProviderAdminData extends BaseData {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getCityName() {
 		return cityName;

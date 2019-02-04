@@ -150,9 +150,7 @@ public class HotelController extends BaseController {
 					searchData.setTitle(providerData.getTitle());
 					searchData.setStarRating(providerData.getHotelData().getStarRating());
 
-					searchData.setAddress(providerData.getPostalAddressDatas().get(0).getLine1() 
-							+ ", " + providerData.getPostalAddressDatas().get(0).getCityName()
-							+ ", " + providerData.getPostalAddressDatas().get(0).getCountryName());
+					searchData.setAddress(providerData.getPostalAddressDatas().get(0).getLine1());
 					searchData.setCountryId(providerData.getPostalAddressDatas().get(0).getCountryId());
 					searchData.setCountryName(providerData.getPostalAddressDatas().get(0).getCountryName());
 					searchData.setCityId(providerData.getPostalAddressDatas().get(0).getCityId());

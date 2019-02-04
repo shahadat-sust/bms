@@ -48,6 +48,7 @@
 				User.Username,
 				UserProfile.FirstName,
 				UserProfile.LastName,
+				PostalAddress.Line1,
 				City.Name,
 				State.Name,
 				Country.Name

@@ -112,9 +112,10 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 					providerAdminData.setUsername(rs.getString(6));
 					providerAdminData.setFirstName(rs.getString(7));
 					providerAdminData.setLastName(rs.getString(8));
-					providerAdminData.setCityName(rs.getString(9));
-					providerAdminData.setStateName(rs.getString(10));
-					providerAdminData.setCountryName(rs.getString(11));
+					providerAdminData.setAddress(rs.getString(9));
+					providerAdminData.setCityName(rs.getString(10));
+					providerAdminData.setStateName(rs.getString(11));
+					providerAdminData.setCountryName(rs.getString(12));
 					return providerAdminData;
 				}	
 			});
@@ -213,9 +214,10 @@ public class ProviderAdminDao extends BaseDao implements IProviderAdminDao {
 					providerAdminData.setUsername(rs.getString(6));
 					providerAdminData.setFirstName(rs.getString(7));
 					providerAdminData.setLastName(rs.getString(8));
-					providerAdminData.setCityName(rs.getString(9));
-					providerAdminData.setStateName(rs.getString(10));
-					providerAdminData.setCountryName(rs.getString(11));
+					providerAdminData.setAddress(rs.getString(9));
+					providerAdminData.setCityName(rs.getString(10));
+					providerAdminData.setStateName(rs.getString(11));
+					providerAdminData.setCountryName(rs.getString(12));
 					return providerAdminData;
 				}	
 			});

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="itemType.create">
+	    <![CDATA[
+			INSERT INTO ItemType (Name, ProviderId, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	
+	<entry key="itemType.update">
+	    <![CDATA[
+			UPDATE ItemType SET 
+				Name = ?, 
+				ProviderId = ?, 
+				IsActive = ?,  
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	
+	<entry key="itemType.delete">
+	    <![CDATA[
+	    	UPDATE ItemType SET 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	
+	<entry key="itemType.getItemTypeById">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				ProviderId, 
+				IsActive,
+				Status
+			FROM ItemType 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	
+	<entry key="itemType.getAllItemTypesByProviderId">
+	    <![CDATA[
+			SELECT 
+				Id, 
+				Name, 
+				ProviderId, 
+				IsActive, 
+				Status 
+			FROM ItemType 
+			WHERE ProviderId = ?
+			AND Status = 1
+			ORDER BY Id DESC
+	    ]]>
+	</entry>
+	
+	<entry key="itemType.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM ItemType
+			WHERE
+				(? > 0 AND Id != ? AND Name = ?)
+			    OR (? <= 0 AND Name = ?) 
+			    AND ProviderId = ?
+	    ]]>
+	</entry>
+</properties>

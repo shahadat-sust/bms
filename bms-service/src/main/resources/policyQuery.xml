@@ -30,7 +30,7 @@
 	<entry key="policy.getPolicyById">
 	    <![CDATA[
 			SELECT 
-				ID, 
+				Id, 
 				Name, 
 				Code, 
 				Type, 

@@ -84,7 +84,8 @@ public class ProviderDao extends BaseDao implements IProviderDao {
 			return this.getTemplete().update(sql, 
 					Constants.STATUS_NOT_EXIST,
 					providerData.getUpdatedBy(),
-					new Timestamp(providerData.getUpdatedOn().getTime())) == 1;
+					new Timestamp(providerData.getUpdatedOn().getTime()),
+					providerData.getId()) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -147,6 +148,7 @@ public class ProviderDao extends BaseDao implements IProviderDao {
 					providerData.getHotelData().setCheckOutTime(rs.getTime(13).toLocalTime());
 					providerData.getHotelData().setWebsite(rs.getString(14));
 					providerData.setPostalAddressDatas(new ArrayList<>());
+					providerData.getPostalAddressDatas().add(new PostalAddressData());
 					providerData.getPostalAddressDatas().get(0).setId(rs.getLong(15));
 					providerData.getPostalAddressDatas().get(0).setProviderId(providerData.getId());
 					providerData.getPostalAddressDatas().get(0).setLine1(rs.getString(16));

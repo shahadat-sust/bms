@@ -70,26 +70,25 @@ MAIN CONTENT LAYOUT
                         <i class="fa fa-fw fa-angle-down ml-1 d-none d-sm-inline-block"></i>
                         <span class="d-none d-sm-inline-block">
                         	<c:choose>
-                        		<c:when test="${sessionScope.defaultHotel.providerId == 0}">
+                        		<c:when test="${sessionScope.DEFAULT_HOTEL.providerId == 0}">
                         			Select Default Hotel
                         		</c:when>
                         		<c:otherwise>
-                        			${sessionScope.defaultHotel.title} [${sessionScope.defaultHotel.cityName}, ${sessionScope.defaultHotel.countryName}]
+                        			${sessionScope.DEFAULT_HOTEL.title} [${sessionScope.DEFAULT_HOTEL.cityName}, ${sessionScope.DEFAULT_HOTEL.countryName}]
                         		</c:otherwise>
                       		</c:choose>
-                        	
                        	</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-left p-0" aria-labelledby="page-header-hotel-dropdown">
                         <div class="p-2">
-                        	<c:forEach items="${sessionScope.assignedHotels}" var="providerAdminData" varStatus="i">
+                        	<c:forEach items="${sessionScope.ASSIGNED_HOTELS}" var="providerAdminData" varStatus="i">
                         		<div>
                         			<input type="hidden" value="${providerAdminData.providerId}"/>
 	                        		<c:if test="${i.index != 0}">
 	                        			<div role="separator" class="dropdown-divider"></div>
 	                        		</c:if>
 	                        		<c:choose>
-		                        		<c:when test="${providerAdminData.providerId == sessionScope.defaultHotel.providerId}">
+		                        		<c:when test="${providerAdminData.providerId == sessionScope.DEFAULT_HOTEL.providerId}">
 		                        			<a class="dropdown-item assign-default-hotel active" href="#">
 			                                	<i class="far fa-fw fa-building mr-1"></i> ${providerAdminData.title} [${providerAdminData.cityName}, ${providerAdminData.countryName}]
 			                            	</a>
@@ -115,7 +114,7 @@ MAIN CONTENT LAYOUT
                 <div class="dropdown d-inline-block">
                     <button type="button" class="btn btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-fw fa-user d-sm-none"></i>
-                        <span class="d-none d-sm-inline-block">${sessionScope.userData.userProfileData.shortName}</span>
+                        <span class="d-none d-sm-inline-block">${sessionScope.USER.userProfileData.shortName}</span>
                         <i class="fa fa-fw fa-angle-down ml-1 d-none d-sm-inline-block"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="page-header-user-dropdown">

@@ -142,6 +142,7 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 					providerAdminData.setUserId(userId);
 					providerAdminData.setTitle(providerData.getTitle());
 					providerAdminData.setStarRating(providerData.getHotelData().getStarRating());
+					providerAdminData.setAddress(providerData.getPostalAddressDatas().get(0).getLine1());
 					providerAdminData.setCityName(providerData.getPostalAddressDatas().get(0).getCityName());
 					providerAdminData.setStateName(providerData.getPostalAddressDatas().get(0).getStateName());
 					providerAdminData.setCountryName(providerData.getPostalAddressDatas().get(0).getCountryName());
@@ -190,6 +191,7 @@ public class ProviderAdminService extends BaseService implements IProviderAdminS
 					providerAdminData.setUserId(assigneeUserId);
 					providerAdminData.setTitle(providerData.getTitle());
 					providerAdminData.setStarRating(providerData.getHotelData().getStarRating());
+					providerAdminData.setAddress(providerData.getPostalAddressDatas().get(0).getLine1());
 					providerAdminData.setCityName(providerData.getPostalAddressDatas().get(0).getCityName());
 					providerAdminData.setStateName(providerData.getPostalAddressDatas().get(0).getStateName());
 					providerAdminData.setCountryName(providerData.getPostalAddressDatas().get(0).getCountryName());

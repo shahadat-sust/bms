@@ -1327,7 +1327,7 @@ CREATE TABLE `Hotel` (
 DROP TABLE IF EXISTS `Room`;
 CREATE TABLE `Room` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `ServiceItemId` bigint(20) NOT NULL,
+  `ItemId` bigint(20) NOT NULL,
   `FloorNo` int(4) NOT NULL,
   `Size` int(4) DEFAULT NULL,
   `LandLine` varchar(20) DEFAULT NULL,
@@ -1337,11 +1337,11 @@ CREATE TABLE `Room` (
   `UpdatedBy` bigint(20) NOT NULL,
   `UpdatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `UK_Room_ItemId` (`ServiceItemId`),
+  UNIQUE KEY `UK_Room_ItemId` (`ItemId`),
   KEY `FK_Room_CreatedBy_idx` (`CreatedBy`),
   KEY `FK_Room_UpdatedBy_idx` (`UpdatedBy`),
   CONSTRAINT `FK_Room_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`Id`),
-  CONSTRAINT `FK_Room_ItemId` FOREIGN KEY (`ServiceItemId`) REFERENCES `item` (`Id`),
+  CONSTRAINT `FK_Room_ItemId` FOREIGN KEY (`ItemId`) REFERENCES `item` (`Id`),
   CONSTRAINT `FK_Room_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `User` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
