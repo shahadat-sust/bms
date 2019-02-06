@@ -28,60 +28,73 @@ import com.bms.common.BmsException;
 import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.provider.ProviderAdminData;
+import com.bms.service.data.room.ItemCategoryData;
 import com.bms.service.data.room.ItemTypeData;
+import com.bms.service.soa.room.IItemCategoryService;
 import com.bms.service.soa.room.IItemTypeService;
 
 @Controller
-@RequestMapping(value = "/roomtype")
+@RequestMapping(value = "/roomcategory")
 @Scope("request")
-public class RoomTypeController extends BaseController {
+public class RoomCategoryController extends BaseController {
 	
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 	
 	private IItemTypeService itemTypeService;
+	private IItemCategoryService itemCategoryService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String view(Model model, HttpServletRequest request) throws BmsSqlException, BmsException {
 		ProviderAdminData defaultHotel = (ProviderAdminData) request.getSession().getAttribute(AppConstants.KEY_DEFAULT_HOTEL);
+		List<ItemCategoryData> roomCategoryList = itemCategoryService.getAllItemCategoriesByProviderId(defaultHotel.getProviderId());
+		model.addAttribute("roomCategoryList", roomCategoryList);
 		List<ItemTypeData> roomTypeList = itemTypeService.getAllItemTypesByProviderId(defaultHotel.getProviderId());
+		if (roomTypeList != null && roomTypeList.size() > 0) {
+			Collections.sort(roomTypeList, new Comparator<ItemTypeData>() {
+				@Override
+				public int compare(ItemTypeData o1, ItemTypeData o2) {
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+		}
 		model.addAttribute("roomTypeList", roomTypeList);
-		return "room/roomtype";
+		return "room/roomcategory";
 	}
 	
-	@RequestMapping(value = "/fetch/{roomTypeId}/{providerId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemTypeData> fetch(@PathVariable long roomTypeId, @PathVariable long providerId, @PathVariable int sortOrder) {
-		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
+	@RequestMapping(value = "/fetch/{roomCategoryId}/{providerId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<ItemCategoryData> fetch(@PathVariable long roomCategoryId, @PathVariable long providerId, @PathVariable int sortOrder) {
+		ResponseModel<ItemCategoryData> responseModel = new ResponseModel<ItemCategoryData>();
 		try {
-			if(roomTypeId > 0) {
-				ItemTypeData itemTypeData = itemTypeService.getItemTypeById(roomTypeId);
-				responseModel.addData(itemTypeData);
+			if(roomCategoryId > 0) {
+				ItemCategoryData itemCategoryData = itemCategoryService.getItemCategoryById(roomCategoryId);
+				responseModel.addData(itemCategoryData);
 			} else { 
-				List<ItemTypeData> itemTypeList = null;
+				List<ItemCategoryData> itemCategoryList = null;
 				if(providerId > 0) {
-					itemTypeList = itemTypeService.getAllItemTypesByProviderId(providerId);
+					itemCategoryList = itemCategoryService.getAllItemCategoriesByProviderId(providerId);
 				} else {
-					itemTypeList = new ArrayList<>();
+					itemCategoryList = new ArrayList<>();
 				}
 				
-				if (itemTypeList != null && itemTypeList.size() > 0) {
+				if (itemCategoryList != null && itemCategoryList.size() > 0) {
 					if (sortOrder == Constants.SORT_ORDER_ASC) {
-						Collections.sort(itemTypeList, new Comparator<ItemTypeData>() {
+						Collections.sort(itemCategoryList, new Comparator<ItemCategoryData>() {
 							@Override
-							public int compare(ItemTypeData o1, ItemTypeData o2) {
+							public int compare(ItemCategoryData o1, ItemCategoryData o2) {
 								return o1.getName().compareTo(o2.getName());
 							}
 						});
 					} else if (sortOrder == Constants.SORT_ORDER_DESC) {
-						Collections.sort(itemTypeList, new Comparator<ItemTypeData>() {
+						Collections.sort(itemCategoryList, new Comparator<ItemCategoryData>() {
 							@Override
-							public int compare(ItemTypeData o1, ItemTypeData o2) {
+							public int compare(ItemCategoryData o1, ItemCategoryData o2) {
 								return o2.getName().compareTo(o1.getName());
 							}
 						});
 					}
 				}
 				
-				responseModel.addDatas(itemTypeList);
+				responseModel.addDatas(itemCategoryList);
 			}
 			responseModel.setStatus(true);
 		} catch (Exception e) {
@@ -93,12 +106,12 @@ public class RoomTypeController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemTypeData> create(@RequestBody ItemTypeData itemTypeData) {
-		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
+	public @ResponseBody ResponseModel<ItemCategoryData> create(@RequestBody ItemCategoryData itemCategoryData) {
+		ResponseModel<ItemCategoryData> responseModel = new ResponseModel<ItemCategoryData>();
 		try {
-			long itemTypeId = itemTypeService.create(itemTypeData, getLoginUserData().getId());
-			if(itemTypeId > 0) {
-				ItemTypeData data = itemTypeService.getItemTypeById(itemTypeId);
+			long itemCategoryId = itemCategoryService.create(itemCategoryData, getLoginUserData().getId());
+			if(itemCategoryId > 0) {
+				ItemCategoryData data = itemCategoryService.getItemCategoryById(itemCategoryId);
 				responseModel.setStatus(true);
 				responseModel.addData(data);
 			} else {
@@ -113,12 +126,12 @@ public class RoomTypeController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemTypeData> update(@RequestBody ItemTypeData itemTypeData) {
-		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
+	public @ResponseBody ResponseModel<ItemCategoryData> update(@RequestBody ItemCategoryData itemCategoryData) {
+		ResponseModel<ItemCategoryData> responseModel = new ResponseModel<ItemCategoryData>();
 		try {
-			boolean status = itemTypeService.update(itemTypeData, getLoginUserData().getId());
+			boolean status = itemCategoryService.update(itemCategoryData, getLoginUserData().getId());
 			if(status) {
-				ItemTypeData data = itemTypeService.getItemTypeById(itemTypeData.getId());
+				ItemCategoryData data = itemCategoryService.getItemCategoryById(itemCategoryData.getId());
 				responseModel.setStatus(true);
 				responseModel.addData(data);
 			} else {
@@ -132,11 +145,11 @@ public class RoomTypeController extends BaseController {
 	    return responseModel;
 	}
 	
-	@RequestMapping(value = "/delete/{roomTypeId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemTypeData> delete(@PathVariable long roomTypeId) {
-		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
+	@RequestMapping(value = "/delete/{roomCategoryId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<ItemCategoryData> delete(@PathVariable long roomCategoryId) {
+		ResponseModel<ItemCategoryData> responseModel = new ResponseModel<ItemCategoryData>();
 		try {
-			responseModel.setStatus(itemTypeService.delete(roomTypeId, getLoginUserData().getId()));
+			responseModel.setStatus(itemCategoryService.delete(roomCategoryId, getLoginUserData().getId()));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
@@ -144,7 +157,7 @@ public class RoomTypeController extends BaseController {
 		}
 	    return responseModel;
 	}
-
+	
 	public IItemTypeService getItemTypeService() {
 		return itemTypeService;
 	}
@@ -153,6 +166,16 @@ public class RoomTypeController extends BaseController {
 	@Qualifier("itemTypeService")
 	public void setItemTypeService(IItemTypeService itemTypeService) {
 		this.itemTypeService = itemTypeService;
+	}
+
+	public IItemCategoryService getItemCategoryService() {
+		return itemCategoryService;
+	}
+
+	@Autowired
+	@Qualifier("itemCategoryService")
+	public void setItemCategoryService(IItemCategoryService itemCategoryService) {
+		this.itemCategoryService = itemCategoryService;
 	}
 
 	

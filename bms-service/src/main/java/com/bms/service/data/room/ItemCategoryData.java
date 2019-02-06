@@ -8,11 +8,12 @@ public class ItemCategoryData extends BaseData {
 	
 	private String name;
 	private long itemTypeId;
+	private String itemTypeName;
 	private double rent;
 	private boolean isActive;
 	private int status;
 	private RoomCategoryData roomCategoryData;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -24,6 +25,12 @@ public class ItemCategoryData extends BaseData {
 	}
 	public void setItemTypeId(long itemTypeId) {
 		this.itemTypeId = itemTypeId;
+	}
+	public String getItemTypeName() {
+		return itemTypeName;
+	}
+	public void setItemTypeName(String itemTypeName) {
+		this.itemTypeName = itemTypeName;
 	}
 	public double getRent() {
 		return rent;
@@ -49,5 +56,6 @@ public class ItemCategoryData extends BaseData {
 	public void setRoomCategoryData(RoomCategoryData roomCategoryData) {
 		this.roomCategoryData = roomCategoryData;
 	}
+	
 	
 }

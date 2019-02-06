@@ -5,8 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>BMS - Room Type</title>
-		<meta name="description" content="BMS - Room Type">
+		<title>BMS - Room Category</title>
+		<meta name="description" content="BMS - Room Category">
 		<%@include file="../includes/metadata.jsp"%>
 		<%@include file="../includes/appicons.jsp"%>
 		<%@include file="../includes/styles.jsp"%>
@@ -23,12 +23,12 @@
             <div class="bg-body-light">
                 <div class="content content-full">
                     <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Room Type</h1>
+                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Room Category</h1>
                         <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">Hotel Management</li>
                                 <li class="breadcrumb-item">Room Info</li>
-                                <li class="breadcrumb-item active" aria-current="page">Room Type</li>
+                                <li class="breadcrumb-item active" aria-current="page">Room Category</li>
                             </ol>
                         </nav>
                     </div>
@@ -90,11 +90,11 @@
                              	</div>
                     		</div>
                     	 	<div class="col-md-8">
-                    	 		<h2 class="content-heading pt-0">Room Type List</h2>
+                    	 		<h2 class="content-heading pt-0">Room Category List</h2>
                    	 			<!-- Full Table -->
 		                  	  	<div class="block-content text-right">
 									<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
-			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Type
+			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Category
 			                        </button>
 		                  	  	</div>
 		                      	<div class="block-content">
@@ -102,24 +102,39 @@
 		                               <thead>
 		                                   <tr>
 		                                       <th>Name</th>
-		                                       <th class="text-center" style="width: 100px;">Active</th>
+		                                       <th style="width: 25%;">Room Type</th>
+		                                       <th class="text-right" style="width: 100px;">Rent</th>
+		                                       <th class="text-right" style="width: 100px;">Size</th>
+		                                       <th class="text-center" style="width: 80px;">Active</th>
 		                                       <th class="text-center" style="width: 100px;">Actions</th>
 		                                   </tr>
 		                               </thead>
 		                               <tbody>
-		                               	   <c:forEach items="${itemTypeList}" var="itemTypeData">
+		                               	   <c:forEach items="${roomCategoryList}" var="itemCategoryData">
 	                               	   			<tr>
 													<td class="font-w600">
-														${itemTypeData.name}
+														${itemCategoryData.name}
 													</td>
 													<td class="font-w600">
-														${itemTypeData.active}
+														${itemCategoryData.itemTypeName}
+													</td>
+													<td class="text-right" class="font-w600">
+														${itemCategoryData.rent}
+													</td>
+													<td class="text-right" class="font-w600">
+														${itemCategoryData.roomCategoryData.size}
+													</td>
+													<td class="text-center" class="font-w600">
+														${itemCategoryData.active}
 													</td>
 													<td class="text-center">
-													   <input type="hidden" class="col-id" value="${itemTypeData.id}"/>
-													   <input type="hidden" class="col-name" value="${itemTypeData.name}"/>
-													   <input type="hidden" class="col-providerId" value="${itemTypeData.providerId}"/>
-													   <input type="hidden" class="col-active" value="${itemTypeData.active}"/>
+													   <input type="hidden" class="col-id" value="${itemCategoryData.id}"/>
+													   <input type="hidden" class="col-name" value="${itemCategoryData.name}"/>
+													   <input type="hidden" class="col-itemTypeName" value="${itemCategoryData.itemTypeName}"/>
+													   <input type="hidden" class="col-rent" value="${itemCategoryData.rent}"/>
+													   <input type="hidden" class="col-size" value="${itemCategoryData.roomCategoryData.size}"/>
+													   <input type="hidden" class="col-itemTypeId" value="${itemCategoryData.itemTypeId}"/>
+													   <input type="hidden" class="col-active" value="${itemCategoryData.active}"/>
 			                                           <div class="btn-group">
 			                                               <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
 			                                                   <i class="fa fa-pencil-alt"></i>
@@ -154,11 +169,25 @@
 	                </div>
 	                <div class="col-sm-10 col-lg-10 col-xl-6">
 	                	<div class="form-group">
-	                		<input id="val-providerId" type="hidden" name="providerId" value="#[providerId]"/>
+	                		<label for="val-name">Room Type <span class="text-danger">*</span></label>
+	                		<select class="form-control" id="val-itemTypeId" name="itemTypeId">
+                                <%-- <option value="0">Please select</option>
+                                <c:forEach items="${roomTypeList}" var="i">
+                                   <option value="${i.id}">${i.name}</option>
+                                </c:forEach> --%>
+                             </select>
 	                	</div>
 	                    <div class="form-group">
 	                        <label for="val-name">Name <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-name" name="name" value="#[name]" placeholder="Enter Name..">
+	                    </div>
+	                    <div class="form-group">
+	                        <label for="val-name">Rent <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-rent" name="rent" value="#[rent]" placeholder="Enter Rent..">
+	                    </div>
+	                    <div class="form-group">
+	                        <label for="val-name">Room Size <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-size" name="roomCategoryData.size" value="#[size]" placeholder="Enter Size..">
 	                    </div>
 	                    <div class="form-group">
 	                    	<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">
@@ -186,17 +215,29 @@
 	        </form>
         </template>
         <template id="rowTemplete">
-	        <td class="font-w600">
+        	<td class="font-w600">
 				#[name]
 			</td>
 			<td class="font-w600">
+				#[itemTypeName]
+			</td>
+			<td class="text-right" class="font-w600">
+				#[rent]
+			</td>
+			<td class="text-right" class="font-w600">
+				#[size]
+			</td>
+			<td class="text-center" class="font-w600">
 				#[active]
 			</td>
 			<td class="text-center">
 				<input type="hidden" class="col-id" value="#[id]"/>
-			    <input type="hidden" class="col-name" value="#[name]"/>
-			    <input type="hidden" class="col-providerId" value="#[providerId]"/>
-			    <input type="hidden" class="col-active" value="#[active]"/>
+			   	<input type="hidden" class="col-name" value="#[name]"/>
+			   	<input type="hidden" class="col-itemTypeName" value="#[itemTypeName]"/>
+			   	<input type="hidden" class="col-rent" value="#[rent]"/>
+			   	<input type="hidden" class="col-size" value="#[size]"/>
+			   	<input type="hidden" class="col-itemTypeId" value="#[itemTypeId]"/>
+			   	<input type="hidden" class="col-active" value="#[active]"/>
 		        <div class="btn-group">
 			        <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
 			        	<i class="fa fa-pencil-alt"></i>
@@ -215,13 +256,14 @@
         <%@include file="../hotel/hotelsearch.jsp" %>
         <!-- END Modal Pop Up -->
 
-		<script src="<c:url value="/resources/js/custom/room/roomtype.js"/>"></script>
+		<script src="<c:url value="/resources/js/custom/room/roomcategory.js"/>"></script>
 
 		<script type="text/javascript">
-			roomtype.getRoomTypeListUrl = '<c:url value="/roomtype/fetch/0/{#providerId}/0" />';
-			roomtype.createRoomTypeUrl = '<c:url value="/roomtype/create" />';
-			roomtype.updateRoomTypeUrl = '<c:url value="/roomtype/update" />';
-			roomtype.deleteRoomTypeUrl = '<c:url value="/roomtype/delete/" />';
+			roomcategory.getRoomTypeListUrl = '<c:url value="/roomtype/fetch/0/{#providerId}/0" />';
+			roomcategory.getRoomCategoryListUrl = '<c:url value="/roomcategory/fetch/0/{#providerId}/0" />';
+			roomcategory.createRoomCategoryUrl = '<c:url value="/roomcategory/create" />';
+			roomcategory.updateRoomCategoryUrl = '<c:url value="/roomcategory/update" />';
+			roomcategory.deleteRoomCategoryUrl = '<c:url value="/roomcategory/delete/" />';
 		</script>
 	</body>
 </html>

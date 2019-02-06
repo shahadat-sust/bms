@@ -1,16 +1,21 @@
-var roomtype = {
+var roomcategory = {
 	hotelInfo: undefined,
-	itemTypeData : {
+	itemCategoryData : {
 		id : "0",
    		name : "",
-   		providerId : "0",
+   		itemTypeName : "",
+   		rent : "0.00",
+   		size : "0",
+   		itemTypeId : "0",
    		active : "true"
 	},
 	getRoomTypeListUrl: undefined,
 	getRoomTypeListAjax: undefined,
-	createRoomTypeUrl: undefined,
-	updateRoomTypeUrl: undefined,
-	deleteRoomTypeUrl: undefined,
+	getRoomCategoryListUrl: undefined,
+	getRoomCategoryListAjax: undefined,
+	createRoomCategoryUrl: undefined,
+	updateRoomCategoryUrl: undefined,
+	deleteRoomCategoryUrl: undefined,
 		
 	init : function() {
 		 $(".rating").raty({
@@ -21,42 +26,55 @@ var roomtype = {
             readOnly: true
         });
 		
-		 hotelsearchmodal.init(roomtype.onHotelSelect);
+		 hotelsearchmodal.init(roomcategory.onHotelSelect);
 		 
 		 $(document).on("click", "#btnCreateNew", function(e) {
 			var _btn = this;
        		$("#btnCreateNew").attr('disabled', true);
-       		var selectedProviderId = $("#var-selected-providerId").val();
-       		
+
        		var formTemplete = $("#formTemplete").clone();
     		var formHtml = formTemplete.html()
     		.replace("#[id]", "0")
     		.replace("#[name]", "")
-    		.replace("#[providerId]", selectedProviderId)
+    		.replace("#[rent]", "0.00")
+    		.replace("#[size]", "0")
+    		.replace("#[itemTypeId]", "0")
     		.replace("#[active]", "true");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='3'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='6'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
+       		$('#val-itemTypeId').html('<option value="0">Please select</option>');
        		
-       		roomtype.initValidation();
+       		var providerId = $("#var-selected-providerId").val();
+       		roomcategory.getRoomTypeList(providerId);
+       		roomcategory.initValidation();
        	});
        	
        	$(document).on("click", "#btnCancel", function(e) {
        		var _btn = this;
-       		if(roomtype.itemTypeData.id > 0) {
+       		if(roomcategory.itemCategoryData.id > 0) {
        			var rowTemplete = $("#rowTemplete").clone();
        			var rowHtml = rowTemplete.html()
-       				.replace("#[id]", roomtype.itemTypeData.id)
-                	.replace("#[name]", roomtype.itemTypeData.name)
-                	.replace("#[name]", roomtype.itemTypeData.name)
-                	.replace("#[providerId]", roomtype.itemTypeData.providerId)
-                	.replace("#[active]", roomtype.itemTypeData.active)
-                	.replace("#[active]", roomtype.itemTypeData.active);
+       				.replace("#[id]", roomcategory.itemCategoryData.id)
+                	.replace("#[name]", roomcategory.itemCategoryData.name)
+                	.replace("#[name]", roomcategory.itemCategoryData.name)
+                	.replace("#[itemTypeName]", roomcategory.itemCategoryData.itemTypeName)
+                	.replace("#[itemTypeName]", roomcategory.itemCategoryData.itemTypeName)
+                	.replace("#[rent]", roomcategory.itemCategoryData.rent)
+                	.replace("#[rent]", roomcategory.itemCategoryData.rent)
+                	.replace("#[size]", roomcategory.itemCategoryData.size)
+                	.replace("#[size]", roomcategory.itemCategoryData.size)
+                	.replace("#[itemTypeId]", roomcategory.itemCategoryData.itemTypeId)
+                	.replace("#[active]", roomcategory.itemCategoryData.active)
+                	.replace("#[active]", roomcategory.itemCategoryData.active);
                	$(_btn).closest("tr").html(rowHtml);
                	
-               	roomtype.itemTypeData.id = "0";
-               	roomtype.itemTypeData.name = "";
-               	roomtype.itemTypeData.providerId = "0";
-               	roomtype.itemTypeData.active = "true";
+               	roomcategory.itemCategoryData.id = "0";
+               	roomcategory.itemCategoryData.name = "";
+               	roomcategory.itemCategoryData.itemTypeName = "";
+               	roomcategory.itemCategoryData.rent = "0";
+               	roomcategory.itemCategoryData.size = "0";
+               	roomcategory.itemCategoryData.itemTypeId = "0";
+               	roomcategory.itemCategoryData.active = "true";
        		} else {
        			$('#dataTable > tbody tr').first().remove();
        		}
@@ -67,7 +85,7 @@ var roomtype = {
        		var _btn = this;
        		if($("#formComponent").valid()) {
        			swal({
-                    text: "Do you want to " + (roomtype.itemTypeData.id > 0 ? "update" : "create") + " this room type",
+                    text: "Do you want to " + (roomcategory.itemCategoryData.id > 0 ? "update" : "create") + " this room category",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonClass: "btn btn-danger m-1",
@@ -82,10 +100,10 @@ var roomtype = {
                     }
            		}).then(function(e) {
                 	if(e.value) {
-                		if(roomtype.itemTypeData.id > 0) {
-                			roomtype.doUpdate(_btn);
+                		if(roomcategory.itemCategoryData.id > 0) {
+                			roomcategory.doUpdate(_btn);
                 		} else {
-                			roomtype.doCreate(_btn);
+                			roomcategory.doCreate(_btn);
                 		}
                 	}
                 });
@@ -96,27 +114,35 @@ var roomtype = {
 			var _btn = this;
 			$(_btn).tooltip('hide');
 			var tr = $(_btn).closest("tr");
-			roomtype.itemTypeData.id = $.trim($(tr).find(".col-id")[0].value);
-			roomtype.itemTypeData.name = $.trim($(tr).find(".col-name")[0].value);
-			roomtype.itemTypeData.active = $.trim($(tr).find(".col-active")[0].value);
-			roomtype.itemTypeData.providerId = $.trim($(tr).find(".col-providerId")[0].value);
+			roomcategory.itemCategoryData.id = $.trim($(tr).find(".col-id")[0].value);
+			roomcategory.itemCategoryData.name = $.trim($(tr).find(".col-name")[0].value);
+			roomcategory.itemCategoryData.itemTypeName = $.trim($(tr).find(".col-itemTypeName")[0].value);
+			roomcategory.itemCategoryData.rent = $.trim($(tr).find(".col-rent")[0].value);
+			roomcategory.itemCategoryData.size = $.trim($(tr).find(".col-size")[0].value);
+			roomcategory.itemCategoryData.active = $.trim($(tr).find(".col-active")[0].value);
+			roomcategory.itemCategoryData.itemTypeId = $.trim($(tr).find(".col-itemTypeId")[0].value);
 			
 			var formTemplete = $("#formTemplete").clone();
 			var formHtml = formTemplete.html()
-			.replace("#[id]", roomtype.itemTypeData.id)
-			.replace("#[name]", roomtype.itemTypeData.name)
-			.replace("#[active]", roomtype.itemTypeData.active)
-			.replace("#[providerId]", roomtype.itemTypeData.providerId);
-	   		$(tr).html("<td colspan='3'>" + formHtml + "</td>");
-	   		if (eval(roomtype.itemTypeData.active)) {
+				.replace("#[id]", roomcategory.itemCategoryData.id)
+				.replace("#[name]", roomcategory.itemCategoryData.name)
+				.replace("#[rent]", roomcategory.itemCategoryData.rent)
+				.replace("#[size]", roomcategory.itemCategoryData.size)
+				.replace("#[active]", roomcategory.itemCategoryData.active);
+	   		$(tr).html("<td colspan='6'>" + formHtml + "</td>");
+
+	   		if (eval(roomcategory.itemCategoryData.active)) {
 	   			$('#val-active').attr("checked", "checked");
 	   		} else {
 	   			$('#val-active').removeAttr("checked");
 	   		}
 	   		$("#btnSubmit").html('Update');
 	   		$("#btnCreateNew").attr('disabled', true);
-
-	   		roomtype.initValidation();
+	   		$('#val-itemTypeId').html('<option value="0">Please select</option>');
+	   		
+	   		var providerId = $("#var-selected-providerId").val();
+	   		roomcategory.getRoomTypeList(providerId, roomcategory.itemCategoryData.itemTypeId);
+	   		roomcategory.initValidation();
        	});
 		
 		$(document).on("click", ".delete-button", function(e) {
@@ -126,7 +152,7 @@ var roomtype = {
 			var id = $.trim($(tr).find(".col-id")[0].value);
 			if(id > 0) {
 				swal({
-	                text: "Do you want to delete this room type",
+	                text: "Do you want to delete this room category",
 	                type: "warning",
 	                showCancelButton: true,
 	                confirmButtonClass: "btn btn-danger m-1",
@@ -141,7 +167,7 @@ var roomtype = {
 	                }
 	            }).then(function(e) {
 	            	if(e.value) {
-	            		roomtype.doDelete(_btn, id);
+	            		roomcategory.doDelete(_btn, id);
 	            	}
 	            });
 			} else {
@@ -156,7 +182,7 @@ var roomtype = {
 	},
 	
 	onHotelSelect : function(o) {
-		roomtype.hotelInfo = o;
+		roomcategory.hotelInfo = o;
 		$('#var-selected-providerId').val(o.providerId);
 		$('#var-title').val(o.title);
 		$('#var-cityName').val(o.cityName);
@@ -171,13 +197,57 @@ var roomtype = {
             starOn: $(this).data("star-on") || "fa fa-fw fa-star text-warning",
             readOnly: true
         });
-		
-		roomtype.getRoomTypeList(o.providerId);
+
+		roomcategory.getRoomCategoryList(o.providerId);
 	},
 	
-	getRoomTypeList : function(providerId) {
-		var url =  roomtype.getRoomTypeListUrl.replace("{#providerId}", providerId);
-		roomtype.getRoomTypeListAjax = $.ajax({
+	getRoomTypeList : function(providerId, itemTypeId) {
+		var url =  roomcategory.getRoomTypeListUrl.replace("{#providerId}", providerId);
+		roomcategory.getRoomTypeListAjax = $.ajax({
+			type: "GET",
+            contentType: "application/json",
+            url: url,
+            dataType: 'json',
+            timeout: 600000,
+            success: function (data) {
+            	if(data.status) {
+            		roomcategory.getRoomTypeListAjax = undefined;
+            		var html = '<option value="0">Please select</option>';
+            		$.each(data.datas, function(index, data) {
+            			html += '<option value="' + data.id + '">' + data.name + '</option>';
+            		});
+            		$('#val-itemTypeId').html(html);
+            		if (itemTypeId) {
+            			$('#val-itemTypeId').val(itemTypeId);
+            		}
+            	} else {
+            		console.log(data.errors);
+            		roomcategory.getRoomTypeListAjax = undefined;
+            		Dashmix.helpers('notify', {
+                		align: 'center',
+                		type: 'danger', 
+                		icon: 'fa fa-times mr-1', 
+                		message: 'Failed to get states!',
+                		delay: 1e3
+        			});
+            	}
+            },
+            error: function (e) {
+            	roomcategory.getRoomTypeListAjax = undefined;
+            	Dashmix.helpers('notify', {
+            		align: 'center',
+            		type: 'danger', 
+            		icon: 'fa fa-times mr-1', 
+            		message: 'Failed to process request!',
+            		delay: 1e3
+    			});
+            }
+		});
+	},
+	
+	getRoomCategoryList : function(providerId) {
+		var url =  roomcategory.getRoomCategoryListUrl.replace("{#providerId}", providerId);
+		roomcategory.getRoomCategoryListAjax = $.ajax({
 			type: "GET",
             contentType: "application/json",
             url: url,
@@ -185,18 +255,24 @@ var roomtype = {
             timeout: 600000,
             success: function (r) {
             	if(r.status) {
-            		roomtype.getRoomTypeListAjax = undefined;
+            		roomcategory.getRoomCategoryListAjax = undefined;
     				if (r.datas.length > 0) {
     					html = '';
             			$.each(r.datas, function (index, data) {
             				var rowTemplete = $("#rowTemplete").clone();
                    			var rowHtml = rowTemplete.html()
-                				.replace("#[id]", data.id)
-                				.replace("#[name]", data.name)
-                				.replace("#[name]", data.name)
-                				.replace("#[providerId]", data.providerId)
-                				.replace("#[active]", data.active)
-                				.replace("#[active]", data.active);
+	                   			.replace("#[id]", data.id)
+			                	.replace("#[name]", data.name)
+			                	.replace("#[name]", data.name)
+			                	.replace("#[itemTypeName]", data.itemTypeName)
+			                	.replace("#[itemTypeName]", data.itemTypeName)
+			                	.replace("#[rent]", data.rent)
+			                	.replace("#[rent]", data.rent)
+			                	.replace("#[size]", data.roomCategoryData.size)
+			                	.replace("#[size]", data.roomCategoryData.size)
+			                	.replace("#[itemTypeId]", data.itemTypeId)
+			                	.replace("#[active]", data.active)
+			                	.replace("#[active]", data.active);
                    			html += "<tr>" + rowHtml + "</tr>";
             			});
             			$('#dataTable').find('tbody').html(html);
@@ -205,12 +281,12 @@ var roomtype = {
     				}
             	} else {
             		console.log(r.errors);
-            		roomtype.getRoomTypeListAjax = undefined;
+            		roomcategory.getRoomCategoryListAjax = undefined;
             		$('#dataTable').find('tbody').html('');
             	}
             },
             error: function (e) {
-            	roomtype.getRoomTypeListAjax = undefined;
+            	roomcategory.getRoomCategoryListAjax = undefined;
             	$('#dataTable').find('tbody').html('');
             }
 		});
@@ -220,11 +296,15 @@ var roomtype = {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
+		serializeForm['roomCategoryData'] = {
+		    	"size": serializeForm['roomCategoryData.size'] 
+	    };
+		delete serializeForm['roomCategoryData.size'];
 		
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
-            url: roomtype.createRoomTypeUrl,
+            url: roomcategory.createRoomCategoryUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -233,19 +313,25 @@ var roomtype = {
             		$("#btnCreateNew").removeAttr('disabled');
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
-        				.replace("#[id]", data.datas[0].id)
-        				.replace("#[name]", data.datas[0].name)
-        				.replace("#[name]", data.datas[0].name)
-        				.replace("#[providerId]", data.datas[0].providerId)
-        				.replace("#[active]", data.datas[0].active)
-                		.replace("#[active]", data.datas[0].active);
+           				.replace("#[id]", data.datas[0].id)
+	                	.replace("#[name]", data.datas[0].name)
+	                	.replace("#[name]", data.datas[0].name)
+	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
+	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
+	                	.replace("#[rent]", data.datas[0].rent)
+	                	.replace("#[rent]", data.datas[0].rent)
+	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
+	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
+	                	.replace("#[itemTypeId]", data.datas[0].itemTypeId)
+	                	.replace("#[active]", data.datas[0].active)
+	                	.replace("#[active]", data.datas[0].active);
            			$('#dataTable > tbody tr').first().html(rowHtml);
             		
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Room type created successfully!',
+                		message: 'Room category created successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -255,7 +341,7 @@ var roomtype = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create room type, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create room category, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -278,11 +364,15 @@ var roomtype = {
 		$(_btn).attr("disabled", true);
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
-		
+		serializeForm['roomCategoryData'] = {
+		    	"size": serializeForm['roomCategoryData.size'] 
+	    };
+		delete serializeForm['roomCategoryData.size'];
+
 		$.ajax({
 			type: "PUT",
             contentType: "application/json",
-            url: roomtype.updateRoomTypeUrl,
+            url: roomcategory.updateRoomCategoryUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -292,23 +382,32 @@ var roomtype = {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
         				.replace("#[id]", data.datas[0].id)
-        				.replace("#[name]", data.datas[0].name)
-        				.replace("#[name]", data.datas[0].name)
-        				.replace("#[providerId]", data.datas[0].providerId)
-        				.replace("#[active]", data.datas[0].active)
-                		.replace("#[active]", data.datas[0].active);
+	                	.replace("#[name]", data.datas[0].name)
+	                	.replace("#[name]", data.datas[0].name)
+	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
+	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
+	                	.replace("#[rent]", data.datas[0].rent)
+	                	.replace("#[rent]", data.datas[0].rent)
+	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
+	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
+	                	.replace("#[itemTypeId]", data.datas[0].itemTypeId)
+	                	.replace("#[active]", data.datas[0].active)
+	                	.replace("#[active]", data.datas[0].active);
            			$(_btn).closest("tr").html(rowHtml);
             		
-           			roomtype.itemTypeData.id = "0";
-                   	roomtype.itemTypeData.name = "";
-                   	roomtype.itemTypeData.providerId = "0";
-                   	roomtype.itemTypeData.active = "true";
+           			roomcategory.itemCategoryData.id = "0";
+                   	roomcategory.itemCategoryData.name = "";
+                   	roomcategory.itemCategoryData.itemTypeName = "";
+                   	roomcategory.itemCategoryData.rent = "0.00";
+                   	roomcategory.itemCategoryData.size = "0";
+                   	roomcategory.itemCategoryData.itemTypeId = "0";
+                   	roomcategory.itemCategoryData.active = "true";
            			
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Room type updated successfully!',
+                		message: 'Room category updated successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -319,7 +418,7 @@ var roomtype = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update room type, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update room category, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -344,18 +443,17 @@ var roomtype = {
 		$.ajax({
 			type: "DELETE",
             contentType: "application/json",
-            url: roomtype.deleteRoomTypeUrl + id,
+            url: roomcategory.deleteRoomCategoryUrl + id,
             dataType: 'json',
             timeout: 600000,
             success: function (data) {
             	if(data.status) {
-
             		$(_btn).closest("tr").remove();
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Room type deleted successfully!',
+                		message: 'Room category deleted successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -365,7 +463,7 @@ var roomtype = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete room type, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete room category, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -384,6 +482,10 @@ var roomtype = {
 	},
 	
 	initValidation : function() {
+		$.validator.addMethod('decimal', function(value, element) {
+		  return this.optional(element) || /^((\d+(\\.\d{0,2})?)|((\d*(\.\d{1,2}))))$/.test(value);
+		}, "Please enter a correct number, format 0.00");
+		
 		$('#formComponent').validate({
             ignore : [], 
             errorClass : "invalid-feedback animated fadeIn", 
@@ -398,19 +500,31 @@ var roomtype = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
+            	"itemTypeId": {
+                    min: 1
+                },
             	"name": {
                     required: true, minlength: 3
                 },
-                "providerId": {
-                    min: 1
+                "rent": {
+                	required: true, decimal: true
+                },
+                "roomCategoryData.size": {
+                	required: true, digits: true
                 }
             }, 
             messages : {
+            	"itemTypeId": {
+                	min: "Please select room type"
+                },
             	"name": {
                     required: "Please enter name", minlength: "Name must consist of at least 3 characters"
                 },
-                "providerId": {
-                	min: "Please select hotel from search wizard"
+                "rent": {
+                	required: "Please enter rent"
+                },
+                "roomCategoryData.size": {
+                	required: "Please enter room size"
                 }
             }
         });
@@ -418,5 +532,5 @@ var roomtype = {
 };
 
 $(document).ready(function() {
-	roomtype.init();
+	roomcategory.init();
 });
