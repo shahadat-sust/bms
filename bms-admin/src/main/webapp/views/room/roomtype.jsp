@@ -107,7 +107,7 @@
 		                                   </tr>
 		                               </thead>
 		                               <tbody>
-		                               	   <c:forEach items="${itemTypeList}" var="itemTypeData">
+		                               	   <c:forEach items="${roomTypeList}" var="itemTypeData">
 	                               	   			<tr>
 													<td class="font-w600">
 														${itemTypeData.name}

@@ -207,6 +207,7 @@ var paymentTypeSetup = {
             timeout: 600000,
             success: function (data) {
             	if(data.status) {
+            		$("#btnCreateNew").removeAttr('disabled');
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
         				.replace("#[id]", data.datas[0].id)
@@ -230,6 +231,7 @@ var paymentTypeSetup = {
         			});
             	} else {
             		console.log(data.errors);
+            		$("#btnCreateNew").removeAttr('disabled');
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -241,6 +243,7 @@ var paymentTypeSetup = {
             	}
             },
             error: function (e) {
+            	$("#btnCreateNew").removeAttr('disabled');
             	$(_btn).removeAttr("disabled");
             	Dashmix.helpers('notify', {
             		align: 'center',

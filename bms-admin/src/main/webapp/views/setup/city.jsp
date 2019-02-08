@@ -191,7 +191,7 @@
 			citySetup.createUrl = '<c:url value="/city/create" />';
 			citySetup.updateUrl = '<c:url value="/city/update" />';
 			citySetup.deleteUrl = '<c:url value="/city/delete/" />';
-			citySetup.stateFetchUrl = '<c:url value="/state/fetch/" />/0/';
+			citySetup.stateFetchUrl = '<c:url value="/state/fetch/0/{#countryId}/1" />';
 		</script>
     </body>
 </html>

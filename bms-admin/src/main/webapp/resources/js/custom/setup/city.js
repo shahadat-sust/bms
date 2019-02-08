@@ -237,6 +237,7 @@ var citySetup = {
             timeout: 600000,
             success: function (data) {
             	if(data.status) {
+            		$("#btnCreateNew").removeAttr('disabled');
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
         				.replace("#[id]", data.datas[0].id)
@@ -269,6 +270,7 @@ var citySetup = {
         			});
             	} else {
             		console.log(data.errors);
+            		$("#btnCreateNew").removeAttr('disabled');
             		$(_btn).removeAttr("disabled");
             		Dashmix.helpers('notify', {
                 		align: 'center',
@@ -280,6 +282,7 @@ var citySetup = {
             	}
             },
             error: function (e) {
+            	$("#btnCreateNew").removeAttr('disabled');
             	$(_btn).removeAttr("disabled");
             	Dashmix.helpers('notify', {
             		align: 'center',
@@ -337,10 +340,11 @@ var citySetup = {
 	},
 	
 	getStateList : function(countryId, stateId) {
+		var url =  citySetup.stateFetchUrl.replace("{#countryId}", countryId);
 		citySetup.stateFetchAjax = $.ajax({
 			type: "GET",
             contentType: "application/json",
-            url: citySetup.stateFetchUrl + countryId,
+            url: url,
             dataType: 'json',
             timeout: 600000,
             success: function (data) {
