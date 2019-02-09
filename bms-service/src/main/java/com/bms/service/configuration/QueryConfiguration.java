@@ -226,6 +226,13 @@ public class QueryConfiguration {
 		return factoryBean;
 	}
 	
+	@Bean(name = "itemQuery")
+	public PropertiesFactoryBean itemQuery() {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(itemQueryResource);
+		return factoryBean;
+	}
+	
 	@Value("classpath:authenticationQuery.xml")
     private Resource authenticationQueryResource;
 	
@@ -318,5 +325,8 @@ public class QueryConfiguration {
 	
 	@Value("classpath:itemCategoryQuery.xml")
 	private Resource itemCategoryQueryResource;
+	
+	@Value("classpath:itemQuery.xml")
+	private Resource itemQueryResource;
 	
 }

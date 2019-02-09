@@ -102,10 +102,10 @@
 		                               <thead>
 		                                   <tr>
 		                                       <th>Name</th>
-		                                       <th style="width: 25%;">Room Type</th>
-		                                       <th class="text-right" style="width: 100px;">Rent</th>
-		                                       <th class="text-right" style="width: 100px;">Size</th>
-		                                       <th class="text-center" style="width: 80px;">Active</th>
+		                                       <th style="width: 25%;">Type</th>
+		                                       <th style="width: 100px;">Rent</th>
+		                                       <th class="d-none d-xl-table-cell" style="width: 100px;">Size</th>
+		                                       <th class="d-none d-xl-table-cell text-center" style="width: 80px;">Active</th>
 		                                       <th class="text-center" style="width: 100px;">Actions</th>
 		                                   </tr>
 		                               </thead>
@@ -121,10 +121,10 @@
 													<td class="text-right" class="font-w600">
 														${itemCategoryData.rent}
 													</td>
-													<td class="text-right" class="font-w600">
+													<td class="d-none d-xl-table-cell text-right font-w600">
 														${itemCategoryData.roomCategoryData.size}
 													</td>
-													<td class="text-center" class="font-w600">
+													<td class="d-none d-xl-table-cell text-center font-w600">
 														${itemCategoryData.active}
 													</td>
 													<td class="text-center">
@@ -169,12 +169,8 @@
 	                </div>
 	                <div class="col-sm-10 col-lg-10 col-xl-6">
 	                	<div class="form-group">
-	                		<label for="val-name">Room Type <span class="text-danger">*</span></label>
+	                		<label for="val-name">Type <span class="text-danger">*</span></label>
 	                		<select class="form-control" id="val-itemTypeId" name="itemTypeId">
-                                <%-- <option value="0">Please select</option>
-                                <c:forEach items="${roomTypeList}" var="i">
-                                   <option value="${i.id}">${i.name}</option>
-                                </c:forEach> --%>
                              </select>
 	                	</div>
 	                    <div class="form-group">
@@ -186,7 +182,7 @@
 	                        <input class="form-control" type="text" id="val-rent" name="rent" value="#[rent]" placeholder="Enter Rent..">
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-name">Room Size <span class="text-danger">*</span></label>
+	                        <label for="val-name">Size <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-size" name="roomCategoryData.size" value="#[size]" placeholder="Enter Size..">
 	                    </div>
 	                    <div class="form-group">
@@ -224,10 +220,10 @@
 			<td class="text-right" class="font-w600">
 				#[rent]
 			</td>
-			<td class="text-right" class="font-w600">
+			<td class="d-none d-xl-table-cell text-right font-w600">
 				#[size]
 			</td>
-			<td class="text-center" class="font-w600">
+			<td class="d-none d-xl-table-cell text-center font-w600">
 				#[active]
 			</td>
 			<td class="text-center">
@@ -259,8 +255,8 @@
 		<script src="<c:url value="/resources/js/custom/room/roomcategory.js"/>"></script>
 
 		<script type="text/javascript">
-			roomcategory.getRoomTypeListUrl = '<c:url value="/roomtype/fetch/0/{#providerId}/0" />';
-			roomcategory.getRoomCategoryListUrl = '<c:url value="/roomcategory/fetch/0/{#providerId}/0" />';
+			roomcategory.getRoomTypeListUrl = '<c:url value="/roomtype/fetch/0/{#providerId}/1" />';
+			roomcategory.getRoomCategoryListUrl = '<c:url value="/roomcategory/fetch/0/0/{#providerId}/0" />';
 			roomcategory.createRoomCategoryUrl = '<c:url value="/roomcategory/create" />';
 			roomcategory.updateRoomCategoryUrl = '<c:url value="/roomcategory/update" />';
 			roomcategory.deleteRoomCategoryUrl = '<c:url value="/roomcategory/delete/" />';

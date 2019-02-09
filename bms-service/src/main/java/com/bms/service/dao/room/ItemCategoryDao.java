@@ -152,6 +152,35 @@ public class ItemCategoryDao extends BaseDao implements IItemCategoryDao {
 	}
 
 	@Override
+	public List<ItemCategoryData> getAllItemCategoriesByItemTypeId(long itemTypeId) throws BmsSqlException {
+		try {
+			String sql = itemCategoryQuery.getProperty("itemCategory.getAllItemCategoriesByItemTypeId");
+			Object[] params = new Object[] {itemTypeId};
+			List<ItemCategoryData> itemCategoryDatas = this.getTemplete().query(sql, params, new RowMapper<ItemCategoryData> () {
+				@Override
+				public ItemCategoryData mapRow(ResultSet rs, int rowNum) throws SQLException {
+					ItemCategoryData itemCategoryData = new ItemCategoryData();
+					itemCategoryData.setId(rs.getLong(1));
+					itemCategoryData.setName(rs.getString(2));
+					itemCategoryData.setItemTypeId(rs.getLong(3));
+					itemCategoryData.setItemTypeName(rs.getString(4));
+					itemCategoryData.setRent(rs.getDouble(5));
+					itemCategoryData.setActive(rs.getBoolean(6));
+					itemCategoryData.setStatus(rs.getInt(7));
+					itemCategoryData.setRoomCategoryData(new RoomCategoryData());
+					itemCategoryData.getRoomCategoryData().setId(rs.getLong(8));
+					itemCategoryData.getRoomCategoryData().setSize(rs.getInt(9));
+					return itemCategoryData;
+				}	
+			});
+			
+			return itemCategoryDatas;
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
+	}
+
+	@Override
 	public List<ItemCategoryData> getAllItemCategoriesByProviderId(long providerId) throws BmsSqlException {
 		try {
 			String sql = itemCategoryQuery.getProperty("itemCategory.getAllItemCategoriesByProviderId");

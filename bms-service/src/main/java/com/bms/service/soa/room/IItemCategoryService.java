@@ -19,6 +19,8 @@ public interface IItemCategoryService {
 	
 	List<ItemCategoryData> getAllItemCategoriesByProviderId(long providerId) throws BmsSqlException, BmsException;
 	
+	List<ItemCategoryData> getAllItemCategoriesByItemTypeId(long itemTypeId) throws BmsSqlException, BmsException;
+	
 	boolean isAvailable(long itemCategoryId, String name, long itemTypeId) throws BmsSqlException, BmsException;
 	
 	IItemCategoryDao getItemCategoryDao();

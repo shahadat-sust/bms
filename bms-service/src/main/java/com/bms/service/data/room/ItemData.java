@@ -11,6 +11,9 @@ public class ItemData extends BaseData {
 	private double rent;
 	private boolean isActive;
 	private int status;
+	private String itemCategoryName;
+	private long itemTypeId;
+	private String itemTypeName;
 	private RoomData roomData;
 	
 	public long getItemCategoryId() {
@@ -42,6 +45,24 @@ public class ItemData extends BaseData {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getItemCategoryName() {
+		return itemCategoryName;
+	}
+	public void setItemCategoryName(String itemCategoryName) {
+		this.itemCategoryName = itemCategoryName;
+	}
+	public long getItemTypeId() {
+		return itemTypeId;
+	}
+	public void setItemTypeId(long itemTypeId) {
+		this.itemTypeId = itemTypeId;
+	}
+	public String getItemTypeName() {
+		return itemTypeName;
+	}
+	public void setItemTypeName(String itemTypeName) {
+		this.itemTypeName = itemTypeName;
 	}
 	public RoomData getRoomData() {
 		return roomData;

@@ -6,17 +6,10 @@ public class RoomData extends BaseData {
 
 	private static final long serialVersionUID = 4038255198538699598L;
 
-	private long itemId;
 	private int floorNo;
 	private int size;
 	private String landLine;
 	
-	public long getItemId() {
-		return itemId;
-	}
-	public void setItemId(long itemId) {
-		this.itemId = itemId;
-	}
 	public int getFloorNo() {
 		return floorNo;
 	}

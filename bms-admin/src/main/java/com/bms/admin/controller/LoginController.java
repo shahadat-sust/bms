@@ -1,6 +1,8 @@
 package com.bms.admin.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +21,7 @@ import com.bms.common.BmsException;
 import com.bms.common.util.StringUtils;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.provider.ProviderAdminData;
+import com.bms.service.data.room.ItemData;
 import com.bms.service.data.user.UserData;
 import com.bms.service.soa.auth.IAuthenticationService;
 import com.bms.service.soa.provider.IProviderAdminService;
@@ -74,6 +77,14 @@ public class LoginController extends BaseController {
 		List<ProviderAdminData> assignedHotels = providerAdminService.getAssignedProviders(userId, 
 				userData.getUserGroupData().getGroupId(), 
 				userData.getUserRoleData().getRoleId());
+		if (assignedHotels != null && assignedHotels.size() > 0) {
+			Collections.sort(assignedHotels, new Comparator<ProviderAdminData>() {
+				@Override
+				public int compare(ProviderAdminData o1, ProviderAdminData o2) {
+					return o1.getTitle().compareTo(o2.getTitle());
+				}
+			});
+		}
 		
 		ProviderAdminData defaultHotel = providerAdminService.getDefaultProviderByUserId(userId);
 		if (defaultHotel == null) {

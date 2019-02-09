@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="item.create">
+	    <![CDATA[
+			INSERT INTO Item (ItemCategoryId, ItemNo, Rent, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	
+	<entry key="room.create">
+	    <![CDATA[
+			INSERT INTO Room (ItemId, FloorNo, Size, LandLine, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	
+	<entry key="item.update">
+	    <![CDATA[
+			UPDATE Item SET 
+				ItemCategoryId = ?, 
+				ItemNo = ?, 
+				Rent = ?, 
+				IsActive = ?,  
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	
+	<entry key="room.update">
+	    <![CDATA[
+			UPDATE Room SET 
+				FloorNo = ?,  
+				Size = ?,  
+				LandLine = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				ItemId = ?
+	    ]]>
+	</entry>
+	
+	<entry key="item.delete">
+	    <![CDATA[
+	    	UPDATE Item SET 
+				Status = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				Id = ?
+	    ]]>
+	</entry>
+	
+	<entry key="item.getItemById">
+	    <![CDATA[
+			SELECT 
+				Item.Id, 
+				Item.ItemCategoryId,
+				ItemCategory.Name, 
+				Item.ItemNo, 
+				Item.Rent, 
+				Item.IsActive,
+				Item.Status,
+				ItemType.Id,
+				ItemType.Name,
+				Room.Id,
+				Room.FloorNo, 
+				Room.Size, 
+				Room.LandLine 
+			FROM Item 
+			LEFT OUTER JOIN Room ON
+				Room.ItemId = Item.Id
+			LEFT OUTER JOIN ItemCategory ON
+				ItemCategory.Id = Item.ItemCategoryId
+			LEFT OUTER JOIN ItemType ON
+				ItemType.Id = ItemCategory.ItemTypeId
+			WHERE 
+				Item.Id = ?
+	    ]]>
+	</entry>
+	
+	<entry key="item.getAllItemsByProviderId">
+	    <![CDATA[
+			SELECT 
+				Item.Id, 
+				Item.ItemCategoryId,
+				ItemCategory.Name, 
+				Item.ItemNo, 
+				Item.Rent, 
+				Item.IsActive,
+				Item.Status,
+				ItemType.Id,
+				ItemType.Name,
+				Room.Id,
+				Room.FloorNo, 
+				Room.Size, 
+				Room.LandLine 
+			FROM Item 
+			LEFT OUTER JOIN Room ON
+				Room.ItemId = Item.Id
+			LEFT OUTER JOIN ItemCategory ON
+				ItemCategory.Id = Item.ItemCategoryId
+			LEFT OUTER JOIN ItemType ON
+				ItemType.Id = ItemCategory.ItemTypeId
+			LEFT OUTER JOIN Provider ON
+				Provider.Id = ItemType.ProviderId
+			WHERE 
+				Item.Status = 1
+				AND Provider.Id = ?
+			ORDER BY Item.Id DESC
+	    ]]>
+	</entry>
+	
+	<entry key="item.isAvailable">
+	    <![CDATA[
+			SELECT 
+				Item.Id 
+			FROM Item 
+			LEFT OUTER JOIN ItemCategory ON
+				ItemCategory.Id = Item.ItemCategoryId
+			LEFT OUTER JOIN ItemType ON
+				ItemType.Id = ItemCategory.ItemTypeId
+			LEFT OUTER JOIN Provider ON
+				Provider.Id = ItemType.ProviderId
+			WHERE
+				((? > 0 AND Item.Id != ? AND Item.ItemNo = ?)
+			    OR (? <= 0 AND Item.ItemNo = ?)) 
+			    AND Provider.Id = ?
+	    ]]>
+	</entry>
+	
+</properties>

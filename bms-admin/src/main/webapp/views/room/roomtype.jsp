@@ -112,7 +112,7 @@
 													<td class="font-w600">
 														${itemTypeData.name}
 													</td>
-													<td class="font-w600">
+													<td class="text-center font-w600">
 														${itemTypeData.active}
 													</td>
 													<td class="text-center">
@@ -189,7 +189,7 @@
 	        <td class="font-w600">
 				#[name]
 			</td>
-			<td class="font-w600">
+			<td class="text-center font-w600">
 				#[active]
 			</td>
 			<td class="text-center">

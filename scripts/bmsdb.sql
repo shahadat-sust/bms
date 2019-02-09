@@ -769,7 +769,6 @@ CREATE TABLE `Item` (
   `UpdatedBy` bigint(20) NOT NULL,
   `UpdatedOn` timestamp NOT NULL DEFAULT '2018-01-01 10:00:00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `UK_Item_ItemNo` (`ItemNo`),
   KEY `FK_Item_ItemCategoryId_idx` (`ItemCategoryId`),
   KEY `FK_Item_CreatedBy_idx` (`CreatedBy`),
   KEY `FK_Item_UpdatedBy_idx` (`UpdatedBy`),
