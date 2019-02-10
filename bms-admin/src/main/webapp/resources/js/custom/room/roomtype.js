@@ -172,6 +172,7 @@ var roomtype = {
             readOnly: true
         });
 		
+		$("#btnCreateNew").removeAttr('disabled');
 		roomtype.getRoomTypeList(o.providerId);
 	},
 	

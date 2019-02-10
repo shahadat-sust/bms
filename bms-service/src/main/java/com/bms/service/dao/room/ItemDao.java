@@ -81,7 +81,7 @@ public class ItemDao extends BaseDao implements IItemDao {
 		try {
 			String sql = itemQuery.getProperty("item.update");
 			boolean status = this.getTemplete().update(sql,
-					itemData.getItemTypeId(),
+					itemData.getItemCategoryId(),
 					itemData.getItemNo(),
 					itemData.getRent(),
 					itemData.isActive() ? 1 : 0,
@@ -154,6 +154,39 @@ public class ItemDao extends BaseDao implements IItemDao {
 			} else {
 				throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");
 			}
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
+	}
+	
+	@Override
+	public List<ItemData> getAllItemsByItemCategoryId(long itemCategoryId) throws BmsSqlException {
+		try {
+			String sql = itemQuery.getProperty("item.getAllItemsByItemCategoryId");
+			Object[] params = new Object[] {itemCategoryId};
+			List<ItemData> itemDatas = this.getTemplete().query(sql, params, new RowMapper<ItemData> () {
+				@Override
+				public ItemData mapRow(ResultSet rs, int rowNum) throws SQLException {
+					ItemData itemData = new ItemData();
+					itemData.setId(rs.getLong(1));
+					itemData.setItemCategoryId(rs.getLong(2));
+					itemData.setItemCategoryName(rs.getString(3));
+					itemData.setItemNo(rs.getString(4));
+					itemData.setRent(rs.getDouble(5));
+					itemData.setActive(rs.getBoolean(6));
+					itemData.setStatus(rs.getInt(7));
+					itemData.setItemTypeId(rs.getLong(8));
+					itemData.setItemTypeName(rs.getString(9));
+					itemData.setRoomData(new RoomData());
+					itemData.getRoomData().setId(rs.getLong(10));
+					itemData.getRoomData().setFloorNo(rs.getInt(11));
+					itemData.getRoomData().setSize(rs.getInt(12));
+					itemData.getRoomData().setLandLine(rs.getString(13));
+					return itemData;
+				}	
+			});
+			
+			return itemDatas;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}

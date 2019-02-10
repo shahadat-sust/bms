@@ -93,7 +93,7 @@
                     	 		<h2 class="content-heading pt-0">Room Category List</h2>
                    	 			<!-- Full Table -->
 		                  	  	<div class="block-content text-right">
-									<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
+									<button id="btnCreateNew" type="button" class="btn btn-success mr-1" disabled="disabled">
 			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Category
 			                        </button>
 		                  	  	</div>

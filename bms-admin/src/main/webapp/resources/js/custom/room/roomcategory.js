@@ -198,6 +198,7 @@ var roomcategory = {
             readOnly: true
         });
 
+		$("#btnCreateNew").removeAttr('disabled');
 		roomcategory.getRoomCategoryList(o.providerId);
 	},
 	

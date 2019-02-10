@@ -82,6 +82,36 @@
 	    ]]>
 	</entry>
 	
+	<entry key="item.getAllItemsByItemCategoryId">
+	    <![CDATA[
+			SELECT 
+				Item.Id, 
+				Item.ItemCategoryId,
+				ItemCategory.Name, 
+				Item.ItemNo, 
+				Item.Rent, 
+				Item.IsActive,
+				Item.Status,
+				ItemType.Id,
+				ItemType.Name,
+				Room.Id,
+				Room.FloorNo, 
+				Room.Size, 
+				Room.LandLine 
+			FROM Item 
+			LEFT OUTER JOIN Room ON
+				Room.ItemId = Item.Id
+			LEFT OUTER JOIN ItemCategory ON
+				ItemCategory.Id = Item.ItemCategoryId
+			LEFT OUTER JOIN ItemType ON
+				ItemType.Id = ItemCategory.ItemTypeId
+			WHERE 
+				Item.Status = 1
+				AND Item.ItemCategoryId = ?
+			ORDER BY Item.Id DESC
+	    ]]>
+	</entry>
+
 	<entry key="item.getAllItemsByProviderId">
 	    <![CDATA[
 			SELECT 

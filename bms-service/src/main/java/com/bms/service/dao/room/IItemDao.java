@@ -17,6 +17,8 @@ public interface IItemDao {
 	
 	List<ItemData> getAllItemsByProviderId(long providerId) throws BmsSqlException;
 	
+	List<ItemData> getAllItemsByItemCategoryId(long itemCategoryId) throws BmsSqlException;
+	
 	boolean isAvailable(long itemId, String itemNo, long providerId) throws BmsSqlException;
 	
 }

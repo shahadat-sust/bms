@@ -2,10 +2,7 @@ var room = {
 	hotelInfo: undefined,
 	itemData : {
 		id : "0",
-		itemTypeId : "0",
-   		itemTypeName : "",
    		itemCategoryId : "0",
-   		itemCategoryName : "",
    		itemNo : "",
    		rent : "0.00",
    		size : "0",
@@ -40,27 +37,22 @@ var room = {
 		 $(document).on("click", "#btnCreateNew", function(e) {
 			var _btn = this;
        		$("#btnCreateNew").attr('disabled', true);
+       		var itemCategoryId = $("#val-selected-itemCategoryId").val();
 
        		var formTemplete = $("#formTemplete").clone();
     		var formHtml = formTemplete.html()
     		.replace("#[id]", "0")
-    		.replace("#[itemTypeId]", "0")
-    		.replace("#[itemTypeName]", "")
-    		.replace("#[itemCategoryId]", "0")
-    		.replace("#[itemCategoryName]", "")
+    		.replace("#[itemCategoryId]", itemCategoryId)
     		.replace("#[itemNo]", "")
     		.replace("#[rent]", "0.00")
     		.replace("#[size]", "0")
     		.replace("#[floorNo]", "0")
     		.replace("#[landLine]", "")
     		.replace("#[active]", "true");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='9'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='7'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
-       		$('#val-itemTypeId').html('<option value="0">Please select</option>');
-       		$('#val-itemCategoryId').html('<option value="0">Please select</option>');
-       		
-       		var providerId = $("#var-selected-providerId").val();
-       		room.getRoomTypeList(providerId);
+
+       		room.getRoomCategory(itemCategoryId);
        		room.initValidation();
        	});
        	
@@ -70,12 +62,7 @@ var room = {
        			var rowTemplete = $("#rowTemplete").clone();
        			var rowHtml = rowTemplete.html()
        				.replace("#[id]", room.itemData.id)
-                	.replace("#[itemTypeId]", room.itemData.itemTypeId)
-                	.replace("#[itemTypeName]", room.itemData.itemTypeName)
-                	.replace("#[itemTypeName]", room.itemData.itemTypeName)
                 	.replace("#[itemCategoryId]", room.itemData.itemCategoryId)
-                	.replace("#[itemCategoryName]", room.itemData.itemCategoryName)
-                	.replace("#[itemCategoryName]", room.itemData.itemCategoryName)
                 	.replace("#[itemNo]", room.itemData.itemNo)
                 	.replace("#[itemNo]", room.itemData.itemNo)
                 	.replace("#[rent]", room.itemData.rent)
@@ -91,10 +78,7 @@ var room = {
                	$(_btn).closest("tr").html(rowHtml);
                	
                	room.itemData.id = "0";
-               	room.itemData.itemTypeId = "0";
-               	room.itemData.itemTypeName = "";
                	room.itemData.itemCategoryId = "0";
-               	room.itemData.itemCategoryName = "";
                	room.itemData.itemNo = "";
                	room.itemData.rent = "0.00";
                	room.itemData.size = "0";
@@ -143,10 +127,7 @@ var room = {
 			$(_btn).tooltip('hide');
 			var tr = $(_btn).closest("tr");
 			room.itemData.id = $.trim($(tr).find(".col-id")[0].value);
-			room.itemData.itemTypeId = $.trim($(tr).find(".col-itemTypeId")[0].value);
-			room.itemData.itemTypeName = $.trim($(tr).find(".col-itemTypeName")[0].value);
 			room.itemData.itemCategoryId = $.trim($(tr).find(".col-itemCategoryId")[0].value);
-			room.itemData.itemCategoryName = $.trim($(tr).find(".col-itemCategoryName")[0].value);
 			room.itemData.itemNo = $.trim($(tr).find(".col-itemNo")[0].value);
 			room.itemData.rent = $.trim($(tr).find(".col-rent")[0].value);
 			room.itemData.size = $.trim($(tr).find(".col-size")[0].value);
@@ -157,13 +138,14 @@ var room = {
 			var formTemplete = $("#formTemplete").clone();
 			var formHtml = formTemplete.html()
 				.replace("#[id]", room.itemData.id)
+				.replace("#[itemCategoryId]", room.itemData.itemCategoryId)
 				.replace("#[itemNo]", room.itemData.itemNo)
 				.replace("#[rent]", room.itemData.rent)
 				.replace("#[size]", room.itemData.size)
 				.replace("#[floorNo]", room.itemData.floorNo)
 				.replace("#[landLine]", room.itemData.landLine)
 				.replace("#[active]", room.itemData.active);
-	   		$(tr).html("<td colspan='9'>" + formHtml + "</td>");
+	   		$(tr).html("<td colspan='7'>" + formHtml + "</td>");
 
 	   		if (eval(room.itemData.active)) {
 	   			$('#val-active').attr("checked", "checked");
@@ -172,12 +154,7 @@ var room = {
 	   		}
 	   		$("#btnSubmit").html('Update');
 	   		$("#btnCreateNew").attr('disabled', true);
-	   		$('#val-itemTypeId').html('<option value="0">Please select</option>');
-	   		$('#val-itemCategoryId').html('<option value="0">Please select</option>');
-	   		
-	   		var providerId = $("#var-selected-providerId").val();
-	   		room.getRoomTypeList(providerId, room.itemData.itemTypeId);
-	   		room.getRoomCategoryList(room.itemData.itemTypeId, room.itemData.itemCategoryId);
+
 	   		room.initValidation();
        	});
 		
@@ -216,24 +193,25 @@ var room = {
 			$("#val-active").val(checked);
 		});
 		
-		$(document).on("change", "#val-itemTypeId", function(e) {
-			var itemTypeId = $("#val-itemTypeId").val();
+		$(document).on("change", "#val-selected-itemTypeId", function(e) {
+			var itemTypeId = $("#val-selected-itemTypeId").val();
 			if(itemTypeId != "" && itemTypeId != "0") {
 				room.getRoomCategoryList(itemTypeId);
 			} else {
-				$("#val-itemCategoryId").html('<option value="0">Please select</option>');
-				$('#val-rent').val("0.00");
-        		$('#val-size').val("0");
+				$("#val-selected-itemCategoryId").html('<option value="0">Please select</option>');
 			}
+			$("#btnCreateNew").attr('disabled', true);
+			$('#dataTable').find('tbody').html('');
        	});
 		
-		$(document).on("change", "#val-itemCategoryId", function(e) {
-			var itemCategoryId = $("#val-itemCategoryId").val();
+		$(document).on("change", "#val-selected-itemCategoryId", function(e) {
+			var itemCategoryId = $("#val-selected-itemCategoryId").val();
 			if(itemCategoryId != "" && itemCategoryId != "0") {
-				room.getRoomCategory(itemCategoryId);
+				$("#btnCreateNew").removeAttr('disabled');
+				room.getRoomList(itemCategoryId);
 			} else {
-				$('#val-rent').val("0.00");
-        		$('#val-size').val("0");
+				$("#btnCreateNew").attr('disabled', true);
+				$('#dataTable').find('tbody').html('');
 			}
        	});
 	},
@@ -255,10 +233,14 @@ var room = {
             readOnly: true
         });
 
-		room.getRoomList(o.providerId);
+   		$('#val-selected-itemCategoryId').html('<option value="0">Please select</option>');
+   		$("#btnCreateNew").attr('disabled', true);
+   		$('#dataTable').find('tbody').html('');
+
+   		room.getRoomTypeList(o.providerId);
 	},
 	
-	getRoomTypeList : function(providerId, itemTypeId) {
+	getRoomTypeList : function(providerId) {
 		var url =  room.getRoomTypeListUrl.replace("{#providerId}", providerId);
 		room.getRoomTypeListAjax = $.ajax({
 			type: "GET",
@@ -273,10 +255,7 @@ var room = {
             		$.each(data.datas, function(index, data) {
             			html += '<option value="' + data.id + '">' + data.name + '</option>';
             		});
-            		$('#val-itemTypeId').html(html);
-            		if (itemTypeId) {
-            			$('#val-itemTypeId').val(itemTypeId);
-            		}
+            		$('#val-selected-itemTypeId').html(html);
             	} else {
             		console.log(data.errors);
             		room.getRoomTypeListAjax = undefined;
@@ -302,7 +281,7 @@ var room = {
 		});
 	},
 	
-	getRoomCategoryList : function(itemTypeId, itemCategoryId) {
+	getRoomCategoryList : function(itemTypeId) {
 		var url =  room.getRoomCategoryListUrl.replace("{#itemTypeId}", itemTypeId);
 		room.getRoomCategoryListAjax = $.ajax({
 			type: "GET",
@@ -315,12 +294,9 @@ var room = {
             		room.getRoomCategoryListAjax = undefined;
             		var html = '<option value="0">Please select</option>';
             		$.each(data.datas, function(index, data) {
-            			html += '<option value="' + data.id + '">' + data.name + '</option>';
+            			html += '<option value="' + data.id + '">' + data.name + ' [Rent: ' + data.rent + 'tk, Size: ' + data.roomCategoryData.size + 'sqft]' + '</option>';
             		});
-            		$('#val-itemCategoryId').html(html);
-            		if (itemCategoryId) {
-            			$('#val-itemCategoryId').val(itemCategoryId);
-            		}
+            		$('#val-selected-itemCategoryId').html(html);
             	} else {
             		console.log(data.errors);
             		room.getRoomCategoryListAjax = undefined;
@@ -384,8 +360,8 @@ var room = {
 		});
 	},
 	
-	getRoomList : function(providerId) {
-		var url =  room.getRoomListUrl.replace("{#providerId}", providerId);
+	getRoomList : function(itemCategoryId) {
+		var url =  room.getRoomListUrl.replace("{#itemCategoryId}", itemCategoryId);
 		room.getRoomListUrlAjax = $.ajax({
 			type: "GET",
             contentType: "application/json",
@@ -401,12 +377,7 @@ var room = {
             				var rowTemplete = $("#rowTemplete").clone();
                    			var rowHtml = rowTemplete.html()
 	                   			.replace("#[id]", data.id)
-			                	.replace("#[itemTypeId]", data.itemTypeId)
-			                	.replace("#[itemTypeName]", data.itemTypeName)
-			                	.replace("#[itemTypeName]", data.itemTypeName)
 			                	.replace("#[itemCategoryId]", data.itemCategoryId)
-			                	.replace("#[itemCategoryName]", data.itemCategoryName)
-			                	.replace("#[itemCategoryName]", data.itemCategoryName)
 			                	.replace("#[itemNo]", data.itemNo)
 			                	.replace("#[itemNo]", data.itemNo)
 			                	.replace("#[rent]", data.rent)
@@ -464,12 +435,7 @@ var room = {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
            				.replace("#[id]", data.datas[0].id)
-	                	.replace("#[itemTypeId]", data.datas[0].itemTypeId)
-	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
-	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
 	                	.replace("#[itemCategoryId]", data.datas[0].itemCategoryId)
-	                	.replace("#[itemCategoryName]", data.datas[0].itemCategoryName)
-	                	.replace("#[itemCategoryName]", data.datas[0].itemCategoryName)
 	                	.replace("#[itemNo]", data.datas[0].itemNo)
 	                	.replace("#[itemNo]", data.datas[0].itemNo)
 	                	.replace("#[rent]", data.datas[0].rent)
@@ -543,12 +509,7 @@ var room = {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
            				.replace("#[id]", data.datas[0].id)
-	                	.replace("#[itemTypeId]", data.datas[0].itemTypeId)
-	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
-	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
 	                	.replace("#[itemCategoryId]", data.datas[0].itemCategoryId)
-	                	.replace("#[itemCategoryName]", data.datas[0].itemCategoryName)
-	                	.replace("#[itemCategoryName]", data.datas[0].itemCategoryName)
 	                	.replace("#[itemNo]", data.datas[0].itemNo)
 	                	.replace("#[itemNo]", data.datas[0].itemNo)
 	                	.replace("#[rent]", data.datas[0].rent)
@@ -564,10 +525,7 @@ var room = {
            			$(_btn).closest("tr").html(rowHtml);
             		
            			room.itemData.id = "0";
-                   	room.itemData.itemTypeId = "0";
-                   	room.itemData.itemTypeName = "";
                    	room.itemData.itemCategoryId = "0";
-                   	room.itemData.itemCategoryName = "";
                    	room.itemData.itemNo = "";
                    	room.itemData.rent = "0.00";
                    	room.itemData.size = "0";
@@ -672,12 +630,6 @@ var room = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
-            	"itemTypeId": {
-                    min: 1
-                },
-                "itemCategoryId": {
-                    min: 1
-                },
             	"itemNo": {
                     required: true,
                     remote : {
@@ -707,12 +659,6 @@ var room = {
                 }
             }, 
             messages : {
-            	"itemTypeId": {
-                	min: "Please select room type"
-                },
-                "itemCategoryId": {
-                	min: "Please select room category"
-                },
             	"itemNo": {
                     required: "Please enter room no",
                     remote: "This room no is already used"

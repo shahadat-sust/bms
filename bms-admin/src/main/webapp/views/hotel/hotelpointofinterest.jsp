@@ -93,7 +93,7 @@
                     	 		<h2 class="content-heading pt-0">Room Type List</h2>
                    	 			<!-- Full Table -->
 		                  	  	<div class="block-content text-right">
-									<button id="btnCreateNew" type="button" class="btn btn-success mr-1" disabled="disabled">
+									<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
 			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Type
 			                        </button>
 		                  	  	</div>

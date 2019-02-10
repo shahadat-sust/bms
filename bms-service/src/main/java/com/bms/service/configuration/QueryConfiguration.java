@@ -233,6 +233,34 @@ public class QueryConfiguration {
 		return factoryBean;
 	}
 	
+	@Bean(name = "providerPointOfInterestQuery")
+	public PropertiesFactoryBean providerPointOfInterestQuery() {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(providerPointOfInterestQueryResource);
+		return factoryBean;
+	}
+	
+	@Bean(name = "amenityChargeQuery")
+	public PropertiesFactoryBean amenityChargeQuery() {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(amenityChargeQueryResource);
+		return factoryBean;
+	}
+	
+	@Bean(name = "itemAmenityQuery")
+	public PropertiesFactoryBean itemAmenityQuery() {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(itemAmenityQueryResource);
+		return factoryBean;
+	}
+	
+	@Bean(name = "itemCategoryAmenityQuery")
+	public PropertiesFactoryBean itemCategoryAmenityQuery() {
+		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		factoryBean.setLocation(itemCategoryAmenityQueryResource);
+		return factoryBean;
+	}
+	
 	@Value("classpath:authenticationQuery.xml")
     private Resource authenticationQueryResource;
 	
@@ -328,5 +356,17 @@ public class QueryConfiguration {
 	
 	@Value("classpath:itemQuery.xml")
 	private Resource itemQueryResource;
+	
+	@Value("classpath:providerPointOfInterestQuery.xml")
+	private Resource providerPointOfInterestQueryResource;
+	
+	@Value("classpath:amenityChargeQuery.xml")
+	private Resource amenityChargeQueryResource;
+	
+	@Value("classpath:itemAmenityQuery.xml")
+	private Resource itemAmenityQueryResource;
+	
+	@Value("classpath:itemCategoryAmenityQuery.xml")
+	private Resource itemCategoryAmenityQueryResource;
 	
 }

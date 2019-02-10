@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="itemCategoryAmenityQuery.create">
+	    <![CDATA[
+			INSERT INTO ItemCategoryAmenity (ItemCategoryId, AmenityId, Quantity, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	
+	<entry key="itemCategoryAmenityQuery.update">
+	    <![CDATA[
+			UPDATE ItemCategoryAmenity SET 
+				Quantity = ?,
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+				ItemCategoryId = ? AND AmenityId = ?
+	    ]]>
+	</entry>
+	
+	<entry key="itemCategoryAmenityQuery.delete">
+	    <![CDATA[
+			DELETE FROM ItemCategoryAmenity WHERE Id = ?
+	    ]]>
+	</entry>
+	
+	<entry key="itemCategoryAmenityQuery.getItemCategoryAmenityById">
+	    <![CDATA[
+			SELECT 
+				ItemCategoryAmenity.Id, 
+				ItemCategoryAmenity.ItemCategoryId, 
+				ItemCategoryAmenity.AmenityId, 
+				ItemCategory.Name
+			FROM ItemCategoryAmenity 
+			LEFT OUTER JOIN ItemCategory ON 
+				ItemCategory.Id = ItemCategoryAmenity.ItemCategoryId 
+			WHERE 
+				ItemCategoryAmenity.Id = ?
+	    ]]>
+	</entry> 
+	
+	<entry key="itemCategoryAmenityQuery.getAllItemCategoryAmenityByItemCategoryId">
+	    <![CDATA[
+			SELECT 
+				ItemCategoryAmenity.Id, 
+				ItemCategoryAmenity.ItemCategoryId, 
+				ItemCategoryAmenity.AmenityId, 
+				ItemCategory.Name
+			FROM ItemCategoryAmenity 
+			LEFT OUTER JOIN ItemCategory ON 
+				ItemCategory.Id = ItemCategoryAmenity.ItemCategoryId 
+			WHERE 
+				ItemCategoryAmenity.ItemCategoryId = ?
+			ORDER BY ItemCategoryAmenity.Id DESC
+	    ]]>
+	</entry>
+	
+	<entry key="amenityCharge.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM ItemCategoryAmenity
+			WHERE
+				(? > 0 AND Id != ? AND AmenityId = ? AND ItemCategoryId = ?)
+			    OR (? <= 0 AND AmenityId = ? AND ItemCategoryId = ?) 
+	    ]]>
+	</entry>
+</properties>

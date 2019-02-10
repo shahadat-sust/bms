@@ -82,6 +82,17 @@ public class ItemService extends BaseService implements IItemService {
 			throw new BmsException(e);
 		}
 	}
+	
+	@Override
+	public List<ItemData> getAllItemsByItemCategoryId(long itemCategoryId) throws BmsSqlException, BmsException {
+		try {
+			return itemDao.getAllItemsByItemCategoryId(itemCategoryId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
+	}
 
 	@Override
 	public List<ItemData> getAllItemsByProviderId(long providerId) throws BmsSqlException, BmsException {

@@ -1,4 +1,4 @@
-package com.bms.admin.controller.room;
+package com.bms.admin.controller.provider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bms.admin.AppConstants;
@@ -29,75 +28,60 @@ import com.bms.common.BmsException;
 import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.provider.ProviderAdminData;
-import com.bms.service.data.room.ItemData;
 import com.bms.service.data.room.ItemTypeData;
-import com.bms.service.soa.room.IItemCategoryService;
-import com.bms.service.soa.room.IItemService;
 import com.bms.service.soa.room.IItemTypeService;
 
 @Controller
-@RequestMapping(value = "/room")
+@RequestMapping(value = "/hotelpointofinterest")
 @Scope("request")
-public class RoomController extends BaseController {
+public class HotelPointOfInterestController extends BaseController {
 	
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 	
 	private IItemTypeService itemTypeService;
-	private IItemCategoryService itemCategoryService;
-	private IItemService itemService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String view(Model model, HttpServletRequest request) throws BmsSqlException, BmsException {
 		ProviderAdminData defaultHotel = (ProviderAdminData) request.getSession().getAttribute(AppConstants.KEY_DEFAULT_HOTEL);
 		List<ItemTypeData> roomTypeList = itemTypeService.getAllItemTypesByProviderId(defaultHotel.getProviderId());
-		if (roomTypeList != null && roomTypeList.size() > 0) {
-			Collections.sort(roomTypeList, new Comparator<ItemTypeData>() {
-				@Override
-				public int compare(ItemTypeData o1, ItemTypeData o2) {
-					return o1.getName().compareTo(o2.getName());
-				}
-			});
-		}
 		model.addAttribute("roomTypeList", roomTypeList);
-		return "room/room";
+		return "hotel/hotelpointofinterest";
 	}
 	
-	@RequestMapping(value = "/fetch/{roomId}/{roomCategoryId}/{providerId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemData> fetch(@PathVariable long roomId, @PathVariable long roomCategoryId, @PathVariable long providerId, @PathVariable int sortOrder) {
-		ResponseModel<ItemData> responseModel = new ResponseModel<ItemData>();
+	@RequestMapping(value = "/fetch/{roomTypeId}/{providerId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<ItemTypeData> fetch(@PathVariable long roomTypeId, @PathVariable long providerId, @PathVariable int sortOrder) {
+		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
 		try {
-			if(roomId > 0) {
-				ItemData itemData = itemService.getItemById(roomId);
-				responseModel.addData(itemData);
+			if(roomTypeId > 0) {
+				ItemTypeData itemTypeData = itemTypeService.getItemTypeById(roomTypeId);
+				responseModel.addData(itemTypeData);
 			} else { 
-				List<ItemData> itemList = null;
+				List<ItemTypeData> itemTypeList = null;
 				if(providerId > 0) {
-					itemList = itemService.getAllItemsByProviderId(providerId);
-				} else if(roomCategoryId > 0) {
-					itemList = itemService.getAllItemsByItemCategoryId(roomCategoryId);
+					itemTypeList = itemTypeService.getAllItemTypesByProviderId(providerId);
 				} else {
-					itemList = new ArrayList<>();
+					itemTypeList = new ArrayList<>();
 				}
 				
-				if (itemList != null && itemList.size() > 0) {
+				if (itemTypeList != null && itemTypeList.size() > 0) {
 					if (sortOrder == Constants.SORT_ORDER_ASC) {
-						Collections.sort(itemList, new Comparator<ItemData>() {
+						Collections.sort(itemTypeList, new Comparator<ItemTypeData>() {
 							@Override
-							public int compare(ItemData o1, ItemData o2) {
-								return o1.getItemNo().compareTo(o2.getItemNo());
+							public int compare(ItemTypeData o1, ItemTypeData o2) {
+								return o1.getName().compareTo(o2.getName());
 							}
 						});
 					} else if (sortOrder == Constants.SORT_ORDER_DESC) {
-						Collections.sort(itemList, new Comparator<ItemData>() {
+						Collections.sort(itemTypeList, new Comparator<ItemTypeData>() {
 							@Override
-							public int compare(ItemData o1, ItemData o2) {
-								return o2.getItemNo().compareTo(o1.getItemNo());
+							public int compare(ItemTypeData o1, ItemTypeData o2) {
+								return o2.getName().compareTo(o1.getName());
 							}
 						});
 					}
 				}
 				
-				responseModel.addDatas(itemList);
+				responseModel.addDatas(itemTypeList);
 			}
 			responseModel.setStatus(true);
 		} catch (Exception e) {
@@ -109,12 +93,12 @@ public class RoomController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemData> create(@RequestBody ItemData itemData) {
-		ResponseModel<ItemData> responseModel = new ResponseModel<ItemData>();
+	public @ResponseBody ResponseModel<ItemTypeData> create(@RequestBody ItemTypeData itemTypeData) {
+		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
 		try {
-			long itemId = itemService.create(itemData, getLoginUserData().getId());
-			if(itemId > 0) {
-				ItemData data = itemService.getItemById(itemId);
+			long itemTypeId = itemTypeService.create(itemTypeData, getLoginUserData().getId());
+			if(itemTypeId > 0) {
+				ItemTypeData data = itemTypeService.getItemTypeById(itemTypeId);
 				responseModel.setStatus(true);
 				responseModel.addData(data);
 			} else {
@@ -129,12 +113,12 @@ public class RoomController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemData> update(@RequestBody ItemData itemData) {
-		ResponseModel<ItemData> responseModel = new ResponseModel<ItemData>();
+	public @ResponseBody ResponseModel<ItemTypeData> update(@RequestBody ItemTypeData itemTypeData) {
+		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
 		try {
-			boolean status = itemService.update(itemData, getLoginUserData().getId());
+			boolean status = itemTypeService.update(itemTypeData, getLoginUserData().getId());
 			if(status) {
-				ItemData data = itemService.getItemById(itemData.getId());
+				ItemTypeData data = itemTypeService.getItemTypeById(itemTypeData.getId());
 				responseModel.setStatus(true);
 				responseModel.addData(data);
 			} else {
@@ -148,11 +132,11 @@ public class RoomController extends BaseController {
 	    return responseModel;
 	}
 	
-	@RequestMapping(value = "/delete/{roomId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemData> delete(@PathVariable long roomId) {
-		ResponseModel<ItemData> responseModel = new ResponseModel<ItemData>();
+	@RequestMapping(value = "/delete/{roomTypeId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<ItemTypeData> delete(@PathVariable long roomTypeId) {
+		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
 		try {
-			responseModel.setStatus(itemService.delete(roomId, getLoginUserData().getId()));
+			responseModel.setStatus(itemTypeService.delete(roomTypeId, getLoginUserData().getId()));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
@@ -161,17 +145,6 @@ public class RoomController extends BaseController {
 	    return responseModel;
 	}
 
-	@RequestMapping(value = "/isRoomNoAvailable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody boolean isRoomNoAvailable(@RequestParam long roomId, @RequestParam String roomNo, @RequestParam long providerId) {
-		boolean status = false;
-		try {
-			status = itemService.isAvailable(roomId, roomNo, providerId);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-	    return status;
-	}
-	
 	public IItemTypeService getItemTypeService() {
 		return itemTypeService;
 	}
@@ -182,24 +155,5 @@ public class RoomController extends BaseController {
 		this.itemTypeService = itemTypeService;
 	}
 
-	public IItemCategoryService getItemCategoryService() {
-		return itemCategoryService;
-	}
-
-	@Autowired
-	@Qualifier("itemCategoryService")
-	public void setItemCategoryService(IItemCategoryService itemCategoryService) {
-		this.itemCategoryService = itemCategoryService;
-	}
-
-	public IItemService getItemService() {
-		return itemService;
-	}
-
-	@Autowired
-	@Qualifier("itemService")
-	public void setItemService(IItemService itemService) {
-		this.itemService = itemService;
-	}
-
+	
 }

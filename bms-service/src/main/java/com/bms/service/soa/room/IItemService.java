@@ -17,6 +17,8 @@ public interface IItemService {
 	
 	ItemData getItemById(long itemId) throws BmsSqlException, BmsException;
 	
+	List<ItemData> getAllItemsByItemCategoryId(long itemCategoryId) throws BmsSqlException, BmsException;
+	
 	List<ItemData> getAllItemsByProviderId(long providerId) throws BmsSqlException, BmsException;
 	
 	boolean isAvailable(long itemId, String itemNo, long providerId) throws BmsSqlException, BmsException;

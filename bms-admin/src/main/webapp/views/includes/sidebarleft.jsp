@@ -104,7 +104,7 @@
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="<c:url value="/pointofinterest"/>">
-                            <span class="nav-main-link-name">Point Of Interest</span>
+                            <span class="nav-main-link-name">POI</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
@@ -173,6 +173,16 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="<c:url value="/hoteladmin"/>">
                             <span class="nav-main-link-name">Hotel Admin</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/hotelpointofinterest"/>">
+                            <span class="nav-main-link-name">Hotel POI</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/hotelamenitycharge"/>">
+                            <span class="nav-main-link-name">Amenity Charge</span>
                         </a>
                     </li>
                 </ul>

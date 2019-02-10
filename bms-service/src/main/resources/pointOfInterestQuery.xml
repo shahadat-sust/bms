@@ -8,6 +8,7 @@
 			VALUES (?, ?, ?, ?, ?, ?, ?)
 	    ]]>
 	</entry>  
+	
 	<entry key="pointOfInterest.update">
 	    <![CDATA[
 			UPDATE PointOfInterest SET 
@@ -20,11 +21,13 @@
 			Id = ?
 	    ]]>
 	</entry>
+	
 	<entry key="pointOfInterest.delete">
 	    <![CDATA[
 			DELETE FROM PointOfInterest WHERE Id = ?
 	    ]]>
 	</entry>
+	
 	<entry key="pointOfInterest.getPointOfInterestById">
 	    <![CDATA[
 			SELECT 
@@ -40,6 +43,7 @@
 			PointOfInterest.Id = ?
 	    ]]>
 	</entry> 
+	
 	<entry key="pointOfInterest.getPointOfInterestsByProviderTypeId">
 	    <![CDATA[
 			SELECT 
@@ -55,6 +59,7 @@
 			ORDER BY PointOfInterest.Name ASC  
 	    ]]>
 	</entry> 
+	
 	<entry key="pointOfInterest.getAllPointOfInterests">
 	    <![CDATA[
 			SELECT 
@@ -78,6 +83,26 @@
 			WHERE
 				(? > 0 AND Id != ? AND Name = ? AND ProviderTypeId = ?)
 			    OR (? <= 0 AND Name = ? AND ProviderTypeId = ?) 
+	    ]]>
+	</entry>
+	
+	<entry key="providerPointOfInterest.create">
+	    <![CDATA[
+			INSERT INTO ProviderPointOfInterest (ProviderId, PointOfInterestId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+	
+	<entry key="providerPointOfInterest.update">
+	    <![CDATA[
+			UPDATE ProviderPointOfInterest SET 
+				ProviderTypeId = ?, 
+				Name = ?, 
+				Remarks = ?, 
+				UpdatedBy = ?, 
+				UpdatedOn = ? 
+			WHERE 
+			Id = ?
 	    ]]>
 	</entry>
 </properties>

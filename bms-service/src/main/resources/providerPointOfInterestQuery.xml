@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="providerPointOfInterest.create">
+	    <![CDATA[
+			INSERT INTO ProviderPointOfInterest (ProviderId, PointOfInterestId, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?)
+	    ]]>
+	</entry>
+
+	<entry key="providerPointOfInterest.delete">
+	    <![CDATA[
+			DELETE FROM ProviderPointOfInterest WHERE Id = ?
+	    ]]>
+	</entry>
+	
+	<entry key="providerPointOfInterest.getProviderPointOfInterestById">
+	    <![CDATA[
+			SELECT 
+				ProviderPointOfInterest.Id, 
+				ProviderPointOfInterest.ProviderId, 
+				ProviderPointOfInterest.PointOfInterestId, 
+				PointOfInterest.Name
+			FROM ProviderPointOfInterest 
+			LEFT OUTER JOIN PointOfInterest ON 
+				PointOfInterest.Id = ProviderPointOfInterest.PointOfInterestId 
+			WHERE 
+				ProviderPointOfInterest.Id = ?
+	    ]]>
+	</entry> 
+	
+	<entry key="providerPointOfInterest.getAllProviderPointOfInterestsByProviderId">
+	    <![CDATA[
+			SELECT 
+				ProviderPointOfInterest.Id, 
+				ProviderPointOfInterest.ProviderId, 
+				ProviderPointOfInterest.PointOfInterestId, 
+				PointOfInterest.Name
+			FROM ProviderPointOfInterest 
+			LEFT OUTER JOIN PointOfInterest ON 
+				PointOfInterest.Id = ProviderPointOfInterest.PointOfInterestId 
+			WHERE 
+				ProviderPointOfInterest.ProviderId = ?
+			ORDER BY ProviderPointOfInterest.Id DESC
+	    ]]>
+	</entry>
+	
+	<entry key="amenityCharge.isAvailable">
+	    <![CDATA[
+			SELECT
+				Id
+			FROM ProviderPointOfInterest
+			WHERE
+				(? > 0 AND Id != ? AND PointOfInterestId = ? AND ProviderId = ?)
+			    OR (? <= 0 AND PointOfInterestId = ? AND ProviderId = ?) 
+	    ]]>
+	</entry>
+</properties>
