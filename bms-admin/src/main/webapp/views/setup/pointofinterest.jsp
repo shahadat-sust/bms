@@ -170,7 +170,6 @@
         <!-- Page JS Code -->
         <script src="<c:url value="/resources/js/custom/setup/pointofinterest.js"/>"></script>   
 		<script type="text/javascript">
-			pointOfInterestSetup.fetchUrl = '<c:url value="/pointofinterest/fetch/" />';
 			pointOfInterestSetup.createUrl = '<c:url value="/pointofinterest/create" />';
 			pointOfInterestSetup.updateUrl = '<c:url value="/pointofinterest/update" />';
 			pointOfInterestSetup.deleteUrl = '<c:url value="/pointofinterest/delete/" />';

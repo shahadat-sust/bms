@@ -6,7 +6,6 @@ var amenitySetup = {
    		providerTypeId : 0,
    		providerTypeName : ""
 	},
-	fetchUrl : "",
 	createUrl : "",
 	updateUrl : "",
 	deleteUrl : "",

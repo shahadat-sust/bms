@@ -46,14 +46,13 @@
 	    ]]>
 	</entry>
 	
-	<entry key="amenityCharge.isAvailable">
+	<entry key="providerPointOfInterest.isAvailable">
 	    <![CDATA[
 			SELECT
 				Id
 			FROM ProviderPointOfInterest
 			WHERE
-				(? > 0 AND Id != ? AND PointOfInterestId = ? AND ProviderId = ?)
-			    OR (? <= 0 AND PointOfInterestId = ? AND ProviderId = ?) 
+				PointOfInterestId = ? AND ProviderId = ?
 	    ]]>
 	</entry>
 </properties>

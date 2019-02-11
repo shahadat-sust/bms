@@ -17,7 +17,7 @@ public interface IProviderPointOfInterestService {
 	
 	List<ProviderPointOfInterestData> getAllProviderPointOfInterestsByProviderId(long providerId) throws BmsSqlException, BmsException;
 
-	boolean isAvailable(long id, String pointOfInterestId, long providerId) throws BmsSqlException, BmsException;
+	boolean isAvailable(long pointOfInterestId, long providerId) throws BmsSqlException, BmsException;
 	
 	public IProviderPointOfInterestDao getProviderPointOfInterestDao();
 

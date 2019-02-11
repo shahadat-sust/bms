@@ -147,6 +147,7 @@ public class HotelController extends BaseController {
 				for (ProviderData providerData : providerDatas) {
 					SearchModel searchData = new SearchModel();
 					searchData.setProviderId(providerData.getId());
+					searchData.setProviderTypeId(providerData.getProviderTypeId());
 					searchData.setTitle(providerData.getTitle());
 					searchData.setStarRating(providerData.getHotelData().getStarRating());
 

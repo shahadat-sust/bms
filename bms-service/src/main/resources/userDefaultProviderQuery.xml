@@ -43,6 +43,7 @@
 				UserDefaultProvider.Id, 
 				UserDefaultProvider.ProviderId, 
 				UserDefaultProvider.UserId,
+				Provider.ProviderTypeId,
 				Provider.Title,
 				Hotel.StarRating,
 				User.Username,

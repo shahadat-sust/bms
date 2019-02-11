@@ -100,10 +100,12 @@ var roomcategory = {
                     }
            		}).then(function(e) {
                 	if(e.value) {
-                		if(roomcategory.itemCategoryData.id > 0) {
-                			roomcategory.doUpdate(_btn);
-                		} else {
-                			roomcategory.doCreate(_btn);
+                		if($("#formComponent").valid()) {
+	                		if(roomcategory.itemCategoryData.id > 0) {
+	                			roomcategory.doUpdate(_btn);
+	                		} else {
+	                			roomcategory.doCreate(_btn);
+	                		}
                 		}
                 	}
                 });

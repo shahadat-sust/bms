@@ -24,8 +24,10 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.LabelValueModel;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
+import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.provider.AmenityData;
+import com.bms.service.data.provider.PointOfInterestData;
 import com.bms.service.data.provider.ProviderTypeData;
 import com.bms.service.soa.provider.IAmenityService;
 import com.bms.service.soa.provider.IProviderTypeService;
@@ -66,18 +68,39 @@ public class AmenityController extends BaseController {
 		return "setup/amenity";
 	}
 	
-	@RequestMapping(value = "/fetch/{amenityId}/{providerTypeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<AmenityData> getAmenityList(@PathVariable long amenityId, @PathVariable long providerTypeId) {
+	@RequestMapping(value = "/fetch/{amenityId}/{providerTypeId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<AmenityData> getAmenityList(@PathVariable long amenityId, @PathVariable long providerTypeId, @PathVariable int sortOrder) {
 		ResponseModel<AmenityData> responseModel = new ResponseModel<AmenityData>();
 		try {
 			if(amenityId > 0) {
 				AmenityData amenityData = amenityService.getAmenityById(amenityId);
 				responseModel.addData(amenityData);
-			} else if(providerTypeId > 0) {
-				List<AmenityData> amenityList = amenityService.getAmenitiesByProviderTypeId(providerTypeId);
-				responseModel.addDatas(amenityList);
-			} else {
-				List<AmenityData> amenityList = amenityService.getAllAmenities();
+			} else  {
+				List<AmenityData> amenityList = null;
+				if(providerTypeId > 0) {
+					amenityList = amenityService.getAmenitiesByProviderTypeId(providerTypeId);
+				} else {
+					amenityList = amenityService.getAllAmenities();
+				}
+				
+				if (amenityList != null && amenityList.size() > 0) {
+					if (sortOrder == Constants.SORT_ORDER_ASC) {
+						Collections.sort(amenityList, new Comparator<AmenityData>() {
+							@Override
+							public int compare(AmenityData o1, AmenityData o2) {
+								return o1.getName().compareTo(o2.getName());
+							}
+						});
+					} else if (sortOrder == Constants.SORT_ORDER_DESC) {
+						Collections.sort(amenityList, new Comparator<AmenityData>() {
+							@Override
+							public int compare(AmenityData o1, AmenityData o2) {
+								return o2.getName().compareTo(o1.getName());
+							}
+						});
+					}
+				}
+				
 				responseModel.addDatas(amenityList);
 			}
 			responseModel.setStatus(true);

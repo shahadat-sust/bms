@@ -7,6 +7,7 @@ public class ProviderAdminData extends BaseData {
 	private static final long serialVersionUID = 5406890577715726028L;
 
 	private long providerId;
+	private long providerTypeId;
 	private long userId;
 	private String title;
 	private int starRating;
@@ -23,6 +24,12 @@ public class ProviderAdminData extends BaseData {
 	}
 	public void setProviderId(long providerId) {
 		this.providerId = providerId;
+	}
+	public long getProviderTypeId() {
+		return providerTypeId;
+	}
+	public void setProviderTypeId(long providerTypeId) {
+		this.providerTypeId = providerTypeId;
 	}
 	public long getUserId() {
 		return userId;

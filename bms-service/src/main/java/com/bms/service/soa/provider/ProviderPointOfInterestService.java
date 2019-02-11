@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
@@ -12,6 +13,7 @@ import com.bms.service.dao.provider.IProviderPointOfInterestDao;
 import com.bms.service.data.provider.ProviderPointOfInterestData;
 import com.bms.service.soa.BaseService;
 
+@Service("providerPointOfInterestService")
 public class ProviderPointOfInterestService extends BaseService implements IProviderPointOfInterestService {
 
 	private IProviderPointOfInterestDao providerPointOfInterestDao;
@@ -66,9 +68,9 @@ public class ProviderPointOfInterestService extends BaseService implements IProv
 	}
 
 	@Override
-	public boolean isAvailable(long id, String pointOfInterestId, long providerId) throws BmsSqlException, BmsException {
+	public boolean isAvailable(long pointOfInterestId, long providerId) throws BmsSqlException, BmsException {
 		try {
-			return providerPointOfInterestDao.isAvailable(id, pointOfInterestId, providerId);
+			return providerPointOfInterestDao.isAvailable(pointOfInterestId, providerId);
 		} catch (BmsSqlException e) {
 			throw e;
 		} catch (Exception e) {

@@ -24,8 +24,10 @@ import com.bms.admin.controller.BaseController;
 import com.bms.admin.model.LabelValueModel;
 import com.bms.admin.model.ResponseModel;
 import com.bms.common.BmsException;
+import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.provider.PointOfInterestData;
+import com.bms.service.data.provider.ProviderPointOfInterestData;
 import com.bms.service.data.provider.ProviderTypeData;
 import com.bms.service.soa.provider.IPointOfInterestService;
 import com.bms.service.soa.provider.IProviderTypeService;
@@ -66,18 +68,39 @@ public class PointOfInterestController extends BaseController {
 		return "setup/pointofinterest";
 	}
 	
-	@RequestMapping(value = "/fetch/{pointOfInterestId}/{providerTypeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<PointOfInterestData> getPointOfInterestList(@PathVariable long pointOfInterestId, @PathVariable long providerTypeId) {
+	@RequestMapping(value = "/fetch/{pointOfInterestId}/{providerTypeId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<PointOfInterestData> getPointOfInterestList(@PathVariable long pointOfInterestId, @PathVariable long providerTypeId, @PathVariable int sortOrder) {
 		ResponseModel<PointOfInterestData> responseModel = new ResponseModel<PointOfInterestData>();
 		try {
 			if(pointOfInterestId > 0) {
 				PointOfInterestData pointOfInterestData = pointOfInterestService.getPointOfInterestById(pointOfInterestId);
 				responseModel.addData(pointOfInterestData);
-			} else if(providerTypeId > 0) {
-				List<PointOfInterestData> pointOfInterestList = pointOfInterestService.getPointOfInterestsByProviderTypeId(providerTypeId);
-				responseModel.addDatas(pointOfInterestList);
 			} else {
-				List<PointOfInterestData> pointOfInterestList = pointOfInterestService.getAllPointOfInterests();
+				List<PointOfInterestData> pointOfInterestList = null;
+				if(providerTypeId > 0) {
+					pointOfInterestList = pointOfInterestService.getPointOfInterestsByProviderTypeId(providerTypeId);
+				} else {
+					pointOfInterestList = pointOfInterestService.getAllPointOfInterests();
+				}
+				
+				if (pointOfInterestList != null && pointOfInterestList.size() > 0) {
+					if (sortOrder == Constants.SORT_ORDER_ASC) {
+						Collections.sort(pointOfInterestList, new Comparator<PointOfInterestData>() {
+							@Override
+							public int compare(PointOfInterestData o1, PointOfInterestData o2) {
+								return o1.getName().compareTo(o2.getName());
+							}
+						});
+					} else if (sortOrder == Constants.SORT_ORDER_DESC) {
+						Collections.sort(pointOfInterestList, new Comparator<PointOfInterestData>() {
+							@Override
+							public int compare(PointOfInterestData o1, PointOfInterestData o2) {
+								return o2.getName().compareTo(o1.getName());
+							}
+						});
+					}
+				}
+				
 				responseModel.addDatas(pointOfInterestList);
 			}
 			responseModel.setStatus(true);

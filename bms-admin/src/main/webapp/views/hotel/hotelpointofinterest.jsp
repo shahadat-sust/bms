@@ -5,8 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>BMS - Room Type</title>
-		<meta name="description" content="BMS - Room Type">
+		<title>BMS - Hotel Point Of Interest</title>
+		<meta name="description" content="BMS - Hotel Point Of Interest">
 		<%@include file="../includes/metadata.jsp"%>
 		<%@include file="../includes/appicons.jsp"%>
 		<%@include file="../includes/styles.jsp"%>
@@ -23,12 +23,12 @@
             <div class="bg-body-light">
                 <div class="content content-full">
                     <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Room Type</h1>
+                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Hotel Point Of Interest</h1>
                         <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">Hotel Management</li>
-                                <li class="breadcrumb-item">Room Info</li>
-                                <li class="breadcrumb-item active" aria-current="page">Room Type</li>
+                                <li class="breadcrumb-item">Hotel Info</li>
+                                <li class="breadcrumb-item active" aria-current="page">Hotel POI</li>
                             </ol>
                         </nav>
                     </div>
@@ -50,6 +50,7 @@
                                    	</label>
                                     <div class="col-sm-8">
                                     	<input type="hidden" class="form-control" id="var-selected-providerId" value="${sessionScope.DEFAULT_HOTEL.providerId}"/>
+                                    	<input type="hidden" class="form-control" id="var-providerTypeId" value="${sessionScope.DEFAULT_HOTEL.providerTypeId}"/>
                                         <input type="text" class="form-control" readonly="readonly" id="var-title" value="${sessionScope.DEFAULT_HOTEL.title}"/>
                                     </div>
                                 </div>
@@ -90,11 +91,11 @@
                              	</div>
                     		</div>
                     	 	<div class="col-md-8">
-                    	 		<h2 class="content-heading pt-0">Room Type List</h2>
+                    	 		<h2 class="content-heading pt-0">Point Of Interest List</h2>
                    	 			<!-- Full Table -->
 		                  	  	<div class="block-content text-right">
 									<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
-			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Type
+			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Hotel POI
 			                        </button>
 		                  	  	</div>
 		                      	<div class="block-content">
@@ -102,28 +103,20 @@
 		                               <thead>
 		                                   <tr>
 		                                       <th>Name</th>
-		                                       <th class="text-center" style="width: 100px;">Active</th>
 		                                       <th class="text-center" style="width: 100px;">Actions</th>
 		                                   </tr>
 		                               </thead>
 		                               <tbody>
-		                               	   <c:forEach items="${roomTypeList}" var="itemTypeData">
+		                               	   <c:forEach items="${hotelPointOfInterestList}" var="hotelPointOfInterestData">
 	                               	   			<tr>
 													<td class="font-w600">
-														${itemTypeData.name}
-													</td>
-													<td class="text-center font-w600">
-														${itemTypeData.active}
+														${hotelPointOfInterestData.pointOfInterestName}
 													</td>
 													<td class="text-center">
-													   <input type="hidden" class="col-id" value="${itemTypeData.id}"/>
-													   <input type="hidden" class="col-name" value="${itemTypeData.name}"/>
-													   <input type="hidden" class="col-providerId" value="${itemTypeData.providerId}"/>
-													   <input type="hidden" class="col-active" value="${itemTypeData.active}"/>
+													   <input type="hidden" class="col-id" value="${hotelPointOfInterestData.id}"/>
+													   <input type="hidden" class="col-pointOfInterestId" value="${hotelPointOfInterestData.pointOfInterestId}"/>
+													   <input type="hidden" class="col-providerId" value="${hotelPointOfInterestData.providerId}"/>
 			                                           <div class="btn-group">
-			                                               <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
-			                                                   <i class="fa fa-pencil-alt"></i>
-			                                               </button>
 			                                               <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
 			                                                   <i class="fa fa-times"></i>
 			                                               </button>
@@ -158,13 +151,8 @@
 	                	</div>
 	                    <div class="form-group">
 	                        <label for="val-name">Name <span class="text-danger">*</span></label>
-	                        <input class="form-control" type="text" id="val-name" name="name" value="#[name]" placeholder="Enter Name..">
-	                    </div>
-	                    <div class="form-group">
-	                    	<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">
-		            		    <input type="checkbox" class="custom-control-input" name="active" value="#[active]" id="val-active" checked="checked">
-		            			<label class="custom-control-label" for="val-active">Is Active</label>
-		            		</div>
+	                        <select class="form-control" id="val-pointOfInterestId" name="pointOfInterestId">
+                            </select>
 	                    </div>
 	                    <div class="form-group mt-5">
 	                     	<div class="row items-push">
@@ -187,20 +175,13 @@
         </template>
         <template id="rowTemplete">
 	        <td class="font-w600">
-				#[name]
-			</td>
-			<td class="text-center font-w600">
-				#[active]
+				#[pointOfInterestName]
 			</td>
 			<td class="text-center">
 				<input type="hidden" class="col-id" value="#[id]"/>
-			    <input type="hidden" class="col-name" value="#[name]"/>
+			    <input type="hidden" class="col-pointOfInterestId" value="#[pointOfInterestId]"/>
 			    <input type="hidden" class="col-providerId" value="#[providerId]"/>
-			    <input type="hidden" class="col-active" value="#[active]"/>
 		        <div class="btn-group">
-			        <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
-			        	<i class="fa fa-pencil-alt"></i>
-			        </button>
 			        <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
 			           <i class="fa fa-times"></i>
 			        </button>
@@ -215,13 +196,15 @@
         <%@include file="../hotel/hotelsearch.jsp" %>
         <!-- END Modal Pop Up -->
 
-		<script src="<c:url value="/resources/js/custom/room/roomtype.js"/>"></script>
+		<script src="<c:url value="/resources/js/custom/hotel/hotelpointofinterest.js"/>"></script>
 
 		<script type="text/javascript">
-			roomtype.getRoomTypeListUrl = '<c:url value="/roomtype/fetch/0/{#providerId}/0" />';
-			roomtype.createRoomTypeUrl = '<c:url value="/roomtype/create" />';
-			roomtype.updateRoomTypeUrl = '<c:url value="/roomtype/update" />';
-			roomtype.deleteRoomTypeUrl = '<c:url value="/roomtype/delete/" />';
+			hotelpointofinterest.isAvailableUrl = '<c:url value="/hotelpointofinterest/isAvailable/" />';
+			hotelpointofinterest.getPointOfInterestListUrl = '<c:url value="/pointofinterest/fetch/0/{#providerTypeId}/1" />';
+			hotelpointofinterest.getHotelPointOfInterestListUrl = '<c:url value="/hotelpointofinterest/fetch/0/{#providerId}/0" />';
+			hotelpointofinterest.createHotelPointOfInterestUrl = '<c:url value="/hotelpointofinterest/create" />';
+			hotelpointofinterest.updateHotelPointOfInterestUrl = '<c:url value="/hotelpointofinterest/update" />';
+			hotelpointofinterest.deleteHotelPointOfInterestUrl = '<c:url value="/hotelpointofinterest/delete/" />';
 		</script>
 	</body>
 </html>

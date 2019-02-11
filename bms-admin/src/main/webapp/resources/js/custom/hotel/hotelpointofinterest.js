@@ -1,16 +1,16 @@
-var roomtype = {
+var hotelpointofinterest = {
 	hotelInfo: undefined,
-	itemTypeData : {
+	hotelPointOfInterestData : {
 		id : "0",
-   		name : "",
-   		providerId : "0",
-   		active : "true"
+		providerId : "0",
+		pointOfInterestId : "0"
 	},
-	getRoomTypeListUrl: undefined,
-	getRoomTypeListAjax: undefined,
-	createRoomTypeUrl: undefined,
-	updateRoomTypeUrl: undefined,
-	deleteRoomTypeUrl: undefined,
+	isAvailableUrl: undefined,
+	getPointOfInterestListUrl: undefined,
+	getPointOfInterestListAjax: undefined,
+	createHotelPointOfInterestUrl: undefined,
+	updateHotelPointOfInterestUrl: undefined,
+	deleteHotelPointOfInterestUrl: undefined,
 		
 	init : function() {
 		 $(".rating").raty({
@@ -21,45 +21,30 @@ var roomtype = {
             readOnly: true
         });
 		
-		 hotelsearchmodal.init(roomtype.onHotelSelect);
+		 hotelsearchmodal.init(hotelpointofinterest.onHotelSelect);
 		 
 		 $(document).on("click", "#btnCreateNew", function(e) {
 			var _btn = this;
        		$("#btnCreateNew").attr('disabled', true);
        		var selectedProviderId = $("#var-selected-providerId").val();
-       		
+
        		var formTemplete = $("#formTemplete").clone();
     		var formHtml = formTemplete.html()
-    		.replace("#[id]", "0")
-    		.replace("#[name]", "")
-    		.replace("#[providerId]", selectedProviderId)
-    		.replace("#[active]", "true");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='3'>" + formHtml + "</td></tr>");
+	    		.replace("#[id]", "0")
+	    		.replace("#[providerId]", selectedProviderId);
+       		$("#dataTable > tbody").prepend("<tr><td colspan='2'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
+       		$('#val-pointOfInterestId').html('<option value="0">Please select</option>');
        		
-       		roomtype.initValidation();
+       		var providerTypeId = $("#var-providerTypeId").val();
+       		hotelpointofinterest.getPointOfInterestList(providerTypeId);
+       		hotelpointofinterest.initValidation();
        	});
        	
        	$(document).on("click", "#btnCancel", function(e) {
        		var _btn = this;
-       		if(roomtype.itemTypeData.id > 0) {
-       			var rowTemplete = $("#rowTemplete").clone();
-       			var rowHtml = rowTemplete.html()
-       				.replace("#[id]", roomtype.itemTypeData.id)
-                	.replace("#[name]", roomtype.itemTypeData.name)
-                	.replace("#[name]", roomtype.itemTypeData.name)
-                	.replace("#[providerId]", roomtype.itemTypeData.providerId)
-                	.replace("#[active]", roomtype.itemTypeData.active)
-                	.replace("#[active]", roomtype.itemTypeData.active);
-               	$(_btn).closest("tr").html(rowHtml);
-               	
-               	roomtype.itemTypeData.id = "0";
-               	roomtype.itemTypeData.name = "";
-               	roomtype.itemTypeData.providerId = "0";
-               	roomtype.itemTypeData.active = "true";
-       		} else {
-       			$('#dataTable > tbody tr').first().remove();
-       		}
+
+       		$('#dataTable > tbody tr').first().remove();
        		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
@@ -67,7 +52,7 @@ var roomtype = {
        		var _btn = this;
        		if($("#formComponent").valid()) {
        			swal({
-                    text: "Do you want to " + (roomtype.itemTypeData.id > 0 ? "update" : "create") + " this room type",
+                    text: "Do you want to create this hotel POI",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonClass: "btn btn-danger m-1",
@@ -83,44 +68,13 @@ var roomtype = {
            		}).then(function(e) {
                 	if(e.value) {
                 		if($("#formComponent").valid()) {
-	                		if(roomtype.itemTypeData.id > 0) {
-	                			roomtype.doUpdate(_btn);
-	                		} else {
-	                			roomtype.doCreate(_btn);
-	                		}
+                			hotelpointofinterest.doCreate(_btn);
                 		}
                 	}
                 });
             }
        	});
-       	
-		$(document).on("click", ".edit-button", function(e) {
-			var _btn = this;
-			$(_btn).tooltip('hide');
-			var tr = $(_btn).closest("tr");
-			roomtype.itemTypeData.id = $.trim($(tr).find(".col-id")[0].value);
-			roomtype.itemTypeData.name = $.trim($(tr).find(".col-name")[0].value);
-			roomtype.itemTypeData.active = $.trim($(tr).find(".col-active")[0].value);
-			roomtype.itemTypeData.providerId = $.trim($(tr).find(".col-providerId")[0].value);
-			
-			var formTemplete = $("#formTemplete").clone();
-			var formHtml = formTemplete.html()
-			.replace("#[id]", roomtype.itemTypeData.id)
-			.replace("#[name]", roomtype.itemTypeData.name)
-			.replace("#[active]", roomtype.itemTypeData.active)
-			.replace("#[providerId]", roomtype.itemTypeData.providerId);
-	   		$(tr).html("<td colspan='3'>" + formHtml + "</td>");
-	   		if (eval(roomtype.itemTypeData.active)) {
-	   			$('#val-active').attr("checked", "checked");
-	   		} else {
-	   			$('#val-active').removeAttr("checked");
-	   		}
-	   		$("#btnSubmit").html('Update');
-	   		$("#btnCreateNew").attr('disabled', true);
 
-	   		roomtype.initValidation();
-       	});
-		
 		$(document).on("click", ".delete-button", function(e) {
 			var _btn = this;
 			$(_btn).tooltip('hide');
@@ -128,7 +82,7 @@ var roomtype = {
 			var id = $.trim($(tr).find(".col-id")[0].value);
 			if(id > 0) {
 				swal({
-	                text: "Do you want to delete this room type",
+	                text: "Do you want to delete this hotel POI",
 	                type: "warning",
 	                showCancelButton: true,
 	                confirmButtonClass: "btn btn-danger m-1",
@@ -143,23 +97,19 @@ var roomtype = {
 	                }
 	            }).then(function(e) {
 	            	if(e.value) {
-	            		roomtype.doDelete(_btn, id);
+	            		hotelpointofinterest.doDelete(_btn, id);
 	            	}
 	            });
 			} else {
 				$(tr).remove();
 			}
        	});
-		
-		$(document).on("change", "#val-active", function() {
-			var checked = $(this).is(':checked');
-			$("#val-active").val(checked);
-		})
 	},
 	
 	onHotelSelect : function(o) {
-		roomtype.hotelInfo = o;
+		hotelpointofinterest.hotelInfo = o;
 		$('#var-selected-providerId').val(o.providerId);
+		$('#var-providerTypeId').val(o.providerTypeId);
 		$('#var-title').val(o.title);
 		$('#var-cityName').val(o.cityName);
 		$('#var-countryName').val(o.countryName);
@@ -173,14 +123,55 @@ var roomtype = {
             starOn: $(this).data("star-on") || "fa fa-fw fa-star text-warning",
             readOnly: true
         });
-		
+
 		$("#btnCreateNew").removeAttr('disabled');
-		roomtype.getRoomTypeList(o.providerId);
+		hotelpointofinterest.getHotelPointOfInterestList(o.providerId);
 	},
 	
-	getRoomTypeList : function(providerId) {
-		var url =  roomtype.getRoomTypeListUrl.replace("{#providerId}", providerId);
-		roomtype.getRoomTypeListAjax = $.ajax({
+	getPointOfInterestList : function(providerTypeId) {
+		var url =  hotelpointofinterest.getPointOfInterestListUrl.replace("{#providerTypeId}", providerTypeId);
+		hotelpointofinterest.getPointOfInterestListAjax = $.ajax({
+			type: "GET",
+            contentType: "application/json",
+            url: url,
+            dataType: 'json',
+            timeout: 600000,
+            success: function (data) {
+            	if(data.status) {
+            		hotelpointofinterest.getPointOfInterestListAjax = undefined;
+            		var html = '<option value="0">Please select</option>';
+            		$.each(data.datas, function(index, data) {
+            			html += '<option value="' + data.id + '">' + data.name + '</option>';
+            		});
+            		$('#val-pointOfInterestId').html(html);
+            	} else {
+            		console.log(data.errors);
+            		hotelpointofinterest.getPointOfInterestListAjax = undefined;
+            		Dashmix.helpers('notify', {
+                		align: 'center',
+                		type: 'danger', 
+                		icon: 'fa fa-times mr-1', 
+                		message: 'Failed to get states!',
+                		delay: 1e3
+        			});
+            	}
+            },
+            error: function (e) {
+            	hotelpointofinterest.getPointOfInterestListAjax = undefined;
+            	Dashmix.helpers('notify', {
+            		align: 'center',
+            		type: 'danger', 
+            		icon: 'fa fa-times mr-1', 
+            		message: 'Failed to process request!',
+            		delay: 1e3
+    			});
+            }
+		});
+	},
+	
+	getHotelPointOfInterestList : function(providerId) {
+		var url =  hotelpointofinterest.getHotelPointOfInterestListUrl.replace("{#providerId}", providerId);
+		hotelpointofinterest.getHotelPointOfInterestListAjax = $.ajax({
 			type: "GET",
             contentType: "application/json",
             url: url,
@@ -188,18 +179,16 @@ var roomtype = {
             timeout: 600000,
             success: function (r) {
             	if(r.status) {
-            		roomtype.getRoomTypeListAjax = undefined;
+            		hotelpointofinterest.getHotelPointOfInterestListAjax = undefined;
     				if (r.datas.length > 0) {
     					html = '';
             			$.each(r.datas, function (index, data) {
             				var rowTemplete = $("#rowTemplete").clone();
                    			var rowHtml = rowTemplete.html()
-                				.replace("#[id]", data.id)
-                				.replace("#[name]", data.name)
-                				.replace("#[name]", data.name)
-                				.replace("#[providerId]", data.providerId)
-                				.replace("#[active]", data.active)
-                				.replace("#[active]", data.active);
+	                   			.replace("#[id]", data.id)
+	                   			.replace("#[pointOfInterestId]", data.pointOfInterestId)
+			                	.replace("#[pointOfInterestName]", data.pointOfInterestName)
+			                	.replace("#[providerId]", data.providerId);
                    			html += "<tr>" + rowHtml + "</tr>";
             			});
             			$('#dataTable').find('tbody').html(html);
@@ -208,12 +197,12 @@ var roomtype = {
     				}
             	} else {
             		console.log(r.errors);
-            		roomtype.getRoomTypeListAjax = undefined;
+            		hotelpointofinterest.getHotelPointOfInterestListAjax = undefined;
             		$('#dataTable').find('tbody').html('');
             	}
             },
             error: function (e) {
-            	roomtype.getRoomTypeListAjax = undefined;
+            	hotelpointofinterest.getHotelPointOfInterestListAjax = undefined;
             	$('#dataTable').find('tbody').html('');
             }
 		});
@@ -227,7 +216,7 @@ var roomtype = {
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
-            url: roomtype.createRoomTypeUrl,
+            url: hotelpointofinterest.createHotelPointOfInterestUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -236,19 +225,17 @@ var roomtype = {
             		$("#btnCreateNew").removeAttr('disabled');
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
-        				.replace("#[id]", data.datas[0].id)
-        				.replace("#[name]", data.datas[0].name)
-        				.replace("#[name]", data.datas[0].name)
-        				.replace("#[providerId]", data.datas[0].providerId)
-        				.replace("#[active]", data.datas[0].active)
-                		.replace("#[active]", data.datas[0].active);
+           				.replace("#[id]", data.datas[0].id)
+               			.replace("#[pointOfInterestId]", data.datas[0].pointOfInterestId)
+	                	.replace("#[pointOfInterestName]", data.datas[0].pointOfInterestName)
+	                	.replace("#[providerId]", data.datas[0].providerId);
            			$('#dataTable > tbody tr').first().html(rowHtml);
             		
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Room type created successfully!',
+                		message: 'Hotel POI created successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -258,71 +245,7 @@ var roomtype = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create room type, please try again!',
-                		delay: 1e3
-        			});
-            	}
-            },
-            error: function (e) {
-            	$("#btnCreateNew").removeAttr('disabled');
-            	$(_btn).removeAttr("disabled");
-            	Dashmix.helpers('notify', {
-            		align: 'center',
-            		type: 'danger', 
-            		icon: 'fa fa-times mr-1', 
-            		message: 'Failed to process request!',
-            		delay: 1e3
-    			});
-            }
-		});
-	},
-	
-	doUpdate : function(_btn) {
-		$(_btn).attr("disabled", true);
-		var form = $("#formComponent");
-		var serializeForm = form.serializeObject();
-		
-		$.ajax({
-			type: "PUT",
-            contentType: "application/json",
-            url: roomtype.updateRoomTypeUrl,
-            data: JSON.stringify(serializeForm),
-            dataType: 'json',
-            timeout: 600000,
-            success: function (data) {
-            	if(data.status) {
-            		$("#btnCreateNew").removeAttr('disabled');
-            		var rowTemplete = $("#rowTemplete").clone();
-           			var rowHtml = rowTemplete.html()
-        				.replace("#[id]", data.datas[0].id)
-        				.replace("#[name]", data.datas[0].name)
-        				.replace("#[name]", data.datas[0].name)
-        				.replace("#[providerId]", data.datas[0].providerId)
-        				.replace("#[active]", data.datas[0].active)
-                		.replace("#[active]", data.datas[0].active);
-           			$(_btn).closest("tr").html(rowHtml);
-            		
-           			roomtype.itemTypeData.id = "0";
-                   	roomtype.itemTypeData.name = "";
-                   	roomtype.itemTypeData.providerId = "0";
-                   	roomtype.itemTypeData.active = "true";
-           			
-            		Dashmix.helpers('notify', {
-                		align: 'center', 
-                		type: 'success', 
-                		icon: 'fa fa-check mr-1', 
-                		message: 'Room type updated successfully!',
-                		delay: 1e3
-        			});
-            	} else {
-            		console.log(data.errors);
-            		$("#btnCreateNew").removeAttr('disabled');
-            		$(_btn).removeAttr("disabled");
-            		Dashmix.helpers('notify', {
-                		align: 'center',
-                		type: 'danger', 
-                		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update room type, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create hotel POI, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -347,18 +270,17 @@ var roomtype = {
 		$.ajax({
 			type: "DELETE",
             contentType: "application/json",
-            url: roomtype.deleteRoomTypeUrl + id,
+            url: hotelpointofinterest.deleteHotelPointOfInterestUrl + id,
             dataType: 'json',
             timeout: 600000,
             success: function (data) {
             	if(data.status) {
-
             		$(_btn).closest("tr").remove();
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Room type deleted successfully!',
+                		message: 'Hotel POI deleted successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -368,7 +290,7 @@ var roomtype = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete room type, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete hotel POI, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -387,6 +309,10 @@ var roomtype = {
 	},
 	
 	initValidation : function() {
+		$.validator.addMethod('decimal', function(value, element) {
+		  return this.optional(element) || /^((\d+(\\.\d{0,2})?)|((\d*(\.\d{1,2}))))$/.test(value);
+		}, "Please enter a correct number, format 0.00");
+		
 		$('#formComponent').validate({
             ignore : [], 
             errorClass : "invalid-feedback animated fadeIn", 
@@ -401,19 +327,23 @@ var roomtype = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
-            	"name": {
-                    required: true, minlength: 3
-                },
-                "providerId": {
-                    min: 1
+            	"pointOfInterestId": {
+                    min: 1,
+                    remote : {
+                    	url : hotelpointofinterest.isAvailableUrl,
+                    	type : "GET",
+                    	data : {
+                    		providerId : function() {
+                    			return $("#val-providerId").val();
+                    		}
+                    	}
+                    }
                 }
             }, 
             messages : {
-            	"name": {
-                    required: "Please enter name", minlength: "Name must consist of at least 3 characters"
-                },
-                "providerId": {
-                	min: "Please select hotel from search wizard"
+            	"pointOfInterestId": {
+                	min: "Please select POI",
+                    remote: "The POI is already assigned for this hotel"
                 }
             }
         });
@@ -421,5 +351,5 @@ var roomtype = {
 };
 
 $(document).ready(function() {
-	roomtype.init();
+	hotelpointofinterest.init();
 });

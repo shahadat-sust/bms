@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bms.admin.AppConstants;
@@ -28,8 +29,9 @@ import com.bms.common.BmsException;
 import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
 import com.bms.service.data.provider.ProviderAdminData;
+import com.bms.service.data.provider.ProviderPointOfInterestData;
 import com.bms.service.data.room.ItemTypeData;
-import com.bms.service.soa.room.IItemTypeService;
+import com.bms.service.soa.provider.IProviderPointOfInterestService;
 
 @Controller
 @RequestMapping(value = "/hotelpointofinterest")
@@ -38,50 +40,51 @@ public class HotelPointOfInterestController extends BaseController {
 	
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 	
-	private IItemTypeService itemTypeService;
+	private IProviderPointOfInterestService providerPointOfInterestService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String view(Model model, HttpServletRequest request) throws BmsSqlException, BmsException {
 		ProviderAdminData defaultHotel = (ProviderAdminData) request.getSession().getAttribute(AppConstants.KEY_DEFAULT_HOTEL);
-		List<ItemTypeData> roomTypeList = itemTypeService.getAllItemTypesByProviderId(defaultHotel.getProviderId());
-		model.addAttribute("roomTypeList", roomTypeList);
+		List<ProviderPointOfInterestData> hotelPointOfInterestList = providerPointOfInterestService.getAllProviderPointOfInterestsByProviderId(
+				defaultHotel.getProviderId());
+		model.addAttribute("hotelPointOfInterestList", hotelPointOfInterestList);
 		return "hotel/hotelpointofinterest";
 	}
 	
-	@RequestMapping(value = "/fetch/{roomTypeId}/{providerId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemTypeData> fetch(@PathVariable long roomTypeId, @PathVariable long providerId, @PathVariable int sortOrder) {
-		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
+	@RequestMapping(value = "/fetch/{hotelPointOfInterestId}/{providerId}/{sortOrder}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<ProviderPointOfInterestData> fetch(@PathVariable long hotelPointOfInterestId, @PathVariable long providerId, @PathVariable int sortOrder) {
+		ResponseModel<ProviderPointOfInterestData> responseModel = new ResponseModel<ProviderPointOfInterestData>();
 		try {
-			if(roomTypeId > 0) {
-				ItemTypeData itemTypeData = itemTypeService.getItemTypeById(roomTypeId);
-				responseModel.addData(itemTypeData);
+			if(hotelPointOfInterestId > 0) {
+				ProviderPointOfInterestData providerPointOfInterestData = providerPointOfInterestService.getProviderPointOfInterestById(hotelPointOfInterestId);
+				responseModel.addData(providerPointOfInterestData);
 			} else { 
-				List<ItemTypeData> itemTypeList = null;
+				List<ProviderPointOfInterestData> providerPointOfInterestList = null;
 				if(providerId > 0) {
-					itemTypeList = itemTypeService.getAllItemTypesByProviderId(providerId);
+					providerPointOfInterestList = providerPointOfInterestService.getAllProviderPointOfInterestsByProviderId(providerId);
 				} else {
-					itemTypeList = new ArrayList<>();
+					providerPointOfInterestList = new ArrayList<>();
 				}
 				
-				if (itemTypeList != null && itemTypeList.size() > 0) {
+				if (providerPointOfInterestList != null && providerPointOfInterestList.size() > 0) {
 					if (sortOrder == Constants.SORT_ORDER_ASC) {
-						Collections.sort(itemTypeList, new Comparator<ItemTypeData>() {
+						Collections.sort(providerPointOfInterestList, new Comparator<ProviderPointOfInterestData>() {
 							@Override
-							public int compare(ItemTypeData o1, ItemTypeData o2) {
-								return o1.getName().compareTo(o2.getName());
+							public int compare(ProviderPointOfInterestData o1, ProviderPointOfInterestData o2) {
+								return o1.getPointOfInterestName().compareTo(o2.getPointOfInterestName());
 							}
 						});
 					} else if (sortOrder == Constants.SORT_ORDER_DESC) {
-						Collections.sort(itemTypeList, new Comparator<ItemTypeData>() {
+						Collections.sort(providerPointOfInterestList, new Comparator<ProviderPointOfInterestData>() {
 							@Override
-							public int compare(ItemTypeData o1, ItemTypeData o2) {
-								return o2.getName().compareTo(o1.getName());
+							public int compare(ProviderPointOfInterestData o1, ProviderPointOfInterestData o2) {
+								return o2.getPointOfInterestName().compareTo(o1.getPointOfInterestName());
 							}
 						});
 					}
 				}
 				
-				responseModel.addDatas(itemTypeList);
+				responseModel.addDatas(providerPointOfInterestList);
 			}
 			responseModel.setStatus(true);
 		} catch (Exception e) {
@@ -93,12 +96,12 @@ public class HotelPointOfInterestController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemTypeData> create(@RequestBody ItemTypeData itemTypeData) {
-		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
+	public @ResponseBody ResponseModel<ProviderPointOfInterestData> create(@RequestBody ProviderPointOfInterestData providerPointOfInterestData) {
+		ResponseModel<ProviderPointOfInterestData> responseModel = new ResponseModel<ProviderPointOfInterestData>();
 		try {
-			long itemTypeId = itemTypeService.create(itemTypeData, getLoginUserData().getId());
-			if(itemTypeId > 0) {
-				ItemTypeData data = itemTypeService.getItemTypeById(itemTypeId);
+			long providerPointOfInterestId = providerPointOfInterestService.create(providerPointOfInterestData, getLoginUserData().getId());
+			if(providerPointOfInterestId > 0) {
+				ProviderPointOfInterestData data = providerPointOfInterestService.getProviderPointOfInterestById(providerPointOfInterestId);
 				responseModel.setStatus(true);
 				responseModel.addData(data);
 			} else {
@@ -112,18 +115,11 @@ public class HotelPointOfInterestController extends BaseController {
 	    return responseModel;
 	}
 	
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemTypeData> update(@RequestBody ItemTypeData itemTypeData) {
+	@RequestMapping(value = "/delete/{providerPointOfInterestId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseModel<ItemTypeData> delete(@PathVariable long providerPointOfInterestId) {
 		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
 		try {
-			boolean status = itemTypeService.update(itemTypeData, getLoginUserData().getId());
-			if(status) {
-				ItemTypeData data = itemTypeService.getItemTypeById(itemTypeData.getId());
-				responseModel.setStatus(true);
-				responseModel.addData(data);
-			} else {
-				responseModel.setStatus(false);
-			}
+			responseModel.setStatus(providerPointOfInterestService.delete(providerPointOfInterestId));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			responseModel.setStatus(false);
@@ -132,28 +128,25 @@ public class HotelPointOfInterestController extends BaseController {
 	    return responseModel;
 	}
 	
-	@RequestMapping(value = "/delete/{roomTypeId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseModel<ItemTypeData> delete(@PathVariable long roomTypeId) {
-		ResponseModel<ItemTypeData> responseModel = new ResponseModel<ItemTypeData>();
+	@RequestMapping(value = "/isAvailable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody boolean isAvailable(@RequestParam long pointOfInterestId, @RequestParam long providerId) {
+		boolean status = false;
 		try {
-			responseModel.setStatus(itemTypeService.delete(roomTypeId, getLoginUserData().getId()));
+			status = providerPointOfInterestService.isAvailable(pointOfInterestId, providerId);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			responseModel.setStatus(false);
-			responseModel.addError(getMessageSource().getMessage("error.returned", new Object[] { e.getMessage() }, Locale.getDefault()));
 		}
-	    return responseModel;
+	    return status;
 	}
 
-	public IItemTypeService getItemTypeService() {
-		return itemTypeService;
+	public IProviderPointOfInterestService getProviderPointOfInterestService() {
+		return providerPointOfInterestService;
 	}
 
 	@Autowired
-	@Qualifier("itemTypeService")
-	public void setItemTypeService(IItemTypeService itemTypeService) {
-		this.itemTypeService = itemTypeService;
+	@Qualifier("providerPointOfInterestService")
+	public void setProviderPointOfInterestService(IProviderPointOfInterestService providerPointOfInterestService) {
+		this.providerPointOfInterestService = providerPointOfInterestService;
 	}
 
-	
 }

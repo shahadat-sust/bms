@@ -170,7 +170,6 @@
         <!-- Page JS Code -->
         <script src="<c:url value="/resources/js/custom/setup/amenity.js"/>"></script>   
 		<script type="text/javascript">
-			amenitySetup.fetchUrl = '<c:url value="/amenity/fetch/" />';
 			amenitySetup.createUrl = '<c:url value="/amenity/create" />';
 			amenitySetup.updateUrl = '<c:url value="/amenity/update" />';
 			amenitySetup.deleteUrl = '<c:url value="/amenity/delete/" />';

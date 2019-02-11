@@ -234,19 +234,20 @@ public class ProviderDao extends BaseDao implements IProviderDao {
 				public ProviderData mapRow(ResultSet rs, int rowNum) throws SQLException {
 					ProviderData providerData = new ProviderData();
 					providerData.setId(rs.getLong(1));
-					providerData.setTitle(rs.getString(2));
+					providerData.setProviderTypeId(rs.getLong(2));
+					providerData.setTitle(rs.getString(3));
 					providerData.setHotelData(new HotelData());
 					
 					HotelData hotelData = new HotelData();
-					hotelData.setStarRating(rs.getInt(3));
+					hotelData.setStarRating(rs.getInt(4));
 					providerData.setHotelData(hotelData);
 					
 					PostalAddressData postalAddressData = new PostalAddressData();
-					postalAddressData.setLine1(rs.getString(4));
-					postalAddressData.setCityId(rs.getLong(5));
-					postalAddressData.setCityName(rs.getString(6));
-					postalAddressData.setCountryId(rs.getLong(7));
-					postalAddressData.setCountryName(rs.getString(8));
+					postalAddressData.setLine1(rs.getString(5));
+					postalAddressData.setCityId(rs.getLong(6));
+					postalAddressData.setCityName(rs.getString(7));
+					postalAddressData.setCountryId(rs.getLong(8));
+					postalAddressData.setCountryName(rs.getString(9));
 					providerData.setPostalAddressDatas(new ArrayList<>());
 					providerData.getPostalAddressDatas().add(postalAddressData);
 					return providerData;

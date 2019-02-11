@@ -138,6 +138,7 @@
 		<![CDATA[
 			SELECT 
 				Provider.Id, 
+				Provider.ProviderTypeId, 
 				Provider.Title, 
 				Hotel.StarRating, 
 				PostalAddress.Line1,

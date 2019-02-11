@@ -3,6 +3,7 @@ package com.bms.admin.model;
 public class SearchModel {
 
 	private long providerId;
+	private long providerTypeId;
 	private long userId;
 	private String name;
 	private String username;
@@ -22,6 +23,12 @@ public class SearchModel {
 	}
 	public void setProviderId(long providerId) {
 		this.providerId = providerId;
+	}
+	public long getProviderTypeId() {
+		return providerTypeId;
+	}
+	public void setProviderTypeId(long providerTypeId) {
+		this.providerTypeId = providerTypeId;
 	}
 	public long getUserId() {
 		return userId;

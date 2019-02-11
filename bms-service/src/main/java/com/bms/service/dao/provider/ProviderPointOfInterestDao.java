@@ -113,10 +113,10 @@ public class ProviderPointOfInterestDao extends BaseDao implements IProviderPoin
 	}
 
 	@Override
-	public boolean isAvailable(long id, String pointOfInterestId, long providerId) throws BmsSqlException {
+	public boolean isAvailable(long pointOfInterestId, long providerId) throws BmsSqlException {
 		try {
 			String sql = providerPointOfInterestQuery.getProperty("providerPointOfInterest.isAvailable");
-			Object[] params = new Object[] {id, id, pointOfInterestId, providerId, id, pointOfInterestId, providerId};
+			Object[] params = new Object[] {pointOfInterestId, providerId};
 			List<Long> userIDs = getTemplete().query(sql, params, new RowMapper<Long> () {
 				@Override
 				public Long mapRow(ResultSet rs, int index) throws SQLException {
