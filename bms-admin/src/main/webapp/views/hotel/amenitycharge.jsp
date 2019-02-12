@@ -5,8 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>BMS - Room Type</title>
-		<meta name="description" content="BMS - Room Type">
+		<title>BMS - Amenity Charge</title>
+		<meta name="description" content="BMS - Amenity Charge">
 		<%@include file="../includes/metadata.jsp"%>
 		<%@include file="../includes/appicons.jsp"%>
 		<%@include file="../includes/styles.jsp"%>
@@ -23,12 +23,12 @@
             <div class="bg-body-light">
                 <div class="content content-full">
                     <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Room Type</h1>
+                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Amenity Charge</h1>
                         <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">Hotel Management</li>
-                                <li class="breadcrumb-item">Room Info</li>
-                                <li class="breadcrumb-item active" aria-current="page">Room Type</li>
+                                <li class="breadcrumb-item">Hotel Info</li>
+                                <li class="breadcrumb-item active" aria-current="page">Amenity Charge</li>
                             </ol>
                         </nav>
                     </div>
@@ -50,6 +50,7 @@
                                    	</label>
                                     <div class="col-sm-8">
                                     	<input type="hidden" class="form-control" id="var-selected-providerId" value="${sessionScope.DEFAULT_HOTEL.providerId}"/>
+                                    	<input type="hidden" class="form-control" id="var-providerTypeId" value="${sessionScope.DEFAULT_HOTEL.providerTypeId}"/>
                                         <input type="text" class="form-control" readonly="readonly" id="var-title" value="${sessionScope.DEFAULT_HOTEL.title}"/>
                                     </div>
                                 </div>
@@ -90,11 +91,11 @@
                              	</div>
                     		</div>
                     	 	<div class="col-md-8">
-                    	 		<h2 class="content-heading pt-0">Room Type List</h2>
+                    	 		<h2 class="content-heading pt-0">Amenity List</h2>
                    	 			<!-- Full Table -->
 		                  	  	<div class="block-content text-right">
 									<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
-			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Type
+			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Amenity
 			                        </button>
 		                  	  	</div>
 		                      	<div class="block-content">
@@ -102,28 +103,29 @@
 		                               <thead>
 		                                   <tr>
 		                                       <th>Name</th>
-		                                       <th class="text-center" style="width: 100px;">Active</th>
+		                                       <th class="text-center" style="width: 120px;">Charge</th>
 		                                       <th class="text-center" style="width: 100px;">Actions</th>
 		                                   </tr>
 		                               </thead>
 		                               <tbody>
-		                               	   <c:forEach items="${roomTypeList}" var="itemTypeData">
+		                               	   <c:forEach items="${amenityChargeList}" var="amenityChargeData">
 	                               	   			<tr>
 													<td class="font-w600">
-														${itemTypeData.name}
+														${amenityChargeData.amenityName}
 													</td>
-													<td class="text-center font-w600">
-														${itemTypeData.active}
+													<td class="font-w600">
+														${amenityChargeData.charge}
 													</td>
 													<td class="text-center">
-													   <input type="hidden" class="col-id" value="${itemTypeData.id}"/>
-													   <input type="hidden" class="col-name" value="${itemTypeData.name}"/>
-													   <input type="hidden" class="col-providerId" value="${itemTypeData.providerId}"/>
-													   <input type="hidden" class="col-active" value="${itemTypeData.active}"/>
+													   <input type="hidden" class="col-id" value="${amenityChargeData.id}"/>
+													   <input type="hidden" class="col-providerId" value="${amenityChargeData.providerId}"/>
+													   <input type="hidden" class="col-amenityId" value="${amenityChargeData.amenityId}"/>
+													   <input type="hidden" class="col-amenityName" value="${amenityChargeData.amenityName}"/>
+													   <input type="hidden" class="col-charge" value="${amenityChargeData.charge}"/>
 			                                           <div class="btn-group">
-			                                               <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
-			                                                   <i class="fa fa-pencil-alt"></i>
-			                                               </button>
+			                                           	   <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
+	                                                   		   <i class="fa fa-pencil-alt"></i>
+	                                               		   </button>
 			                                               <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
 			                                                   <i class="fa fa-times"></i>
 			                                               </button>
@@ -157,14 +159,13 @@
 	                		<input id="val-providerId" type="hidden" name="providerId" value="#[providerId]"/>
 	                	</div>
 	                    <div class="form-group">
-	                        <label for="val-name">Name <span class="text-danger">*</span></label>
-	                        <input class="form-control" type="text" id="val-name" name="name" value="#[name]" placeholder="Enter Name..">
+	                        <label for="val-amenityId">Name <span class="text-danger">*</span></label>
+	                        <select class="form-control" id="val-amenityId" name="amenityId">
+                            </select>
 	                    </div>
 	                    <div class="form-group">
-	                    	<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">
-		            		    <input type="checkbox" class="custom-control-input" name="active" value="#[active]" id="val-active" checked="checked">
-		            			<label class="custom-control-label" for="val-active">Is Active</label>
-		            		</div>
+	                        <label for="val-charge">Charge <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-charge" name="charge" value="#[charge]" placeholder="Enter Charge..">
 	                    </div>
 	                    <div class="form-group mt-5">
 	                     	<div class="row items-push">
@@ -187,20 +188,21 @@
         </template>
         <template id="rowTemplete">
 	        <td class="font-w600">
-				#[name]
+				#[amenityName]
 			</td>
-			<td class="text-center font-w600">
-				#[active]
+			<td class="font-w600">
+				#[charge]
 			</td>
 			<td class="text-center">
 				<input type="hidden" class="col-id" value="#[id]"/>
-			    <input type="hidden" class="col-name" value="#[name]"/>
 			    <input type="hidden" class="col-providerId" value="#[providerId]"/>
-			    <input type="hidden" class="col-active" value="#[active]"/>
+			    <input type="hidden" class="col-amenityId" value="#[amenityId]"/>
+			    <input type="hidden" class="col-amenityName" value="#[amenityName]"/>
+			    <input type="hidden" class="col-charge" value="#[charge]"/>
 		        <div class="btn-group">
-			        <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
-			        	<i class="fa fa-pencil-alt"></i>
-			        </button>
+		        	<button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
+                       <i class="fa fa-pencil-alt"></i>
+                    </button>
 			        <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
 			           <i class="fa fa-times"></i>
 			        </button>
@@ -215,13 +217,15 @@
         <%@include file="../hotel/hotelsearch.jsp" %>
         <!-- END Modal Pop Up -->
 
-		<script src="<c:url value="/resources/js/custom/room/roomtype.js"/>"></script>
+		<script src="<c:url value="/resources/js/custom/hotel/amenitycharge.js"/>"></script>
 
 		<script type="text/javascript">
-			roomtype.getRoomTypeListUrl = '<c:url value="/roomtype/fetch/0/{#providerId}/0" />';
-			roomtype.createRoomTypeUrl = '<c:url value="/roomtype/create" />';
-			roomtype.updateRoomTypeUrl = '<c:url value="/roomtype/update" />';
-			roomtype.deleteRoomTypeUrl = '<c:url value="/roomtype/delete/" />';
+			amenitycharge.isAvailableUrl = '<c:url value="/amenitycharge/isAvailable/" />';
+			amenitycharge.getAmenityListUrl = '<c:url value="/amenity/fetch/0/{#providerTypeId}/1" />';
+			amenitycharge.getAmenityChargeListUrl = '<c:url value="/amenitycharge/fetch/0/{#providerId}/0" />';
+			amenitycharge.createAmenityChargeUrl = '<c:url value="/amenitycharge/create" />';
+			amenitycharge.updateAmenityChargeUrl = '<c:url value="/amenitycharge/update" />';
+			amenitycharge.deleteAmenityChargeUrl = '<c:url value="/amenitycharge/delete/" />';
 		</script>
 	</body>
 </html>

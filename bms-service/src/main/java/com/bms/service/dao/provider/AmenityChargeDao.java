@@ -131,7 +131,7 @@ public class AmenityChargeDao extends BaseDao implements IAmenityChargeDao {
 	}
 
 	@Override
-	public boolean isAvailable(long id, String amenityId, long providerId) throws BmsSqlException {
+	public boolean isAvailable(long id, long amenityId, long providerId) throws BmsSqlException {
 		try {
 			String sql = amenityChargeQuery.getProperty("amenityCharge.isAvailable");
 			Object[] params = new Object[] {id, id, amenityId, providerId, id, amenityId, providerId};

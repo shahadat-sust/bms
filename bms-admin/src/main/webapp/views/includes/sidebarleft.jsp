@@ -181,7 +181,7 @@
                         </a>
                     </li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="<c:url value="/hotelamenitycharge"/>">
+                        <a class="nav-main-link" href="<c:url value="/amenitycharge"/>">
                             <span class="nav-main-link-name">Amenity Charge</span>
                         </a>
                     </li>

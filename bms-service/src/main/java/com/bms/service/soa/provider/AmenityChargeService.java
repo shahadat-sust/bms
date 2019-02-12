@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
@@ -12,6 +13,7 @@ import com.bms.service.dao.provider.IAmenityChargeDao;
 import com.bms.service.data.provider.AmenityChargeData;
 import com.bms.service.soa.BaseService;
 
+@Service("amenityChargeService")
 public class AmenityChargeService extends BaseService implements IAmenityChargeService {
 
 	private IAmenityChargeDao amenityChargeDao; 
@@ -80,7 +82,7 @@ public class AmenityChargeService extends BaseService implements IAmenityChargeS
 	}
 
 	@Override
-	public boolean isAvailable(long id, String amenityId, long providerId) throws BmsSqlException, BmsException {
+	public boolean isAvailable(long id, long amenityId, long providerId) throws BmsSqlException, BmsException {
 		try {
 			return amenityChargeDao.isAvailable(id, amenityId, providerId);
 		} catch (BmsSqlException e) {

@@ -95,7 +95,7 @@
                    	 			<!-- Full Table -->
 		                  	  	<div class="block-content text-right">
 									<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
-			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Hotel POI
+			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Point Of Interest
 			                        </button>
 		                  	  	</div>
 		                      	<div class="block-content">
@@ -150,7 +150,7 @@
 	                		<input id="val-providerId" type="hidden" name="providerId" value="#[providerId]"/>
 	                	</div>
 	                    <div class="form-group">
-	                        <label for="val-name">Name <span class="text-danger">*</span></label>
+	                        <label for="val-pointOfInterestId">Name <span class="text-danger">*</span></label>
 	                        <select class="form-control" id="val-pointOfInterestId" name="pointOfInterestId">
                             </select>
 	                    </div>

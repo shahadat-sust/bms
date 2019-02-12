@@ -1,16 +1,18 @@
-var hotelpointofinterest = {
+var amenitycharge = {
 	hotelInfo: undefined,
-	hotelPointOfInterestData : {
+	amenityChargeData : {
 		id : "0",
 		providerId : "0",
-		pointOfInterestId : "0"
+		amenityId : "0",
+		amenityName : "",
+		charge : "0.00"
 	},
 	isAvailableUrl: undefined,
-	getPointOfInterestListUrl: undefined,
-	getPointOfInterestListAjax: undefined,
-	createHotelPointOfInterestUrl: undefined,
-	updateHotelPointOfInterestUrl: undefined,
-	deleteHotelPointOfInterestUrl: undefined,
+	getAmenityListUrl: undefined,
+	getAmenityListAjax: undefined,
+	createAmenityChargeUrl: undefined,
+	updateAmenityChargeUrl: undefined,
+	deleteAmenityChargeUrl: undefined,
 		
 	init : function() {
 		 $(".rating").raty({
@@ -21,7 +23,7 @@ var hotelpointofinterest = {
             readOnly: true
         });
 		
-		 hotelsearchmodal.init(hotelpointofinterest.onHotelSelect);
+		 hotelsearchmodal.init(amenitycharge.onHotelSelect);
 		 
 		 $(document).on("click", "#btnCreateNew", function(e) {
 			var _btn = this;
@@ -31,20 +33,39 @@ var hotelpointofinterest = {
        		var formTemplete = $("#formTemplete").clone();
     		var formHtml = formTemplete.html()
 	    		.replace("#[id]", "0")
-	    		.replace("#[providerId]", selectedProviderId);
-       		$("#dataTable > tbody").prepend("<tr><td colspan='2'>" + formHtml + "</td></tr>");
+	    		.replace("#[providerId]", selectedProviderId)
+	    		.replace("#[charge]", "0.00");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='3'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
-       		$('#val-pointOfInterestId').html('<option value="0">Please select</option>');
+       		$('#val-amenityId').html('<option value="0">Please select</option>');
        		
        		var providerTypeId = $("#var-providerTypeId").val();
-       		hotelpointofinterest.getPointOfInterestList(providerTypeId);
-       		hotelpointofinterest.initValidation();
+       		amenitycharge.getAmenityList(providerTypeId);
+       		amenitycharge.initValidation();
        	});
        	
        	$(document).on("click", "#btnCancel", function(e) {
        		var _btn = this;
-
-       		$('#dataTable > tbody tr').first().remove();
+       		if(amenitycharge.amenityChargeData.id > 0) {
+       			var rowTemplete = $("#rowTemplete").clone();
+       			var rowHtml = rowTemplete.html()
+    				.replace("#[id]", amenitycharge.amenityChargeData.id)
+    				.replace("#[providerId]", amenitycharge.amenityChargeData.providerId)
+					.replace("#[amenityId]", amenitycharge.amenityChargeData.amenityId)
+					.replace("#[amenityName]", amenitycharge.amenityChargeData.amenityName)
+					.replace("#[amenityName]", amenitycharge.amenityChargeData.amenityName)
+					.replace("#[charge]", amenitycharge.amenityChargeData.charge)
+					.replace("#[charge]", amenitycharge.amenityChargeData.charge);
+               	$(_btn).closest("tr").html(rowHtml);
+               	
+               	amenitycharge.amenityChargeData.id = "0";
+               	amenitycharge.amenityChargeData.providerId = "0";
+               	amenitycharge.amenityChargeData.amenityId = "0";
+               	amenitycharge.amenityChargeData.amenityName = "";
+               	amenitycharge.amenityChargeData.charge = "0.00";
+       		} else {
+       			$('#dataTable > tbody tr').first().remove();
+       		}
        		$("#btnCreateNew").removeAttr('disabled');
        	});
        	
@@ -52,7 +73,7 @@ var hotelpointofinterest = {
        		var _btn = this;
        		if($("#formComponent").valid()) {
        			swal({
-                    text: "Do you want to create this hotel POI",
+       				text: "Do you want to " + (amenitycharge.amenityChargeData.id > 0 ? "update" : "create") + " this amenity charge",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonClass: "btn btn-danger m-1",
@@ -68,11 +89,40 @@ var hotelpointofinterest = {
            		}).then(function(e) {
                 	if(e.value) {
                 		if($("#formComponent").valid()) {
-                			hotelpointofinterest.doCreate(_btn);
+                			if(amenitycharge.amenityChargeData.id > 0) {
+                				amenitycharge.doUpdate(_btn);
+                    		} else {
+                    			amenitycharge.doCreate(_btn);
+                    		}
                 		}
                 	}
                 });
             }
+       	});
+       	
+       	$(document).on("click", ".edit-button", function(e) {
+			var _btn = this;
+			$(_btn).tooltip('hide');
+			var tr = $(_btn).closest("tr");
+			amenitycharge.amenityChargeData.id = $.trim($(tr).find(".col-id")[0].value);
+			amenitycharge.amenityChargeData.providerId = $.trim($(tr).find(".col-providerId")[0].value);
+			amenitycharge.amenityChargeData.amenityId = $.trim($(tr).find(".col-amenityId")[0].value);
+			amenitycharge.amenityChargeData.amenityName = $.trim($(tr).find(".col-amenityName")[0].value);
+			amenitycharge.amenityChargeData.charge = $.trim($(tr).find(".col-charge")[0].value);
+			
+			var formTemplete = $("#formTemplete").clone();
+			var formHtml = formTemplete.html()
+				.replace("#[id]", amenitycharge.amenityChargeData.id)
+				.replace("#[providerId]", amenitycharge.amenityChargeData.providerId)
+				.replace("#[charge]", amenitycharge.amenityChargeData.charge);
+	   		$(tr).html("<td colspan='4'>" + formHtml + "</td>");
+	   		$("#btnSubmit").html('Update');
+	   		$("#btnCreateNew").attr('disabled', true);
+	   		$('#val-amenityId').html('<option value="0">Please select</option>');
+	   		
+	   		var providerTypeId = $("#var-providerTypeId").val();
+	   		amenitycharge.getAmenityList(providerTypeId, amenitycharge.amenityChargeData.amenityId);
+	   		amenitycharge.initValidation();
        	});
 
 		$(document).on("click", ".delete-button", function(e) {
@@ -82,7 +132,7 @@ var hotelpointofinterest = {
 			var id = $.trim($(tr).find(".col-id")[0].value);
 			if(id > 0) {
 				swal({
-	                text: "Do you want to delete this hotel POI",
+	                text: "Do you want to delete this amenity charge",
 	                type: "warning",
 	                showCancelButton: true,
 	                confirmButtonClass: "btn btn-danger m-1",
@@ -97,7 +147,7 @@ var hotelpointofinterest = {
 	                }
 	            }).then(function(e) {
 	            	if(e.value) {
-	            		hotelpointofinterest.doDelete(_btn, id);
+	            		amenitycharge.doDelete(_btn, id);
 	            	}
 	            });
 			} else {
@@ -107,7 +157,7 @@ var hotelpointofinterest = {
 	},
 	
 	onHotelSelect : function(o) {
-		hotelpointofinterest.hotelInfo = o;
+		amenitycharge.hotelInfo = o;
 		$('#var-selected-providerId').val(o.providerId);
 		$('#var-providerTypeId').val(o.providerTypeId);
 		$('#var-title').val(o.title);
@@ -125,12 +175,12 @@ var hotelpointofinterest = {
         });
 
 		$("#btnCreateNew").removeAttr('disabled');
-		hotelpointofinterest.getHotelPointOfInterestList(o.providerId);
+		amenitycharge.getAmenityChargeList(o.providerId);
 	},
 	
-	getPointOfInterestList : function(providerTypeId) {
-		var url =  hotelpointofinterest.getPointOfInterestListUrl.replace("{#providerTypeId}", providerTypeId);
-		hotelpointofinterest.getPointOfInterestListAjax = $.ajax({
+	getAmenityList : function(providerTypeId, amenityId) {
+		var url =  amenitycharge.getAmenityListUrl.replace("{#providerTypeId}", providerTypeId);
+		amenitycharge.getAmenityListAjax = $.ajax({
 			type: "GET",
             contentType: "application/json",
             url: url,
@@ -138,15 +188,18 @@ var hotelpointofinterest = {
             timeout: 600000,
             success: function (data) {
             	if(data.status) {
-            		hotelpointofinterest.getPointOfInterestListAjax = undefined;
+            		amenitycharge.getAmenityListAjax = undefined;
             		var html = '<option value="0">Please select</option>';
             		$.each(data.datas, function(index, data) {
             			html += '<option value="' + data.id + '">' + data.name + '</option>';
             		});
-            		$('#val-pointOfInterestId').html(html);
+            		$('#val-amenityId').html(html);
+            		if (amenityId) {
+            			$('#val-amenityId').val(amenityId);
+            		}
             	} else {
             		console.log(data.errors);
-            		hotelpointofinterest.getPointOfInterestListAjax = undefined;
+            		amenitycharge.getAmenityListAjax = undefined;
             		Dashmix.helpers('notify', {
                 		align: 'center',
                 		type: 'danger', 
@@ -157,7 +210,7 @@ var hotelpointofinterest = {
             	}
             },
             error: function (e) {
-            	hotelpointofinterest.getPointOfInterestListAjax = undefined;
+            	amenitycharge.getAmenityListAjax = undefined;
             	Dashmix.helpers('notify', {
             		align: 'center',
             		type: 'danger', 
@@ -169,9 +222,9 @@ var hotelpointofinterest = {
 		});
 	},
 	
-	getHotelPointOfInterestList : function(providerId) {
-		var url =  hotelpointofinterest.getHotelPointOfInterestListUrl.replace("{#providerId}", providerId);
-		hotelpointofinterest.getHotelPointOfInterestListAjax = $.ajax({
+	getAmenityChargeList : function(providerId) {
+		var url =  amenitycharge.getAmenityChargeListUrl.replace("{#providerId}", providerId);
+		amenitycharge.getAmenityChargeListAjax = $.ajax({
 			type: "GET",
             contentType: "application/json",
             url: url,
@@ -179,16 +232,19 @@ var hotelpointofinterest = {
             timeout: 600000,
             success: function (r) {
             	if(r.status) {
-            		hotelpointofinterest.getHotelPointOfInterestListAjax = undefined;
+            		amenitycharge.getAmenityChargeListAjax = undefined;
     				if (r.datas.length > 0) {
     					html = '';
             			$.each(r.datas, function (index, data) {
             				var rowTemplete = $("#rowTemplete").clone();
                    			var rowHtml = rowTemplete.html()
 	                   			.replace("#[id]", data.id)
-	                   			.replace("#[pointOfInterestId]", data.pointOfInterestId)
-			                	.replace("#[pointOfInterestName]", data.pointOfInterestName)
-			                	.replace("#[providerId]", data.providerId);
+			    				.replace("#[providerId]", data.providerId)
+								.replace("#[amenityId]", data.amenityId)
+								.replace("#[amenityName]", data.amenityName)
+								.replace("#[amenityName]", data.amenityName)
+								.replace("#[charge]", data.charge)
+								.replace("#[charge]", data.charge);
                    			html += "<tr>" + rowHtml + "</tr>";
             			});
             			$('#dataTable').find('tbody').html(html);
@@ -197,12 +253,12 @@ var hotelpointofinterest = {
     				}
             	} else {
             		console.log(r.errors);
-            		hotelpointofinterest.getHotelPointOfInterestListAjax = undefined;
+            		amenitycharge.getAmenityChargeListAjax = undefined;
             		$('#dataTable').find('tbody').html('');
             	}
             },
             error: function (e) {
-            	hotelpointofinterest.getHotelPointOfInterestListAjax = undefined;
+            	amenitycharge.getAmenityChargeListAjax = undefined;
             	$('#dataTable').find('tbody').html('');
             }
 		});
@@ -216,7 +272,7 @@ var hotelpointofinterest = {
 		$.ajax({
 			type: "POST",
             contentType: "application/json",
-            url: hotelpointofinterest.createHotelPointOfInterestUrl,
+            url: amenitycharge.createAmenityChargeUrl,
             data: JSON.stringify(serializeForm),
             dataType: 'json',
             timeout: 600000,
@@ -226,16 +282,19 @@ var hotelpointofinterest = {
             		var rowTemplete = $("#rowTemplete").clone();
            			var rowHtml = rowTemplete.html()
            				.replace("#[id]", data.datas[0].id)
-               			.replace("#[pointOfInterestId]", data.datas[0].pointOfInterestId)
-	                	.replace("#[pointOfInterestName]", data.datas[0].pointOfInterestName)
-	                	.replace("#[providerId]", data.datas[0].providerId);
+	    				.replace("#[providerId]", data.datas[0].providerId)
+						.replace("#[amenityId]", data.datas[0].amenityId)
+						.replace("#[amenityName]", data.datas[0].amenityName)
+						.replace("#[amenityName]", data.datas[0].amenityName)
+						.replace("#[charge]", data.datas[0].charge)
+						.replace("#[charge]", data.datas[0].charge);
            			$('#dataTable > tbody tr').first().html(rowHtml);
             		
             		Dashmix.helpers('notify', {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Hotel POI created successfully!',
+                		message: 'Amenity charge created successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -245,7 +304,7 @@ var hotelpointofinterest = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create hotel POI, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create amenity charge, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -264,13 +323,76 @@ var hotelpointofinterest = {
 		});
 	},
 	
+	doUpdate : function(_btn) {
+		$(_btn).attr("disabled", true);
+		var form = $("#formComponent");
+		var serializeForm = form.serializeObject();
+		
+		$.ajax({
+			type: "PUT",
+            contentType: "application/json",
+            url: amenitycharge.updateAmenityChargeUrl,
+            data: JSON.stringify(serializeForm),
+            dataType: 'json',
+            timeout: 600000,
+            success: function (data) {
+            	if(data.status) {
+            		$("#btnCreateNew").removeAttr('disabled');
+            		var rowTemplete = $("#rowTemplete").clone();
+           			var rowHtml = rowTemplete.html()
+        				.replace("#[id]", data.datas[0].id)
+	    				.replace("#[providerId]", data.datas[0].providerId)
+						.replace("#[amenityId]", data.datas[0].amenityId)
+						.replace("#[amenityName]", data.datas[0].amenityName)
+						.replace("#[amenityName]", data.datas[0].amenityName)
+						.replace("#[charge]", data.datas[0].charge)
+						.replace("#[charge]", data.datas[0].charge);
+           			$(_btn).closest("tr").html(rowHtml);
+            		
+           			amenitycharge.amenityChargeData.id = "0";
+                   	amenitycharge.amenityChargeData.providerId = "0";
+                   	amenitycharge.amenityChargeData.amenityId = "0";
+                   	amenitycharge.amenityChargeData.amenityName = "";
+                   	amenitycharge.amenityChargeData.charge = "0.00";
+           			
+            		Dashmix.helpers('notify', {
+                		align: 'center', 
+                		type: 'success', 
+                		icon: 'fa fa-check mr-1', 
+                		message: 'Amenity charge updated successfully!'
+        			});
+            	} else {
+            		console.log(data.errors);
+            		$("#btnCreateNew").removeAttr('disabled');
+            		$(_btn).removeAttr("disabled");
+            		Dashmix.helpers('notify', {
+                		align: 'center',
+                		type: 'danger', 
+                		icon: 'fa fa-times mr-1', 
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to update amenity charge, please try again!'
+        			});
+            	}
+            },
+            error: function (e) {
+            	$("#btnCreateNew").removeAttr('disabled');
+            	$(_btn).removeAttr("disabled");
+            	Dashmix.helpers('notify', {
+            		align: 'center',
+            		type: 'danger', 
+            		icon: 'fa fa-times mr-1', 
+            		message: 'Failed to process request!'
+    			});
+            }
+		});
+	},
+	
 	doDelete : function(_btn, id) {
 		$(_btn).attr("disabled", true);
 
 		$.ajax({
 			type: "DELETE",
             contentType: "application/json",
-            url: hotelpointofinterest.deleteHotelPointOfInterestUrl + id,
+            url: amenitycharge.deleteAmenityChargeUrl + id,
             dataType: 'json',
             timeout: 600000,
             success: function (data) {
@@ -280,7 +402,7 @@ var hotelpointofinterest = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Hotel POI deleted successfully!',
+                		message: 'Amenity charge deleted successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -290,7 +412,7 @@ var hotelpointofinterest = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete hotel POI, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete amenity charge, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -309,6 +431,10 @@ var hotelpointofinterest = {
 	},
 	
 	initValidation : function() {
+		$.validator.addMethod('decimal', function(value, element) {
+		  return this.optional(element) || /^((\d+(\\.\d{0,2})?)|((\d*(\.\d{1,2}))))$/.test(value);
+		}, "Please enter a correct number, format 0.00");
+		
 		$('#formComponent').validate({
             ignore : [], 
             errorClass : "invalid-feedback animated fadeIn", 
@@ -323,23 +449,32 @@ var hotelpointofinterest = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
-            	"pointOfInterestId": {
+            	"amenityId": {
                     min: 1,
                     remote : {
-                    	url : hotelpointofinterest.isAvailableUrl,
+                    	url : amenitycharge.isAvailableUrl,
                     	type : "GET",
                     	data : {
+                    		amenityChargeId : function() {
+                    			return $("#val-id").val();
+                    		},
                     		providerId : function() {
                     			return $("#val-providerId").val();
                     		}
                     	}
                     }
+                },
+                "charge": {
+                	required: true, decimal: true
                 }
             }, 
             messages : {
-            	"pointOfInterestId": {
-                	min: "Please select POI",
-                    remote: "The POI is already assigned for this hotel"
+            	"amenityId": {
+                	min: "Please select amenity",
+                    remote: "Amenity cahnge is already set for this hotel"
+                },
+                "charge": {
+                	required: "Please enter charge"
                 }
             }
         });
@@ -347,5 +482,5 @@ var hotelpointofinterest = {
 };
 
 $(document).ready(function() {
-	hotelpointofinterest.init();
+	amenitycharge.init();
 });

@@ -19,7 +19,7 @@ public interface IAmenityChargeService {
 	
 	List<AmenityChargeData> getAllAmenityChargesByProviderId(long providerId) throws BmsSqlException, BmsException;
 
-	boolean isAvailable(long id, String amenityId, long providerId) throws BmsSqlException, BmsException;
+	boolean isAvailable(long id, long amenityId, long providerId) throws BmsSqlException, BmsException;
 	
 	IAmenityChargeDao getAmenityChargeDao();
 
