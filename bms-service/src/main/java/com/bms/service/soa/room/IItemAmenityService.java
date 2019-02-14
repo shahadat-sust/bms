@@ -17,9 +17,11 @@ public interface IItemAmenityService {
 	
 	ItemAmenityData getItemAmenityById(long itemAmenityId) throws BmsSqlException, BmsException;
 	
-	List<ItemAmenityData> getAllItemAmenityByItemId(long itemId) throws BmsSqlException, BmsException;
+	ItemAmenityData getItemAmenityByItemIdAndAmenityId(long itemId, long amenityId) throws BmsSqlException, BmsException;
+	
+	List<ItemAmenityData> getAllItemAmenitisByItemId(long itemId) throws BmsSqlException, BmsException;
 
-	boolean isAvailable(long id, String amenityId, long itemId) throws BmsSqlException, BmsException;
+	boolean isAvailable(long id, long amenityId, long itemId) throws BmsSqlException, BmsException;
 
 	public IItemAmenityDao getItemAmenityDao();
 

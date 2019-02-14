@@ -5,8 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>BMS - Amenity Charge</title>
-		<meta name="description" content="BMS - Amenity Charge">
+		<title>BMS - Hotel Wise Amenity Charge</title>
+		<meta name="description" content="BMS - Hotel Wise Amenity Charge">
 		<%@include file="../includes/metadata.jsp"%>
 		<%@include file="../includes/appicons.jsp"%>
 		<%@include file="../includes/styles.jsp"%>
@@ -23,12 +23,12 @@
             <div class="bg-body-light">
                 <div class="content content-full">
                     <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Amenity Charge</h1>
+                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Hotel Wise Amenity Charge</h1>
                         <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">Hotel Management</li>
                                 <li class="breadcrumb-item">Hotel Info</li>
-                                <li class="breadcrumb-item active" aria-current="page">Amenity Charge</li>
+                                <li class="breadcrumb-item active" aria-current="page">Hotel Wise Amenity Charge</li>
                             </ol>
                         </nav>
                     </div>
@@ -43,7 +43,7 @@
            			<div class="block-content">
                     	<div class="row items-push">
                     		<div class="col-md-4">
-                    			<h2 class="content-heading pt-0">Select Hotel</h2>
+                    			<h2 class="content-heading pt-0">Hotel Info</h2>
                     			<div class="form-group row">
                                     <label class="col-sm-4 col-form-label" for="var-title">
                                     	<strong class="text-muted">Title</strong>
@@ -103,7 +103,7 @@
 		                               <thead>
 		                                   <tr>
 		                                       <th>Name</th>
-		                                       <th class="text-center" style="width: 120px;">Charge</th>
+		                                       <th class="text-right" style="width: 120px;">Charge</th>
 		                                       <th class="text-center" style="width: 100px;">Actions</th>
 		                                   </tr>
 		                               </thead>
@@ -126,7 +126,7 @@
 			                                           	   <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
 	                                                   		   <i class="fa fa-pencil-alt"></i>
 	                                               		   </button>
-			                                               <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
+			                                               <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Remove">
 			                                                   <i class="fa fa-times"></i>
 			                                               </button>
 			                                           </div>
@@ -203,7 +203,7 @@
 		        	<button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
                        <i class="fa fa-pencil-alt"></i>
                     </button>
-			        <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
+			        <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Remove">
 			           <i class="fa fa-times"></i>
 			        </button>
 		        </div>

@@ -186,6 +186,7 @@ var roomcategory = {
 	onHotelSelect : function(o) {
 		roomcategory.hotelInfo = o;
 		$('#var-selected-providerId').val(o.providerId);
+		$('#var-selected-providerTypeId').val(o.providerTypeId);
 		$('#var-title').val(o.title);
 		$('#var-cityName').val(o.cityName);
 		$('#var-countryName').val(o.countryName);

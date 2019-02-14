@@ -5,8 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>BMS - Room</title>
-		<meta name="description" content="BMS - Room">
+		<title>BMS - Room Wise Amenity</title>
+		<meta name="description" content="BMS - Room Category Wise Amenity">
 		<%@include file="../includes/metadata.jsp"%>
 		<%@include file="../includes/appicons.jsp"%>
 		<%@include file="../includes/styles.jsp"%>
@@ -23,12 +23,12 @@
             <div class="bg-body-light">
                 <div class="content content-full">
                     <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Room</h1>
+                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Room Wise Amenity</h1>
                         <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">Hotel Management</li>
                                 <li class="breadcrumb-item">Room Info</li>
-                                <li class="breadcrumb-item active" aria-current="page">Room</li>
+                                <li class="breadcrumb-item active" aria-current="page">Room Wise Amenity</li>
                             </ol>
                         </nav>
                     </div>
@@ -97,15 +97,15 @@
                     			</div>
                     		</div>
                     	 	<div class="col-md-12">
-                    	 		<h2 class="content-heading pt-0">Room List</h2>
+                    	 		<h2 class="content-heading pt-0">Amenity List</h2>
                    	 			<!-- Full Table -->
                    	 			<div class="block-content row items-push">
                     				<div class="col-xl-4">
                     					<div class="form-group row">
-		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemTypeId">
+		                                    <label class="col-sm-3 col-form-label" for="val-selected-itemTypeId">
 		                                    	<strong class="text-muted">Type</strong>
 		                                   	</label>
-		                                    <div class="col-sm-8">
+		                                    <div class="col-sm-9">
 		                                    	<select class="form-control" id="val-selected-itemTypeId">
 		                                    		<option value="0">Please select</option>
 		                                    		<c:forEach items="${roomTypeList}" var="roomTypeData">
@@ -117,12 +117,12 @@
 		                                    </div>
 		                                </div>
 					                </div>
-					                <div class="col-xl-6">
+					                <div class="col-xl-4">
 					                	<div class="form-group row">
-		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemCategoryId">
+		                                    <label class="col-sm-3 col-form-label" for="val-selected-itemCategoryId">
 		                                    	<strong class="text-muted">Category</strong>
 		                                   	</label>
-		                                    <div class="col-sm-8">
+		                                    <div class="col-sm-9">
 		                                    	<select class="form-control" id="val-selected-itemCategoryId">
 		                                    		<option value="0">Please select</option>
 				                             	</select>
@@ -131,9 +131,23 @@
 		                                    </div>
 		                                </div>
 					                </div>
-					                <div class="col-xl-2 text-right">
+					                <div class="col-xl-4">
+					                	<div class="form-group row">
+		                                    <label class="col-sm-3 col-form-label" for="val-selected-itemId">
+		                                    	<strong class="text-muted">Room</strong>
+		                                   	</label>
+		                                    <div class="col-sm-9">
+		                                    	<select class="form-control" id="val-selected-itemId">
+		                                    		<option value="0">Please select</option>
+				                             	</select>
+		                                    </div>
+		                                    <div class="col-sm-2">
+		                                    </div>
+		                                </div>
+					                </div>
+					                <div class="col-xl-12 text-right">
 					                	<button id="btnCreateNew" type="button" class="btn btn-success mr-1" disabled="disabled">
-				                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room
+				                            <i class="fa fa-fw fa-plus mr-1"></i> Add Amenity
 				                        </button>
 					                </div>
                    	 			</div>
@@ -141,12 +155,8 @@
 		                           <table id="dataTable" class="table table-bordered table-striped table-vcenter">
 		                               <thead>
 		                                   <tr>
-		                                   	   <th style="width: 100px;">Room No</th>
-		                                       <th style="width: 100px;">Rent</th>
-		                                       <th class="d-none d-xl-table-cell" style="width: 100px;">Size</th>
-		                                       <th style="width: 100px;">Floor No</th>
-		                                       <th class="d-none d-xl-table-cell" style="width: 120px;">Land Line</th>
-		                                       <th class="text-center" style="width: 80px;">Active</th>
+		                                   	   <th>Name</th>
+		                                   	   <th class="text-right" style="width: 120px;">Quantity</th>
 		                                       <th class="text-center" style="width: 100px;">Actions</th>
 		                                   </tr>
 		                               </thead>
@@ -174,36 +184,19 @@
 	                </div>
 	                <div class="col-sm-8 col-md-6 col-lg-6 col-xl-4">
 	                	<div class="form-group">
-	                        <label for="val-name">Room No <span class="text-danger">*</span></label>
-	                        <input class="form-control" type="text" id="val-itemNo" name="itemNo" value="#[itemNo]" placeholder="Enter Room No..">
+	                        <label for="val-name">Type <span class="text-danger">*</span></label>
+	                		<select class="form-control" id="val-amenityId" name="amenityId">
+                            </select>
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-name">Rent <span class="text-danger">*</span></label>
-	                        <input class="form-control" type="text" id="val-rent" name="rent" value="#[rent]" placeholder="Enter Rent..">
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="val-name">Size <span class="text-danger">*</span></label>
-	                        <input class="form-control" type="text" id="val-size" name="roomData.size" value="#[size]" placeholder="Enter Size..">
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="val-name">Floor No <span class="text-danger">*</span></label>
-	                        <input class="form-control" type="text" id="val-floorNo" name="roomData.floorNo" value="#[floorNo]" placeholder="Enter Floor No..">
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="val-name">Land Line </label>
-	                        <input class="form-control" type="text" id="val-landLine" name="roomData.landLine" value="#[landLine]" placeholder="Enter Land Line..">
-	                    </div>
-	                    <div class="form-group">
-	                    	<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">
-		            		    <input type="checkbox" class="custom-control-input" name="active" value="#[active]" id="val-active" checked="checked">
-		            			<label class="custom-control-label" for="val-active">Is Active</label>
-		            		</div>
+	                        <label for="val-name">Quantity <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-quantity" name="quantity" value="#[quantity]" placeholder="Enter Quantity..">
 	                    </div>
 	                    <div class="form-group mt-5">
 	                     	<div class="row items-push">
 	                     		<div class="col-lg-6 col-sm-6 col-xs-12 text-left">
 	                     			<input id="val-id" type="hidden" name="id" value="#[id]"/>
-	                     			<input id="val-itemCategoryId" type="hidden" name="itemCategoryId" value="#[itemCategoryId]"/>
+	                     			<input id="val-itemId" type="hidden" name="itemId" value="#[itemId]"/>
 	                     			<button id="btnSubmit" type="button" class="btn btn-primary">Save</button>
 	                     			<button id="btnCancel" type="button" class="btn btn-primary">Cancel</button>
 	                     		</div>
@@ -221,32 +214,17 @@
         </template>
         <template id="rowTemplete">
         	<td class="font-w600">
-				#[itemNo]
+				#[amenityName]
 			</td>
-			<td class="text-right" class="font-w600">
-				#[rent]
-			</td>
-			<td class="d-none d-xl-table-cell text-right font-w600">
-				#[size]
-			</td>
-			<td class="text-right font-w600">
-				#[floorNo]
-			</td>
-			<td class="d-none d-xl-table-cell text-right font-w600">
-				#[landLine]
-			</td>
-			<td class="text-center font-w600">
-				#[active]
+			<td class="font-w600">
+				#[quantity]
 			</td>
 			<td class="text-center">
 			   <input type="hidden" class="col-id" value="#[id]"/>
-			   <input type="hidden" class="col-itemCategoryId" value="#[itemCategoryId]"/>
-			   <input type="hidden" class="col-itemNo" value="#[itemNo]"/>
-			   <input type="hidden" class="col-rent" value="#[rent]"/>
-			   <input type="hidden" class="col-size" value="#[size]"/>
-			   <input type="hidden" class="col-floorNo" value="#[floorNo]"/>
-			   <input type="hidden" class="col-landLine" value="#[landLine]"/>
-			   <input type="hidden" class="col-active" value="#[active]"/>
+			   <input type="hidden" class="col-itemId" value="#[itemId]"/>
+			   <input type="hidden" class="col-amenityId" value="#[amenityId]"/>
+			   <input type="hidden" class="col-amenityName" value="#[amenityName]"/>
+			   <input type="hidden" class="col-quantity" value="#[quantity]"/>
                <div class="btn-group">
                    <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
                        <i class="fa fa-pencil-alt"></i>
@@ -265,17 +243,19 @@
         <%@include file="../hotel/hotelsearch.jsp" %>
         <!-- END Modal Pop Up -->
 
-		<script src="<c:url value="/resources/js/custom/room/room.js"/>"></script>
+		<script src="<c:url value="/resources/js/custom/room/roomamenity.js"/>"></script>
 
 		<script type="text/javascript">
-			room.getRoomListUrl = '<c:url value="/room/fetch/0/{#itemCategoryId}/0/0" />';
-			room.getRoomTypeListUrl = '<c:url value="/roomtype/fetch/0/{#providerId}/1" />';
-			room.getRoomCategoryListUrl = '<c:url value="/roomcategory/fetch/0/{#itemTypeId}/0/1" />';
-			room.getRoomCategoryUrl = '<c:url value="/roomcategory/fetch/{#itemCategoryId}/0/0/0" />';
-			room.isRoomNoAvailableUrl = '<c:url value="/room/isRoomNoAvailable" />';
-			room.createRoomUrl = '<c:url value="/room/create" />';
-			room.updateRoomUrl = '<c:url value="/room/update" />';
-			room.deleteRoomUrl = '<c:url value="/room/delete/" />';
+			roomamenity.getRoomAmenityListUrl = '<c:url value="/roomamenity/fetch/0/{#itemId}/0" />';
+			roomamenity.getRoomTypeListUrl = '<c:url value="/roomtype/fetch/0/{#providerId}/1" />';
+			roomamenity.getRoomCategoryListUrl = '<c:url value="/roomcategory/fetch/0/{#itemTypeId}/0/1" />';
+			roomamenity.getRoomListUrl = '<c:url value="/room/fetch/0/{#itemCategoryId}/0/1" />';
+			roomamenity.getRoomCategoryAmenityUrl = '<c:url value="/roomcategoryamenity/fetch/0/{#itemCategoryId}/{#amenityId}" />';
+			roomamenity.getAmenityListUrl = '<c:url value="/amenity/fetch/0/{#providerTypeId}/0" />';
+			roomamenity.isAvailableUrl = '<c:url value="/roomamenity/isAvailable" />';
+			roomamenity.createRoomAmenityUrl = '<c:url value="/roomamenity/create" />';
+			roomamenity.updateRoomAmenityUrl = '<c:url value="/roomamenity/update" />';
+			roomamenity.deleteRoomAmenityUrl = '<c:url value="/roomamenity/delete/" />';
 		</script>
 	</body>
 </html>

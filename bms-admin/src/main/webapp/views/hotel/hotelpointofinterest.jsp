@@ -5,8 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>BMS - Hotel Point Of Interest</title>
-		<meta name="description" content="BMS - Hotel Point Of Interest">
+		<title>BMS - Hotel Wise Point Of Interest</title>
+		<meta name="description" content="BMS - Hotel Wise Point Of Interest">
 		<%@include file="../includes/metadata.jsp"%>
 		<%@include file="../includes/appicons.jsp"%>
 		<%@include file="../includes/styles.jsp"%>
@@ -23,12 +23,12 @@
             <div class="bg-body-light">
                 <div class="content content-full">
                     <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Hotel Point Of Interest</h1>
+                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Hotel Wise Point Of Interest</h1>
                         <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">Hotel Management</li>
                                 <li class="breadcrumb-item">Hotel Info</li>
-                                <li class="breadcrumb-item active" aria-current="page">Hotel POI</li>
+                                <li class="breadcrumb-item active" aria-current="page">Hotel Wise Point Of Interest</li>
                             </ol>
                         </nav>
                     </div>
@@ -43,14 +43,14 @@
            			<div class="block-content">
                     	<div class="row items-push">
                     		<div class="col-md-4">
-                    			<h2 class="content-heading pt-0">Select Hotel</h2>
+                    			<h2 class="content-heading pt-0">Hotel Info</h2>
                     			<div class="form-group row">
                                     <label class="col-sm-4 col-form-label" for="var-title">
                                     	<strong class="text-muted">Title</strong>
                                    	</label>
                                     <div class="col-sm-8">
                                     	<input type="hidden" class="form-control" id="var-selected-providerId" value="${sessionScope.DEFAULT_HOTEL.providerId}"/>
-                                    	<input type="hidden" class="form-control" id="var-providerTypeId" value="${sessionScope.DEFAULT_HOTEL.providerTypeId}"/>
+                                    	<input type="hidden" class="form-control" id="var-selected-providerTypeId" value="${sessionScope.DEFAULT_HOTEL.providerTypeId}"/>
                                         <input type="text" class="form-control" readonly="readonly" id="var-title" value="${sessionScope.DEFAULT_HOTEL.title}"/>
                                     </div>
                                 </div>
@@ -117,7 +117,7 @@
 													   <input type="hidden" class="col-pointOfInterestId" value="${hotelPointOfInterestData.pointOfInterestId}"/>
 													   <input type="hidden" class="col-providerId" value="${hotelPointOfInterestData.providerId}"/>
 			                                           <div class="btn-group">
-			                                               <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
+			                                               <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Remove">
 			                                                   <i class="fa fa-times"></i>
 			                                               </button>
 			                                           </div>
@@ -182,7 +182,7 @@
 			    <input type="hidden" class="col-pointOfInterestId" value="#[pointOfInterestId]"/>
 			    <input type="hidden" class="col-providerId" value="#[providerId]"/>
 		        <div class="btn-group">
-			        <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
+			        <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Remove">
 			           <i class="fa fa-times"></i>
 			        </button>
 		        </div>

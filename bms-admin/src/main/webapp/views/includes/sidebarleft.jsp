@@ -177,12 +177,12 @@
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="<c:url value="/hotelpointofinterest"/>">
-                            <span class="nav-main-link-name">Hotel POI</span>
+                            <span class="nav-main-link-name">Hotel Wise Point Of Interest</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="<c:url value="/amenitycharge"/>">
-                            <span class="nav-main-link-name">Amenity Charge</span>
+                            <span class="nav-main-link-name">Hotel Wise Amenity Charge</span>
                         </a>
                     </li>
                 </ul>
@@ -206,6 +206,16 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="<c:url value="/room"/>">
                             <span class="nav-main-link-name">Room</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/roomcategoryamenity"/>">
+                            <span class="nav-main-link-name">Room Category Wise Amenity</span>
+                        </a>
+                    </li>
+                     <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/roomamenity"/>">
+                            <span class="nav-main-link-name">Room Wise Amenity</span>
                         </a>
                     </li>
                 </ul>

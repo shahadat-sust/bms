@@ -43,13 +43,14 @@
            			<div class="block-content">
                     	<div class="row items-push">
                     		<div class="col-md-4">
-                    			<h2 class="content-heading pt-0">Select Hotel</h2>
+                    			<h2 class="content-heading pt-0">Hotel Info</h2>
                     			<div class="form-group row">
                                     <label class="col-sm-4 col-form-label" for="var-title">
                                     	<strong class="text-muted">Title</strong>
                                    	</label>
                                     <div class="col-sm-8">
                                     	<input type="hidden" class="form-control" id="var-selected-providerId" value="${sessionScope.DEFAULT_HOTEL.providerId}"/>
+                                    	<input type="hidden" class="form-control" id="var-selected-providerTypeId" value="${sessionScope.DEFAULT_HOTEL.providerTypeId}"/>
                                         <input type="text" class="form-control" readonly="readonly" id="var-title" value="${sessionScope.DEFAULT_HOTEL.title}"/>
                                     </div>
                                 </div>

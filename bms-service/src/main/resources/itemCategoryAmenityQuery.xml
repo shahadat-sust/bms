@@ -2,62 +2,83 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
-	<entry key="itemCategoryAmenityQuery.create">
+	<entry key="itemCategoryAmenity.create">
 	    <![CDATA[
 			INSERT INTO ItemCategoryAmenity (ItemCategoryId, AmenityId, Quantity, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
 			VALUES (?, ?, ?, ?, ?, ?, ?)
 	    ]]>
 	</entry>
 	
-	<entry key="itemCategoryAmenityQuery.update">
+	<entry key="itemCategoryAmenity.update">
 	    <![CDATA[
-			UPDATE ItemCategoryAmenity SET 
+			UPDATE ItemCategoryAmenity SET
+				ItemCategoryId = ?,
+				AmenityId = ?,
 				Quantity = ?,
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
 			WHERE 
-				ItemCategoryId = ? AND AmenityId = ?
+				Id = ?
 	    ]]>
 	</entry>
 	
-	<entry key="itemCategoryAmenityQuery.delete">
+	<entry key="itemCategoryAmenity.delete">
 	    <![CDATA[
 			DELETE FROM ItemCategoryAmenity WHERE Id = ?
 	    ]]>
 	</entry>
 	
-	<entry key="itemCategoryAmenityQuery.getItemCategoryAmenityById">
+	<entry key="itemCategoryAmenity.getItemCategoryAmenityById">
 	    <![CDATA[
 			SELECT 
 				ItemCategoryAmenity.Id, 
 				ItemCategoryAmenity.ItemCategoryId, 
 				ItemCategoryAmenity.AmenityId, 
-				ItemCategory.Name
+				ItemCategoryAmenity.Quantity,
+				Amenity.Name
 			FROM ItemCategoryAmenity 
-			LEFT OUTER JOIN ItemCategory ON 
-				ItemCategory.Id = ItemCategoryAmenity.ItemCategoryId 
+			LEFT OUTER JOIN Amenity ON 
+				Amenity.Id = ItemCategoryAmenity.AmenityId 
 			WHERE 
 				ItemCategoryAmenity.Id = ?
 	    ]]>
 	</entry> 
 	
-	<entry key="itemCategoryAmenityQuery.getAllItemCategoryAmenityByItemCategoryId">
+	<entry key="itemCategoryAmenity.getItemCategoryAmenityByItemCategoryIdAndAmenityId">
 	    <![CDATA[
 			SELECT 
 				ItemCategoryAmenity.Id, 
 				ItemCategoryAmenity.ItemCategoryId, 
 				ItemCategoryAmenity.AmenityId, 
-				ItemCategory.Name
+				ItemCategoryAmenity.Quantity,
+				Amenity.Name
 			FROM ItemCategoryAmenity 
-			LEFT OUTER JOIN ItemCategory ON 
-				ItemCategory.Id = ItemCategoryAmenity.ItemCategoryId 
+			LEFT OUTER JOIN Amenity ON 
+				Amenity.Id = ItemCategoryAmenity.AmenityId 
+			WHERE 
+				ItemCategoryAmenity.ItemCategoryId = ? 
+				AND ItemCategoryAmenity.AmenityId = ? 
+	    ]]>
+	</entry> 
+	
+	<entry key="itemCategoryAmenity.getAllItemCategoryAmenitiesByItemCategoryId">
+	    <![CDATA[
+			SELECT 
+				ItemCategoryAmenity.Id, 
+				ItemCategoryAmenity.ItemCategoryId, 
+				ItemCategoryAmenity.AmenityId, 
+				ItemCategoryAmenity.Quantity,
+				Amenity.Name
+			FROM ItemCategoryAmenity 
+			LEFT OUTER JOIN Amenity ON 
+				Amenity.Id = ItemCategoryAmenity.AmenityId 
 			WHERE 
 				ItemCategoryAmenity.ItemCategoryId = ?
 			ORDER BY ItemCategoryAmenity.Id DESC
 	    ]]>
 	</entry>
 	
-	<entry key="amenityCharge.isAvailable">
+	<entry key="itemCategoryAmenity.isAvailable">
 	    <![CDATA[
 			SELECT
 				Id

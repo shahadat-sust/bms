@@ -56,11 +56,12 @@ public class ItemAmenityDao extends BaseDao implements IItemAmenityDao {
 		try {
 			String sql = itemAmenityQuery.getProperty("itemAmenity.update");
 			return this.getTemplete().update(sql, 
+					itemAmenityData.getItemId(),
+					itemAmenityData.getAmenityId(),
 					itemAmenityData.getQuantity(),
 					itemAmenityData.getUpdatedBy(),
 					new java.sql.Timestamp(itemAmenityData.getUpdatedOn().getTime()),
-					itemAmenityData.getAmenityId(),
-					itemAmenityData.getItemId()) == 1;
+					itemAmenityData.getId()) == 1;
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
@@ -105,11 +106,41 @@ public class ItemAmenityDao extends BaseDao implements IItemAmenityDao {
 			throw new BmsSqlException(e);
 		}
 	}
+	
+	@Override
+	public ItemAmenityData getItemAmenityByItemIdAndAmenityId(long itemId, long amenityId) throws BmsSqlException {
+		try {
+			String sql = itemAmenityQuery.getProperty("itemAmenity.getItemAmenityByItemIdAndAmenityId");
+			Object[] params = new Object[] {itemId, amenityId};
+			List<ItemAmenityData> list = this.getTemplete().query(sql, params, new RowMapper<ItemAmenityData>() {
+				@Override
+				public ItemAmenityData mapRow(ResultSet rs, int index) throws SQLException {
+					ItemAmenityData data = new ItemAmenityData();
+					data.setId(rs.getLong(1));
+					data.setItemId(rs.getLong(2));
+					data.setAmenityId(rs.getLong(3));
+					data.setQuantity(rs.getInt(4));
+					data.setAmenityName(rs.getString(5));
+					return data;
+				}
+			});
+			
+			if (list.isEmpty()) {
+			  return null;
+			} else if (list.size() == 1) {
+			  return list.get(0);
+			} else {
+			  throw new BmsSqlException("Incorrect result size: expected 1, actual greater than 0!");   
+			}
+		} catch (Exception e) {
+			throw new BmsSqlException(e);
+		}
+	}
 
 	@Override
-	public List<ItemAmenityData> getAllItemAmenityByItemId(long itemId) throws BmsSqlException {
+	public List<ItemAmenityData> getAllItemAmenitisByItemId(long itemId) throws BmsSqlException {
 		try {
-			String sql = itemAmenityQuery.getProperty("itemAmenity.getAllItemAmenityByItemId");
+			String sql = itemAmenityQuery.getProperty("itemAmenity.getAllItemAmenitisByItemId");
 			Object[] params = new Object[] {itemId};
 			List<ItemAmenityData> list = this.getTemplete().query(sql, params, new RowMapper<ItemAmenityData>() {
 				@Override
@@ -131,7 +162,7 @@ public class ItemAmenityDao extends BaseDao implements IItemAmenityDao {
 	}
 
 	@Override
-	public boolean isAvailable(long id, String amenityId, long itemId) throws BmsSqlException {
+	public boolean isAvailable(long id, long amenityId, long itemId) throws BmsSqlException {
 		try {
 			String sql = itemAmenityQuery.getProperty("itemAmenity.isAvailable");
 			Object[] params = new Object[] {id, id, amenityId, itemId, id, amenityId, itemId};

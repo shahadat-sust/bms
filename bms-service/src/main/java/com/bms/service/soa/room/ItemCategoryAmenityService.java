@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
@@ -12,6 +13,7 @@ import com.bms.service.dao.room.IItemCategoryAmenityDao;
 import com.bms.service.data.room.ItemCategoryAmenityData;
 import com.bms.service.soa.BaseService;
 
+@Service("itemCategoryAmenityService")
 public class ItemCategoryAmenityService extends BaseService implements IItemCategoryAmenityService {
 
 	private IItemCategoryAmenityDao itemCategoryAmenityDao; 
@@ -67,11 +69,11 @@ public class ItemCategoryAmenityService extends BaseService implements IItemCate
 			throw new BmsException(e);
 		}
 	}
-
+	
 	@Override
-	public List<ItemCategoryAmenityData> getAllItemCategoryAmenityByItemCategoryId(long itemCategoryId) throws BmsSqlException, BmsException {
+	public ItemCategoryAmenityData getItemCategoryAmenityByItemCategoryIdAndAmenityId(long itemCategoryId, long amenityId) throws BmsSqlException, BmsException {
 		try {
-			return itemCategoryAmenityDao.getAllItemCategoryAmenityByItemCategoryId(itemCategoryId);
+			return itemCategoryAmenityDao.getItemCategoryAmenityByItemCategoryIdAndAmenityId(itemCategoryId, amenityId);
 		} catch (BmsSqlException e) {
 			throw e;
 		} catch (Exception e) {
@@ -80,7 +82,18 @@ public class ItemCategoryAmenityService extends BaseService implements IItemCate
 	}
 
 	@Override
-	public boolean isAvailable(long id, String amenityId, long itemCategoryId) throws BmsSqlException, BmsException {
+	public List<ItemCategoryAmenityData> getAllItemCategoryAmenitiesByItemCategoryId(long itemCategoryId) throws BmsSqlException, BmsException {
+		try {
+			return itemCategoryAmenityDao.getAllItemCategoryAmenitiesByItemCategoryId(itemCategoryId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
+	}
+
+	@Override
+	public boolean isAvailable(long id, long amenityId, long itemCategoryId) throws BmsSqlException, BmsException {
 		try {
 			return itemCategoryAmenityDao.isAvailable(id, amenityId, itemCategoryId);
 		} catch (BmsSqlException e) {

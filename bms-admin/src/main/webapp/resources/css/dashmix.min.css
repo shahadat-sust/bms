@@ -11117,7 +11117,7 @@ small {
 
 @media (min-width:992px) {
     #sidebar {
-        width: 240px
+        width: 290px
     }
     .sidebar-o #sidebar {
         -webkit-transform: translateX(0) translateY(0) translateZ(0);
@@ -11265,7 +11265,7 @@ small {
 @media (min-width:992px) {
     #page-container.page-header-fixed.sidebar-o #page-header,
     #page-container.page-header-glass.sidebar-o #page-header {
-        padding-left: 240px
+        padding-left: 290px
     }
     #page-container.page-header-fixed.sidebar-o #page-header .overlay-header,
     #page-container.page-header-glass.sidebar-o #page-header .overlay-header {
@@ -11273,7 +11273,7 @@ small {
     }
     #page-container.page-header-fixed.sidebar-r.sidebar-o #page-header,
     #page-container.page-header-glass.sidebar-r.sidebar-o #page-header {
-        padding-right: 240px;
+        padding-right: 290px;
         padding-left: 0
     }
     #page-container.page-header-fixed.sidebar-r.sidebar-o #page-header .overlay-header,
@@ -11304,10 +11304,10 @@ small {
 
 @media (min-width:992px) {
     #page-container.page-footer-fixed.sidebar-o #page-footer {
-        padding-left: 240px
+        padding-left: 290px
     }
     #page-container.page-footer-fixed.sidebar-r.sidebar-o #page-footer {
-        padding-right: 240px;
+        padding-right: 290px;
         padding-left: 0
     }
 }
@@ -11326,7 +11326,7 @@ small {
 @media (min-width:992px) {
     #page-container.side-scroll #sidebar .content-header,
     #page-container.side-scroll #sidebar .content-side {
-        width: 240px!important
+        width: 290px!important
     }
     #page-container.side-scroll #side-overlay .content-header,
     #page-container.side-scroll #side-overlay .content-side {
@@ -11336,10 +11336,10 @@ small {
 
 @media (min-width:992px) {
     #page-container.sidebar-o {
-        padding-left: 240px
+        padding-left: 290px
     }
     #page-container.sidebar-r.sidebar-o {
-        padding-right: 240px;
+        padding-right: 290px;
         padding-left: 0
     }
 }

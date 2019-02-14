@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
@@ -12,6 +13,7 @@ import com.bms.service.dao.room.IItemAmenityDao;
 import com.bms.service.data.room.ItemAmenityData;
 import com.bms.service.soa.BaseService;
 
+@Service("itemAmenityService")
 public class ItemAmenityService extends BaseService implements IItemAmenityService {
 
 	private IItemAmenityDao itemAmenityDao; 
@@ -67,11 +69,11 @@ public class ItemAmenityService extends BaseService implements IItemAmenityServi
 			throw new BmsException(e);
 		}
 	}
-
+	
 	@Override
-	public List<ItemAmenityData> getAllItemAmenityByItemId(long itemId) throws BmsSqlException, BmsException {
+	public ItemAmenityData getItemAmenityByItemIdAndAmenityId(long itemId, long amenityId) throws BmsSqlException, BmsException {
 		try {
-			return itemAmenityDao.getAllItemAmenityByItemId(itemId);
+			return itemAmenityDao.getItemAmenityByItemIdAndAmenityId(itemId, amenityId);
 		} catch (BmsSqlException e) {
 			throw e;
 		} catch (Exception e) {
@@ -80,7 +82,18 @@ public class ItemAmenityService extends BaseService implements IItemAmenityServi
 	}
 
 	@Override
-	public boolean isAvailable(long id, String amenityId, long itemId) throws BmsSqlException, BmsException {
+	public List<ItemAmenityData> getAllItemAmenitisByItemId(long itemId) throws BmsSqlException, BmsException {
+		try {
+			return itemAmenityDao.getAllItemAmenitisByItemId(itemId);
+		} catch (BmsSqlException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new BmsException(e);
+		}
+	}
+
+	@Override
+	public boolean isAvailable(long id, long amenityId, long itemId) throws BmsSqlException, BmsException {
 		try {
 			return itemAmenityDao.isAvailable(id, amenityId, itemId);
 		} catch (BmsSqlException e) {

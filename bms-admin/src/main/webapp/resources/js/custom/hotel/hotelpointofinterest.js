@@ -36,7 +36,7 @@ var hotelpointofinterest = {
        		$("#btnSubmit").html('Save');
        		$('#val-pointOfInterestId').html('<option value="0">Please select</option>');
        		
-       		var providerTypeId = $("#var-providerTypeId").val();
+       		var providerTypeId = $("#var-selected-providerTypeId").val();
        		hotelpointofinterest.getPointOfInterestList(providerTypeId);
        		hotelpointofinterest.initValidation();
        	});
@@ -52,7 +52,7 @@ var hotelpointofinterest = {
        		var _btn = this;
        		if($("#formComponent").valid()) {
        			swal({
-                    text: "Do you want to create this hotel POI",
+                    text: "Do you want to add this point of interest",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonClass: "btn btn-danger m-1",
@@ -82,7 +82,7 @@ var hotelpointofinterest = {
 			var id = $.trim($(tr).find(".col-id")[0].value);
 			if(id > 0) {
 				swal({
-	                text: "Do you want to delete this hotel POI",
+	                text: "Do you want to remove this point of interest",
 	                type: "warning",
 	                showCancelButton: true,
 	                confirmButtonClass: "btn btn-danger m-1",
@@ -109,7 +109,7 @@ var hotelpointofinterest = {
 	onHotelSelect : function(o) {
 		hotelpointofinterest.hotelInfo = o;
 		$('#var-selected-providerId').val(o.providerId);
-		$('#var-providerTypeId').val(o.providerTypeId);
+		$('#var-selected-providerTypeId').val(o.providerTypeId);
 		$('#var-title').val(o.title);
 		$('#var-cityName').val(o.cityName);
 		$('#var-countryName').val(o.countryName);
@@ -235,7 +235,7 @@ var hotelpointofinterest = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Hotel POI created successfully!',
+                		message: 'Point of interest added successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -245,7 +245,7 @@ var hotelpointofinterest = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create hotel POI, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to add point of interest, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -280,7 +280,7 @@ var hotelpointofinterest = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Hotel POI deleted successfully!',
+                		message: 'Point of interest removed successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -290,7 +290,7 @@ var hotelpointofinterest = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete hotel POI, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to remove point of interest, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -339,7 +339,7 @@ var hotelpointofinterest = {
             messages : {
             	"pointOfInterestId": {
                 	min: "Please select POI",
-                    remote: "The POI is already assigned for this hotel"
+                    remote: "This point of interest is already assigned for this hotel"
                 }
             }
         });

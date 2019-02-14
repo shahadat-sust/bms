@@ -15,8 +15,10 @@ public interface IItemCategoryAmenityDao {
 	
 	ItemCategoryAmenityData getItemCategoryAmenityById(long itemCategoryAmenityId) throws BmsSqlException;
 	
-	List<ItemCategoryAmenityData> getAllItemCategoryAmenityByItemCategoryId(long itemCategoryId) throws BmsSqlException;
+	ItemCategoryAmenityData getItemCategoryAmenityByItemCategoryIdAndAmenityId(long itemCategoryId, long amenityId) throws BmsSqlException;
+	
+	List<ItemCategoryAmenityData> getAllItemCategoryAmenitiesByItemCategoryId(long itemCategoryId) throws BmsSqlException;
 
-	boolean isAvailable(long id, String amenityId, long itemCategoryId) throws BmsSqlException;
+	boolean isAvailable(long id, long amenityId, long itemCategoryId) throws BmsSqlException;
 	
 }

@@ -73,7 +73,7 @@ var amenitycharge = {
        		var _btn = this;
        		if($("#formComponent").valid()) {
        			swal({
-       				text: "Do you want to " + (amenitycharge.amenityChargeData.id > 0 ? "update" : "create") + " this amenity charge",
+       				text: "Do you want to " + (amenitycharge.amenityChargeData.id > 0 ? "update" : "add ") + " this amenity",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonClass: "btn btn-danger m-1",
@@ -132,7 +132,7 @@ var amenitycharge = {
 			var id = $.trim($(tr).find(".col-id")[0].value);
 			if(id > 0) {
 				swal({
-	                text: "Do you want to delete this amenity charge",
+	                text: "Do you want to remove this amenity",
 	                type: "warning",
 	                showCancelButton: true,
 	                confirmButtonClass: "btn btn-danger m-1",
@@ -159,7 +159,7 @@ var amenitycharge = {
 	onHotelSelect : function(o) {
 		amenitycharge.hotelInfo = o;
 		$('#var-selected-providerId').val(o.providerId);
-		$('#var-providerTypeId').val(o.providerTypeId);
+		$('#var-selected-providerTypeId').val(o.providerTypeId);
 		$('#var-title').val(o.title);
 		$('#var-cityName').val(o.cityName);
 		$('#var-countryName').val(o.countryName);
@@ -294,7 +294,7 @@ var amenitycharge = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Amenity charge created successfully!',
+                		message: 'Amenity added successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -304,7 +304,7 @@ var amenitycharge = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to create amenity charge, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to add amenity, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -402,7 +402,7 @@ var amenitycharge = {
                 		align: 'center', 
                 		type: 'success', 
                 		icon: 'fa fa-check mr-1', 
-                		message: 'Amenity charge deleted successfully!',
+                		message: 'Amenity removed successfully!',
                 		delay: 1e3
         			});
             	} else {
@@ -412,7 +412,7 @@ var amenitycharge = {
                 		align: 'center',
                 		type: 'danger', 
                 		icon: 'fa fa-times mr-1', 
-                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to delete amenity charge, please try again!',
+                		message: data.errors && data.errors.length > 0 ? data.errors[0] : 'Failed to remove amenity, please try again!',
                 		delay: 1e3
         			});
             	}
@@ -471,7 +471,7 @@ var amenitycharge = {
             messages : {
             	"amenityId": {
                 	min: "Please select amenity",
-                    remote: "Amenity cahnge is already set for this hotel"
+                    remote: "This amenity is already assigned for this hotel"
                 },
                 "charge": {
                 	required: "Please enter charge"

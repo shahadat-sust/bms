@@ -2,62 +2,83 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
-	<entry key="itemAmenityQuery.create">
+	<entry key="itemAmenity.create">
 	    <![CDATA[
 			INSERT INTO ItemAmenity (ItemId, AmenityId, Quantity, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
 			VALUES (?, ?, ?, ?, ?, ?, ?)
 	    ]]>
 	</entry>
 	
-	<entry key="itemAmenityQuery.update">
+	<entry key="itemAmenity.update">
 	    <![CDATA[
 			UPDATE ItemAmenity SET 
+				ItemId = ?, 
+				AmenityId = ?,
 				Quantity = ?,
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
 			WHERE 
-				ItemId = ? AND AmenityId = ?
+				Id = ?
 	    ]]>
 	</entry>
 	
-	<entry key="itemAmenityQuery.delete">
+	<entry key="itemAmenity.delete">
 	    <![CDATA[
 			DELETE FROM ItemAmenity WHERE Id = ?
 	    ]]>
 	</entry>
 	
-	<entry key="itemAmenityQuery.getItemAmenityById">
+	<entry key="itemAmenity.getItemAmenityById">
 	    <![CDATA[
 			SELECT 
 				ItemAmenity.Id, 
 				ItemAmenity.ItemId, 
 				ItemAmenity.AmenityId, 
-				Item.Name
+				ItemAmenity.Quantity,
+				Amenity.Name
 			FROM ItemAmenity 
-			LEFT OUTER JOIN Item ON 
-				Item.Id = ItemAmenity.ItemId 
+			LEFT OUTER JOIN Amenity ON 
+				Amenity.Id = ItemAmenity.AmenityId 
 			WHERE 
 				ItemAmenity.Id = ?
 	    ]]>
 	</entry> 
 	
-	<entry key="itemAmenityQuery.getAllItemAmenityByItemId">
+	<entry key="itemAmenity.getItemAmenityByItemIdAndAmenityId">
 	    <![CDATA[
 			SELECT 
 				ItemAmenity.Id, 
 				ItemAmenity.ItemId, 
 				ItemAmenity.AmenityId, 
-				Item.Name
+				ItemAmenity.Quantity,
+				Amenity.Name
 			FROM ItemAmenity 
-			LEFT OUTER JOIN Item ON 
-				Item.Id = ItemAmenity.ItemId 
+			LEFT OUTER JOIN Amenity ON 
+				Amenity.Id = ItemAmenity.AmenityId 
+			WHERE 
+				ItemAmenity.ItemId = ?
+				AND ItemAmenity.AmenityId = ?
+	    ]]>
+	</entry> 
+	
+	<entry key="itemAmenity.getAllItemAmenitisByItemId">
+	    <![CDATA[
+			SELECT 
+				ItemAmenity.Id, 
+				ItemAmenity.ItemId, 
+				ItemAmenity.AmenityId, 
+				ItemAmenity.Quantity,
+				Amenity.Name
+			FROM ItemAmenity 
+			LEFT OUTER JOIN Amenity ON 
+				Amenity.Id = ItemAmenity.AmenityId  
 			WHERE 
 				ItemAmenity.ItemId = ?
 			ORDER BY ItemAmenity.Id DESC
 	    ]]>
 	</entry>
 	
-	<entry key="amenityCharge.isAvailable">
+	<entry key="itemAmenity.isAvailable">
 	    <![CDATA[
 			SELECT
 				Id
