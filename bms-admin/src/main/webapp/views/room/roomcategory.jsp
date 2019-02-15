@@ -42,111 +42,100 @@
             	<div class="block block-rounded block-bordered">
            			<div class="block-content">
                     	<div class="row items-push">
-                    		<div class="col-md-4">
+                    		<div class="col-md-12">
                     			<h2 class="content-heading pt-0">Hotel Info</h2>
-                    			<div class="form-group row">
-                                    <label class="col-sm-4 col-form-label" for="var-title">
-                                    	<strong class="text-muted">Title</strong>
-                                   	</label>
-                                    <div class="col-sm-8">
-                                    	<input type="hidden" class="form-control" id="var-selected-providerId" value="${sessionScope.DEFAULT_HOTEL.providerId}"/>
-                                    	<input type="hidden" class="form-control" id="var-selected-providerTypeId" value="${sessionScope.DEFAULT_HOTEL.providerTypeId}"/>
-                                        <input type="text" class="form-control" readonly="readonly" id="var-title" value="${sessionScope.DEFAULT_HOTEL.title}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label" for="var-cityName">
-                                    	<strong class="text-muted">City</strong>
-                                   	</label>
-                                    <div class="col-sm-8">
-                                    	<input type="text" class="form-control" readonly="readonly" id="var-cityName" value="${sessionScope.DEFAULT_HOTEL.cityName}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label" for="var-countryName">
-                                    	<strong class="text-muted">Country</strong>
-                                   	</label>
-                                    <div class="col-sm-8">
-                                    	<input type="text" class="form-control" readonly="readonly" id="var-countryName" value="${sessionScope.DEFAULT_HOTEL.countryName}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label" for="var-address"><strong class="text-muted">Address</strong></label>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" rows="3" readonly="readonly" id="var-address">${sessionScope.DEFAULT_HOTEL.address}</textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label"><strong class="text-muted">Rating</strong></label>
-                                    <div class="col-sm-8">
-                                        <div id="var-starRating" class="rating form-control" data-score="${sessionScope.DEFAULT_HOTEL.starRating}"></div>
-                                    </div>
-                                </div>
-                             	<div class="form-group row">
-                                  	<div class="col-sm-12 text-right">
-                                  		<a id="btnHotelSearch" class="btn btn-sm btn-success text-white mr-1" data-toggle="modal" data-target="#hotel-search-modal">
-			                           		<i class="fa fa-fw fa-search mr-1"></i> Search
-			                       		</a>
-                                  	</div>
-                             	</div>
+                    			<div class="row items-push">
+                    				<div class="col-md-6">
+                    					<div class="form-group row">
+		                                    <label class="col-sm-4 col-form-label" for="var-title">
+		                                    	<strong class="text-muted">Title</strong>
+		                                   	</label>
+		                                    <div class="col-sm-8">
+		                                    	<input type="hidden" class="form-control" id="var-selected-providerId" value="${sessionScope.DEFAULT_HOTEL.providerId}"/>
+		                                    	<input type="hidden" class="form-control" id="var-selected-providerTypeId" value="${sessionScope.DEFAULT_HOTEL.providerTypeId}"/>
+		                                        <input type="text" class="form-control" readonly="readonly" id="var-title" value="${sessionScope.DEFAULT_HOTEL.title}"/>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group row">
+		                                    <label class="col-sm-4 col-form-label" for="var-cityName">
+		                                    	<strong class="text-muted">City</strong>
+		                                   	</label>
+		                                    <div class="col-sm-8">
+		                                    	<input type="text" class="form-control" readonly="readonly" id="var-cityName" value="${sessionScope.DEFAULT_HOTEL.cityName}"/>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group row">
+		                                    <label class="col-sm-4 col-form-label" for="var-countryName">
+		                                    	<strong class="text-muted">Country</strong>
+		                                   	</label>
+		                                    <div class="col-sm-8">
+		                                    	<input type="text" class="form-control" readonly="readonly" id="var-countryName" value="${sessionScope.DEFAULT_HOTEL.countryName}"/>
+		                                    </div>
+		                                </div>
+                    				</div>
+                    				<div class="col-md-6">
+                    					<div class="form-group row">
+		                                    <label class="col-sm-4 col-form-label" for="var-address"><strong class="text-muted">Address</strong></label>
+		                                    <div class="col-sm-8">
+		                                        <textarea class="form-control" rows="3" readonly="readonly" id="var-address">${sessionScope.DEFAULT_HOTEL.address}</textarea>
+		                                    </div>
+		                                </div>
+		                                <div class="form-group row">
+		                                    <label class="col-sm-4 col-form-label"><strong class="text-muted">Rating</strong></label>
+		                                    <div class="col-sm-8">
+		                                        <div id="var-starRating" class="rating form-control" data-score="${sessionScope.DEFAULT_HOTEL.starRating}"></div>
+		                                    </div>
+		                                </div>
+		                             	<div class="form-group row">
+		                                  	<div class="col-sm-12 text-right">
+		                                  		<a id="btnHotelSearch" class="btn btn-sm btn-success text-white mr-1" data-toggle="modal" data-target="#hotel-search-modal">
+					                           		<i class="fa fa-fw fa-search mr-1"></i> Search
+					                       		</a>
+		                                  	</div>
+		                             	</div>
+                    				</div>
+                    			</div>
                     		</div>
-                    	 	<div class="col-md-8">
+                    	 	<div class="col-md-12">
                     	 		<h2 class="content-heading pt-0">Room Category List</h2>
                    	 			<!-- Full Table -->
-		                  	  	<div class="block-content text-right">
-									<button id="btnCreateNew" type="button" class="btn btn-success mr-1" disabled="disabled">
-			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Category
-			                        </button>
-		                  	  	</div>
+		                  	  	<div class="block-content row items-push">
+                    				<div class="col-xl-6">
+                    					<div class="form-group row">
+		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemTypeId">
+		                                    	<strong class="text-muted">Type</strong>
+		                                   	</label>
+		                                    <div class="col-sm-8">
+		                                    	<select class="form-control" id="val-selected-itemTypeId">
+		                                    		<option value="0">Please select</option>
+		                                    		<c:forEach items="${roomTypeList}" var="roomTypeData">
+		                                    			<option value="${roomTypeData.id}">${roomTypeData.name}</option>
+		                                    		</c:forEach>
+				                             	</select>
+		                                    </div>
+		                                    <div class="col-sm-2">
+		                                    </div>
+		                                </div>
+					                </div>
+					                <div class="col-xl-6 text-right">
+					                	<button id="btnCreateNew" type="button" class="btn btn-success mr-1" disabled="disabled">
+				                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Category
+				                        </button>
+					                </div>
+                   	 			</div>
 		                      	<div class="block-content">
 		                           <table id="dataTable" class="table table-bordered table-striped table-vcenter">
 		                               <thead>
 		                                   <tr>
 		                                       <th>Name</th>
-		                                       <th style="width: 25%;">Type</th>
 		                                       <th style="width: 100px;">Rent</th>
+		                                       <th style="width: 110px;">Capacity</th>
 		                                       <th class="d-none d-xl-table-cell" style="width: 100px;">Size</th>
 		                                       <th class="d-none d-xl-table-cell text-center" style="width: 80px;">Active</th>
 		                                       <th class="text-center" style="width: 100px;">Actions</th>
 		                                   </tr>
 		                               </thead>
 		                               <tbody>
-		                               	   <c:forEach items="${roomCategoryList}" var="itemCategoryData">
-	                               	   			<tr>
-													<td class="font-w600">
-														${itemCategoryData.name}
-													</td>
-													<td class="font-w600">
-														${itemCategoryData.itemTypeName}
-													</td>
-													<td class="text-right" class="font-w600">
-														${itemCategoryData.rent}
-													</td>
-													<td class="d-none d-xl-table-cell text-right font-w600">
-														${itemCategoryData.roomCategoryData.size}
-													</td>
-													<td class="d-none d-xl-table-cell text-center font-w600">
-														${itemCategoryData.active}
-													</td>
-													<td class="text-center">
-													   <input type="hidden" class="col-id" value="${itemCategoryData.id}"/>
-													   <input type="hidden" class="col-name" value="${itemCategoryData.name}"/>
-													   <input type="hidden" class="col-itemTypeName" value="${itemCategoryData.itemTypeName}"/>
-													   <input type="hidden" class="col-rent" value="${itemCategoryData.rent}"/>
-													   <input type="hidden" class="col-size" value="${itemCategoryData.roomCategoryData.size}"/>
-													   <input type="hidden" class="col-itemTypeId" value="${itemCategoryData.itemTypeId}"/>
-													   <input type="hidden" class="col-active" value="${itemCategoryData.active}"/>
-			                                           <div class="btn-group">
-			                                               <button type="button" class="btn btn-sm btn-primary edit-button" data-toggle="tooltip" title="Edit">
-			                                                   <i class="fa fa-pencil-alt"></i>
-			                                               </button>
-			                                               <button type="button" class="btn btn-sm btn-primary delete-button" data-toggle="tooltip" title="Delete">
-			                                                   <i class="fa fa-times"></i>
-			                                               </button>
-			                                           </div>
-			                                       </td>
-		                                        </tr>
-		                               	   </c:forEach>
 		                               </tbody>
 		                           </table>
 		                      	</div>
@@ -165,25 +154,24 @@
 	        <form id="formComponent" action="#" method="post">
 	            <!-- Basic Elements -->
 	            <div class="row items-push">
-	                <div class="col-sm-1 col-lg-1 col-xl-3">
+	                <div class="col-sm-1 col-lg-2 col-xl-3">
 	                    <p class="text-muted"></p>
 	                </div>
-	                <div class="col-sm-10 col-lg-10 col-xl-6">
-	                	<div class="form-group">
-	                		<label for="val-name">Type <span class="text-danger">*</span></label>
-	                		<select class="form-control" id="val-itemTypeId" name="itemTypeId">
-                             </select>
-	                	</div>
+	                <div class="col-sm-10 col-lg-8 col-xl-6">
 	                    <div class="form-group">
 	                        <label for="val-name">Name <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-name" name="name" value="#[name]" placeholder="Enter Name..">
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-name">Rent <span class="text-danger">*</span></label>
+	                        <label for="val-rent">Rent <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-rent" name="rent" value="#[rent]" placeholder="Enter Rent..">
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-name">Size <span class="text-danger">*</span></label>
+	                        <label for="val-capacity">Capacity <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-capacity" name="capacity" value="#[capacity]" placeholder="Enter Capacity..">
+	                    </div>
+	                    <div class="form-group">
+	                        <label for="val-size">Size <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-size" name="roomCategoryData.size" value="#[size]" placeholder="Enter Size..">
 	                    </div>
 	                    <div class="form-group">
@@ -196,6 +184,7 @@
 	                     	<div class="row items-push">
 	                     		<div class="col-lg-6 col-sm-6 col-xs-12 text-left">
 	                     			<input id="val-id" type="hidden" name="id" value="#[id]"/>
+	                     			<input id="val-itemTypeId" type="hidden" name="itemTypeId" value="#[itemTypeId]"/>
 	                     			<button id="btnSubmit" type="button" class="btn btn-primary">Save</button>
 	                     			<button id="btnCancel" type="button" class="btn btn-primary">Cancel</button>
 	                     		</div>
@@ -205,7 +194,7 @@
 	                     	</div>
 	                     </div>
 	                </div>
-	                <div class="col-sm-1 col-lg-1 col-xl-3">
+	                <div class="col-sm-1 col-lg-2 col-xl-3">
 	                    <p class="text-muted"></p>
 	                </div>
 	            </div>
@@ -215,11 +204,11 @@
         	<td class="font-w600">
 				#[name]
 			</td>
-			<td class="font-w600">
-				#[itemTypeName]
-			</td>
-			<td class="text-right" class="font-w600">
+			<td class="text-right font-w600">
 				#[rent]
+			</td>
+			<td class="text-right font-w600">
+				#[capacity]
 			</td>
 			<td class="d-none d-xl-table-cell text-right font-w600">
 				#[size]
@@ -230,8 +219,8 @@
 			<td class="text-center">
 				<input type="hidden" class="col-id" value="#[id]"/>
 			   	<input type="hidden" class="col-name" value="#[name]"/>
-			   	<input type="hidden" class="col-itemTypeName" value="#[itemTypeName]"/>
 			   	<input type="hidden" class="col-rent" value="#[rent]"/>
+			   	<input type="hidden" class="col-capacity" value="#[capacity]"/>
 			   	<input type="hidden" class="col-size" value="#[size]"/>
 			   	<input type="hidden" class="col-itemTypeId" value="#[itemTypeId]"/>
 			   	<input type="hidden" class="col-active" value="#[active]"/>
@@ -257,7 +246,7 @@
 
 		<script type="text/javascript">
 			roomcategory.getRoomTypeListUrl = '<c:url value="/roomtype/fetch/0/{#providerId}/1" />';
-			roomcategory.getRoomCategoryListUrl = '<c:url value="/roomcategory/fetch/0/0/{#providerId}/0" />';
+			roomcategory.getRoomCategoryListUrl = '<c:url value="/roomcategory/fetch/0/{#itemTypeId}/0/0" />';
 			roomcategory.createRoomCategoryUrl = '<c:url value="/roomcategory/create" />';
 			roomcategory.updateRoomCategoryUrl = '<c:url value="/roomcategory/update" />';
 			roomcategory.deleteRoomCategoryUrl = '<c:url value="/roomcategory/delete/" />';

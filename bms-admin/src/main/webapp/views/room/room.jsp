@@ -143,7 +143,8 @@
 		                                   <tr>
 		                                   	   <th style="width: 100px;">Room No</th>
 		                                       <th style="width: 100px;">Rent</th>
-		                                       <th class="d-none d-xl-table-cell" style="width: 100px;">Size</th>
+		                                       <th style="width: 100px;">Capacity</th>
+		                                       <th class="d-none d-lg-table-cell" style="width: 100px;">Size</th>
 		                                       <th style="width: 100px;">Floor No</th>
 		                                       <th class="d-none d-xl-table-cell" style="width: 120px;">Land Line</th>
 		                                       <th class="text-center" style="width: 80px;">Active</th>
@@ -174,23 +175,27 @@
 	                </div>
 	                <div class="col-sm-8 col-md-6 col-lg-6 col-xl-4">
 	                	<div class="form-group">
-	                        <label for="val-name">Room No <span class="text-danger">*</span></label>
+	                        <label for="val-itemNo">Room No <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-itemNo" name="itemNo" value="#[itemNo]" placeholder="Enter Room No..">
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-name">Rent <span class="text-danger">*</span></label>
+	                        <label for="val-rent">Rent <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-rent" name="rent" value="#[rent]" placeholder="Enter Rent..">
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-name">Size <span class="text-danger">*</span></label>
+	                        <label for="val-capacity">Capacity <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-capacity" name="capacity" value="#[capacity]" placeholder="Enter Capacity..">
+	                    </div>
+	                    <div class="form-group">
+	                        <label for="val-size">Size <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-size" name="roomData.size" value="#[size]" placeholder="Enter Size..">
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-name">Floor No <span class="text-danger">*</span></label>
+	                        <label for="val-floorNo">Floor No <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-floorNo" name="roomData.floorNo" value="#[floorNo]" placeholder="Enter Floor No..">
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-name">Land Line </label>
+	                        <label for="val-landLine">Land Line </label>
 	                        <input class="form-control" type="text" id="val-landLine" name="roomData.landLine" value="#[landLine]" placeholder="Enter Land Line..">
 	                    </div>
 	                    <div class="form-group">
@@ -226,6 +231,9 @@
 			<td class="text-right" class="font-w600">
 				#[rent]
 			</td>
+			<td class="text-right" class="font-w600">
+				#[capacity]
+			</td>
 			<td class="d-none d-xl-table-cell text-right font-w600">
 				#[size]
 			</td>
@@ -243,6 +251,7 @@
 			   <input type="hidden" class="col-itemCategoryId" value="#[itemCategoryId]"/>
 			   <input type="hidden" class="col-itemNo" value="#[itemNo]"/>
 			   <input type="hidden" class="col-rent" value="#[rent]"/>
+			   <input type="hidden" class="col-capacity" value="#[capacity]"/>
 			   <input type="hidden" class="col-size" value="#[size]"/>
 			   <input type="hidden" class="col-floorNo" value="#[floorNo]"/>
 			   <input type="hidden" class="col-landLine" value="#[landLine]"/>

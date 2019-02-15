@@ -4,8 +4,8 @@
 <properties>
 	<entry key="itemCategory.create">
 	    <![CDATA[
-			INSERT INTO ItemCategory (Name, ItemTypeId, Rent, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+			INSERT INTO ItemCategory (Name, ItemTypeId, Rent, Capacity, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	    ]]>
 	</entry>
 	
@@ -22,6 +22,7 @@
 				Name = ?, 
 				ItemTypeId = ?, 
 				Rent = ?, 
+				Capacity = ?,
 				IsActive = ?,  
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
@@ -60,6 +61,7 @@
 				ItemCategory.ItemTypeId, 
 				ItemType.Name,
 				ItemCategory.Rent, 
+				ItemCategory.Capacity,
 				ItemCategory.IsActive,
 				ItemCategory.Status,
 				RoomCategory.Id,
@@ -82,6 +84,7 @@
 				ItemCategory.ItemTypeId, 
 				ItemType.Name,
 				ItemCategory.Rent, 
+				ItemCategory.Capacity,
 				ItemCategory.IsActive,
 				ItemCategory.Status,
 				RoomCategory.Id,
@@ -107,6 +110,7 @@
 				ItemCategory.ItemTypeId, 
 				ItemType.Name,
 				ItemCategory.Rent, 
+				ItemCategory.Capacity,
 				ItemCategory.IsActive,
 				ItemCategory.Status,
 				RoomCategory.Id,

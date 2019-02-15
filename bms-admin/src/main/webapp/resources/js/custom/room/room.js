@@ -5,6 +5,7 @@ var room = {
    		itemCategoryId : "0",
    		itemNo : "",
    		rent : "0.00",
+   		capacity : "0",
    		size : "0",
    		floorNo : "0",
    		landLine : "",
@@ -41,15 +42,16 @@ var room = {
 
        		var formTemplete = $("#formTemplete").clone();
     		var formHtml = formTemplete.html()
-    		.replace("#[id]", "0")
-    		.replace("#[itemCategoryId]", itemCategoryId)
-    		.replace("#[itemNo]", "")
-    		.replace("#[rent]", "0.00")
-    		.replace("#[size]", "0")
-    		.replace("#[floorNo]", "0")
-    		.replace("#[landLine]", "")
-    		.replace("#[active]", "true");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='7'>" + formHtml + "</td></tr>");
+	    		.replace("#[id]", "0")
+	    		.replace("#[itemCategoryId]", itemCategoryId)
+	    		.replace("#[itemNo]", "")
+	    		.replace("#[rent]", "0.00")
+	    		.replace("#[capacity]", "1")
+	    		.replace("#[size]", "0")
+	    		.replace("#[floorNo]", "0")
+	    		.replace("#[landLine]", "")
+	    		.replace("#[active]", "true");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='8'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
 
        		room.getRoomCategory(itemCategoryId);
@@ -67,6 +69,8 @@ var room = {
                 	.replace("#[itemNo]", room.itemData.itemNo)
                 	.replace("#[rent]", room.itemData.rent)
                 	.replace("#[rent]", room.itemData.rent)
+                	.replace("#[capacity]", room.itemData.capacity)
+                	.replace("#[capacity]", room.itemData.capacity)
                 	.replace("#[size]", room.itemData.size)
                 	.replace("#[size]", room.itemData.size)
                 	.replace("#[floorNo]", room.itemData.floorNo)
@@ -81,6 +85,7 @@ var room = {
                	room.itemData.itemCategoryId = "0";
                	room.itemData.itemNo = "";
                	room.itemData.rent = "0.00";
+               	room.itemData.capacity = "1";
                	room.itemData.size = "0";
                	room.itemData.floorNo = "0";
                	room.itemData.landLine = "";
@@ -129,6 +134,7 @@ var room = {
 			room.itemData.id = $.trim($(tr).find(".col-id")[0].value);
 			room.itemData.itemCategoryId = $.trim($(tr).find(".col-itemCategoryId")[0].value);
 			room.itemData.itemNo = $.trim($(tr).find(".col-itemNo")[0].value);
+			room.itemData.capacity = $.trim($(tr).find(".col-capacity")[0].value);
 			room.itemData.rent = $.trim($(tr).find(".col-rent")[0].value);
 			room.itemData.size = $.trim($(tr).find(".col-size")[0].value);
 			room.itemData.floorNo = $.trim($(tr).find(".col-floorNo")[0].value);
@@ -141,11 +147,12 @@ var room = {
 				.replace("#[itemCategoryId]", room.itemData.itemCategoryId)
 				.replace("#[itemNo]", room.itemData.itemNo)
 				.replace("#[rent]", room.itemData.rent)
+				.replace("#[capacity]", room.itemData.capacity)
 				.replace("#[size]", room.itemData.size)
 				.replace("#[floorNo]", room.itemData.floorNo)
 				.replace("#[landLine]", room.itemData.landLine)
 				.replace("#[active]", room.itemData.active);
-	   		$(tr).html("<td colspan='7'>" + formHtml + "</td>");
+	   		$(tr).html("<td colspan='8'>" + formHtml + "</td>");
 
 	   		if (eval(room.itemData.active)) {
 	   			$('#val-active').attr("checked", "checked");
@@ -336,10 +343,12 @@ var room = {
             		room.getRoomCategoryAjax = undefined;
             		if (data.datas && data.datas.length > 0) {
             			$('#val-rent').val(data.datas[0].rent);
+            			$('#val-capacity').val(data.datas[0].capacity);
                 		$('#val-size').val(data.datas[0].roomCategoryData.size);
             		} else {
-            			$('#val-rent').val(data.datas[0].rent);
-                		$('#val-size').val(data.datas[0].roomCategoryData.size);
+            			$('#val-rent').val("0.00");
+            			$('#val-capacity').val("0");
+                		$('#val-size').val("0");
             		}
             	} else {
             		console.log(data.errors);
@@ -388,6 +397,8 @@ var room = {
 			                	.replace("#[itemNo]", data.itemNo)
 			                	.replace("#[rent]", data.rent)
 			                	.replace("#[rent]", data.rent)
+			                	.replace("#[capacity]", data.capacity)
+			                	.replace("#[capacity]", data.capacity)
 			                	.replace("#[size]", data.roomData.size)
 			                	.replace("#[size]", data.roomData.size)
 			                	.replace("#[floorNo]", data.roomData.floorNo)
@@ -446,6 +457,8 @@ var room = {
 	                	.replace("#[itemNo]", data.datas[0].itemNo)
 	                	.replace("#[rent]", data.datas[0].rent)
 	                	.replace("#[rent]", data.datas[0].rent)
+	                	.replace("#[capacity]", data.datas[0].capacity)
+			            .replace("#[capacity]", data.datas[0].capacity)
 	                	.replace("#[size]", data.datas[0].roomData.size)
 	                	.replace("#[size]", data.datas[0].roomData.size)
 	                	.replace("#[floorNo]", data.datas[0].roomData.floorNo)
@@ -520,6 +533,8 @@ var room = {
 	                	.replace("#[itemNo]", data.datas[0].itemNo)
 	                	.replace("#[rent]", data.datas[0].rent)
 	                	.replace("#[rent]", data.datas[0].rent)
+	                	.replace("#[capacity]", data.datas[0].capacity)
+			            .replace("#[capacity]", data.datas[0].capacity)
 	                	.replace("#[size]", data.datas[0].roomData.size)
 	                	.replace("#[size]", data.datas[0].roomData.size)
 	                	.replace("#[floorNo]", data.datas[0].roomData.floorNo)
@@ -534,6 +549,7 @@ var room = {
                    	room.itemData.itemCategoryId = "0";
                    	room.itemData.itemNo = "";
                    	room.itemData.rent = "0.00";
+                   	room.itemData.capacity = "1";
                    	room.itemData.size = "0";
                    	room.itemData.floorNo = "0";
                    	room.itemData.landLine = "";
@@ -657,6 +673,9 @@ var room = {
                 "rent": {
                 	required: true, decimal: true
                 },
+                "capacity": {
+                	required: true, digits: true, min: 1
+                },
                 "roomData.size": {
                 	required: true, digits: true
                 },
@@ -671,6 +690,9 @@ var room = {
                 },
                 "rent": {
                 	required: "Please enter rent"
+                },
+                "capacity": {
+                	required: "Please enter capacity"
                 },
                 "roomData.size": {
                 	required: "Please enter room size"

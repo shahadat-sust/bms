@@ -3,8 +3,8 @@ var roomcategory = {
 	itemCategoryData : {
 		id : "0",
    		name : "",
-   		itemTypeName : "",
    		rent : "0.00",
+   		capacity : "1",
    		size : "0",
    		itemTypeId : "0",
    		active : "true"
@@ -31,21 +31,20 @@ var roomcategory = {
 		 $(document).on("click", "#btnCreateNew", function(e) {
 			var _btn = this;
        		$("#btnCreateNew").attr('disabled', true);
-
+       		var itemTypeId = $("#val-selected-itemTypeId").val();
+       		
        		var formTemplete = $("#formTemplete").clone();
     		var formHtml = formTemplete.html()
-    		.replace("#[id]", "0")
-    		.replace("#[name]", "")
-    		.replace("#[rent]", "0.00")
-    		.replace("#[size]", "0")
-    		.replace("#[itemTypeId]", "0")
-    		.replace("#[active]", "true");
+	    		.replace("#[id]", "0")
+	    		.replace("#[itemTypeId]", itemTypeId)
+	    		.replace("#[name]", "")
+	    		.replace("#[rent]", "0.00")
+	    		.replace("#[capacity]", "1")
+	    		.replace("#[size]", "0")
+	    		.replace("#[active]", "true");
        		$("#dataTable > tbody").prepend("<tr><td colspan='6'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
-       		$('#val-itemTypeId').html('<option value="0">Please select</option>');
        		
-       		var providerId = $("#var-selected-providerId").val();
-       		roomcategory.getRoomTypeList(providerId);
        		roomcategory.initValidation();
        	});
        	
@@ -57,10 +56,10 @@ var roomcategory = {
        				.replace("#[id]", roomcategory.itemCategoryData.id)
                 	.replace("#[name]", roomcategory.itemCategoryData.name)
                 	.replace("#[name]", roomcategory.itemCategoryData.name)
-                	.replace("#[itemTypeName]", roomcategory.itemCategoryData.itemTypeName)
-                	.replace("#[itemTypeName]", roomcategory.itemCategoryData.itemTypeName)
                 	.replace("#[rent]", roomcategory.itemCategoryData.rent)
                 	.replace("#[rent]", roomcategory.itemCategoryData.rent)
+                	.replace("#[capacity]", roomcategory.itemCategoryData.capacity)
+                	.replace("#[capacity]", roomcategory.itemCategoryData.capacity)
                 	.replace("#[size]", roomcategory.itemCategoryData.size)
                 	.replace("#[size]", roomcategory.itemCategoryData.size)
                 	.replace("#[itemTypeId]", roomcategory.itemCategoryData.itemTypeId)
@@ -70,8 +69,8 @@ var roomcategory = {
                	
                	roomcategory.itemCategoryData.id = "0";
                	roomcategory.itemCategoryData.name = "";
-               	roomcategory.itemCategoryData.itemTypeName = "";
                	roomcategory.itemCategoryData.rent = "0.00";
+               	roomcategory.itemCategoryData.capacity = "1";
                	roomcategory.itemCategoryData.size = "0";
                	roomcategory.itemCategoryData.itemTypeId = "0";
                	roomcategory.itemCategoryData.active = "true";
@@ -118,17 +117,19 @@ var roomcategory = {
 			var tr = $(_btn).closest("tr");
 			roomcategory.itemCategoryData.id = $.trim($(tr).find(".col-id")[0].value);
 			roomcategory.itemCategoryData.name = $.trim($(tr).find(".col-name")[0].value);
-			roomcategory.itemCategoryData.itemTypeName = $.trim($(tr).find(".col-itemTypeName")[0].value);
 			roomcategory.itemCategoryData.rent = $.trim($(tr).find(".col-rent")[0].value);
 			roomcategory.itemCategoryData.size = $.trim($(tr).find(".col-size")[0].value);
+			roomcategory.itemCategoryData.capacity = $.trim($(tr).find(".col-capacity")[0].value);
 			roomcategory.itemCategoryData.active = $.trim($(tr).find(".col-active")[0].value);
 			roomcategory.itemCategoryData.itemTypeId = $.trim($(tr).find(".col-itemTypeId")[0].value);
 			
 			var formTemplete = $("#formTemplete").clone();
 			var formHtml = formTemplete.html()
 				.replace("#[id]", roomcategory.itemCategoryData.id)
+				.replace("#[itemTypeId]", roomcategory.itemCategoryData.itemTypeId)
 				.replace("#[name]", roomcategory.itemCategoryData.name)
 				.replace("#[rent]", roomcategory.itemCategoryData.rent)
+				.replace("#[capacity]", roomcategory.itemCategoryData.capacity)
 				.replace("#[size]", roomcategory.itemCategoryData.size)
 				.replace("#[active]", roomcategory.itemCategoryData.active);
 	   		$(tr).html("<td colspan='6'>" + formHtml + "</td>");
@@ -140,10 +141,7 @@ var roomcategory = {
 	   		}
 	   		$("#btnSubmit").html('Update');
 	   		$("#btnCreateNew").attr('disabled', true);
-	   		$('#val-itemTypeId').html('<option value="0">Please select</option>');
-	   		
-	   		var providerId = $("#var-selected-providerId").val();
-	   		roomcategory.getRoomTypeList(providerId, roomcategory.itemCategoryData.itemTypeId);
+
 	   		roomcategory.initValidation();
        	});
 		
@@ -180,7 +178,18 @@ var roomcategory = {
 		$(document).on("change", "#val-active", function() {
 			var checked = $(this).is(':checked');
 			$("#val-active").val(checked);
-		})
+		});
+		
+		$(document).on("change", "#val-selected-itemTypeId", function(e) {
+			var itemTypeId = $("#val-selected-itemTypeId").val();
+			if(itemTypeId != "" && itemTypeId != "0") {
+				$("#btnCreateNew").removeAttr('disabled');
+				roomcategory.getRoomCategoryList(itemTypeId);
+			} else {
+				$("#btnCreateNew").attr('disabled', true);
+				$('#dataTable').find('tbody').html('');
+			}
+       	});
 	},
 	
 	onHotelSelect : function(o) {
@@ -202,10 +211,12 @@ var roomcategory = {
         });
 
 		$("#btnCreateNew").removeAttr('disabled');
-		roomcategory.getRoomCategoryList(o.providerId);
+		$('#dataTable').find('tbody').html('');
+		
+		roomcategory.getRoomTypeList(o.providerId);
 	},
 	
-	getRoomTypeList : function(providerId, itemTypeId) {
+	getRoomTypeList : function(providerId) {
 		var url =  roomcategory.getRoomTypeListUrl.replace("{#providerId}", providerId);
 		roomcategory.getRoomTypeListAjax = $.ajax({
 			type: "GET",
@@ -220,10 +231,7 @@ var roomcategory = {
             		$.each(data.datas, function(index, data) {
             			html += '<option value="' + data.id + '">' + data.name + '</option>';
             		});
-            		$('#val-itemTypeId').html(html);
-            		if (itemTypeId) {
-            			$('#val-itemTypeId').val(itemTypeId);
-            		}
+            		$('#val-selected-itemTypeId').html(html);
             	} else {
             		console.log(data.errors);
             		roomcategory.getRoomTypeListAjax = undefined;
@@ -249,8 +257,8 @@ var roomcategory = {
 		});
 	},
 	
-	getRoomCategoryList : function(providerId) {
-		var url =  roomcategory.getRoomCategoryListUrl.replace("{#providerId}", providerId);
+	getRoomCategoryList : function(itemTypeId) {
+		var url =  roomcategory.getRoomCategoryListUrl.replace("{#itemTypeId}", itemTypeId);
 		roomcategory.getRoomCategoryListAjax = $.ajax({
 			type: "GET",
             contentType: "application/json",
@@ -268,10 +276,10 @@ var roomcategory = {
 	                   			.replace("#[id]", data.id)
 			                	.replace("#[name]", data.name)
 			                	.replace("#[name]", data.name)
-			                	.replace("#[itemTypeName]", data.itemTypeName)
-			                	.replace("#[itemTypeName]", data.itemTypeName)
 			                	.replace("#[rent]", data.rent)
 			                	.replace("#[rent]", data.rent)
+			                	.replace("#[capacity]", data.capacity)
+			                	.replace("#[capacity]", data.capacity)
 			                	.replace("#[size]", data.roomCategoryData.size)
 			                	.replace("#[size]", data.roomCategoryData.size)
 			                	.replace("#[itemTypeId]", data.itemTypeId)
@@ -320,10 +328,10 @@ var roomcategory = {
            				.replace("#[id]", data.datas[0].id)
 	                	.replace("#[name]", data.datas[0].name)
 	                	.replace("#[name]", data.datas[0].name)
-	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
-	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
 	                	.replace("#[rent]", data.datas[0].rent)
 	                	.replace("#[rent]", data.datas[0].rent)
+	                	.replace("#[capacity]", data.datas[0].capacity)
+	                	.replace("#[capacity]", data.datas[0].capacity)
 	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
 	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
 	                	.replace("#[itemTypeId]", data.datas[0].itemTypeId)
@@ -388,10 +396,10 @@ var roomcategory = {
         				.replace("#[id]", data.datas[0].id)
 	                	.replace("#[name]", data.datas[0].name)
 	                	.replace("#[name]", data.datas[0].name)
-	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
-	                	.replace("#[itemTypeName]", data.datas[0].itemTypeName)
 	                	.replace("#[rent]", data.datas[0].rent)
 	                	.replace("#[rent]", data.datas[0].rent)
+	                	.replace("#[capacity]", data.datas[0].capacity)
+	                	.replace("#[capacity]", data.datas[0].capacity)
 	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
 	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
 	                	.replace("#[itemTypeId]", data.datas[0].itemTypeId)
@@ -401,8 +409,8 @@ var roomcategory = {
             		
            			roomcategory.itemCategoryData.id = "0";
                    	roomcategory.itemCategoryData.name = "";
-                   	roomcategory.itemCategoryData.itemTypeName = "";
                    	roomcategory.itemCategoryData.rent = "0.00";
+                   	roomcategory.itemCategoryData.capacity = "1";
                    	roomcategory.itemCategoryData.size = "0";
                    	roomcategory.itemCategoryData.itemTypeId = "0";
                    	roomcategory.itemCategoryData.active = "true";
@@ -504,28 +512,28 @@ var roomcategory = {
                 $(e).parents(".form-group").find(".is-invalid").removeClass("is-invalid"), $(e).remove()
             }, 
             rules : {
-            	"itemTypeId": {
-                    min: 1
-                },
             	"name": {
                     required: true, minlength: 3
                 },
                 "rent": {
                 	required: true, decimal: true
                 },
+                "capacity": {
+                	required: true, digits: true, min: 1
+                },
                 "roomCategoryData.size": {
                 	required: true, digits: true
                 }
             }, 
             messages : {
-            	"itemTypeId": {
-                	min: "Please select room type"
-                },
             	"name": {
                     required: "Please enter name", minlength: "Name must consist of at least 3 characters"
                 },
                 "rent": {
                 	required: "Please enter rent"
+                },
+                "capacity": {
+                	required: "Please enter capacity"
                 },
                 "roomCategoryData.size": {
                 	required: "Please enter room size"

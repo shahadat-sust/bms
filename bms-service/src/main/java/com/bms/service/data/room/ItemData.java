@@ -9,6 +9,7 @@ public class ItemData extends BaseData {
 	private long itemCategoryId;
 	private String itemNo;
 	private double rent;
+	private int capacity;
 	private boolean isActive;
 	private int status;
 	private String itemCategoryName;
@@ -33,6 +34,12 @@ public class ItemData extends BaseData {
 	}
 	public void setRent(double rent) {
 		this.rent = rent;
+	}
+	public int getCapacity() {
+		return capacity;
+	}
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
 	}
 	public boolean isActive() {
 		return isActive;

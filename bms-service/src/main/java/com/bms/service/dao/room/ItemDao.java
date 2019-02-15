@@ -41,12 +41,13 @@ public class ItemDao extends BaseDao implements IItemDao {
 					ps.setLong(1, itemData.getItemCategoryId());
 					ps.setString(2, itemData.getItemNo());
 					ps.setDouble(3, itemData.getRent());
-					ps.setBoolean(4, itemData.isActive());
-					ps.setInt(5, itemData.getStatus());
-					ps.setLong(6, itemData.getCreatedBy());
-					ps.setTimestamp(7, new java.sql.Timestamp(itemData.getCreatedOn().getTime()));
-					ps.setLong(8, itemData.getUpdatedBy());
-					ps.setTimestamp(9, new java.sql.Timestamp(itemData.getUpdatedOn().getTime()));
+					ps.setInt(4, itemData.getCapacity());
+					ps.setBoolean(5, itemData.isActive());
+					ps.setInt(6, itemData.getStatus());
+					ps.setLong(7, itemData.getCreatedBy());
+					ps.setTimestamp(8, new java.sql.Timestamp(itemData.getCreatedOn().getTime()));
+					ps.setLong(9, itemData.getUpdatedBy());
+					ps.setTimestamp(10, new java.sql.Timestamp(itemData.getUpdatedOn().getTime()));
 					return ps;
 				}
 			}, holder);
@@ -84,6 +85,7 @@ public class ItemDao extends BaseDao implements IItemDao {
 					itemData.getItemCategoryId(),
 					itemData.getItemNo(),
 					itemData.getRent(),
+					itemData.getCapacity(),
 					itemData.isActive() ? 1 : 0,
 					itemData.getUpdatedBy(),
 					new Timestamp(itemData.getUpdatedOn().getTime()),
@@ -134,15 +136,16 @@ public class ItemDao extends BaseDao implements IItemDao {
 					itemData.setItemCategoryName(rs.getString(3));
 					itemData.setItemNo(rs.getString(4));
 					itemData.setRent(rs.getDouble(5));
-					itemData.setActive(rs.getBoolean(6));
-					itemData.setStatus(rs.getInt(7));
-					itemData.setItemTypeId(rs.getLong(8));
-					itemData.setItemTypeName(rs.getString(9));
+					itemData.setCapacity(rs.getInt(6));
+					itemData.setActive(rs.getBoolean(7));
+					itemData.setStatus(rs.getInt(8));
+					itemData.setItemTypeId(rs.getLong(9));
+					itemData.setItemTypeName(rs.getString(10));
 					itemData.setRoomData(new RoomData());
-					itemData.getRoomData().setId(rs.getLong(10));
-					itemData.getRoomData().setFloorNo(rs.getInt(11));
-					itemData.getRoomData().setSize(rs.getInt(12));
-					itemData.getRoomData().setLandLine(rs.getString(13));
+					itemData.getRoomData().setId(rs.getLong(11));
+					itemData.getRoomData().setFloorNo(rs.getInt(12));
+					itemData.getRoomData().setSize(rs.getInt(13));
+					itemData.getRoomData().setLandLine(rs.getString(14));
 					return itemData;
 				}	
 			});
@@ -173,15 +176,16 @@ public class ItemDao extends BaseDao implements IItemDao {
 					itemData.setItemCategoryName(rs.getString(3));
 					itemData.setItemNo(rs.getString(4));
 					itemData.setRent(rs.getDouble(5));
-					itemData.setActive(rs.getBoolean(6));
-					itemData.setStatus(rs.getInt(7));
-					itemData.setItemTypeId(rs.getLong(8));
-					itemData.setItemTypeName(rs.getString(9));
+					itemData.setCapacity(rs.getInt(6));
+					itemData.setActive(rs.getBoolean(7));
+					itemData.setStatus(rs.getInt(8));
+					itemData.setItemTypeId(rs.getLong(9));
+					itemData.setItemTypeName(rs.getString(10));
 					itemData.setRoomData(new RoomData());
-					itemData.getRoomData().setId(rs.getLong(10));
-					itemData.getRoomData().setFloorNo(rs.getInt(11));
-					itemData.getRoomData().setSize(rs.getInt(12));
-					itemData.getRoomData().setLandLine(rs.getString(13));
+					itemData.getRoomData().setId(rs.getLong(11));
+					itemData.getRoomData().setFloorNo(rs.getInt(12));
+					itemData.getRoomData().setSize(rs.getInt(13));
+					itemData.getRoomData().setLandLine(rs.getString(14));
 					return itemData;
 				}	
 			});
@@ -206,15 +210,16 @@ public class ItemDao extends BaseDao implements IItemDao {
 					itemData.setItemCategoryName(rs.getString(3));
 					itemData.setItemNo(rs.getString(4));
 					itemData.setRent(rs.getDouble(5));
-					itemData.setActive(rs.getBoolean(6));
-					itemData.setStatus(rs.getInt(7));
-					itemData.setItemTypeId(rs.getLong(8));
-					itemData.setItemTypeName(rs.getString(9));
+					itemData.setCapacity(rs.getInt(6));
+					itemData.setActive(rs.getBoolean(7));
+					itemData.setStatus(rs.getInt(8));
+					itemData.setItemTypeId(rs.getLong(9));
+					itemData.setItemTypeName(rs.getString(10));
 					itemData.setRoomData(new RoomData());
-					itemData.getRoomData().setId(rs.getLong(10));
-					itemData.getRoomData().setFloorNo(rs.getInt(11));
-					itemData.getRoomData().setSize(rs.getInt(12));
-					itemData.getRoomData().setLandLine(rs.getString(13));
+					itemData.getRoomData().setId(rs.getLong(11));
+					itemData.getRoomData().setFloorNo(rs.getInt(12));
+					itemData.getRoomData().setSize(rs.getInt(13));
+					itemData.getRoomData().setLandLine(rs.getString(14));
 					return itemData;
 				}	
 			});

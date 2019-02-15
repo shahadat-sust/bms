@@ -4,8 +4,8 @@
 <properties>
 	<entry key="item.create">
 	    <![CDATA[
-			INSERT INTO Item (ItemCategoryId, ItemNo, Rent, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+			INSERT INTO Item (ItemCategoryId, ItemNo, Rent, Capacity, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	    ]]>
 	</entry>
 	
@@ -22,6 +22,7 @@
 				ItemCategoryId = ?, 
 				ItemNo = ?, 
 				Rent = ?, 
+				Capacity = ?,
 				IsActive = ?,  
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
@@ -62,6 +63,7 @@
 				ItemCategory.Name, 
 				Item.ItemNo, 
 				Item.Rent, 
+				Item.Capacity,
 				Item.IsActive,
 				Item.Status,
 				ItemType.Id,
@@ -90,6 +92,7 @@
 				ItemCategory.Name, 
 				Item.ItemNo, 
 				Item.Rent, 
+				Item.Capacity,
 				Item.IsActive,
 				Item.Status,
 				ItemType.Id,
@@ -120,6 +123,7 @@
 				ItemCategory.Name, 
 				Item.ItemNo, 
 				Item.Rent, 
+				Item.Capacity,
 				Item.IsActive,
 				Item.Status,
 				ItemType.Id,

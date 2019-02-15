@@ -46,8 +46,6 @@ public class RoomCategoryController extends BaseController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String view(Model model, HttpServletRequest request) throws BmsSqlException, BmsException {
 		ProviderAdminData defaultHotel = (ProviderAdminData) request.getSession().getAttribute(AppConstants.KEY_DEFAULT_HOTEL);
-		List<ItemCategoryData> roomCategoryList = itemCategoryService.getAllItemCategoriesByProviderId(defaultHotel.getProviderId());
-		model.addAttribute("roomCategoryList", roomCategoryList);
 		List<ItemTypeData> roomTypeList = itemTypeService.getAllItemTypesByProviderId(defaultHotel.getProviderId());
 		if (roomTypeList != null && roomTypeList.size() > 0) {
 			Collections.sort(roomTypeList, new Comparator<ItemTypeData>() {
