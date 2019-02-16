@@ -23,5 +23,5 @@ public interface IProviderAdminDao {
 	
 	ProviderAdminData getDefaultProviderByUserId(long userId) throws BmsSqlException;
 	
-	public boolean deleteDefaultProvider(long userId) throws BmsSqlException;
+	boolean deleteDefaultProvider(long userId) throws BmsSqlException;
 }

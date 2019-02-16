@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import com.bms.common.Constants;
 import com.bms.common.util.StringUtils;
 import com.bms.service.BmsSqlException;
+import com.bms.service.SqlConstants;
 import com.bms.service.dao.BaseDao;
 import com.bms.service.data.EmailAddressData;
 import com.bms.service.data.PhoneNumberData;
@@ -86,6 +88,8 @@ public class UserDao extends BaseDao implements IUserDao {
 					userData.getUpdatedBy(),
 					new java.sql.Timestamp(userData.getUpdatedOn().getTime()),
 					userData.getId()) == 1;
+		} catch (DataIntegrityViolationException e) {
+			throw new BmsSqlException(SqlConstants.ERROR_DELETE_FOREIGN_KEY_CONSTRAINT_FAIL, e);
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}

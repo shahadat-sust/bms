@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
+import com.bms.service.SqlConstants;
 import com.bms.service.dao.BaseDao;
 import com.bms.service.data.room.ItemData;
 import com.bms.service.data.room.RoomData;
@@ -117,7 +119,9 @@ public class ItemDao extends BaseDao implements IItemDao {
 					itemData.getUpdatedBy(),
 					new Timestamp(itemData.getUpdatedOn().getTime()),
 					itemData.getId()) == 1;
-		} catch (Exception e) {
+		} catch (DataIntegrityViolationException e) {
+			throw new BmsSqlException(SqlConstants.ERROR_DELETE_FOREIGN_KEY_CONSTRAINT_FAIL, e);
+		}  catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
 	}

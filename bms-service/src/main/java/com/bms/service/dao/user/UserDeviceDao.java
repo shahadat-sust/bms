@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -16,6 +17,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.bms.service.BmsSqlException;
+import com.bms.service.SqlConstants;
 import com.bms.service.dao.BaseDao;
 import com.bms.service.data.user.UserDeviceData;
 
@@ -80,6 +82,8 @@ public class UserDeviceDao extends BaseDao implements IUserDeviceDao {
 		try {
 			String sql = userDeviceQuery.getProperty("userCard.delete");
 			return this.getTemplete().update(sql, userDeviceId) == 1;
+		} catch (DataIntegrityViolationException e) {
+			throw new BmsSqlException(SqlConstants.ERROR_DELETE_FOREIGN_KEY_CONSTRAINT_FAIL, e);
 		} catch (Exception e) {
 			throw new BmsSqlException(e);
 		}

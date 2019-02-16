@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import com.bms.common.Constants;
 import com.bms.common.util.StringUtils;
 import com.bms.service.BmsSqlException;
+import com.bms.service.SqlConstants;
 import com.bms.service.dao.BaseDao;
 import com.bms.service.data.PostalAddressData;
 import com.bms.service.data.provider.HotelData;
@@ -86,7 +88,9 @@ public class ProviderDao extends BaseDao implements IProviderDao {
 					providerData.getUpdatedBy(),
 					new Timestamp(providerData.getUpdatedOn().getTime()),
 					providerData.getId()) == 1;
-		} catch (Exception e) {
+		} catch (DataIntegrityViolationException e) {
+			throw new BmsSqlException(SqlConstants.ERROR_DELETE_FOREIGN_KEY_CONSTRAINT_FAIL, e);
+		}  catch (Exception e) {
 			throw new BmsSqlException(e);
 		}
 	}
