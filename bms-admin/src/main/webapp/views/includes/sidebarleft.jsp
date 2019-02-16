@@ -204,16 +204,16 @@
                         </a>
                     </li>
                     <li class="nav-main-item">
+                        <a class="nav-main-link" href="<c:url value="/roomcategoryamenity"/>">
+                            <span class="nav-main-link-name">Room Category Wise Amenity</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
                         <a class="nav-main-link" href="<c:url value="/room"/>">
                             <span class="nav-main-link-name">Room</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="<c:url value="/roomcategoryamenity"/>">
-                            <span class="nav-main-link-name">Room Category Wise Amenity</span>
-                        </a>
-                    </li>
-                     <li class="nav-main-item">
                         <a class="nav-main-link" href="<c:url value="/roomamenity"/>">
                             <span class="nav-main-link-name">Room Wise Amenity</span>
                         </a>
@@ -228,8 +228,8 @@
                 </a>
                 <ul class="nav-main-submenu">
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="<c:url value="/bookroom"/>">
-                            <span class="nav-main-link-name">Book Room</span>
+                        <a class="nav-main-link" href="<c:url value="/makebooking"/>">
+                            <span class="nav-main-link-name">Make Booking</span>
                         </a>
                         <a class="nav-main-link" href="<c:url value="/updatebooking"/>">
                             <span class="nav-main-link-name">Update Booking</span>

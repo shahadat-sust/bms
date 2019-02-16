@@ -1,16 +1,23 @@
 package com.bms.service.soa.room;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.bms.common.BmsException;
 import com.bms.common.Constants;
 import com.bms.service.BmsSqlException;
+import com.bms.service.dao.room.IItemAmenityDao;
+import com.bms.service.dao.room.IItemCategoryAmenityDao;
 import com.bms.service.dao.room.IItemDao;
+import com.bms.service.data.room.ItemAmenityData;
+import com.bms.service.data.room.ItemCategoryAmenityData;
 import com.bms.service.data.room.ItemData;
 import com.bms.service.soa.BaseService;
 
@@ -18,10 +25,15 @@ import com.bms.service.soa.BaseService;
 public class ItemService extends BaseService implements IItemService {
 
 	private IItemDao itemDao;
+	private IItemAmenityDao itemAmenityDao; 
+	private IItemCategoryAmenityDao itemCategoryAmenityDao; 
 	
 	@Override
 	public long create(ItemData itemData, long loginUserId) throws BmsSqlException, BmsException {
+		long itemId = 0;
+		TransactionStatus txStatus= null;
 		try {
+			txStatus = getTxManager().getTransaction(new DefaultTransactionDefinition());
 			Date currDate = new Date(System.currentTimeMillis());
 			itemData.setStatus(Constants.STATUS_EXIST);
 			itemData.setCreatedBy(loginUserId);
@@ -32,12 +44,41 @@ public class ItemService extends BaseService implements IItemService {
 			itemData.getRoomData().setCreatedOn(currDate);
 			itemData.getRoomData().setUpdatedBy(loginUserId);
 			itemData.getRoomData().setUpdatedOn(currDate);
-			return itemDao.create(itemData);
+			itemId = itemDao.create(itemData);
+			itemData.setId(itemId);
+			
+			if (itemId > 0) {
+				List<ItemCategoryAmenityData> itemCategoryAmenityList = itemCategoryAmenityDao.getAllItemCategoryAmenitiesByItemCategoryId(itemData.getItemCategoryId());
+				if (itemCategoryAmenityList != null && itemCategoryAmenityList.size() > 0) {
+					for (ItemCategoryAmenityData itemCategoryAmenityData : itemCategoryAmenityList) {
+						ItemAmenityData itemAmenityData = new ItemAmenityData();
+						itemAmenityData.setItemId(itemId);
+						itemAmenityData.setAmenityId(itemCategoryAmenityData.getAmenityId());
+						itemAmenityData.setQuantity(itemCategoryAmenityData.getQuantity());
+						itemAmenityData.setCreatedBy(loginUserId);
+						itemAmenityData.setCreatedOn(currDate);
+						itemAmenityData.setUpdatedBy(loginUserId);
+						itemAmenityData.setUpdatedOn(currDate);
+						itemAmenityDao.create(itemAmenityData);
+					}
+				}
+			}
+			
+			getTxManager().commit(txStatus);
 		} catch (BmsSqlException e) {
+			if(txStatus != null) {
+				getTxManager().rollback(txStatus);
+			}
+			itemData.setId(0);
 			throw e;
 		} catch (Exception e) {
+			if(txStatus != null) {
+				getTxManager().rollback(txStatus);
+			}
+			itemData.setId(0);
 			throw new BmsException(e);
 		}
+		return itemId;
 	}
 
 	@Override
@@ -126,6 +167,30 @@ public class ItemService extends BaseService implements IItemService {
 	@Override
 	public void setItemDao(IItemDao itemDao) {
 		this.itemDao = itemDao;
+	}
+	
+	@Override
+	public IItemAmenityDao getItemAmenityDao() {
+		return itemAmenityDao;
+	}
+
+	@Autowired
+	@Qualifier("itemAmenityDao")
+	@Override
+	public void setItemAmenityDao(IItemAmenityDao itemAmenityDao) {
+		this.itemAmenityDao = itemAmenityDao;
+	}
+	
+	@Override
+	public IItemCategoryAmenityDao getItemCategoryAmenityDao() {
+		return itemCategoryAmenityDao;
+	}
+
+	@Autowired
+	@Qualifier("itemCategoryAmenityDao")
+	@Override
+	public void setItemCategoryAmenityDao(IItemCategoryAmenityDao itemCategoryAmenityDao) {
+		this.itemCategoryAmenityDao = itemCategoryAmenityDao;
 	}
 
 }

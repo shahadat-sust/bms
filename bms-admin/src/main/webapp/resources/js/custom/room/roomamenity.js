@@ -296,7 +296,7 @@ var roomamenity = {
             		roomamenity.getRoomCategoryListAjax = undefined;
             		var html = '<option value="0">Please select</option>';
             		$.each(data.datas, function(index, data) {
-            			html += '<option value="' + data.id + '">' + data.name + ' [Rent: ' + data.rent + 'tk, Size: ' + data.roomCategoryData.size + 'sqft]' + '</option>';
+            			html += '<option value="' + data.id + '">' + data.name + ' [Rent: ' + data.rent + ' tk, Capacity: ' + data.capacity + ' persons, Size: ' + data.roomCategoryData.size + ' sqft]' + '</option>';
             		});
             		$('#val-selected-itemCategoryId').html(html);
             	} else {
@@ -378,7 +378,7 @@ var roomamenity = {
             		roomamenity.getRoomListAjax = undefined;
             		var html = '<option value="0">Please select</option>';
             		$.each(data.datas, function(index, data) {
-            			html += '<option value="' + data.id + '">' + data.itemNo + ' [Rent: ' + data.rent + 'tk, Size: ' + data.roomData.size + 'sqft]' + '</option>';
+            			html += '<option value="' + data.id + '">' + data.itemNo + ' [Rent: ' + data.rent + ' tk, Capacity: ' + data.capacity + ' persons, Size: ' + data.roomData.size + ' sqft]' + '</option>';
             		});
             		$('#val-selected-itemId').html(html);
             	} else {

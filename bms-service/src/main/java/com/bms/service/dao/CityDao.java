@@ -19,7 +19,6 @@ import org.springframework.stereotype.Repository;
 import com.bms.service.BmsSqlException;
 import com.bms.service.SqlConstants;
 import com.bms.service.data.CityData;
-import com.bms.service.data.StateData;
 
 @Repository("cityDao")
 public class CityDao extends BaseDao implements ICityDao {

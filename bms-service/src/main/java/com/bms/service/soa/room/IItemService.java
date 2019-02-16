@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.bms.common.BmsException;
 import com.bms.service.BmsSqlException;
+import com.bms.service.dao.room.IItemAmenityDao;
+import com.bms.service.dao.room.IItemCategoryAmenityDao;
 import com.bms.service.dao.room.IItemDao;
 import com.bms.service.data.room.ItemData;
 
@@ -26,5 +28,13 @@ public interface IItemService {
 	IItemDao getItemDao();
 
 	void setItemDao(IItemDao itemDao);
+	
+	public IItemAmenityDao getItemAmenityDao();
+
+	public void setItemAmenityDao(IItemAmenityDao itemAmenityDao);
+	
+	IItemCategoryAmenityDao getItemCategoryAmenityDao();
+
+	void setItemCategoryAmenityDao(IItemCategoryAmenityDao itemCategoryAmenityDao);
 	
 }

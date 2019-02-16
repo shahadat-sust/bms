@@ -100,7 +100,7 @@
                     	 		<h2 class="content-heading pt-0">Amenity List</h2>
                    	 			<!-- Full Table -->
                    	 			<div class="block-content row items-push">
-                    				<div class="col-xl-4">
+                    				<div class="col-xl-3">
                     					<div class="form-group row">
 		                                    <label class="col-sm-3 col-form-label" for="val-selected-itemTypeId">
 		                                    	<strong class="text-muted">Type</strong>
@@ -112,8 +112,6 @@
 		                                    			<option value="${roomTypeData.id}">${roomTypeData.name}</option>
 		                                    		</c:forEach>
 				                             	</select>
-		                                    </div>
-		                                    <div class="col-sm-2">
 		                                    </div>
 		                                </div>
 					                </div>
@@ -127,22 +125,19 @@
 		                                    		<option value="0">Please select</option>
 				                             	</select>
 		                                    </div>
-		                                    <div class="col-sm-2">
-		                                    </div>
 		                                </div>
 					                </div>
-					                <div class="col-xl-4">
+					                <div class="col-xl-5">
 					                	<div class="form-group row">
-		                                    <label class="col-sm-3 col-form-label" for="val-selected-itemId">
+		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemId">
 		                                    	<strong class="text-muted">Room</strong>
 		                                   	</label>
-		                                    <div class="col-sm-9">
+		                                    <div class="col-sm-10">
 		                                    	<select class="form-control" id="val-selected-itemId">
 		                                    		<option value="0">Please select</option>
 				                             	</select>
 		                                    </div>
-		                                    <div class="col-sm-2">
-		                                    </div>
+
 		                                </div>
 					                </div>
 					                <div class="col-xl-12 text-right">
