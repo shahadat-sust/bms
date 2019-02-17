@@ -100,9 +100,9 @@
                     	 		<h2 class="content-heading pt-0">Amenity List</h2>
                    	 			<!-- Full Table -->
                    	 			<div class="block-content row items-push">
-                    				<div class="col-xl-3">
+                    				<div class="col-xl-4">
                     					<div class="form-group row">
-		                                    <label class="col-sm-3 col-form-label" for="val-selected-itemTypeId">
+		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemTypeId">
 		                                    	<strong class="text-muted">Type</strong>
 		                                   	</label>
 		                                    <div class="col-sm-9">
@@ -115,24 +115,25 @@
 		                                    </div>
 		                                </div>
 					                </div>
-					                <div class="col-xl-4">
+					                <div class="col-xl-1"></div>
+					                <div class="col-xl-7">
 					                	<div class="form-group row">
-		                                    <label class="col-sm-3 col-form-label" for="val-selected-itemCategoryId">
+		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemCategoryId">
 		                                    	<strong class="text-muted">Category</strong>
 		                                   	</label>
-		                                    <div class="col-sm-9">
+		                                    <div class="col-sm-10">
 		                                    	<select class="form-control" id="val-selected-itemCategoryId">
 		                                    		<option value="0">Please select</option>
 				                             	</select>
 		                                    </div>
 		                                </div>
 					                </div>
-					                <div class="col-xl-5">
+					                <div class="col-xl-8">
 					                	<div class="form-group row">
-		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemId">
+		                                    <label class="col-xl-1 col-form-label" for="val-selected-itemId">
 		                                    	<strong class="text-muted">Room</strong>
 		                                   	</label>
-		                                    <div class="col-sm-10">
+		                                    <div class="col-xl-11">
 		                                    	<select class="form-control" id="val-selected-itemId">
 		                                    		<option value="0">Please select</option>
 				                             	</select>
@@ -140,7 +141,7 @@
 
 		                                </div>
 					                </div>
-					                <div class="col-xl-12 text-right">
+					                <div class="col-xl-4 text-right">
 					                	<button id="btnCreateNew" type="button" class="btn btn-success mr-1" disabled="disabled">
 				                            <i class="fa fa-fw fa-plus mr-1"></i> Add Amenity
 				                        </button>
@@ -150,9 +151,9 @@
 		                           <table id="dataTable" class="table table-bordered table-striped table-vcenter">
 		                               <thead>
 		                                   <tr>
-		                                   	   <th>Name</th>
+		                                   	   <th>Amenity</th>
 		                                   	   <th class="text-right" style="width: 120px;">Quantity</th>
-		                                       <th class="text-center" style="width: 100px;">Actions</th>
+		                                       <th class="text-center" style="width: 120px;">Actions</th>
 		                                   </tr>
 		                               </thead>
 		                               <tbody>
@@ -179,7 +180,7 @@
 	                </div>
 	                <div class="col-sm-8 col-md-6 col-lg-6 col-xl-4">
 	                	<div class="form-group">
-	                        <label for="val-name">Type <span class="text-danger">*</span></label>
+	                        <label for="val-name">Amenity <span class="text-danger">*</span></label>
 	                		<select class="form-control" id="val-amenityId" name="amenityId">
                             </select>
 	                    </div>
@@ -211,7 +212,7 @@
         	<td class="font-w600">
 				#[amenityName]
 			</td>
-			<td class="font-w600">
+			<td class="text-right font-w600">
 				#[quantity]
 			</td>
 			<td class="text-center">

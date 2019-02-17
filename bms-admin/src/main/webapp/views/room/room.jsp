@@ -105,15 +105,13 @@
 		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemTypeId">
 		                                    	<strong class="text-muted">Type</strong>
 		                                   	</label>
-		                                    <div class="col-sm-8">
+		                                    <div class="col-sm-10">
 		                                    	<select class="form-control" id="val-selected-itemTypeId">
 		                                    		<option value="0">Please select</option>
 		                                    		<c:forEach items="${roomTypeList}" var="roomTypeData">
 		                                    			<option value="${roomTypeData.id}">${roomTypeData.name}</option>
 		                                    		</c:forEach>
 				                             	</select>
-		                                    </div>
-		                                    <div class="col-sm-2">
 		                                    </div>
 		                                </div>
 					                </div>
@@ -122,12 +120,10 @@
 		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemCategoryId">
 		                                    	<strong class="text-muted">Category</strong>
 		                                   	</label>
-		                                    <div class="col-sm-8">
+		                                    <div class="col-sm-10">
 		                                    	<select class="form-control" id="val-selected-itemCategoryId">
 		                                    		<option value="0">Please select</option>
 				                             	</select>
-		                                    </div>
-		                                    <div class="col-sm-2">
 		                                    </div>
 		                                </div>
 					                </div>
@@ -148,7 +144,7 @@
 		                                       <th style="width: 100px;">Floor No</th>
 		                                       <th class="d-none d-xl-table-cell" style="width: 120px;">Land Line</th>
 		                                       <th class="text-center" style="width: 80px;">Active</th>
-		                                       <th class="text-center" style="width: 100px;">Actions</th>
+		                                       <th class="text-center" style="width: 120px;">Actions</th>
 		                                   </tr>
 		                               </thead>
 		                               <tbody>

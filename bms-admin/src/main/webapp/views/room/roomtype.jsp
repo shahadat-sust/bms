@@ -42,43 +42,43 @@
             	<div class="block block-rounded block-bordered">
            			<div class="block-content">
                     	<div class="row items-push">
-                    		<div class="col-md-4">
+                    		<div class="col-md-5">
                     			<h2 class="content-heading pt-0">Hotel Info</h2>
                     			<div class="form-group row">
-                                    <label class="col-sm-4 col-form-label" for="var-title">
+                                    <label class="col-sm-3 col-form-label" for="var-title">
                                     	<strong class="text-muted">Title</strong>
                                    	</label>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-9">
                                     	<input type="hidden" class="form-control" id="var-selected-providerId" value="${sessionScope.DEFAULT_HOTEL.providerId}"/>
                                     	<input type="hidden" class="form-control" id="var-selected-providerTypeId" value="${sessionScope.DEFAULT_HOTEL.providerTypeId}"/>
                                         <input type="text" class="form-control" readonly="readonly" id="var-title" value="${sessionScope.DEFAULT_HOTEL.title}"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label" for="var-cityName">
+                                    <label class="col-sm-3 col-form-label" for="var-cityName">
                                     	<strong class="text-muted">City</strong>
                                    	</label>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-9">
                                     	<input type="text" class="form-control" readonly="readonly" id="var-cityName" value="${sessionScope.DEFAULT_HOTEL.cityName}"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label" for="var-countryName">
+                                    <label class="col-sm-3 col-form-label" for="var-countryName">
                                     	<strong class="text-muted">Country</strong>
                                    	</label>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-9">
                                     	<input type="text" class="form-control" readonly="readonly" id="var-countryName" value="${sessionScope.DEFAULT_HOTEL.countryName}"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label" for="var-address"><strong class="text-muted">Address</strong></label>
-                                    <div class="col-sm-8">
+                                    <label class="col-sm-3 col-form-label" for="var-address"><strong class="text-muted">Address</strong></label>
+                                    <div class="col-sm-9">
                                         <textarea class="form-control" rows="3" readonly="readonly" id="var-address">${sessionScope.DEFAULT_HOTEL.address}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label"><strong class="text-muted">Rating</strong></label>
-                                    <div class="col-sm-8">
+                                    <label class="col-sm-3 col-form-label"><strong class="text-muted">Rating</strong></label>
+                                    <div class="col-sm-9">
                                         <div id="var-starRating" class="rating form-control" data-score="${sessionScope.DEFAULT_HOTEL.starRating}"></div>
                                     </div>
                                 </div>
@@ -90,13 +90,20 @@
                                   	</div>
                              	</div>
                     		</div>
-                    	 	<div class="col-md-8">
+                    	 	<div class="col-md-7">
                     	 		<h2 class="content-heading pt-0">Room Type List</h2>
                    	 			<!-- Full Table -->
 		                  	  	<div class="block-content text-right">
-									<button id="btnCreateNew" type="button" class="btn btn-success mr-1" disabled="disabled">
-			                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Type
-			                        </button>
+		                  	  		<c:if test="${sessionScope.DEFAULT_HOTEL.providerId == 0}">
+			                  	  		<button id="btnCreateNew" type="button" class="btn btn-success mr-1" disabled="disabled">
+				                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Type
+				                        </button>
+		                  	  		</c:if>
+									<c:if test="${sessionScope.DEFAULT_HOTEL.providerId > 0}">
+			                  	  		<button id="btnCreateNew" type="button" class="btn btn-success mr-1">
+				                            <i class="fa fa-fw fa-plus mr-1"></i> Add Room Type
+				                        </button>
+		                  	  		</c:if>
 		                  	  	</div>
 		                      	<div class="block-content">
 		                           <table id="dataTable" class="table table-bordered table-striped table-vcenter">

@@ -105,15 +105,13 @@
 		                                    <label class="col-sm-2 col-form-label" for="val-selected-itemTypeId">
 		                                    	<strong class="text-muted">Type</strong>
 		                                   	</label>
-		                                    <div class="col-sm-8">
+		                                    <div class="col-sm-10">
 		                                    	<select class="form-control" id="val-selected-itemTypeId">
 		                                    		<option value="0">Please select</option>
 		                                    		<c:forEach items="${roomTypeList}" var="roomTypeData">
 		                                    			<option value="${roomTypeData.id}">${roomTypeData.name}</option>
 		                                    		</c:forEach>
 				                             	</select>
-		                                    </div>
-		                                    <div class="col-sm-2">
 		                                    </div>
 		                                </div>
 					                </div>
@@ -122,12 +120,10 @@
 		                                    <label class="col-sm-2 col-form-label" for="val-itemCategoryId">
 		                                    	<strong class="text-muted">Category</strong>
 		                                   	</label>
-		                                    <div class="col-sm-8">
+		                                    <div class="col-sm-10">
 		                                    	<select class="form-control" id="val-selected-itemCategoryId">
 		                                    		<option value="0">Please select</option>
 				                             	</select>
-		                                    </div>
-		                                    <div class="col-sm-2">
 		                                    </div>
 		                                </div>
 					                </div>
@@ -141,9 +137,9 @@
 		                           <table id="dataTable" class="table table-bordered table-striped table-vcenter">
 		                               <thead>
 		                                   <tr>
-		                                   	   <th>Name</th>
+		                                   	   <th>Amenity</th>
 		                                   	   <th class="text-right" style="width: 120px;">Quantity</th>
-		                                       <th class="text-center" style="width: 100px;">Actions</th>
+		                                       <th class="text-center" style="width: 120px;">Actions</th>
 		                                   </tr>
 		                               </thead>
 		                               <tbody>
@@ -170,7 +166,7 @@
 	                </div>
 	                <div class="col-sm-8 col-md-6 col-lg-6 col-xl-4">
 	                	<div class="form-group">
-	                        <label for="val-name">Type <span class="text-danger">*</span></label>
+	                        <label for="val-name">Amenity <span class="text-danger">*</span></label>
 	                		<select class="form-control" id="val-amenityId" name="amenityId">
                             </select>
 	                    </div>
@@ -202,7 +198,7 @@
         	<td class="font-w600">
 				#[amenityName]
 			</td>
-			<td class="font-w600">
+			<td class="text-right font-w600">
 				#[quantity]
 			</td>
 			<td class="text-center">

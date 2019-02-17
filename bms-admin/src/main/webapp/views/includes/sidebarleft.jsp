@@ -104,7 +104,7 @@
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="<c:url value="/pointofinterest"/>">
-                            <span class="nav-main-link-name">POI</span>
+                            <span class="nav-main-link-name">Point Of Interest</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
