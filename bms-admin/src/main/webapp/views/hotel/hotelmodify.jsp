@@ -92,6 +92,7 @@
                          <c:set var="numberOfFloorError"><form:errors path="hotelData.numberOfFloor"/></c:set>
                          <c:set var="checkInTimeError"><form:errors path="hotelData.checkInTime"/></c:set>
                          <c:set var="checkOutTimeError"><form:errors path="hotelData.checkOutTime"/></c:set>
+                         <c:set var="maxChildAgeError"><form:errors path="hotelData.maxChildAge"/></c:set>
                          <c:set var="emailError"><form:errors path="emailAddressDatas[0].email"/></c:set>
                          <c:set var="countryCodeError"><form:errors path="phoneNumberDatas[0].code"/></c:set>
                          <c:set var="phoneNumberError"><form:errors path="phoneNumberDatas[0].number"/></c:set>
@@ -153,9 +154,15 @@
                                              	<div id="val-checkOutTime-error" class="invalid-feedback animated fadeIn">${checkOutTimeError}</div>
                                              </c:if>
                                          </div>
-                                         <!-- <div class="form-group clockpicker">
-										    <input type="text" class="form-control" value="09:30">
-										 </div> -->
+                                         <div class="form-group">
+                                             <label for="val-maxChildAge">Maximum Child Age <span class="text-danger">*</span></label>
+                                             <form:input id="val-maxChildAge" path="hotelData.maxChildAge" placeholder="Enter Maximum Child Age.." maxlength="3"
+                                              	cssClass="form-control ${not empty maxChildAgeError ? 'is-invalid' :''}"
+                                              	aria-describedby="${not empty maxChildAgeError ? 'val-maxChildAge-error' :''}"/>
+                                             <c:if test="${not empty maxChildAgeError}">
+                                             	<div id="val-maxChildAge-error" class="invalid-feedback animated fadeIn">${maxChildAgeError}</div>
+                                             </c:if>
+                                         </div>
                                           <div class="form-group">
                                               <label for="val-starRating">Star Rating </label>
                                               <div class="rating form-control" data-score="${hotelForm.hotelData.starRating}"></div>

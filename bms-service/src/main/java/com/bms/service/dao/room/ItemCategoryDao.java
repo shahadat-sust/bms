@@ -43,13 +43,14 @@ public class ItemCategoryDao extends BaseDao implements IItemCategoryDao {
 					ps.setString(1, itemCategoryData.getName());
 					ps.setLong(2, itemCategoryData.getItemTypeId());
 					ps.setDouble(3, itemCategoryData.getRent());
-					ps.setInt(4, itemCategoryData.getCapacity());
-					ps.setBoolean(5, itemCategoryData.isActive());
-					ps.setInt(6, itemCategoryData.getStatus());
-					ps.setLong(7, itemCategoryData.getCreatedBy());
-					ps.setTimestamp(8, new java.sql.Timestamp(itemCategoryData.getCreatedOn().getTime()));
-					ps.setLong(9, itemCategoryData.getUpdatedBy());
-					ps.setTimestamp(10, new java.sql.Timestamp(itemCategoryData.getUpdatedOn().getTime()));
+					ps.setInt(4, itemCategoryData.getAdultCapacity());
+					ps.setInt(5, itemCategoryData.getChildCapacity());
+					ps.setBoolean(6, itemCategoryData.isActive());
+					ps.setInt(7, itemCategoryData.getStatus());
+					ps.setLong(8, itemCategoryData.getCreatedBy());
+					ps.setTimestamp(9, new java.sql.Timestamp(itemCategoryData.getCreatedOn().getTime()));
+					ps.setLong(10, itemCategoryData.getUpdatedBy());
+					ps.setTimestamp(11, new java.sql.Timestamp(itemCategoryData.getUpdatedOn().getTime()));
 					return ps;
 				}
 			}, holder);
@@ -63,10 +64,11 @@ public class ItemCategoryDao extends BaseDao implements IItemCategoryDao {
 					PreparedStatement ps = conn.prepareStatement(sql1, new String[] { "Id" });
 					ps.setLong(1, itemCategoryId);
 					ps.setInt(2, itemCategoryData.getRoomCategoryData().getSize());
-					ps.setLong(3, itemCategoryData.getRoomCategoryData().getCreatedBy());
-					ps.setTimestamp(4, new java.sql.Timestamp(itemCategoryData.getRoomCategoryData().getCreatedOn().getTime()));
-					ps.setLong(5, itemCategoryData.getRoomCategoryData().getUpdatedBy());
-					ps.setTimestamp(6, new java.sql.Timestamp(itemCategoryData.getRoomCategoryData().getUpdatedOn().getTime()));
+					ps.setInt(3, itemCategoryData.getRoomCategoryData().getNumberOfBed());
+					ps.setLong(4, itemCategoryData.getRoomCategoryData().getCreatedBy());
+					ps.setTimestamp(5, new java.sql.Timestamp(itemCategoryData.getRoomCategoryData().getCreatedOn().getTime()));
+					ps.setLong(6, itemCategoryData.getRoomCategoryData().getUpdatedBy());
+					ps.setTimestamp(7, new java.sql.Timestamp(itemCategoryData.getRoomCategoryData().getUpdatedOn().getTime()));
 					return ps;
 				}
 			}, holder1);
@@ -85,7 +87,8 @@ public class ItemCategoryDao extends BaseDao implements IItemCategoryDao {
 					itemCategoryData.getName(),
 					itemCategoryData.getItemTypeId(),
 					itemCategoryData.getRent(),
-					itemCategoryData.getCapacity(),
+					itemCategoryData.getAdultCapacity(),
+					itemCategoryData.getChildCapacity(),
 					itemCategoryData.isActive() ? 1 : 0,
 					itemCategoryData.getUpdatedBy(),
 					new Timestamp(itemCategoryData.getUpdatedOn().getTime()),
@@ -95,6 +98,7 @@ public class ItemCategoryDao extends BaseDao implements IItemCategoryDao {
 				sql = itemCategoryQuery.getProperty("roomCategory.update");
 				status = this.getTemplete().update(sql,
 						itemCategoryData.getRoomCategoryData().getSize(),
+						itemCategoryData.getRoomCategoryData().getNumberOfBed(),
 						itemCategoryData.getRoomCategoryData().getUpdatedBy(),
 						new Timestamp(itemCategoryData.getRoomCategoryData().getUpdatedOn().getTime()),
 						itemCategoryData.getId()) == 1;
@@ -136,12 +140,14 @@ public class ItemCategoryDao extends BaseDao implements IItemCategoryDao {
 					itemCategoryData.setItemTypeId(rs.getLong(3));
 					itemCategoryData.setItemTypeName(rs.getString(4));
 					itemCategoryData.setRent(rs.getDouble(5));
-					itemCategoryData.setCapacity(rs.getInt(6));
-					itemCategoryData.setActive(rs.getBoolean(7));
-					itemCategoryData.setStatus(rs.getInt(8));
+					itemCategoryData.setAdultCapacity(rs.getInt(6));
+					itemCategoryData.setChildCapacity(rs.getInt(7));
+					itemCategoryData.setActive(rs.getBoolean(8));
+					itemCategoryData.setStatus(rs.getInt(9));
 					itemCategoryData.setRoomCategoryData(new RoomCategoryData());
-					itemCategoryData.getRoomCategoryData().setId(rs.getLong(9));
-					itemCategoryData.getRoomCategoryData().setSize(rs.getInt(10));
+					itemCategoryData.getRoomCategoryData().setId(rs.getLong(10));
+					itemCategoryData.getRoomCategoryData().setSize(rs.getInt(11));
+					itemCategoryData.getRoomCategoryData().setNumberOfBed(rs.getInt(12));
 					return itemCategoryData;
 				}	
 			});
@@ -172,12 +178,14 @@ public class ItemCategoryDao extends BaseDao implements IItemCategoryDao {
 					itemCategoryData.setItemTypeId(rs.getLong(3));
 					itemCategoryData.setItemTypeName(rs.getString(4));
 					itemCategoryData.setRent(rs.getDouble(5));
-					itemCategoryData.setCapacity(rs.getInt(6));
-					itemCategoryData.setActive(rs.getBoolean(7));
-					itemCategoryData.setStatus(rs.getInt(8));
+					itemCategoryData.setAdultCapacity(rs.getInt(6));
+					itemCategoryData.setChildCapacity(rs.getInt(7));
+					itemCategoryData.setActive(rs.getBoolean(8));
+					itemCategoryData.setStatus(rs.getInt(9));
 					itemCategoryData.setRoomCategoryData(new RoomCategoryData());
-					itemCategoryData.getRoomCategoryData().setId(rs.getLong(9));
-					itemCategoryData.getRoomCategoryData().setSize(rs.getInt(10));
+					itemCategoryData.getRoomCategoryData().setId(rs.getLong(10));
+					itemCategoryData.getRoomCategoryData().setSize(rs.getInt(11));
+					itemCategoryData.getRoomCategoryData().setNumberOfBed(rs.getInt(12));
 					return itemCategoryData;
 				}	
 			});
@@ -202,12 +210,14 @@ public class ItemCategoryDao extends BaseDao implements IItemCategoryDao {
 					itemCategoryData.setItemTypeId(rs.getLong(3));
 					itemCategoryData.setItemTypeName(rs.getString(4));
 					itemCategoryData.setRent(rs.getDouble(5));
-					itemCategoryData.setCapacity(rs.getInt(6));
-					itemCategoryData.setActive(rs.getBoolean(7));
-					itemCategoryData.setStatus(rs.getInt(8));
+					itemCategoryData.setAdultCapacity(rs.getInt(6));
+					itemCategoryData.setChildCapacity(rs.getInt(7));
+					itemCategoryData.setActive(rs.getBoolean(8));
+					itemCategoryData.setStatus(rs.getInt(9));
 					itemCategoryData.setRoomCategoryData(new RoomCategoryData());
-					itemCategoryData.getRoomCategoryData().setId(rs.getLong(9));
-					itemCategoryData.getRoomCategoryData().setSize(rs.getInt(10));
+					itemCategoryData.getRoomCategoryData().setId(rs.getLong(10));
+					itemCategoryData.getRoomCategoryData().setSize(rs.getInt(11));
+					itemCategoryData.getRoomCategoryData().setNumberOfBed(rs.getInt(12));
 					return itemCategoryData;
 				}	
 			});

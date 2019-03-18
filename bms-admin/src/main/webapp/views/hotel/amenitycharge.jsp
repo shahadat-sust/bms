@@ -158,10 +158,10 @@
 	        <form id="formComponent" action="#" method="post">
 	            <!-- Basic Elements -->
 	            <div class="row items-push">
-	                <div class="col-sm-1 col-lg-1 col-xl-3">
+	                <div class="col-sm-1 col-lg-1 col-xl-2">
 	                    <p class="text-muted"></p>
 	                </div>
-	                <div class="col-sm-10 col-lg-10 col-xl-6">
+	                <div class="col-sm-10 col-lg-10 col-xl-8">
 	                	<div class="form-group">
 	                		<input id="val-providerId" type="hidden" name="providerId" value="#[providerId]"/>
 	                	</div>
@@ -187,7 +187,7 @@
 	                     	</div>
 	                     </div>
 	                </div>
-	                <div class="col-sm-1 col-lg-1 col-xl-3">
+	                <div class="col-sm-1 col-lg-1 col-xl-2">
 	                    <p class="text-muted"></p>
 	                </div>
 	            </div>

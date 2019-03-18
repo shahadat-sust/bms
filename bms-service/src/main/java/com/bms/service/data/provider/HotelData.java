@@ -17,6 +17,7 @@ public class HotelData extends BaseData {
 	private LocalTime checkInTime;
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime checkOutTime;
+	private int maxChildAge;
 	private String website;
 	private String remarks;
 	
@@ -61,6 +62,12 @@ public class HotelData extends BaseData {
 	}
 	public void setCheckOutTime(LocalTime checkOutTime) {
 		this.checkOutTime = checkOutTime;
+	}
+	public int getMaxChildAge() {
+		return maxChildAge;
+	}
+	public void setMaxChildAge(int maxChildAge) {
+		this.maxChildAge = maxChildAge;
 	}
 	public String getWebsite() {
 		return website;

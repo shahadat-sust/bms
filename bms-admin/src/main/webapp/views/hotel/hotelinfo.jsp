@@ -82,6 +82,12 @@
                           				</div>
                           			</div>
                           			<div class="form-group row">
+                          				<label class="col-sm-4"><strong class="text-muted">Maximum Child Age</strong></label>
+                          				<div class="col-sm-8 text-dark">
+                          					${providerData.hotelData.maxChildAge}
+                          				</div>
+                          			</div>
+                          			<div class="form-group row">
                           				<label class="col-sm-4"><strong class="text-muted">Specification</strong></label>
                           				<div class="col-sm-8 text-dark">
                           					${providerData.specification}

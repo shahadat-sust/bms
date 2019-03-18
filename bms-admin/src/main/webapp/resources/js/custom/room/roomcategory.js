@@ -4,8 +4,10 @@ var roomcategory = {
 		id : "0",
    		name : "",
    		rent : "0.00",
-   		capacity : "1",
+   		adultCapacity : "1",
+   		childCapacity : "1",
    		size : "0",
+   		numberOfBed : "1",
    		itemTypeId : "0",
    		active : "true"
 	},
@@ -39,10 +41,12 @@ var roomcategory = {
 	    		.replace("#[itemTypeId]", itemTypeId)
 	    		.replace("#[name]", "")
 	    		.replace("#[rent]", "0.00")
-	    		.replace("#[capacity]", "1")
+	    		.replace("#[adultCapacity]", "1")
+	    		.replace("#[childCapacity]", "1")
 	    		.replace("#[size]", "0")
+	    		.replace("#[numberOfBed]", "1")
 	    		.replace("#[active]", "true");
-       		$("#dataTable > tbody").prepend("<tr><td colspan='6'>" + formHtml + "</td></tr>");
+       		$("#dataTable > tbody").prepend("<tr><td colspan='8'>" + formHtml + "</td></tr>");
        		$("#btnSubmit").html('Save');
        		
        		roomcategory.initValidation();
@@ -58,10 +62,14 @@ var roomcategory = {
                 	.replace("#[name]", roomcategory.itemCategoryData.name)
                 	.replace("#[rent]", roomcategory.itemCategoryData.rent)
                 	.replace("#[rent]", roomcategory.itemCategoryData.rent)
-                	.replace("#[capacity]", roomcategory.itemCategoryData.capacity)
-                	.replace("#[capacity]", roomcategory.itemCategoryData.capacity)
+                	.replace("#[adultCapacity]", roomcategory.itemCategoryData.adultCapacity)
+                	.replace("#[adultCapacity]", roomcategory.itemCategoryData.adultCapacity)
+                	.replace("#[childCapacity]", roomcategory.itemCategoryData.childCapacity)
+                	.replace("#[childCapacity]", roomcategory.itemCategoryData.childCapacity)
                 	.replace("#[size]", roomcategory.itemCategoryData.size)
                 	.replace("#[size]", roomcategory.itemCategoryData.size)
+                	.replace("#[numberOfBed]", roomcategory.itemCategoryData.numberOfBed)
+                	.replace("#[numberOfBed]", roomcategory.itemCategoryData.numberOfBed)
                 	.replace("#[itemTypeId]", roomcategory.itemCategoryData.itemTypeId)
                 	.replace("#[active]", roomcategory.itemCategoryData.active)
                 	.replace("#[active]", roomcategory.itemCategoryData.active);
@@ -70,8 +78,10 @@ var roomcategory = {
                	roomcategory.itemCategoryData.id = "0";
                	roomcategory.itemCategoryData.name = "";
                	roomcategory.itemCategoryData.rent = "0.00";
-               	roomcategory.itemCategoryData.capacity = "1";
+               	roomcategory.itemCategoryData.adultCapacity = "1";
+               	roomcategory.itemCategoryData.childCapacity = "1";
                	roomcategory.itemCategoryData.size = "0";
+               	roomcategory.itemCategoryData.numberOfBed = "1";
                	roomcategory.itemCategoryData.itemTypeId = "0";
                	roomcategory.itemCategoryData.active = "true";
        		} else {
@@ -118,8 +128,10 @@ var roomcategory = {
 			roomcategory.itemCategoryData.id = $.trim($(tr).find(".col-id")[0].value);
 			roomcategory.itemCategoryData.name = $.trim($(tr).find(".col-name")[0].value);
 			roomcategory.itemCategoryData.rent = $.trim($(tr).find(".col-rent")[0].value);
+			roomcategory.itemCategoryData.adultCapacity = $.trim($(tr).find(".col-adultCapacity")[0].value);
+			roomcategory.itemCategoryData.childCapacity = $.trim($(tr).find(".col-childCapacity")[0].value);
 			roomcategory.itemCategoryData.size = $.trim($(tr).find(".col-size")[0].value);
-			roomcategory.itemCategoryData.capacity = $.trim($(tr).find(".col-capacity")[0].value);
+			roomcategory.itemCategoryData.numberOfBed = $.trim($(tr).find(".col-numberOfBed")[0].value);
 			roomcategory.itemCategoryData.active = $.trim($(tr).find(".col-active")[0].value);
 			roomcategory.itemCategoryData.itemTypeId = $.trim($(tr).find(".col-itemTypeId")[0].value);
 			
@@ -129,10 +141,12 @@ var roomcategory = {
 				.replace("#[itemTypeId]", roomcategory.itemCategoryData.itemTypeId)
 				.replace("#[name]", roomcategory.itemCategoryData.name)
 				.replace("#[rent]", roomcategory.itemCategoryData.rent)
-				.replace("#[capacity]", roomcategory.itemCategoryData.capacity)
+				.replace("#[adultCapacity]", roomcategory.itemCategoryData.adultCapacity)
+				.replace("#[childCapacity]", roomcategory.itemCategoryData.childCapacity)
 				.replace("#[size]", roomcategory.itemCategoryData.size)
+				.replace("#[numberOfBed]", roomcategory.itemCategoryData.numberOfBed)
 				.replace("#[active]", roomcategory.itemCategoryData.active);
-	   		$(tr).html("<td colspan='6'>" + formHtml + "</td>");
+	   		$(tr).html("<td colspan='8'>" + formHtml + "</td>");
 
 	   		if (eval(roomcategory.itemCategoryData.active)) {
 	   			$('#val-active').attr("checked", "checked");
@@ -278,10 +292,14 @@ var roomcategory = {
 			                	.replace("#[name]", data.name)
 			                	.replace("#[rent]", data.rent)
 			                	.replace("#[rent]", data.rent)
-			                	.replace("#[capacity]", data.capacity)
-			                	.replace("#[capacity]", data.capacity)
+			                	.replace("#[adultCapacity]", data.adultCapacity)
+			                	.replace("#[adultCapacity]", data.adultCapacity)
+			                	.replace("#[childCapacity]", data.childCapacity)
+			                	.replace("#[childCapacity]", data.childCapacity)
 			                	.replace("#[size]", data.roomCategoryData.size)
 			                	.replace("#[size]", data.roomCategoryData.size)
+			                	.replace("#[numberOfBed]", data.roomCategoryData.numberOfBed)
+			                	.replace("#[numberOfBed]", data.roomCategoryData.numberOfBed)
 			                	.replace("#[itemTypeId]", data.itemTypeId)
 			                	.replace("#[active]", data.active)
 			                	.replace("#[active]", data.active);
@@ -309,9 +327,11 @@ var roomcategory = {
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
 		serializeForm['roomCategoryData'] = {
-		    	"size": serializeForm['roomCategoryData.size'] 
+		    	"size": serializeForm['roomCategoryData.size'], 
+				"numberOfBed": serializeForm['roomCategoryData.numberOfBed'] 
 	    };
 		delete serializeForm['roomCategoryData.size'];
+		delete serializeForm['roomCategoryData.numberOfBed'];
 		
 		$.ajax({
 			type: "POST",
@@ -330,10 +350,14 @@ var roomcategory = {
 	                	.replace("#[name]", data.datas[0].name)
 	                	.replace("#[rent]", data.datas[0].rent)
 	                	.replace("#[rent]", data.datas[0].rent)
-	                	.replace("#[capacity]", data.datas[0].capacity)
-	                	.replace("#[capacity]", data.datas[0].capacity)
+	                	.replace("#[adultCapacity]", data.datas[0].adultCapacity)
+	                	.replace("#[adultCapacity]", data.datas[0].adultCapacity)
+	                	.replace("#[childCapacity]", data.datas[0].childCapacity)
+	                	.replace("#[childCapacity]", data.datas[0].childCapacity)
 	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
 	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
+	                	.replace("#[numberOfBed]", data.datas[0].roomCategoryData.numberOfBed)
+	                	.replace("#[numberOfBed]", data.datas[0].roomCategoryData.numberOfBed)
 	                	.replace("#[itemTypeId]", data.datas[0].itemTypeId)
 	                	.replace("#[active]", data.datas[0].active)
 	                	.replace("#[active]", data.datas[0].active);
@@ -377,9 +401,11 @@ var roomcategory = {
 		var form = $("#formComponent");
 		var serializeForm = form.serializeObject();
 		serializeForm['roomCategoryData'] = {
-		    	"size": serializeForm['roomCategoryData.size'] 
+		    	"size": serializeForm['roomCategoryData.size'], 
+				"numberOfBed": serializeForm['roomCategoryData.numberOfBed'] 
 	    };
 		delete serializeForm['roomCategoryData.size'];
+		delete serializeForm['roomCategoryData.numberOfBed'];
 
 		$.ajax({
 			type: "PUT",
@@ -398,10 +424,14 @@ var roomcategory = {
 	                	.replace("#[name]", data.datas[0].name)
 	                	.replace("#[rent]", data.datas[0].rent)
 	                	.replace("#[rent]", data.datas[0].rent)
-	                	.replace("#[capacity]", data.datas[0].capacity)
-	                	.replace("#[capacity]", data.datas[0].capacity)
+	                	.replace("#[adultCapacity]", data.datas[0].adultCapacity)
+	                	.replace("#[adultCapacity]", data.datas[0].adultCapacity)
+	                	.replace("#[childCapacity]", data.datas[0].childCapacity)
+	                	.replace("#[childCapacity]", data.datas[0].childCapacity)
 	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
 	                	.replace("#[size]", data.datas[0].roomCategoryData.size)
+	                	.replace("#[numberOfBed]", data.datas[0].roomCategoryData.numberOfBed)
+	                	.replace("#[numberOfBed]", data.datas[0].roomCategoryData.numberOfBed)
 	                	.replace("#[itemTypeId]", data.datas[0].itemTypeId)
 	                	.replace("#[active]", data.datas[0].active)
 	                	.replace("#[active]", data.datas[0].active);
@@ -410,8 +440,10 @@ var roomcategory = {
            			roomcategory.itemCategoryData.id = "0";
                    	roomcategory.itemCategoryData.name = "";
                    	roomcategory.itemCategoryData.rent = "0.00";
-                   	roomcategory.itemCategoryData.capacity = "1";
+                   	roomcategory.itemCategoryData.adultCapacity = "1";
+                   	roomcategory.itemCategoryData.childCapacity = "1";
                    	roomcategory.itemCategoryData.size = "0";
+                   	roomcategory.itemCategoryData.numberOfBed = "1";
                    	roomcategory.itemCategoryData.itemTypeId = "0";
                    	roomcategory.itemCategoryData.active = "true";
            			
@@ -518,10 +550,16 @@ var roomcategory = {
                 "rent": {
                 	required: true, decimal: true
                 },
-                "capacity": {
+                "adultCapacity": {
+                	required: true, digits: true, min: 1
+                },
+                "childCapacity": {
                 	required: true, digits: true, min: 1
                 },
                 "roomCategoryData.size": {
+                	required: true, digits: true
+                },
+                "roomCategoryData.numberOfBed": {
                 	required: true, digits: true
                 }
             }, 
@@ -532,11 +570,17 @@ var roomcategory = {
                 "rent": {
                 	required: "Please enter rent"
                 },
-                "capacity": {
-                	required: "Please enter capacity"
+                "adultCapacity": {
+                	required: "Please enter adult capacity"
+                },
+                "childCapacity": {
+                	required: "Please enter child capacity"
                 },
                 "roomCategoryData.size": {
                 	required: "Please enter room size"
+                },
+                "roomCategoryData.numberOfBed": {
+                	required: true, digits: true
                 }
             }
         });

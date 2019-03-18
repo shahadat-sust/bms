@@ -4,15 +4,15 @@
 <properties>
 	<entry key="itemCategory.create">
 	    <![CDATA[
-			INSERT INTO ItemCategory (Name, ItemTypeId, Rent, Capacity, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			INSERT INTO ItemCategory (Name, ItemTypeId, Rent, AdultCapacity, ChildCapacity, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	    ]]>
 	</entry>
 	
 	<entry key="roomCategory.create">
 	    <![CDATA[
-			INSERT INTO RoomCategory (ItemCategoryId, Size, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
-			VALUES (?, ?, ?, ?, ?, ?)
+			INSERT INTO RoomCategory (ItemCategoryId, Size, NumberOfBed, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?)
 	    ]]>
 	</entry>
 	
@@ -22,7 +22,8 @@
 				Name = ?, 
 				ItemTypeId = ?, 
 				Rent = ?, 
-				Capacity = ?,
+				AdultCapacity = ?,
+				ChildCapacity = ?,
 				IsActive = ?,  
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
@@ -35,6 +36,7 @@
 	    <![CDATA[
 			UPDATE RoomCategory SET 
 				Size = ?,  
+				NumberOfBed = ?,
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
 			WHERE 
@@ -61,11 +63,13 @@
 				ItemCategory.ItemTypeId, 
 				ItemType.Name,
 				ItemCategory.Rent, 
-				ItemCategory.Capacity,
+				ItemCategory.AdultCapacity,
+				ItemCategory.ChildCapacity,
 				ItemCategory.IsActive,
 				ItemCategory.Status,
 				RoomCategory.Id,
-				RoomCategory.Size
+				RoomCategory.Size,
+				RoomCategory.NumberOfBed
 			FROM ItemCategory 
 			LEFT OUTER JOIN RoomCategory ON
 				RoomCategory.ItemCategoryId = ItemCategory.Id
@@ -84,11 +88,13 @@
 				ItemCategory.ItemTypeId, 
 				ItemType.Name,
 				ItemCategory.Rent, 
-				ItemCategory.Capacity,
+				ItemCategory.AdultCapacity,
+				ItemCategory.ChildCapacity,
 				ItemCategory.IsActive,
 				ItemCategory.Status,
 				RoomCategory.Id,
-				RoomCategory.Size
+				RoomCategory.Size,
+				RoomCategory.NumberOfBed
 			FROM ItemCategory 
 			LEFT OUTER JOIN RoomCategory ON
 				RoomCategory.ItemCategoryId = ItemCategory.Id
@@ -110,11 +116,13 @@
 				ItemCategory.ItemTypeId, 
 				ItemType.Name,
 				ItemCategory.Rent, 
-				ItemCategory.Capacity,
+				ItemCategory.AdultCapacity,
+				ItemCategory.ChildCapacity,
 				ItemCategory.IsActive,
 				ItemCategory.Status,
 				RoomCategory.Id,
-				RoomCategory.Size
+				RoomCategory.Size,
+				RoomCategory.NumberOfBed
 			FROM ItemCategory 
 			LEFT OUTER JOIN RoomCategory ON
 				RoomCategory.ItemCategoryId = ItemCategory.Id

@@ -4,7 +4,7 @@
 <properties>
 	<entry key="hotel.create">
 		<![CDATA[
-			INSERT INTO Hotel (ProviderId, StarRating, NumberOfFloor, Latitude, Longitude, CheckInTime, CheckOutTime, Website, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			INSERT INTO Hotel (ProviderId, StarRating, NumberOfFloor, Latitude, Longitude, CheckInTime, CheckOutTime, MaxChildAge, Website, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 		]]>
 	</entry>
@@ -19,6 +19,7 @@
 				Longitude = ?, 
 				CheckInTime = ?, 
 				CheckOutTime = ?, 
+				MaxChildAge = ?,
 				Website = ?,
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
@@ -44,6 +45,7 @@
 				Longitude,
 				CheckInTime,
 				CheckOutTime,
+				MaxChildAge,
 				Website
 			FROM Hotel 
 			WHERE 
@@ -62,6 +64,7 @@
 				Longitude,
 				CheckInTime,
 				CheckOutTime,
+				MaxChildAge,
 				Website
 			FROM Hotel 
 		]]>

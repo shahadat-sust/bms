@@ -128,9 +128,11 @@
 		                               <thead>
 		                                   <tr>
 		                                       <th>Name</th>
-		                                       <th style="width: 100px;">Rent</th>
-		                                       <th style="width: 110px;">Capacity</th>
+		                                       <th style="width: 120px;">Rent</th>
+		                                       <th class="d-none d-lg-table-cell" style="width: 120px;">Adult</th>
+		                                       <th class="d-none d-lg-table-cell" style="width: 120px;">Child</th>
 		                                       <th class="d-none d-xl-table-cell" style="width: 100px;">Size</th>
+		                                       <th style="width: 90px;">Bed</th>
 		                                       <th class="d-none d-xl-table-cell text-center" style="width: 80px;">Active</th>
 		                                       <th class="text-center" style="width: 100px;">Actions</th>
 		                                   </tr>
@@ -167,12 +169,20 @@
 	                        <input class="form-control" type="text" id="val-rent" name="rent" value="#[rent]" placeholder="Enter Rent..">
 	                    </div>
 	                    <div class="form-group">
-	                        <label for="val-capacity">Capacity <span class="text-danger">*</span></label>
-	                        <input class="form-control" type="text" id="val-capacity" name="capacity" value="#[capacity]" placeholder="Enter Capacity..">
+	                        <label for="val-capacity">Adult <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-adultCapacity" name="adultCapacity" value="#[adultCapacity]" placeholder="Enter Adult Capacity..">
+	                    </div>
+	                    <div class="form-group">
+	                        <label for="val-capacity">Child <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-childCapacity" name="childCapacity" value="#[childCapacity]" placeholder="Enter Child Capacity..">
 	                    </div>
 	                    <div class="form-group">
 	                        <label for="val-size">Size <span class="text-danger">*</span></label>
 	                        <input class="form-control" type="text" id="val-size" name="roomCategoryData.size" value="#[size]" placeholder="Enter Size..">
+	                    </div>
+	                    <div class="form-group">
+	                        <label for="val-numberOfBed">Bed <span class="text-danger">*</span></label>
+	                        <input class="form-control" type="text" id="val-numberOfBed" name="roomCategoryData.numberOfBed" value="#[numberOfBed]" placeholder="Enter Number Of Bed..">
 	                    </div>
 	                    <div class="form-group">
 	                    	<div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-success mb-1">
@@ -207,11 +217,17 @@
 			<td class="text-right font-w600">
 				#[rent]
 			</td>
-			<td class="text-right font-w600">
-				#[capacity]
+			<td class="d-none d-lg-table-cell text-right font-w600">
+				#[adultCapacity]
+			</td>
+			<td class="d-none d-lg-table-cell text-right font-w600">
+				#[childCapacity]
 			</td>
 			<td class="d-none d-xl-table-cell text-right font-w600">
 				#[size]
+			</td>
+			<td class="text-right font-w600">
+				#[numberOfBed]
 			</td>
 			<td class="d-none d-xl-table-cell text-center font-w600">
 				#[active]
@@ -220,8 +236,10 @@
 				<input type="hidden" class="col-id" value="#[id]"/>
 			   	<input type="hidden" class="col-name" value="#[name]"/>
 			   	<input type="hidden" class="col-rent" value="#[rent]"/>
-			   	<input type="hidden" class="col-capacity" value="#[capacity]"/>
+			   	<input type="hidden" class="col-adultCapacity" value="#[adultCapacity]"/>
+			   	<input type="hidden" class="col-childCapacity" value="#[childCapacity]"/>
 			   	<input type="hidden" class="col-size" value="#[size]"/>
+			   	<input type="hidden" class="col-numberOfBed" value="#[numberOfBed]"/>
 			   	<input type="hidden" class="col-itemTypeId" value="#[itemTypeId]"/>
 			   	<input type="hidden" class="col-active" value="#[active]"/>
 		        <div class="btn-group">

@@ -8,6 +8,7 @@ public class RoomData extends BaseData {
 
 	private int floorNo;
 	private int size;
+	private int numberOfBed;
 	private String landLine;
 	
 	public int getFloorNo() {
@@ -21,6 +22,12 @@ public class RoomData extends BaseData {
 	}
 	public void setSize(int size) {
 		this.size = size;
+	}
+	public int getNumberOfBed() {
+		return numberOfBed;
+	}
+	public void setNumberOfBed(int numberOfBed) {
+		this.numberOfBed = numberOfBed;
 	}
 	public String getLandLine() {
 		return landLine;

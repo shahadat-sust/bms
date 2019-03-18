@@ -4,15 +4,15 @@
 <properties>
 	<entry key="item.create">
 	    <![CDATA[
-			INSERT INTO Item (ItemCategoryId, ItemNo, Rent, Capacity, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			INSERT INTO Item (ItemCategoryId, ItemNo, Rent, AdultCapacity, ChildCapacity, IsActive, Status, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	    ]]>
 	</entry>
 	
 	<entry key="room.create">
 	    <![CDATA[
-			INSERT INTO Room (ItemId, FloorNo, Size, LandLine, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+			INSERT INTO Room (ItemId, FloorNo, Size, NumberOfBed, LandLine, CreatedBy, CreatedOn, UpdatedBy, UpdatedOn) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 	    ]]>
 	</entry>
 	
@@ -22,7 +22,8 @@
 				ItemCategoryId = ?, 
 				ItemNo = ?, 
 				Rent = ?, 
-				Capacity = ?,
+				AdultCapacity = ?,
+				ChildCapacity = ?,
 				IsActive = ?,  
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
@@ -36,6 +37,7 @@
 			UPDATE Room SET 
 				FloorNo = ?,  
 				Size = ?,  
+				NumberOfBed = ?,
 				LandLine = ?, 
 				UpdatedBy = ?, 
 				UpdatedOn = ? 
@@ -63,15 +65,17 @@
 				ItemCategory.Name, 
 				Item.ItemNo, 
 				Item.Rent, 
-				Item.Capacity,
+				Item.AdultCapacity,
+				Item.ChildCapacity,
 				Item.IsActive,
 				Item.Status,
 				ItemType.Id,
 				ItemType.Name,
 				Room.Id,
 				Room.FloorNo, 
-				Room.Size, 
-				Room.LandLine 
+				Room.Size,
+				Room.NumberOfBed, 
+				Room.LandLine
 			FROM Item 
 			LEFT OUTER JOIN Room ON
 				Room.ItemId = Item.Id
@@ -92,7 +96,8 @@
 				ItemCategory.Name, 
 				Item.ItemNo, 
 				Item.Rent, 
-				Item.Capacity,
+				Item.AdultCapacity,
+				Item.ChildCapacity,
 				Item.IsActive,
 				Item.Status,
 				ItemType.Id,
@@ -100,6 +105,7 @@
 				Room.Id,
 				Room.FloorNo, 
 				Room.Size, 
+				Room.NumberOfBed, 
 				Room.LandLine 
 			FROM Item 
 			LEFT OUTER JOIN Room ON
@@ -123,7 +129,8 @@
 				ItemCategory.Name, 
 				Item.ItemNo, 
 				Item.Rent, 
-				Item.Capacity,
+				Item.AdultCapacity,
+				Item.ChildCapacity,
 				Item.IsActive,
 				Item.Status,
 				ItemType.Id,
@@ -131,6 +138,7 @@
 				Room.Id,
 				Room.FloorNo, 
 				Room.Size, 
+				Room.NumberOfBed, 
 				Room.LandLine 
 			FROM Item 
 			LEFT OUTER JOIN Room ON

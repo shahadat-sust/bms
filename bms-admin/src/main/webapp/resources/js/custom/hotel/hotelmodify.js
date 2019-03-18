@@ -189,6 +189,10 @@ var hotelmodify = {
 						required : true,
 						min : 1
 					},
+					"hotelData.maxChildAge" : {
+						required : true,
+						min : 1
+					},
 					"hotelData.checkInTime" : {
 						time : true
 					},

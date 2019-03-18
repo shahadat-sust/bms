@@ -36,6 +36,10 @@ public class HotelValidator implements Validator {
 			errors.rejectValue("hotelData.checkOutTime", "error.checkouttime.required");
 		}
 		
+		if (providerData.getHotelData().getMaxChildAge() <= 0) {
+			errors.rejectValue("hotelData.maxChildAge", "error.maxchildage.required");
+		}
+		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "emailAddressDatas[0].email", "error.email.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumberDatas[0].code", "error.countrycode.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumberDatas[0].number", "error.phonenumber.required");

@@ -44,11 +44,12 @@ public class HotelDao extends BaseDao implements IHotelDao {
 					ps.setDouble(5, hotelData.getLongitude());
 					ps.setTime(6, Time.valueOf(hotelData.getCheckInTime()));
 					ps.setTime(7, Time.valueOf(hotelData.getCheckOutTime()));
-					ps.setString(8, hotelData.getWebsite());
-					ps.setLong(9, hotelData.getCreatedBy());
-					ps.setTimestamp(10, new Timestamp(hotelData.getCreatedOn().getTime()));
-					ps.setLong(11, hotelData.getUpdatedBy());
-					ps.setTimestamp(12, new Timestamp(hotelData.getUpdatedOn().getTime()));
+					ps.setInt(8, hotelData.getMaxChildAge());
+					ps.setString(9, hotelData.getWebsite());
+					ps.setLong(10, hotelData.getCreatedBy());
+					ps.setTimestamp(11, new Timestamp(hotelData.getCreatedOn().getTime()));
+					ps.setLong(12, hotelData.getUpdatedBy());
+					ps.setTimestamp(13, new Timestamp(hotelData.getUpdatedOn().getTime()));
 					return ps;
 				}
 			}, holder);
@@ -70,6 +71,7 @@ public class HotelDao extends BaseDao implements IHotelDao {
 					hotelData.getLongitude(),
 					Time.valueOf(hotelData.getCheckInTime()),
 					Time.valueOf(hotelData.getCheckOutTime()),
+					hotelData.getMaxChildAge(),
 					hotelData.getWebsite(),
 					hotelData.getUpdatedBy(),
 					new Timestamp(hotelData.getUpdatedOn().getTime()),
@@ -96,7 +98,8 @@ public class HotelDao extends BaseDao implements IHotelDao {
 					hotelData.setLongitude(rs.getDouble(6));
 					hotelData.setCheckInTime(rs.getTime(7).toLocalTime());
 					hotelData.setCheckOutTime(rs.getTime(8).toLocalTime());
-					hotelData.setWebsite(rs.getString(9));
+					hotelData.setMaxChildAge(rs.getInt(9));
+					hotelData.setWebsite(rs.getString(10));
 					return hotelData;
 				}	
 			});
@@ -129,7 +132,8 @@ public class HotelDao extends BaseDao implements IHotelDao {
 					hotelData.setLongitude(rs.getDouble(6));
 					hotelData.setCheckInTime(rs.getTime(7).toLocalTime());
 					hotelData.setCheckOutTime(rs.getTime(8).toLocalTime());
-					hotelData.setWebsite(rs.getString(9));
+					hotelData.setMaxChildAge(rs.getInt(9));
+					hotelData.setWebsite(rs.getString(10));
 					return hotelData;
 				}	
 			});
